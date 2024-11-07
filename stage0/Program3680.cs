@@ -1,7 +1,7 @@
 ﻿
 using System;
 namespace stage0 {
-    partial class program 
+    partial class Program 
     {
         static void Main(string[] args)
         {
