@@ -5,8 +5,8 @@ namespace stage0 {
     {
         static void Main(string[] args)
         {
-            welcom3680();
-            welcom1705();
+            Welcome3680();
+            Welcome1705();
             Console.ReadKey();
         }
 
