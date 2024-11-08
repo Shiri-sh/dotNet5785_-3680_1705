@@ -9,7 +9,6 @@ namespace stage0 {
             Welcome1705();
             Console.ReadKey();
         }
-
         private static void Welcome3680()
         {
             Console.Write("enter your name: ");
