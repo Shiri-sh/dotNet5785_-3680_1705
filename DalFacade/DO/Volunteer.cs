@@ -11,6 +11,7 @@
 /// <param name="Latitude">A number indicating how far a point on Earth is south or north of the equator.</param>
 /// <param name="Longitude">A number indicating how far a point on Earth is east or west of the equator.</param>
 /// <param name="Position">A managar or a volunteer</param>
+/// 
 /// <param name="Maximum_distance_for_reading">Each volunteer will define through the display the maximum distance for receiving a call. will be able to choose a reading</param>
 /// <param name="Type_of_distance">Aerial distance, walking distance, driving distance The default is air distance.</param>
 
@@ -21,18 +22,20 @@ public record  Volunteer
     int Id,
     string Name,
     string PhoneNumber,
-    string Email,
-    string Password,
-    string Current,
-    double Latitude,
-    double Longitude,
-    Position Position,
-    double Maximum_distance_for_reading,
+    string? Email=null,
+    string? Password= null,
+    string? Current = null,
+    double? Latitude=null,
+    double? Longitude = null,
+    Position? Position=null,
+    bool? active = null,
+    double? Maximum_distance_for_reading=null,
     Type_of_distance Type_of_distance = Type_of_distance.Aerial
  )
 {
-  
+
     /// <summary>
-    ///  
+    /// Default constructor for stage 3 
     /// </summary>
+    public Volunteer() ,this(0,"",""){ }
 }

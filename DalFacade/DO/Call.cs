@@ -29,5 +29,6 @@ public record Call
     ///<summary>
     ///
     ///</summary>
+    public Call() , this(0){ }
 }
 
