@@ -1,4 +1,6 @@
-﻿namespace DO;
+﻿using DalApi;
+
+namespace DO;
 /// <summary>
 /// Student Entity represents a student with all its props
 /// </summary>
@@ -22,13 +24,13 @@ public record  Volunteer
     int Id,
     string Name,
     string PhoneNumber,
-    string? Email=null,
+    string Email,
+    Position Position,
+    bool active,
     string? Password= null,
     string? Current = null,
     double? Latitude=null,
     double? Longitude = null,
-    Position? Position=null,
-    bool? active = null,
     double? Maximum_distance_for_reading=null,
     Type_of_distance Type_of_distance = Type_of_distance.Aerial
  )
@@ -37,5 +39,5 @@ public record  Volunteer
     /// <summary>
     /// Default constructor for stage 3 
     /// </summary>
-    public Volunteer() ,this(0,"",""){ }
+    public Volunteer() : this(0,"","","", Position.volunteer,true) { }/*not sure about the position(ENUM) value*/
 }

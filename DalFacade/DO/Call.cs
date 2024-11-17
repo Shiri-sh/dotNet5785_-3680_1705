@@ -17,18 +17,17 @@ public record Call
 (
     int Id,
     Kind_of_call Kind_of_call,
-    string Description,
     string Address_of_call,
     double latitude,
     double Longitude,
     DateTime Opening_time,
-    DateTime Finish_time
-
+    DateTime? Finish_time = null,
+    string? Description = null
 )
 {
     ///<summary>
     ///
     ///</summary>
-    public Call() , this(0){ }
+    public Call() : this(0, Kind_of_call.Rescue_Kid,"",0,0,DateTime.Now) { }/*not sure about the dateTime and the ENUM value*/
 }
 
