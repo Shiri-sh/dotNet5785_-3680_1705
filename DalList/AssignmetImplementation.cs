@@ -2,7 +2,6 @@
 
 namespace Dal;
 using DalApi;
-using Dal;
 using DO;
 using System.Collections.Generic;
 
