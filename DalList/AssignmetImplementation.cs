@@ -9,6 +9,7 @@ internal class AssignmetImplementation : IAssignment
 {
     public void Create(Assignment item)
     {
+        int newId = DataSource.Config.NextAssignmentId();
         throw new NotImplementedException();
     }
 
