@@ -16,7 +16,6 @@ public record Assignment
     DateTime TreatmentEntryTime,
     DateTime? TreatmentEndTime=null,
     TypeOfTreatmentTermination? TypeOfTreatmentTermination = null
-    
  )
 {
     /// <summary>
