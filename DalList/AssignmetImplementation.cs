@@ -9,32 +9,41 @@ internal class AssignmetImplementation : IAssignment
 {
     public void Create(Assignment item)
     {
-        int newId = DataSource.Config.NextAssignmentId();
-        throw new NotImplementedException();
+        int id = DataSource.Config.NextCourseId;
+        Assignment copy = item with { Id = id };
+        DataSource.Assignments.Add(copy);
+
     }
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        if (Read(id) is null)
+            throw new NotImplementedException("Assignment with such Id doesnt exist");
+        DataSource.Assignments.RemoveAll(assignment => assignment.Id == id);
     }
 
     public void DeleteAll()
     {
-        throw new NotImplementedException();
+        DataSource.Assignments.Clear();
+
     }
 
     public Assignment? Read(int id)
     {
-        throw new NotImplementedException();
+        return DataSource.Assignments.Find(assignment => assignment.Id == id);
     }
 
     public List<Assignment> ReadAll()
     {
-        throw new NotImplementedException();
+        return new List<Assignment>(DataSource.Assignments);
     }
 
     public void Update(Assignment item)
     {
-        throw new NotImplementedException();
+        if (Read(item.Id) is null)
+            throw new NotImplementedException("Assignment with such Id doesnt exist");
+        Assignment copy = item with { Id = item.Id };
+        DataSource.Assignments.RemoveAll(assignment => assignment.Id == item.Id);
+        DataSource.Assignments.Add(copy);
     }
 }
