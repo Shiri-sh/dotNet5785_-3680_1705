@@ -6,33 +6,44 @@ using System.Collections.Generic;
 
 internal class CallImplementation : ICall
 {
-    public void Create(Call c)
+    public void Create(Call item)
     {
-        throw new NotImplementedException();
+        int id = DataSource.Config.NextCourseId;
+        Call copy = item with { Id = id };
+        DataSource.Calls.Add(copy);
     }
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        if (Read(id) is null)
+            throw new NotImplementedException("Call with such Id doesnt exist");
+        DataSource.Calls.RemoveAll(call => call.Id == id);
     }
 
     public void DeleteAll()
     {
-        throw new NotImplementedException();
+        DataSource.Calls.Clear();
+
     }
 
     public Call? Read(int id)
     {
-        throw new NotImplementedException();
+        return DataSource.Calls.Find(call => call.Id == id);
+
     }
 
     public List<Call> ReadAll()
     {
-        throw new NotImplementedException();
+        return new List<Call>(DataSource.Calls);
+
     }
 
-    public void Update(Call c)
+    public void Update(Call item)
     {
-        throw new NotImplementedException();
+        if (Read(item.Id) is null)
+            throw new NotImplementedException("Call with such Id doesnt exist");
+        Call copy = item with { Id = item.Id };
+        DataSource.Calls.RemoveAll(call => call.Id == item.Id);
+        DataSource.Calls.Add(copy);
     }
 }
