@@ -1,13 +1,14 @@
-﻿
-namespace Dal;
-using DO;
+﻿using DO;
 using DalApi;
 using System.Collections.Generic;
+
+namespace Dal;
+
 public class VolunteerImplementation : IVolunteer
 {
     public void Create(Volunteer v)
     {
-        if (Read(v.Id) != null) {  volunteers.Add(v)/*יש להוסיף את ההפניה לאובייקט שהתקבלה לרשימת האובייקטים מטיפוס T. */ }
+        if (Read(v.Id) != null) {DataSource.Volunteers.Add(v)/*יש להוסיף את ההפניה לאובייקט שהתקבלה לרשימת האובייקטים מטיפוס T. */ }
         else { throw new NotImplementedException("the volunteer's id is already exist"); }
     }
 
