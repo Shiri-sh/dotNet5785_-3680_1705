@@ -9,14 +9,13 @@ public class VolunteerImplementation : IVolunteer
     public void Create(Volunteer item)
     {
         if (Read(item.Id) is not null)
-            throw new NotImplementedException("the volunteer's id is already exist");
+            throw new NotImplementedException($"Volunteer with ID ={item.Id} already exist");
         DataSource.Volunteers.Add(item); 
     }
-
     public void Delete(int id)
     {
         if (Read(id) is null)
-            throw new NotImplementedException("Volunteer with such Id doesnt exist");
+            throw new NotImplementedException($"Volunteer with ID ={id} isn't exists");
         DataSource.Volunteers.RemoveAll(Volunteer=>Volunteer.Id==id);
 
     }
@@ -38,10 +37,10 @@ public class VolunteerImplementation : IVolunteer
     public void Update(Volunteer item)
     {
         if (Read(item.Id) is null) 
-           throw new NotImplementedException("Volunteer with such Id doesnt exist");
-        Volunteer copy = item with { Id = item.Id };
+           throw new NotImplementedException($"Volunteer with ID ={ item.Id } isn't exists");
+        Volunteer newVolunteer = item with { Id = item.Id };
         DataSource.Volunteers.RemoveAll(Volunteer => Volunteer.Id == item.Id);
-        DataSource.Volunteers.Add(copy);
+        DataSource.Volunteers.Add(newVolunteer);
 
     }
 }

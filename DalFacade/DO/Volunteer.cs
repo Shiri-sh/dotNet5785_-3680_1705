@@ -27,8 +27,8 @@ public record  Volunteer
     string PhoneNumber,
     string Email,
     Position Position,
+    string Password,
     bool active = false,
-    string? Password = null,
     string? CurrentAddress = null,
     double? Latitude = null,
     double? Longitude = null,
@@ -36,7 +36,6 @@ public record  Volunteer
     TypeOfDistance TypeOfDistance = TypeOfDistance.Aerial
  )
 {
-
     /// <summary>
     /// Default constructor for stage 3 
     /// </summary>

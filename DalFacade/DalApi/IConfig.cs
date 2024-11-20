@@ -1,6 +1,4 @@
-﻿
-namespace DalApi;
-/*namespace DO;/*????????????????? לא הופיע לי DO */
+﻿namespace DalApi;
 public interface IConfig
 {
     DateTime Clock { get; set; }

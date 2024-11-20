@@ -1,6 +1,4 @@
-﻿
-
-namespace Dal;
+﻿namespace Dal;
 using DalApi;
 public class ConfigImplementation : IConfig
 {

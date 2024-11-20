@@ -21,7 +21,6 @@ namespace Dal;
     //count call id auto
     internal const int startCallId = 1;
     private static int nextCallId = startCallId;
- 
     internal static int NextCallId { get => nextCallId++; }
 
     ///count auto
@@ -37,6 +36,5 @@ namespace Dal;
         nextAssignmentId = 0;
         Clock = DateTime.Now;
     }
-
 }
     

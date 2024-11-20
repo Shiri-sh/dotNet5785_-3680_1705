@@ -8,15 +8,14 @@ internal class CallImplementation : ICall
 {
     public void Create(Call item)
     {
-        int id = DataSource.Config.NextCourseId;
-        Call copy = item with { Id = id };
-        DataSource.Calls.Add(copy);
+        int id = Config.NextCallId;
+        Call newCall = item with { Id = id };
+        DataSource.Calls.Add(newCall);
     }
-
     public void Delete(int id)
     {
         if (Read(id) is null)
-            throw new NotImplementedException("Call with such Id doesnt exist");
+            throw new NotImplementedException($"call with ID ={id} isn't exists");
         DataSource.Calls.RemoveAll(call => call.Id == id);
     }
 
@@ -41,9 +40,9 @@ internal class CallImplementation : ICall
     public void Update(Call item)
     {
         if (Read(item.Id) is null)
-            throw new NotImplementedException("Call with such Id doesnt exist");
-        Call copy = item with { Id = item.Id };
+            throw new NotImplementedException($"call with ID ={item.Id} isn't exists");
+        Call newCall = item with { Id = item.Id };
         DataSource.Calls.RemoveAll(call => call.Id == item.Id);
-        DataSource.Calls.Add(copy);
+        DataSource.Calls.Add(newCall);
     }
 }
