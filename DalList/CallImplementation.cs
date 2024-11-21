@@ -1,10 +1,10 @@
 ﻿
-namespace Dal;
 using DO;
 using DalApi;
 using System.Collections.Generic;
+namespace Dal;
 
-internal class CallImplementation : ICall
+public class CallImplementation : ICall
 {
     /// <summary>
     /// Adding a new object of type Call to a database,

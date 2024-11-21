@@ -39,5 +39,5 @@ public record  Volunteer
     /// <summary>
     /// Default constructor for stage 3 
     /// </summary>
-    public Volunteer() : this(0,"","","", Position.Volunteer,true) { }
+    public Volunteer() : this(0,"","","", Position.Volunteer,"") { }
 }
