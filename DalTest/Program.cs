@@ -1,5 +1,6 @@
 ﻿using Dal;
 using DalApi;
+using DO;
 
 namespace DalTest
 {
@@ -12,6 +13,7 @@ namespace DalTest
 
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             try {
                 Initialization.Do(s_dalVolunteer, s_dalCall, s_dalAssignment, s_dalConfig);
                 MainMenu();
@@ -145,7 +147,7 @@ namespace DalTest
                         AdvanceClock(60);
                         break;
                     case "3":
-                        Console.WriteLine($"שעון מערכת נוכחי: {s_dal.Config.Clock}");
+                        Console.WriteLine($"שעון מערכת נוכחי: {s_dalConfig.Clock}");
                         break;
                     case "4":
                         SetConfigurationValue();
@@ -154,7 +156,7 @@ namespace DalTest
                         DisplayConfigurationValue();
                         break;
                     case "6":
-                        s_dal.Config.Reset();
+                        s_dalConfig.Reset();
                         Console.WriteLine("כל משתני התצורה אופסו.");
                         break;
                     case "0":
@@ -168,6 +170,47 @@ namespace DalTest
         }
         static void AddEntity(string entityName)
         {
+            if (entityName == "Volunteer")
+            {
+                Console.Write("Enter Id: ");
+                int? Id = int.TryParse(Console.ReadLine(), out int tempId) ? tempId : (int?)null;
+
+                Console.Write("Enter Name: ");
+                string? Name = Console.ReadLine();
+
+                Console.Write("Enter Phone Number: ");
+                string? PhoneNumber = Console.ReadLine();
+
+                Console.Write("Enter Email: ");
+                string? Email = Console.ReadLine();
+
+                Console.Write("Enter Position: ");
+                Position? Position = Enum.TryParse<Position>(Console.ReadLine(), out var tempPos) ? tempPos : (Position?)null;
+
+                Console.Write("Enter Password: ");
+                string? Password = Console.ReadLine();
+
+                Console.Write("Is Active (true/false): ");
+                bool? active = bool.TryParse(Console.ReadLine(), out bool tempActive) ? tempActive : (bool?)null;
+
+                Console.Write("Enter Current Address: ");
+                string? CurrentAddress = Console.ReadLine();
+
+                Console.Write("Enter Latitude: ");
+                double? Latitude = double.TryParse(Console.ReadLine(), out double tempLat) ? tempLat : (double?)null;
+
+                Console.Write("Enter Longitude: ");
+                double? Longitude = double.TryParse(Console.ReadLine(), out double tempLong) ? tempLong : (double?)null;
+
+                Console.Write("Enter Maximum Distance For Reading: ");
+                double? MaximumDistanceForReading = double.TryParse(Console.ReadLine(), out double tempDist) ? tempDist : (double?)null;
+
+                Console.Write("Enter Type Of Distance: ");
+                TypeOfDistance? TOfDistance = Enum.TryParse<TypeOfDistance>(Console.ReadLine(), out var tempTOfDistance) ? tempTOfDistance : (TypeOfDistance?)null;
+
+                Volunteer newVolunteer = new Volunteer(Id, Name, PhoneNumber, Email, Position, Password, active, CurrentAddress, Latitude, Longitude, MaximumDistanceForReading, TOfDistance);
+                IVolunteer.Create(newVolunteer);
+            }
             Console.WriteLine($"הוספת אובייקט חדש עבור {entityName}");
             // כתוב כאן את הלוגיקה להוספת אובייקט
         }
@@ -220,31 +263,6 @@ namespace DalTest
         {
             Console.WriteLine("מציג את כל הנתונים בבסיס הנתונים:");
             // כתוב כאן את הלוגיקה להצגת כל הנתונים
-        }
-    }
-
-    static class Initialization
-    {
-        public static void Do()
-        {
-            Console.WriteLine("אתחול הנתונים הושלם.");
-            // כתוב כאן את הלוגיקה לאתחול הנתונים
-        }
-    }
-
-    static class s_dal
-    {
-        public static ConfigClass Config { get; } = new ConfigClass();
-    }
-
-    class ConfigClass
-    {
-        public DateTime Clock { get; set; } = DateTime.Now;
-
-        public void Reset()
-        {
-            Clock = DateTime.Now;
-            Console.WriteLine("כל משתני התצורה אופסו.");
         }
     }
 
