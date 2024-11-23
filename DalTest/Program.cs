@@ -1,5 +1,4 @@
-﻿
-using Dal;
+﻿using Dal;
 using DalApi;
 using DO;
 
@@ -17,11 +16,13 @@ internal class Program
     static void Main(string[] args)
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
-        try {
+        try
+        {
             Initialization.Do(s_dalVolunteer, s_dalCall, s_dalAssignment, s_dalConfig);
             MainMenu();
         }
-        catch (Exception errorMassage) {
+        catch (Exception errorMassage)
+        {
             Console.WriteLine(errorMassage.Message);
         }
     }
@@ -175,54 +176,47 @@ internal class Program
     {
         if (entityName == "Volunteer")
         {
-            Console.Write("Enter Id: ");
-            int? Id = int.TryParse(Console.ReadLine(), out int tempId) ? tempId : (int?)null;
-
-            Console.Write("Enter Name: ");
-            string? Name = Console.ReadLine();
-
-            Console.Write("Enter Phone Number: ");
-            string? PhoneNumber = Console.ReadLine();
-
-            Console.Write("Enter Email: ");
-            string? Email = Console.ReadLine();
-
-            Console.Write("Enter Position: ");
-            Position? Position = Enum.TryParse<Position>(Console.ReadLine(), out var tempPos) ? tempPos : (Position?)null;
-
-            Console.Write("Enter Password: ");
-            string? Password = Console.ReadLine();
-
-            Console.Write("Is Active (true/false): ");
-            bool? active = bool.TryParse(Console.ReadLine(), out bool tempActive) ? tempActive : (bool?)null;
-
-            Console.Write("Enter Current Address: ");
-            string? CurrentAddress = Console.ReadLine();
-
-            Console.Write("Enter Latitude: ");
-            double? Latitude = double.TryParse(Console.ReadLine(), out double tempLat) ? tempLat : (double?)null;
-
-            Console.Write("Enter Longitude: ");
-            double? Longitude = double.TryParse(Console.ReadLine(), out double tempLong) ? tempLong : (double?)null;
-
-            Console.Write("Enter Maximum Distance For Reading: ");
-            double? MaximumDistanceForReading = double.TryParse(Console.ReadLine(), out double tempDist) ? tempDist : (double?)null;
-
-            Console.Write("Enter Type Of Distance: ");
-            TypeOfDistance? TOfDistance = Enum.TryParse<TypeOfDistance>(Console.ReadLine(), out var tempTOfDistance) ? tempTOfDistance : (TypeOfDistance?)null;
-
-            Volunteer newVolunteer = new Volunteer(Id, Name, PhoneNumber, Email, Position, Password, active, CurrentAddress, Latitude, Longitude, MaximumDistanceForReading, TOfDistance);
-            IVolunteer.Create(newVolunteer);
+            s_dalVolunteer.Create(CreateNewVolunteer());
         }
-        Console.WriteLine($"הוספת אובייקט חדש עבור {entityName}");
+        Console.WriteLine($"נוסף אובייקט חדש עבור {entityName}");
         // כתוב כאן את הלוגיקה להוספת אובייקט
+    }
+    static Volunteer CreateNewVolunteer()
+    {
+        Console.Write("Enter Id: ");
+        int Id = int.Parse(Console.ReadLine());
+        Console.Write("Enter Name: ");
+        string Name = Console.ReadLine();
+        Console.Write("Enter Phone Number: ");
+        string PhoneNumber = Console.ReadLine();
+        Console.Write("Enter Email: ");
+        string Email = Console.ReadLine();
+        Console.Write("Enter Position : ");
+        Position Position = Enum.Parse<Position>(Console.ReadLine());
+        Console.Write("Enter Password: ");
+        string Password = Console.ReadLine();
+        Console.Write("Is Active (true/false): ");
+        bool active = bool.Parse(Console.ReadLine());
+        Console.Write("Enter Current Address: ");
+        string CurrentAddress = Console.ReadLine();
+        Console.Write("Enter Latitude: ");
+        double Latitude = double.Parse(Console.ReadLine());
+        Console.Write("Enter Longitude: ");
+        double Longitude = double.Parse(Console.ReadLine());
+        Console.Write("Enter Maximum Distance For Reading: ");
+        double MaximumDistanceForReading = double.Parse(Console.ReadLine());
+        Console.Write("Enter Type Of Distance: ");
+        TypeOfDistance TOfDistance = Enum.Parse<TypeOfDistance>(Console.ReadLine());
+        Volunteer newVolunteer = new Volunteer(Id, Name, PhoneNumber, Email, 0, Password, active, CurrentAddress, Latitude, Longitude, MaximumDistanceForReading, TOfDistance);
+        return newVolunteer;
     }
     static void ReadEntity(string entityName)
     {
-        try { 
-            Console.WriteLine("הכנס מספר זיהוי של {entityName}");
-            int id = int.TryParse(Console.ReadLine(), out int tempId) ? tempId : (int?)null;
-            Type entityType = Type.GetType(fullClassName);
+        try
+        {
+            Console.WriteLine($"הכנס מספר זיהוי של {entityName}");
+            int id = int.Parse(Console.ReadLine());
+            Type entityType = Type.GetType(entityName);
             // יצירת מופע של המחלקה
             object entityInstance = Activator.CreateInstance(entityType);
             if (entityInstance == null)
@@ -231,7 +225,7 @@ internal class Program
                 return;
             }
             // הפעלת המתודה עם הפרמטר id
-            object result = readMethod.Invoke(entityInstance, new object[] { id });
+           // object result = readMethod.Invoke(entityInstance, new object[] { id });
             // הפעלת המתודה Read
             var readMethod = entityType.GetMethod("Read");
             Console.WriteLine($"תצוגת אובייקט לפי מזהה עבור {entityName}");
