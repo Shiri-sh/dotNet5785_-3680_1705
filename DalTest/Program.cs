@@ -2,8 +2,8 @@
 using DalApi;
 using DO;
 
-namespace DalTest
-{
+namespace DalTest;
+
     internal class Program
     {
         private static IVolunteer? s_dalVolunteer = new VolunteerImplementation();
@@ -266,6 +266,6 @@ namespace DalTest
         }
     }
 
-}
+
 
 
