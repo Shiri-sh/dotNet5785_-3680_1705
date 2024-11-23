@@ -54,6 +54,9 @@ public static class Initialization
         s_dalAssignment!.Create(new(0, 1, 327691758, start.AddHours(s_rand.Next(8, 16)), start.AddHours(s_rand.Next(17, 23)), TypeOfTreatmentTermination.Handled));
         s_dalAssignment!.Create(new(0, 3, 327691758, start.AddHours(s_rand.Next(8, 16)), start.AddHours(s_rand.Next(17, 23)), TypeOfTreatmentTermination.CancellationExpired));
         s_dalAssignment!.Create(new(0, 2, 327691758, start.AddHours(s_rand.Next(8, 16)), start.AddHours(s_rand.Next(17, 23)), TypeOfTreatmentTermination.ConcellingAdministrator));
+        s_dalAssignment!.Create(new(0, 2, 327691758, start.AddHours(s_rand.Next(8, 16)), start.AddHours(s_rand.Next(17, 23)), TypeOfTreatmentTermination.ConcellingAdministrator));
+        s_dalAssignment!.Create(new(0, 2, 327691758, start.AddHours(s_rand.Next(8, 16)), start.AddHours(s_rand.Next(17, 23)), TypeOfTreatmentTermination.Handled));
+
     }
     public static void Do(IVolunteer? dalVolunteer, ICall? dalCall, IAssignment? dalAssignment, IConfig? dalConfig)
     {

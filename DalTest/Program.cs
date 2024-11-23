@@ -4,9 +4,7 @@ using DalApi;
 using DO;
 
 namespace DalTest;
-/// <summary>
-/// //////////////////////////////////////////bx
-/// </summary>
+
 internal class Program
 {
     private static IVolunteer? s_dalVolunteer = new VolunteerImplementation();
@@ -30,16 +28,16 @@ internal class Program
         bool exit = false;
         while (!exit)
         {
-            Console.WriteLine("\n--- תפריט ראשי ---");
-            Console.WriteLine("0. יציאה");
-            Console.WriteLine("1. הצגת רשימת מתנדבים ");
-            Console.WriteLine("2. הצגת קריאות ");
-            Console.WriteLine("3. הצגת טיפולים בקריאות ");
-            Console.WriteLine("4. אתחול נתונים");
-            Console.WriteLine("5. הצגת כל הנתונים בבסיס הנתונים");
-            Console.WriteLine("6. הצגת תת-תפריט עבור ישות תצורה");
-            Console.WriteLine("7. איפוס בסיס נתונים ואיפוס נתוני תצורה");
-            Console.Write("בחר אפשרות: ");
+            Console.WriteLine("\n--- Main Menu ---");
+            Console.WriteLine("0. Exit");
+            Console.WriteLine("1. Display list of volunteers");
+            Console.WriteLine("2. Display calls");
+            Console.WriteLine("3. Display call treatments");
+            Console.WriteLine("4. Initialize data");
+            Console.WriteLine("5. Display all data in the database");
+            Console.WriteLine("6. Display sub-menu for configuration entity");
+            Console.WriteLine("7. Reset database and configuration data");
+            Console.Write("Choose an option: ");
             string choice = Console.ReadLine();
             switch (choice)
             {
@@ -68,7 +66,7 @@ internal class Program
                     exit = true;
                     break;
                 default:
-                    Console.WriteLine("בחירה לא תקפה. נסה שוב.");
+                    Console.WriteLine("Invalid selection. Please try again.");
                     break;
             }
         }
@@ -78,15 +76,16 @@ internal class Program
         bool exit = false;
         while (!exit)
         {
-            Console.WriteLine($"\n--- תת-תפריט עבור {entityName} ---");
-            Console.WriteLine("0. יציאה");
-            Console.WriteLine("1. הוספת אובייקט חדש");
-            Console.WriteLine("2. תצוגת אובייקט לפי מזהה");
-            Console.WriteLine("3. תצוגת רשימת כל האובייקטים");
-            Console.WriteLine("4. עדכון אובייקט קיים");
-            Console.WriteLine("5. מחיקת אובייקט קיים");
-            Console.WriteLine("6. מחיקת כל האובייקטים");
-            Console.Write("בחר אפשרות: ");
+            Console.WriteLine($"\n--- Sub-menu for {entityName} ---");
+            Console.WriteLine("0. Exit");
+            Console.WriteLine("1. Add a new object");
+            Console.WriteLine("2. Display an object by ID");
+            Console.WriteLine("3. Display the list of all objects");
+            Console.WriteLine("4. Update an existing object");
+            Console.WriteLine("5. Delete an existing object");
+            Console.WriteLine("6. Delete all objects");
+            Console.Write("Choose an option: ");
+
             string choice = Console.ReadLine();
 
             try
@@ -115,7 +114,7 @@ internal class Program
                         exit = true;
                         break;
                     default:
-                        Console.WriteLine("בחירה לא תקפה. נסה שוב.");
+                        Console.WriteLine("Invalid selection. Please try again.");
                         break;
                 }
             }
@@ -130,15 +129,15 @@ internal class Program
         bool exit = false;
         while (!exit)
         {
-            Console.WriteLine("\n--- תת-תפריט תצורה ---");
-            Console.WriteLine("0. יציאה");
-            Console.WriteLine("1. קדם שעון מערכת בדקה");
-            Console.WriteLine("2. קדם שעון מערכת בשעה");
-            Console.WriteLine("3. הצג ערך נוכחי של שעון מערכת");
-            Console.WriteLine("4. קבע ערך חדש למשתנה תצורה");
-            Console.WriteLine("5. הצג ערך נוכחי למשתנה תצורה");
-            Console.WriteLine("6. אפס ערכים עבור כל משתני תצורה");
-            Console.Write("בחר אפשרות: ");
+            Console.WriteLine("\n--- Configuration Sub-menu ---");
+            Console.WriteLine("0. Exit");
+            Console.WriteLine("1. Advance system clock by a minute");
+            Console.WriteLine("2. Advance system clock by an hour");
+            Console.WriteLine("3. Display current value of system clock");
+            Console.WriteLine("4. Set a new value for a configuration variable");
+            Console.WriteLine("5. Display the current value of a configuration variable");
+            Console.WriteLine("6. Reset values for all configuration variables");
+            Console.Write("Choose an option: ");
             string choice = Console.ReadLine();
 
             switch (choice)
@@ -150,7 +149,7 @@ internal class Program
                     AdvanceClock(60);
                     break;
                 case "3":
-                    Console.WriteLine($"שעון מערכת נוכחי: {s_dalConfig.Clock}");
+                    Console.WriteLine($"Current system clock: {s_dalConfig.Clock}");
                     break;
                 case "4":
                     SetConfigurationValue();
@@ -160,13 +159,13 @@ internal class Program
                     break;
                 case "6":
                     s_dalConfig.Reset();
-                    Console.WriteLine("כל משתני התצורה אופסו.");
+                    Console.WriteLine("All configuration variables have been reset.");
                     break;
                 case "0":
                     exit = true;
                     break;
                 default:
-                    Console.WriteLine("בחירה לא תקפה. נסה שוב.");
+                    Console.WriteLine("Invalid selection. Please try again.");
                     break;
             }
         }
@@ -215,7 +214,7 @@ internal class Program
             IVolunteer.Create(newVolunteer);
         }
         Console.WriteLine($"הוספת אובייקט חדש עבור {entityName}");
-        // כתוב כאן את הלוגיקה להוספת אובייקט
+        // . כאן את הלוגיקה להוספת אובייקט
     }
     static void ReadEntity(string entityName)
     {
@@ -235,7 +234,7 @@ internal class Program
             // הפעלת המתודה Read
             var readMethod = entityType.GetMethod("Read");
             Console.WriteLine($"תצוגת אובייקט לפי מזהה עבור {entityName}");
-            // כתוב כאן את הלוגיקה לתצוגת אובייקט
+            // . כאן את הלוגיקה לתצוגת אובייקט
         }
         catch (Exception ex)
         {
@@ -245,47 +244,47 @@ internal class Program
     static void ReadAllEntities(string entityName)
     {
         Console.WriteLine($"תצוגת כל האובייקטים עבור {entityName}");
-        // כתוב כאן את הלוגיקה להצגת כל האובייקטים
+        // . כאן את הלוגיקה להצגת כל האובייקטים
     }
     static void UpdateEntity(string entityName)
     {
         Console.WriteLine($"עדכון אובייקט עבור {entityName}");
-        // כתוב כאן את הלוגיקה לעדכון אובייקט
+        // . כאן את הלוגיקה לעדכון אובייקט
     }
     static void DeleteEntity(string entityName)
     {
         Console.WriteLine($"מחיקת אובייקט עבור {entityName}");
-        // כתוב כאן את הלוגיקה למחיקת אובייקט
+        // . כאן את הלוגיקה למחיקת אובייקט
     }
     static void DeleteAllEntities(string entityName)
     {
         Console.WriteLine($"מחיקת כל האובייקטים עבור {entityName}");
-        // כתוב כאן את הלוגיקה למחיקת כל האובייקטים
+        // . כאן את הלוגיקה למחיקת כל האובייקטים
     }
     static void AdvanceClock(int minutes)
     {
         Console.WriteLine($"שעון המערכת התקדם ב-{minutes} דקות.");
-        // כתוב כאן את הלוגיקה להתקדמות השעון
+        // . כאן את הלוגיקה להתקדמות השעון
     }
     static void SetConfigurationValue()
     {
         Console.WriteLine("קביעת ערך חדש למשתנה תצורה.");
-        // כתוב כאן את הלוגיקה לקביעת ערך
+        // . כאן את הלוגיקה לקביעת ערך
     }
     static void DisplayConfigurationValue()
     {
         Console.WriteLine("הצגת ערך נוכחי למשתנה תצורה.");
-        // כתוב כאן את הלוגיקה להצגת ערך
+        // . כאן את הלוגיקה להצגת ערך
     }
     static void ResetDatabase()
     {
         Console.WriteLine("בסיס הנתונים אופס.");
-        // כתוב כאן את הלוגיקה לאיפוס בסיס הנתונים
+        // . כאן את הלוגיקה לאיפוס בסיס הנתונים
     }
     static void DisplayAllData()
     {
         Console.WriteLine("מציג את כל הנתונים בבסיס הנתונים:");
-        // כתוב כאן את הלוגיקה להצגת כל הנתונים
+        // . כאן את הלוגיקה להצגת כל הנתונים
     }
 }
 
