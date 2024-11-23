@@ -177,8 +177,16 @@ internal class Program
         {
             s_dalVolunteer.Create(CreateNewVolunteer());
         }
-        Console.WriteLine($"נוסף אובייקט חדש עבור {entityName}");
-        // כתוב כאן את הלוגיקה להוספת אובייקט
+        else if (entityName == "Assignment")
+        {
+            s_dalAssignment.Create(CreateNewAssigment());
+        }
+        else
+        {
+            s_dalCall.Create(CreateNewCall());
+        }
+        Console.WriteLine($"new object has been added to {entityName}s");
+ 
     }
     static Volunteer CreateNewVolunteer()
     {
@@ -208,6 +216,48 @@ internal class Program
         TypeOfDistance TOfDistance = Enum.Parse<TypeOfDistance>(Console.ReadLine());
         Volunteer newVolunteer = new Volunteer(Id, Name, PhoneNumber, Email, 0, Password, active, CurrentAddress, Latitude, Longitude, MaximumDistanceForReading, TOfDistance);
         return newVolunteer;
+    }
+    static Assignment CreateNewAssigment()
+    {
+        Console.WriteLine("Enter Assignment details:");
+        Console.Write("Enter Id: ");
+        int id = int.Parse(Console.ReadLine());
+        Console.Write("Enter CalledId: ");
+        int calledId = int.Parse(Console.ReadLine());
+        Console.Write("Enter VolunteerId: ");
+        int volunteerId = int.Parse(Console.ReadLine());
+        Console.Write("Enter TreatmentEntryTime (yyyy-MM-dd HH:mm): ");
+        DateTime treatmentEntryTime = DateTime.Parse(Console.ReadLine());
+        Console.Write("Enter TreatmentEndTime (yyyy-MM-dd HH:mm): ");
+        DateTime treatmentEndTime = DateTime.Parse(Console.ReadLine());
+        Console.Write("Enter TypeOfTreatmentTermination (Handled, SelfCancellation, ConcellingAdministrator, CancellationExpired): ");
+        TypeOfTreatmentTermination TypeOfTreatmentTermination = Enum.Parse<TypeOfTreatmentTermination>(Console.ReadLine());
+        Assignment newAssignment = new(id, calledId, volunteerId, treatmentEntryTime, treatmentEndTime, TypeOfTreatmentTermination);
+
+        return newAssignment;
+    }
+    static Call CreateNewCall()
+    {
+        // Get user input for Call object
+        Console.WriteLine("Enter Call details:");
+        Console.Write("Enter Id: ");
+        int id = int.Parse(Console.ReadLine());
+        Console.Write("Enter KindOfCall (Emergency, NonUrgent, FollowUp, Other): ");
+        KindOfCall kindOfCall = Enum.Parse<KindOfCall>(Console.ReadLine());
+        Console.Write("Enter AddressOfCall: ");
+        string addressOfCall = Console.ReadLine();
+        Console.Write("Enter Latitude: ");
+        double latitude = double.Parse(Console.ReadLine());
+        Console.Write("Enter Longitude: ");
+        double longitude = double.Parse(Console.ReadLine());
+        Console.Write("Enter OpeningTime (yyyy-MM-dd HH:mm): ");
+        DateTime openingTime = DateTime.Parse(Console.ReadLine());
+        Console.Write("Enter FinishTime (yyyy-MM-dd HH:mm): ");
+        DateTime FinishTime = DateTime.Parse(Console.ReadLine());
+        Console.Write("Enter Description: ");
+        string Description = Console.ReadLine();
+        Call newCall = new(id, kindOfCall, addressOfCall, latitude, longitude, openingTime, FinishTime, Description);
+        return newCall;
     }
     static void ReadEntity(string entityName)
     {
