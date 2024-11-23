@@ -4,7 +4,9 @@ using DalApi;
 using DO;
 
 namespace DalTest;
-
+/// <summary>
+/// //////////////////////////////////////////bx
+/// </summary>
 internal class Program
 {
     private static IVolunteer? s_dalVolunteer = new VolunteerImplementation();
