@@ -222,25 +222,13 @@ namespace DalTest
             // כתוב כאן את הלוגיקה להצגת כל הנתונים
         }
     }
-
-    static class Initialization
-    {
-        public static void Do()
-        {
-            Console.WriteLine("אתחול הנתונים הושלם.");
-            // כתוב כאן את הלוגיקה לאתחול הנתונים
-        }
-    }
-
     static class s_dal
     {
         public static ConfigClass Config { get; } = new ConfigClass();
     }
-
     class ConfigClass
     {
         public DateTime Clock { get; set; } = DateTime.Now;
-
         public void Reset()
         {
             Clock = DateTime.Now;
