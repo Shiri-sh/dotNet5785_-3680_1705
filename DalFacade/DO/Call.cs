@@ -17,7 +17,7 @@ public record Call
     int Id,
     KindOfCall KindOfCall,
     string AddressOfCall,
-    double latitude,
+    double Latitude,
     double Longitude,
     DateTime OpeningTime,
     DateTime? FinishTime = null,

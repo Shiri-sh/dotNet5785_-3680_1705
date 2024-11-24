@@ -28,7 +28,7 @@ public record  Volunteer
     string Email,
     Position Position,
     string Password,
-    bool active = false,
+    bool Active = false,
     string? CurrentAddress = null,
     double? Latitude = null,
     double? Longitude = null,
