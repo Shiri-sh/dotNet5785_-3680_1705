@@ -61,7 +61,7 @@ internal class Program
                     ConfigurationSubMenu();
                     break;
                 case "7":
-                    ResetDatabase();
+                    s_dalConfig.Reset();
                     break;
                 case "0":
                     exit = true;
