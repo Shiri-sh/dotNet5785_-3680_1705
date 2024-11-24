@@ -12,7 +12,6 @@ public class ConfigImplementation : IConfig
     {
         Config.Reset();
     }
-
 }
 
 //i dont know why there are errors here......

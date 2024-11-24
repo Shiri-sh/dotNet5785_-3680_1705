@@ -1,9 +1,9 @@
 ﻿using Dal;
 using DalApi;
 using DO;
+using System.Data;
 
 namespace DalTest;
-
 internal class Program
 {
     private static IVolunteer? s_dalVolunteer = new VolunteerImplementation();
@@ -134,10 +134,11 @@ internal class Program
             Console.WriteLine("0. Exit");
             Console.WriteLine("1. Advance system clock by a minute");
             Console.WriteLine("2. Advance system clock by an hour");
-            Console.WriteLine("3. Display current value of system clock");
-            Console.WriteLine("4. Set a new value for a configuration variable");
-            Console.WriteLine("5. Display the current value of a configuration variable");
-            Console.WriteLine("6. Reset values for all configuration variables");
+            Console.WriteLine("3. Advance system clock by a minute you enter");
+            Console.WriteLine("4. Display current value of system clock");
+            Console.WriteLine("5. Set a new value for a configuration variable");
+            Console.WriteLine("6. Display the current value of a configuration variable");
+            Console.WriteLine("7. Reset values for all configuration variables");
             Console.Write("Choose an option: ");
             string choice = Console.ReadLine();
 
@@ -150,15 +151,19 @@ internal class Program
                     AdvanceClock(60);
                     break;
                 case "3":
-                    Console.WriteLine($"Current system clock: {s_dalConfig.Clock}");
+                    int minuteToAdvance=int.Parse(Console.ReadLine());
+                    AdvanceClock(minuteToAdvance);
                     break;
                 case "4":
-                    SetConfigurationValue();
+                    Console.WriteLine($"Current system clock: {s_dalConfig.Clock}");
                     break;
                 case "5":
-                    DisplayConfigurationValue();
+                    SetConfigurationValue();
                     break;
                 case "6":
+                    DisplayConfigurationValue();
+                    break;
+                case "7":
                     s_dalConfig.Reset();
                     Console.WriteLine("All configuration variables have been reset.");
                     break;
@@ -269,42 +274,99 @@ internal class Program
     }
     static void ReadEntity(string entityName)
     {
-        try
+
+        Console.WriteLine("Enter an ID number for the object you want to display.");
+        int idToRead = int.Parse(Console.ReadLine());
+
+        if (entityName is "Volunteer")
         {
             Console.WriteLine($"הכנס מספר זיהוי של {entityName}");
             int id = int.Parse(Console.ReadLine());
             Console.WriteLine($"תצוגת אובייקט לפי מזהה עבור {entityName}");
             // . כאן את הלוגיקה לתצוגת אובייקט
+           Console.WriteLine( s_dalVolunteer.Read(idToRead));
         }
-        catch (Exception ex)
+        else if (entityName is "Assignment")
         {
-            Console.WriteLine($"שגיאה בעת קריאה למחלקה {entityName}: {ex.Message}");
+            Console.WriteLine( s_dalAssignment.Read(idToRead));
+        }
+        else
+        {
+            Console.WriteLine(s_dalCall.Read(idToRead));
         }
     }
     static void ReadAllEntities(string entityName)
     {
-        Console.WriteLine($"תצוגת כל האובייקטים עבור {entityName}");
-        // . כאן את הלוגיקה להצגת כל האובייקטים
+        Console.WriteLine($"View all objects for {entityName}");
+        if (entityName is "Volunteer")
+        {
+           Console.WriteLine( s_dalVolunteer.ReadAll());
+        }
+        else if (entityName is "Assignment")
+        {
+            Console.WriteLine(s_dalAssignment.ReadAll());
+        }
+        else
+        {
+            Console.WriteLine(s_dalCall.ReadAll());
+        }
     }
     static void UpdateEntity(string entityName)
     {
-        Console.WriteLine($"עדכון אובייקט עבור {entityName}");
-        // . כאן את הלוגיקה לעדכון אובייקט
+        if (entityName is "Volunteer")
+        {
+            s_dalVolunteer.Update(CreateNewVolunteer());
+        }
+        else if (entityName is "Assignment")
+        {
+            s_dalAssignment.Update(CreateNewAssigment());
+        }
+        else
+        {
+            s_dalCall.Update(CreateNewCall());
+            {
+                Console.WriteLine($"Update object for {entityName}");
+            }
+        }
     }
-    static void DeleteEntity(string entityName)
+    static void DeleteEntity(string entityName)   //delete entity by id
     {
-        Console.WriteLine($"מחיקת אובייקט עבור {entityName}");
-        // . כאן את הלוגיקה למחיקת אובייקט
+        Console.WriteLine("Enter the ID number for the object you want to delete.");
+        int idToDelete = int.Parse(Console.ReadLine());
+
+        if (entityName is "Volunteer")
+        {
+            s_dalVolunteer.Delete(idToDelete);
+        }
+        else if (entityName is "Assignment")
+        {
+            s_dalAssignment.Delete(idToDelete);
+        }
+        else
+        {
+            s_dalCall.Delete(idToDelete);
+        }
     }
     static void DeleteAllEntities(string entityName)
     {
-        Console.WriteLine($"מחיקת כל האובייקטים עבור {entityName}");
-        // . כאן את הלוגיקה למחיקת כל האובייקטים
+        Console.WriteLine($"Deleting all objects for {entityName}");
+        if (entityName is "Volunteer")
+        {
+            s_dalVolunteer.DeleteAll();
+        }
+        else if (entityName is "Assignment")
+        {
+            s_dalAssignment.DeleteAll();
+        }
+        else
+        {
+            s_dalCall.DeleteAll();
+        }
     }
     static void AdvanceClock(int minutes)
     {
-        Console.WriteLine($"שעון המערכת התקדם ב-{minutes} דקות.");
-        // . כאן את הלוגיקה להתקדמות השעון
+        Console.WriteLine($"The system clock has advanced by-{minutes} minute.");
+        s_dalConfig.Clock.AddMinutes( minutes );
     }
     static void SetConfigurationValue()
     {
