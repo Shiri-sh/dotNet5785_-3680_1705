@@ -43,7 +43,7 @@ internal class Program
             switch (choice)
             {
                 case "1":
-                    SubMenu("VolunteerVolunteer");
+                    SubMenu("Volunteer");
                     break;
                 case "2":
                     SubMenu("Call");
@@ -121,7 +121,7 @@ internal class Program
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"שגיאה: {ex.Message}");
+                Console.WriteLine($"error: {ex.Message}");
             }
         }
     }
@@ -173,91 +173,99 @@ internal class Program
     }
     static void AddEntity(string entityName)
     {
-        if (entityName == "Volunteer")
+        try
         {
-            s_dalVolunteer.Create(CreateNewVolunteer());
+            if (entityName == "Volunteer")
+            {
+                s_dalVolunteer.Create(CreateNewVolunteer());
+            }
+            else if (entityName == "Assignment")
+            {
+                s_dalAssignment.Create(CreateNewAssigment());
+            }
+            else
+            {
+                s_dalCall.Create(CreateNewCall());
+            }
+            Console.WriteLine($"new object has been added to {entityName}s");
         }
-        else if (entityName == "Assignment")
+        catch(Exception ex)
         {
-            s_dalAssignment.Create(CreateNewAssigment());
+            Console.WriteLine(ex.ToString()+" try again");
         }
-        else
-        {
-            s_dalCall.Create(CreateNewCall());
-        }
-        Console.WriteLine($"new object has been added to {entityName}s");
  
     }
     static Volunteer CreateNewVolunteer()
     {
-        Console.Write("Enter Id: ");
-        int Id = int.Parse(Console.ReadLine());
-        Console.Write("Enter Name: ");
-        string Name = Console.ReadLine();
-        Console.Write("Enter Phone Number: ");
-        string PhoneNumber = Console.ReadLine();
-        Console.Write("Enter Email: ");
-        string Email = Console.ReadLine();
-        Console.Write("Enter Position : ");
-        Position Position = Enum.Parse<Position>(Console.ReadLine());
-        Console.Write("Enter Password: ");
-        string Password = Console.ReadLine();
-        Console.Write("Is Active (true/false): ");
-        bool active = bool.Parse(Console.ReadLine());
-        Console.Write("Enter Current Address: ");
-        string CurrentAddress = Console.ReadLine();
-        Console.Write("Enter Latitude: ");
-        double Latitude = double.Parse(Console.ReadLine());
-        Console.Write("Enter Longitude: ");
-        double Longitude = double.Parse(Console.ReadLine());
-        Console.Write("Enter Maximum Distance For Reading: ");
-        double MaximumDistanceForReading = double.Parse(Console.ReadLine());
-        Console.Write("Enter Type Of Distance: ");
-        TypeOfDistance TOfDistance = Enum.Parse<TypeOfDistance>(Console.ReadLine());
-        Volunteer newVolunteer = new Volunteer(Id, Name, PhoneNumber, Email, 0, Password, active, CurrentAddress, Latitude, Longitude, MaximumDistanceForReading, TOfDistance);
-        return newVolunteer;
+        Console.Write("Enter Volunteer details: Id, Name, Phone-Number, Email,Position,Password,Active,Current-Address,Latitude,Longitude, Maximum-Distance-For-Reading,Type-Of-Distance");
+        try
+        {
+            Volunteer newVolunteer = new Volunteer()
+            {
+                Id = int.TryParse(Console.ReadLine(), out var id) ? id : throw new FormatException("Id is invalid!"),
+                Name = StringParse(),
+                PhoneNumber = Console.ReadLine(),
+                Email = StringParse(),
+                Position = Enum.TryParse<Position>(Console.ReadLine(), out var position) ? position : Position.Volunteer,
+                Password = StringParse(),
+                Active = bool.TryParse(Console.ReadLine(), out var active) ? active : false,
+                CurrentAddress = StringParse(),
+                Latitude = double.TryParse(Console.ReadLine(), out var latitude) ? latitude : (double?)null,
+                Longitude = double.TryParse(Console.ReadLine(), out var longitude) ? longitude : (double?)null,
+                MaximumDistanceForReading = double.TryParse(Console.ReadLine(), out var maxDistance) ? maxDistance : (double?)null,
+                TypeOfDistance = Enum.TryParse<TypeOfDistance>(Console.ReadLine(), out var typeOfDistance) ? typeOfDistance : TypeOfDistance.Aerial
+            };
+            return newVolunteer;
+        }
+        catch(Exception ex) {
+            throw ex;   
+        }
+        
     }
     static Assignment CreateNewAssigment()
     {
-        Console.WriteLine("Enter Assignment details:");
-        Console.Write("Enter Id: ");
-        int id = int.Parse(Console.ReadLine());
-        Console.Write("Enter CalledId: ");
-        int calledId = int.Parse(Console.ReadLine());
-        Console.Write("Enter VolunteerId: ");
-        int volunteerId = int.Parse(Console.ReadLine());
-        Console.Write("Enter TreatmentEntryTime (yyyy-MM-dd HH:mm): ");
-        DateTime treatmentEntryTime = DateTime.Parse(Console.ReadLine());
-        Console.Write("Enter TreatmentEndTime (yyyy-MM-dd HH:mm): ");
-        DateTime treatmentEndTime = DateTime.Parse(Console.ReadLine());
-        Console.Write("Enter TypeOfTreatmentTermination (Handled, SelfCancellation, ConcellingAdministrator, CancellationExpired): ");
-        TypeOfTreatmentTermination TypeOfTreatmentTermination = Enum.Parse<TypeOfTreatmentTermination>(Console.ReadLine());
-        Assignment newAssignment = new(id, calledId, volunteerId, treatmentEntryTime, treatmentEndTime, TypeOfTreatmentTermination);
-
-        return newAssignment;
+        Console.WriteLine("Enter Assignment details: Id, Called-Id, Volunteer-Id,Treatment-Entry-Time, Treatment-End-Time,Type-Of-Treatment-Termination ");
+        try
+        {
+            Assignment newAssignment = new Assignment()
+            {
+                Id = int.TryParse(Console.ReadLine(), out var id) ? id : throw new FormatException("Id is invalid!"),
+                CalledId = int.TryParse(Console.ReadLine(), out var calledId) ? calledId: throw new FormatException("calledId is invalid!"),
+                VolunteerId = int.TryParse(Console.ReadLine(), out var volunteerId) ? volunteerId : throw new FormatException("volunteerId is invalid!"),
+                TreatmentEntryTime = DateTime.TryParse(Console.ReadLine(), out var treatmentEntryTime) ? treatmentEntryTime : s_dalConfig.Clock,
+                TreatmentEndTime = DateTime.TryParse(Console.ReadLine(), out var treatmentEndTime) ? treatmentEndTime : null,
+                TypeOfTreatmentTermination = Enum.TryParse<TypeOfTreatmentTermination>(Console.ReadLine(), out var typeOfTreatmentTermination) ? typeOfTreatmentTermination : null,
+            };
+            return newAssignment;
+        }
+        catch (Exception ex)
+        {
+            throw new FormatException(ex.ToString());
+        }
     }
     static Call CreateNewCall()
     {
-        // Get user input for Call object
-        Console.WriteLine("Enter Call details:");
-        Console.Write("Enter Id: ");
-        int id = int.Parse(Console.ReadLine());
-        Console.Write("Enter KindOfCall (Emergency, NonUrgent, FollowUp, Other): ");
-        KindOfCall kindOfCall = Enum.Parse<KindOfCall>(Console.ReadLine());
-        Console.Write("Enter AddressOfCall: ");
-        string addressOfCall = Console.ReadLine();
-        Console.Write("Enter Latitude: ");
-        double latitude = double.Parse(Console.ReadLine());
-        Console.Write("Enter Longitude: ");
-        double longitude = double.Parse(Console.ReadLine());
-        Console.Write("Enter OpeningTime (yyyy-MM-dd HH:mm): ");
-        DateTime openingTime = DateTime.Parse(Console.ReadLine());
-        Console.Write("Enter FinishTime (yyyy-MM-dd HH:mm): ");
-        DateTime FinishTime = DateTime.Parse(Console.ReadLine());
-        Console.Write("Enter Description: ");
-        string Description = Console.ReadLine();
-        Call newCall = new(id, kindOfCall, addressOfCall, latitude, longitude, openingTime, FinishTime, Description);
-        return newCall;
+
+        Console.Write("Enter Call details: Id,Kind-Of-Call,Address-Of-Call,Latitude,Longitude,Opening-Time,Finish-Time,Description");
+        try
+        {
+            Call newCall = new Call()
+            {
+                Id = int.TryParse(Console.ReadLine(), out var id) ? id : throw new FormatException("Id is invalid!"),
+                KindOfCall = Enum.TryParse<KindOfCall>(Console.ReadLine(), out var kindOfCall) ? kindOfCall : KindOfCall.changeWheel,
+                AddressOfCall = StringParse(),
+                Latitude = double.TryParse(Console.ReadLine(), out var latitude) ? latitude : throw new FormatException("Latitude is invalid!"),
+                Longitude = double.TryParse(Console.ReadLine(), out var longitude) ? longitude : throw new FormatException("Longitude is invalid!"),
+                OpeningTime = DateTime.TryParse(Console.ReadLine(), out var openingTime) ? openingTime : s_dalConfig.Clock,
+                FinishTime = DateTime.TryParse(Console.ReadLine(), out var finishTime) ? finishTime : s_dalConfig.Clock,
+                Description = StringParse()
+            };
+            return newCall;
+        }
+        catch (Exception ex)
+        {
+            throw new FormatException(ex.ToString());
+        } 
     }
     static void ReadEntity(string entityName)
     {
@@ -265,18 +273,6 @@ internal class Program
         {
             Console.WriteLine($"הכנס מספר זיהוי של {entityName}");
             int id = int.Parse(Console.ReadLine());
-            Type entityType = Type.GetType(entityName);
-            // יצירת מופע של המחלקה
-            object entityInstance = Activator.CreateInstance(entityType);
-            if (entityInstance == null)
-            {
-                Console.WriteLine($"לא ניתן ליצור מופע של המחלקה {entityName}");
-                return;
-            }
-            // הפעלת המתודה עם הפרמטר id
-           // object result = readMethod.Invoke(entityInstance, new object[] { id });
-            // הפעלת המתודה Read
-            var readMethod = entityType.GetMethod("Read");
             Console.WriteLine($"תצוגת אובייקט לפי מזהה עבור {entityName}");
             // . כאן את הלוגיקה לתצוגת אובייקט
         }
@@ -330,6 +326,13 @@ internal class Program
         Console.WriteLine("מציג את כל הנתונים בבסיס הנתונים:");
         // . כאן את הלוגיקה להצגת כל הנתונים
     }
-}
+    private static string? StringParse()
+    {
+        string st = Console.ReadLine() ?? "";
+        if (string.IsNullOrEmpty(st))
+            throw new FormatException("input is invalid!");
+        return st;
+    }
 
+}
 
