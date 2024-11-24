@@ -7,6 +7,7 @@ using System.Xml.Linq;
 
 public static class Initialization
 {
+
     private static IAssignment? s_dalAssignment;
     private static ICall? s_dalCall;
     private static IVolunteer? s_dalVolunteer;
@@ -22,7 +23,7 @@ public static class Initialization
     private static void createVolunteer()
     {
         s_dalVolunteer!.Create(new(327691758, "kobi dinavetsky", "0583235695", "", Position.Volunteer, "123456!A"));
-        string[] volunteerNames = { "Dani Levy", "Eli Amar", "Yair Cohen", "Ariela Levin", "Dina Klein", "Shira Israelof" };
+        string[] volunteerNames = { "Dani Levy", "Eli Amar", "Yair Cohen", "Ariela Levin", "Dina Klein", "Shira Israelof","shir levi" };
         foreach (string volunteerName in volunteerNames)
         {
             int id;
