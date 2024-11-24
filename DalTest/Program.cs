@@ -186,7 +186,6 @@ internal class Program
             s_dalCall.Create(CreateNewCall());
         }
         Console.WriteLine($"new object has been added to {entityName}s");
- 
     }
     static Volunteer CreateNewVolunteer()
     {
@@ -259,7 +258,7 @@ internal class Program
         Call newCall = new(id, kindOfCall, addressOfCall, latitude, longitude, openingTime, FinishTime, Description);
         return newCall;
     }
-    static void ReadEntity(string entityName)
+    static void ReadEntity(string entityName) //show one object
     {
         try
         {
@@ -274,7 +273,7 @@ internal class Program
                 return;
             }
             // הפעלת המתודה עם הפרמטר id
-           // object result = readMethod.Invoke(entityInstance, new object[] { id });
+            // object result = readMethod.Invoke(entityInstance, new object[] { id });
             // הפעלת המתודה Read
             var readMethod = entityType.GetMethod("Read");
             Console.WriteLine($"תצוגת אובייקט לפי מזהה עבור {entityName}");
@@ -292,44 +291,58 @@ internal class Program
     }
     static void UpdateEntity(string entityName)
     {
-        Console.WriteLine($"עדכון אובייקט עבור {entityName}");
-        // . כאן את הלוגיקה לעדכון אובייקט
-    }
-    static void DeleteEntity(string entityName)
-    {
-        Console.WriteLine($"מחיקת אובייקט עבור {entityName}");
-        // . כאן את הלוגיקה למחיקת אובייקט
-    }
-    static void DeleteAllEntities(string entityName)
-    {
-        Console.WriteLine($"מחיקת כל האובייקטים עבור {entityName}");
-        // . כאן את הלוגיקה למחיקת כל האובייקטים
-    }
-    static void AdvanceClock(int minutes)
-    {
-        Console.WriteLine($"שעון המערכת התקדם ב-{minutes} דקות.");
-        // . כאן את הלוגיקה להתקדמות השעון
-    }
-    static void SetConfigurationValue()
-    {
-        Console.WriteLine("קביעת ערך חדש למשתנה תצורה.");
-        // . כאן את הלוגיקה לקביעת ערך
-    }
-    static void DisplayConfigurationValue()
-    {
-        Console.WriteLine("הצגת ערך נוכחי למשתנה תצורה.");
-        // . כאן את הלוגיקה להצגת ערך
-    }
-    static void ResetDatabase()
-    {
-        Console.WriteLine("בסיס הנתונים אופס.");
-        // . כאן את הלוגיקה לאיפוס בסיס הנתונים
-    }
-    static void DisplayAllData()
-    {
-        Console.WriteLine("מציג את כל הנתונים בבסיס הנתונים:");
-        // . כאן את הלוגיקה להצגת כל הנתונים
-    }
-}
+        if (entityName == "Volunteer")
+        {
+            s_dalVolunteer.Update(CreateNewVolunteer());
+        }
+        else if (entityName == "Assignment")
+        {
+            s_dalAssignment.Update(CreateNewAssigment());
+        }
+        else
+        {
+            s_dalCall.Update(CreateNewCall());
 
+            {
+                Console.WriteLine($"עדכון אובייקט עבור {entityName}");
+                // . כאן את הלוגיקה לעדכון אובייקט
+            }
+        }
+    }
+            static void DeleteEntity(string entityName)
+            {
+                Console.WriteLine($"מחיקת אובייקט עבור {entityName}");
+                // . כאן את הלוגיקה למחיקת אובייקט
+            }
+            static void DeleteAllEntities(string entityName)
+            {
+                Console.WriteLine($"מחיקת כל האובייקטים עבור {entityName}");
+                // . כאן את הלוגיקה למחיקת כל האובייקטים
+            }
+            static void AdvanceClock(int minutes)
+            {
+                Console.WriteLine($"שעון המערכת התקדם ב-{minutes} דקות.");
+                // . כאן את הלוגיקה להתקדמות השעון
+            }
+            static void SetConfigurationValue()
+            {
+                Console.WriteLine("קביעת ערך חדש למשתנה תצורה.");
+                // . כאן את הלוגיקה לקביעת ערך
+            }
+            static void DisplayConfigurationValue()
+            {
+                Console.WriteLine("הצגת ערך נוכחי למשתנה תצורה.");
+                // . כאן את הלוגיקה להצגת ערך
+            }
+            static void ResetDatabase()
+            {
+                Console.WriteLine("בסיס הנתונים אופס.");
+                // . כאן את הלוגיקה לאיפוס בסיס הנתונים
+            }
+            static void DisplayAllData()
+            {
+                Console.WriteLine("מציג את כל הנתונים בבסיס הנתונים:");
+                // . כאן את הלוגיקה להצגת כל הנתונים
+            }
+        }
 
