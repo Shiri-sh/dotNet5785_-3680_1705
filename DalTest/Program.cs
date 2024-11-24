@@ -371,14 +371,14 @@ internal class Program
     static void SetConfigurationValue()
     {
         Console.WriteLine("To change a specific variable, press:\n 1.to change nextAssignmentId.\n 2. to change nextCallId. \n 3.to change RiskRange. \n 4. to reset the clock");
-        int chooseWathToDo=int.Parse(Console.ReadLine());
-        Console.WriteLine($"enter number to update{chooseWathToDo}");
+        int chooseWhatToDo=int.Parse(Console.ReadLine());
+        Console.WriteLine($"enter number to update{chooseWhatToDo}");
         int numberToUpdate=int.Parse(Console.ReadLine());
-        if (chooseWathToDo is 1)
+        if (chooseWhatToDo is 1)
             s_dalConfig.UpdatenextAssignmentId(numberToUpdate);
-        else if (chooseWathToDo is 2)
+        else if (chooseWhatToDo is 2)
             s_dalConfig.UpdatenextCallId(numberToUpdate);
-        else if (chooseWathToDo is 3)
+        else if (chooseWhatToDo is 3)
             s_dalConfig.RiskRange = TimeSpan.FromMinutes(numberToUpdate);
         else
             s_dalConfig.Clock = DateTime.Now;
