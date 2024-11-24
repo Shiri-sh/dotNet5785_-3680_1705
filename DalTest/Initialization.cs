@@ -52,7 +52,7 @@ public static class Initialization
         DateTime start = new DateTime(s_dalConfig.Clock.Year - 3, 1, 1);
         for (int i = 0; i < 50; i++)
         {
-            s_dalCall!.Create(new(Config.startCallId, GetRandomEnumValue<KindOfCall>(s_rand), streetsNames[s_rand.Next(streetsNames.Length)], 30 + (s_rand.NextDouble() * (40 - 30)), 30 + (s_rand.NextDouble() * (40 - 30)), start.AddHours(s_rand.Next(1, 5))));
+            s_dalCall!.Create(new(0, GetRandomEnumValue<KindOfCall>(s_rand), streetsNames[s_rand.Next(streetsNames.Length)], 30 + (s_rand.NextDouble() * (40 - 30)), 30 + (s_rand.NextDouble() * (40 - 30)), start.AddHours(s_rand.Next(1, 5))));
         }
     }
     private static void createAssigments()
