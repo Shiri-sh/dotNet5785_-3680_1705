@@ -13,20 +13,31 @@ namespace Dal;
 ///                    In each operation, the current system time will be the current value of the system clock.</parm>
 /// <param name="RiskRange">Time range from which onwards reading is considered at risk. approaching its required end time.</param>
 
-    internal  static class Config
+internal static class Config
 {
     //risk range, after 15 minutes the assigment is at risk
-    internal static TimeSpan RiskRange = TimeSpan.FromMinutes(15);
+    internal static TimeSpan RiskRange { get; set; } = TimeSpan.FromMinutes(15);
 
     //count call id auto
     internal const int startCallId = 1;
     private static int nextCallId = startCallId;
     internal static int NextCallId { get => nextCallId++; }
+    internal static void UpdatenextCallId(int newId)
+    {
+        if (nextCallId < newId)
+            nextCallId = newId;
+    }
 
     ///count auto
     internal const int startAssignmentId = 1;
     private static int nextAssignmentId = startAssignmentId;
     internal static int NextAssignmentId { get => nextAssignmentId++; }
+
+    internal static void UpdatenextAssignmentId(int newId)
+    {
+        if (newId > nextAssignmentId)
+            nextAssignmentId = newId;
+    }
 
     //clock
     internal static DateTime Clock { get; set; } = DateTime.Now;
@@ -36,5 +47,6 @@ namespace Dal;
         nextAssignmentId = 0;
         Clock = DateTime.Now;
     }
+
 }
-    
+
