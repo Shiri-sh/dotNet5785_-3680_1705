@@ -240,7 +240,7 @@ internal class Program
         }
         catch (Exception ex)
         {
-            throw new FormatException(ex.ToString());
+            throw ex;
         }
     }
     static Call CreateNewCall()
@@ -264,7 +264,7 @@ internal class Program
         }
         catch (Exception ex)
         {
-            throw new FormatException(ex.ToString());
+            throw ex;
         } 
     }
     static void ReadEntity(string entityName)

@@ -1,6 +1,8 @@
 ﻿namespace DalTest;
 
 using DalApi;
+using DalList;
+
 using DO;
 using System;
 using System.Xml.Linq;
@@ -19,7 +21,11 @@ public static class Initialization
     public static int MAX_P = 99999999;
     public static int MIN_S = 100000;
     public static int MAX_S = 999999;
-    //...
+    static T GetRandomEnumValue<T>(Random random) where T : Enum
+    {
+        Array values = Enum.GetValues(typeof(T));
+        return (T)values.GetValue(random.Next(values.Length));
+    }
     private static void createVolunteer()
     {
         s_dalVolunteer!.Create(new(327691758, "kobi dinavetsky", "0583235695", "", Position.Volunteer, "123456!A"));
@@ -42,12 +48,12 @@ public static class Initialization
     }
     private static void createCall()
     {
+        string[] streetsNames = { "Even Gvirol 11, Elad", "Rabbi Hiyya, Elad", "Derech Menachem Begin, Petah Tikva", "Pinhas Rozen 12, Tel Aviv-Yafo", "Be'er Mayim Chaim 12, Bnei Brak", "Herzl Street 25, Tel Aviv", "Jabotinsky 15, Ramat Gan", "Allenby Street, Tel Aviv", "Hanevi'im Street, Jerusalem", "King George Street, Haifa", };
         DateTime start = new DateTime(s_dalConfig.Clock.Year - 3, 1, 1);
-        s_dalCall!.Create(new(0, KindOfCall.CableAssistance, "אבן גבירול 11, אלעד, ישראל", 32.0579, 34, start.AddHours(s_rand.Next(1, 5))));
-        s_dalCall!.Create(new(0, KindOfCall.fuelOilWater, "רבי חיא,אלעד,ישראל", 32.049344, 34.963798, start.AddHours(s_rand.Next(1, 7))));
-        s_dalCall!.Create(new(0, KindOfCall.changeWheel, "דרך מנחם בגין, פתח תקווה, ישראל", 32.069869, 34.914232, start.AddHours(s_rand.Next(1, 5))));
-        s_dalCall!.Create(new(0, KindOfCall.CableAssistance, "פנחס רוזן 12, תל אביב-יפו, ישראל", 32.108024, 34.827305, start.AddHours(s_rand.Next(1, 5)), null, "נגמר לרכב חשמלי הבטריה"));
-        s_dalCall!.Create(new(0, KindOfCall.FirstAid, "באר מים חיים 12, בני ברק, ישראל", 32.083079, 34.841832, start.AddHours(s_rand.Next(1, 5)), start.AddHours(1), "ילד בן שנתיים נשכח ברכב"));
+        for (int i = 0; i < 50; i++)
+        {
+            s_dalCall!.Create(new(Config.startCallId, GetRandomEnumValue<KindOfCall>(s_rand), streetsNames[s_rand.Next(streetsNames.Length)], 30 + (s_rand.NextDouble() * (40 - 30)), 30 + (s_rand.NextDouble() * (40 - 30)), start.AddHours(s_rand.Next(1, 5))));
+        }
     }
     private static void createAssigments()
     {
