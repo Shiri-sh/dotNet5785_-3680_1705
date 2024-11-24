@@ -229,7 +229,7 @@ internal class Program
         {
             Assignment newAssignment = new Assignment()
             {
-                Id = int.TryParse(Console.ReadLine(), out var id) ? id : throw new FormatException("Id is invalid!"),
+                Id =0, //int.TryParse(Console.ReadLine(), out var id) ? id : throw new FormatException("Id is invalid!"),
                 CalledId = int.TryParse(Console.ReadLine(), out var calledId) ? calledId: throw new FormatException("calledId is invalid!"),
                 VolunteerId = int.TryParse(Console.ReadLine(), out var volunteerId) ? volunteerId : throw new FormatException("volunteerId is invalid!"),
                 TreatmentEntryTime = DateTime.TryParse(Console.ReadLine(), out var treatmentEntryTime) ? treatmentEntryTime : s_dalConfig.Clock,
@@ -251,7 +251,7 @@ internal class Program
         {
             Call newCall = new Call()
             {
-                Id = int.TryParse(Console.ReadLine(), out var id) ? id : throw new FormatException("Id is invalid!"),
+                Id = 0,//int.TryParse(Console.ReadLine(), out var id) ? id : throw new FormatException("Id is invalid!"),
                 KindOfCall = Enum.TryParse<KindOfCall>(Console.ReadLine(), out var kindOfCall) ? kindOfCall : KindOfCall.changeWheel,
                 AddressOfCall = StringParse(),
                 Latitude = double.TryParse(Console.ReadLine(), out var latitude) ? latitude : throw new FormatException("Latitude is invalid!"),
