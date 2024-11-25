@@ -6,5 +6,7 @@ public interface IConfig
     //...
     void Reset();
     void UpdatenextCallId(int newId);
+    int NextCallId();
     void UpdatenextAssignmentId(int newId);
+    int NextAssignmentId();
 }

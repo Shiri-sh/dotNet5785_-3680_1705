@@ -313,38 +313,52 @@ internal class Program
     }
     static void UpdateEntity(string entityName)
     {
-        if (entityName is "Volunteer")
+        try
         {
-            s_dalVolunteer.Update(CreateNewVolunteer());
-        }
-        else if (entityName is "Assignment")
-        {
-            s_dalAssignment.Update(CreateNewAssigment());
-        }
-        else
-        {
-            s_dalCall.Update(CreateNewCall());
+            if (entityName is "Volunteer")
             {
-                Console.WriteLine($"Update object for {entityName}");
+                s_dalVolunteer.Update(CreateNewVolunteer());
             }
+            else if (entityName is "Assignment")
+            {
+                s_dalAssignment.Update(CreateNewAssigment());
+            }
+            else
+            {
+                s_dalCall.Update(CreateNewCall());
+                {
+                    Console.WriteLine($"Update object for {entityName}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString() + " try again");
         }
     }
     static void DeleteEntity(string entityName)   //delete entity by id
     {
-        Console.WriteLine("Enter the ID number for the object you want to delete.");
-        int idToDelete = int.Parse(Console.ReadLine());
+        try
+        {
+            Console.WriteLine("Enter the ID number for the object you want to delete.");
+            int idToDelete = int.Parse(Console.ReadLine());
 
-        if (entityName is "Volunteer")
-        {
-            s_dalVolunteer.Delete(idToDelete);
+            if (entityName is "Volunteer")
+            {
+                s_dalVolunteer.Delete(idToDelete);
+            }
+            else if (entityName is "Assignment")
+            {
+                s_dalAssignment.Delete(idToDelete);
+            }
+            else
+            {
+                s_dalCall.Delete(idToDelete);
+            }
         }
-        else if (entityName is "Assignment")
+        catch (Exception ex)
         {
-            s_dalAssignment.Delete(idToDelete);
-        }
-        else
-        {
-            s_dalCall.Delete(idToDelete);
+            Console.WriteLine(ex.ToString() + " try again");
         }
     }
     static void DeleteAllEntities(string entityName)
@@ -385,8 +399,16 @@ internal class Program
     }
     static void DisplayConfigurationValue()
     {
-        Console.WriteLine("הצגת ערך נוכחי למשתנה תצורה.");
-        // . כאן את הלוגיקה להצגת ערך
+        Console.WriteLine("To display a specific variable, press:\n 1.to display nextAssignmentId.\n 2. to display nextCallId. \n 3.to display RiskRange. \n 4. to display the clock");
+        int chooseWathToDo = int.Parse(Console.ReadLine());
+        if (chooseWathToDo is 1)
+          Console.WriteLine(s_dalConfig.NextAssignmentId());
+        else if (chooseWathToDo is 2)
+            Console.WriteLine (s_dalConfig.NextCallId());
+        else if (chooseWathToDo is 3)
+            Console.WriteLine(s_dalConfig.RiskRange);
+        else
+            Console.WriteLine(s_dalConfig.Clock);
     }
     static void DisplayAllData()
     {

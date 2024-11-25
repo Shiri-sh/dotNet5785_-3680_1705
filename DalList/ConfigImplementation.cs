@@ -17,9 +17,17 @@ public class ConfigImplementation : IConfig
     {
         Config.UpdatenextAssignmentId(newId);
     }
+    public int NextAssignmentId()
+    {
+        return Config.NextAssignmentId;
+    }
     public void UpdatenextCallId(int newId)
     {
         Config.UpdatenextCallId(newId);
+    }
+    public int NextCallId()
+    {
+        return Config.NextCallId;
     }
     public void Reset()
     {
