@@ -22,22 +22,11 @@ internal static class Config
     internal const int startCallId = 1;
     private static int nextCallId = startCallId;
     internal static int NextCallId { get => nextCallId++; }
-    internal static void UpdatenextCallId(int newId)
-    {
-        if (nextCallId < newId)
-            nextCallId = newId;
-    }
 
     ///count auto
     internal const int startAssignmentId = 1;
     private static int nextAssignmentId = startAssignmentId;
     internal static int NextAssignmentId { get => nextAssignmentId++; }
-
-    internal static void UpdatenextAssignmentId(int newId)
-    {
-        if (newId > nextAssignmentId)
-            nextAssignmentId = newId;
-    }
 
     //clock
     internal static DateTime Clock { get; set; } = DateTime.Now;

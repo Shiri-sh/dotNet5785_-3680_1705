@@ -62,6 +62,9 @@ internal class Program
                     break;
                 case "7":
                     s_dalConfig.Reset();
+                    s_dalVolunteer.DeleteAll();
+                    s_dalCall.DeleteAll();
+                    s_dalAssignment.DeleteAll();
                     break;
                 case "0":
                     exit = true;
@@ -272,27 +275,100 @@ internal class Program
             throw ex;
         } 
     }
-    static void ReadEntity(string entityName)
+    static void ReadVolunteer(Volunteer volunteerToRead)
+    {
+        Console.WriteLine("Id: " + volunteerToRead.Id +
+            " Name: " + volunteerToRead.Name +
+            " PhoneNumber: " + volunteerToRead.PhoneNumber +
+            " Email: " + volunteerToRead.Email +
+            " Position: " + volunteerToRead.Position +
+            " Password: " + volunteerToRead.Password +
+            " Active: " + volunteerToRead.Active);
+
+        if (!string.IsNullOrEmpty(volunteerToRead.CurrentAddress))
+            Console.WriteLine("CurrentAddress: " + volunteerToRead.CurrentAddress);
+        else
+            Console.WriteLine("CurrentAddress: null");
+
+        if (volunteerToRead.Latitude.HasValue)
+            Console.WriteLine(
+
+    "Latitude: " + volunteerToRead.Latitude.Value);
+        else
+            Console.WriteLine("Latitude: null");
+
+        if (volunteerToRead.Longitude.HasValue)
+            Console.WriteLine("Longitude: " + volunteerToRead.Longitude.Value);
+        else
+            Console.WriteLine("Longitude: null");
+
+        if (volunteerToRead.MaximumDistanceForReading.HasValue)
+            Console.WriteLine("MaximumDistanceForReading: " + volunteerToRead.MaximumDistanceForReading.Value);
+        else
+            Console.WriteLine("MaximumDistanceForReading: null");
+
+        Console.WriteLine("TypeOfDistance: " + volunteerToRead.TypeOfDistance);
+        Console.WriteLine("----------------------------");
+    }
+    static void ReadAssignment(Assignment assignmentToRead)
+    {
+        Console.WriteLine("Id: " + assignmentToRead.Id);
+        Console.WriteLine("CalledId: " + assignmentToRead.CalledId);
+        Console.WriteLine("VolunteerId: " + assignmentToRead.VolunteerId);
+        Console.WriteLine("TreatmentEntryTime: " + assignmentToRead.TreatmentEntryTime);
+
+        if (assignmentToRead.TreatmentEndTime.HasValue)
+            Console.WriteLine("TreatmentEndTime: " + assignmentToRead.TreatmentEndTime.Value);
+        else
+            Console.WriteLine("TreatmentEndTime: null");
+
+        if (assignmentToRead.TypeOfTreatmentTermination.HasValue)
+            Console.WriteLine("TypeOfTreatmentTermination: " + assignmentToRead.TypeOfTreatmentTermination.Value);
+        else
+            Console.WriteLine("TypeOfTreatmentTermination: null");
+
+        Console.WriteLine("----------------------------");
+    }
+    static void ReadCall(Call callToRead)
     {
 
-        Console.WriteLine("Enter an ID number for the object you want to display.");
-        int idToRead = int.Parse(Console.ReadLine());
+        Console.WriteLine("Id: " + callToRead.Id);
+        Console.WriteLine("KindOfCall: " + callToRead.KindOfCall);
+        Console.WriteLine("AddressOfCall: " + callToRead.AddressOfCall);
+        Console.WriteLine("Latitude: " + callToRead.Latitude);
+        Console.WriteLine("Longitude: " + callToRead.Longitude);
+        Console.WriteLine("OpeningTime: " + callToRead.OpeningTime);
 
+        if (callToRead.FinishTime.HasValue)
+            Console.WriteLine("FinishTime: " + callToRead.FinishTime.Value);
+        else
+            Console.WriteLine("FinishTime: null");
+
+        if (!string.IsNullOrEmpty(callToRead.Description))
+            Console.WriteLine("Description: " + callToRead.Description);
+        else
+            Console.WriteLine("Description: null");
+
+        Console.WriteLine("----------------------------");
+    }
+    static void ReadEntity(string entityName)
+    {
+        Console.WriteLine("Enter an ID number for the object you want to display.");
+        int idToRead = int.TryParse(Console.ReadLine(), out var id) ? id : throw new FormatException("Id is invalid!");
         if (entityName is "Volunteer")
         {
-            Console.WriteLine($"הכנס מספר זיהוי של {entityName}");
-            int id = int.Parse(Console.ReadLine());
-            Console.WriteLine($"תצוגת אובייקט לפי מזהה עבור {entityName}");
-            // . כאן את הלוגיקה לתצוגת אובייקט
-           Console.WriteLine( s_dalVolunteer.Read(idToRead));
+           Volunteer volunteerToRead = s_dalVolunteer.Read(idToRead);
+            ReadVolunteer(volunteerToRead);
         }
         else if (entityName is "Assignment")
         {
-            Console.WriteLine( s_dalAssignment.Read(idToRead));
+            Assignment assignmentToRead = s_dalAssignment.Read(idToRead);
+            ReadAssignment(assignmentToRead);
         }
         else
         {
-            Console.WriteLine(s_dalCall.Read(idToRead));
+            Call callToRead = s_dalCall.Read(idToRead);
+            ReadCall(callToRead);
         }
     }
     static void ReadAllEntities(string entityName)
@@ -300,15 +376,32 @@ internal class Program
         Console.WriteLine($"View all objects for {entityName}");
         if (entityName is "Volunteer")
         {
-           Console.WriteLine( s_dalVolunteer.ReadAll());
+
+            List<Volunteer> Volunteers = s_dalVolunteer.ReadAll();
+
+            foreach (var volunteer in Volunteers)
+            {
+                ReadVolunteer(volunteer);
+            }
+
         }
         else if (entityName is "Assignment")
         {
-            Console.WriteLine(s_dalAssignment.ReadAll());
+            List<Assignment> assignments = s_dalAssignment.ReadAll();
+
+            foreach (var assignment in assignments)
+            {
+                ReadAssignment(assignment);
+            }
         }
         else
         {
-            Console.WriteLine(s_dalCall.ReadAll());
+            List<Call> calls = s_dalCall.ReadAll();
+
+            foreach (var call in calls)
+            {
+               ReadCall(call);
+            }
         }
     }
     static void UpdateEntity(string entityName)
@@ -341,7 +434,7 @@ internal class Program
         try
         {
             Console.WriteLine("Enter the ID number for the object you want to delete.");
-            int idToDelete = int.Parse(Console.ReadLine());
+            int idToDelete= int.TryParse(Console.ReadLine(), out var idDelete) ? idDelete : throw new FormatException("Id is invalid!");
 
             if (entityName is "Volunteer")
             {
@@ -384,23 +477,19 @@ internal class Program
     }
     static void SetConfigurationValue()
     {
-        Console.WriteLine("To change a specific variable, press:\n 1.to change nextAssignmentId.\n 2. to change nextCallId. \n 3.to change RiskRange. \n 4. to reset the clock");
-        int chooseWathToDo=int.Parse(Console.ReadLine());
-        Console.WriteLine($"enter number to update{chooseWathToDo}");
-        int numberToUpdate=int.Parse(Console.ReadLine());
+        Console.WriteLine("To change a specific variable, press:\n 1. to change RiskRange. \n 2. to reset the clock");
+        int chooseWathToDo=int.TryParse(Console.ReadLine(), out var chooseDo) ? chooseDo : throw new FormatException("Id is invalid!");
+        Console.WriteLine($"enter number to update{chooseWathToDo}");   
+        int numberToUpdate = int.TryParse(Console.ReadLine(), out var numberUpdate) ? numberUpdate : throw new FormatException("Id is invalid!");
         if (chooseWathToDo is 1)
-            s_dalConfig.UpdatenextAssignmentId(numberToUpdate);
-        else if (chooseWathToDo is 2)
-            s_dalConfig.UpdatenextCallId(numberToUpdate);
-        else if (chooseWathToDo is 3)
             s_dalConfig.RiskRange = TimeSpan.FromMinutes(numberToUpdate);
-        else
+        else if(chooseWathToDo is 2)
             s_dalConfig.Clock = DateTime.Now;
     }
     static void DisplayConfigurationValue()
     {
         Console.WriteLine("To display a specific variable, press:\n 1.to display nextAssignmentId.\n 2. to display nextCallId. \n 3.to display RiskRange. \n 4. to display the clock");
-        int chooseWathToDo = int.Parse(Console.ReadLine());
+        int chooseWathToDo = int.TryParse(Console.ReadLine(), out var chooseWathDo) ? chooseWathDo : throw new FormatException("Id is invalid!");
         if (chooseWathToDo is 1)
           Console.WriteLine(s_dalConfig.NextAssignmentId());
         else if (chooseWathToDo is 2)
@@ -412,8 +501,9 @@ internal class Program
     }
     static void DisplayAllData()
     {
-        Console.WriteLine("מציג את כל הנתונים בבסיס הנתונים:");
-        // . כאן את הלוגיקה להצגת כל הנתונים
+        ReadAllEntities("Volunteer");
+        ReadAllEntities("Assignment");
+        ReadAllEntities("Call");
     }
     private static string? StringParse()
     {

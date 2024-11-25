@@ -5,7 +5,7 @@ public class ConfigImplementation : IConfig
     public TimeSpan RiskRange
     {
         get => Config.RiskRange;
-        set => Config.RiskRange = value;    
+        set => Config.RiskRange = value;
     }
     public DateTime Clock
     {
@@ -13,20 +13,12 @@ public class ConfigImplementation : IConfig
         set => Config.Clock = value;
     }
     //...
-    public void UpdatenextAssignmentId(int newId)
-    {
-        Config.UpdatenextAssignmentId(newId);
-    }
+  
     public int NextAssignmentId()
     {
         return Config.NextAssignmentId;
     }
-    public void UpdatenextCallId(int newId)
-    {
-        Config.UpdatenextCallId(newId);
-    }
-    public int NextCallId()
-    {
+    public int NextCallId() {
         return Config.NextCallId;
     }
     public void Reset()
