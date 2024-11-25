@@ -340,25 +340,27 @@ internal class Program
         }
         catch (Exception ex) { Console.WriteLine(ex.ToString() + " try again"); }
 
-
     }
     static void DeleteEntity(string entityName)   //delete entity by id
     {
         Console.WriteLine("Enter the ID number for the object you want to delete.");
-        int idToDelete = int.Parse(Console.ReadLine());
-
-        if (entityName is "Volunteer")
+        try
         {
-            s_dalVolunteer.Delete(idToDelete);
+            int idToDelete = int.TryParse(Console.ReadLine(), out var _id) ? _id : throw new FormatException("Id is invalid!");
+            if (entityName is "Volunteer")
+            {
+                s_dalVolunteer.Delete(idToDelete);
+            }
+            else if (entityName is "Assignment")
+            {
+                s_dalAssignment.Delete(idToDelete);
+            }
+            else
+            {
+                s_dalCall.Delete(idToDelete);
+            }
         }
-        else if (entityName is "Assignment")
-        {
-            s_dalAssignment.Delete(idToDelete);
-        }
-        else
-        {
-            s_dalCall.Delete(idToDelete);
-        }
+        catch(Exception ex) { Console.WriteLine(ex.ToString()); }
     }
     static void DeleteAllEntities(string entityName)
     {
