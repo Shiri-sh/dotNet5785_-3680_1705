@@ -203,16 +203,21 @@ internal class Program
         }
  
     }
-    static Volunteer CreateNewVolunteer()
+    static Volunteer CreateNewVolunteer(int id=0)
     {
         Console.Write("Enter Volunteer details: Id, Name, Phone-Number, Email,Position,Password,Active,Current-Address,Latitude,Longitude, Maximum-Distance-For-Reading,Type-Of-Distance");
+        int finalId;
+        if (id == 0)///that means that you got here for creat new volunteer
+            finalId = int.TryParse(Console.ReadLine(), out var _id) ? _id : throw new FormatException("Id is invalid!");
+        else//you w
+            finalId = id;
         try
         {
             Volunteer newVolunteer = new Volunteer()
             {
-                Id = int.TryParse(Console.ReadLine(), out var id) ? id : throw new FormatException("Id is invalid!"),
+                Id = finalId,
                 Name = StringParse(),
-                PhoneNumber = Console.ReadLine(),
+                PhoneNumber = StringParse(),
                 Email = StringParse(),
                 Position = Enum.TryParse<Position>(Console.ReadLine(), out var position) ? position : Position.Volunteer,
                 Password = StringParse(),
@@ -230,14 +235,14 @@ internal class Program
         }
         
     }
-    static Assignment CreateNewAssigment()
+    static Assignment CreateNewAssigment(int id=0)
     {
         Console.WriteLine("Enter Assignment details: Id, Called-Id, Volunteer-Id,Treatment-Entry-Time, Treatment-End-Time,Type-Of-Treatment-Termination ");
         try
         {
             Assignment newAssignment = new Assignment()
             {
-                Id =0, //int.TryParse(Console.ReadLine(), out var id) ? id : throw new FormatException("Id is invalid!"),
+                Id =id, //int.TryParse(Console.ReadLine(), out var id) ? id : throw new FormatException("Id is invalid!"),
                 CalledId = int.TryParse(Console.ReadLine(), out var calledId) ? calledId: throw new FormatException("calledId is invalid!"),
                 VolunteerId = int.TryParse(Console.ReadLine(), out var volunteerId) ? volunteerId : throw new FormatException("volunteerId is invalid!"),
                 TreatmentEntryTime = DateTime.TryParse(Console.ReadLine(), out var treatmentEntryTime) ? treatmentEntryTime : s_dalConfig.Clock,
@@ -251,7 +256,7 @@ internal class Program
             throw ex;
         }
     }
-    static Call CreateNewCall()
+    static Call CreateNewCall(int id = 0)
     {
 
         Console.Write("Enter Call details: Id,Kind-Of-Call,Address-Of-Call,Latitude,Longitude,Opening-Time,Finish-Time,Description");
@@ -259,7 +264,7 @@ internal class Program
         {
             Call newCall = new Call()
             {
-                Id = 0,//int.TryParse(Console.ReadLine(), out var id) ? id : throw new FormatException("Id is invalid!"),
+                Id = id,
                 KindOfCall = Enum.TryParse<KindOfCall>(Console.ReadLine(), out var kindOfCall) ? kindOfCall : KindOfCall.changeWheel,
                 AddressOfCall = StringParse(),
                 Latitude = double.TryParse(Console.ReadLine(), out var latitude) ? latitude : throw new FormatException("Latitude is invalid!"),
@@ -273,7 +278,7 @@ internal class Program
         catch (Exception ex)
         {
             throw ex;
-        } 
+        }
     }
     static void ReadVolunteer(Volunteer volunteerToRead)
     {
@@ -406,36 +411,35 @@ internal class Program
     }
     static void UpdateEntity(string entityName)
     {
+        
         try
         {
+            Console.WriteLine("Enter the ID number for the object you want to update.");
+            int id = int.TryParse(Console.ReadLine(), out var _id) ? _id : throw new FormatException("Id is invalid!");
             if (entityName is "Volunteer")
             {
-                s_dalVolunteer.Update(CreateNewVolunteer());
+                s_dalVolunteer.Update(CreateNewVolunteer(id));
             }
             else if (entityName is "Assignment")
             {
-                s_dalAssignment.Update(CreateNewAssigment());
+                s_dalAssignment.Update(CreateNewAssigment(id));
             }
             else
             {
-                s_dalCall.Update(CreateNewCall());
-                {
-                    Console.WriteLine($"Update object for {entityName}");
-                }
+                s_dalCall.Update(CreateNewCall(id));
             }
+            Console.WriteLine($"Update object for {entityName}");
+
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.ToString() + " try again");
-        }
+        catch (Exception ex) { Console.WriteLine(ex.ToString() + " try again"); }
+
     }
     static void DeleteEntity(string entityName)   //delete entity by id
     {
+        Console.WriteLine("Enter the ID number for the object you want to delete.");
         try
         {
-            Console.WriteLine("Enter the ID number for the object you want to delete.");
-            int idToDelete= int.TryParse(Console.ReadLine(), out var idDelete) ? idDelete : throw new FormatException("Id is invalid!");
-
+            int idToDelete = int.TryParse(Console.ReadLine(), out var _id) ? _id : throw new FormatException("Id is invalid!");
             if (entityName is "Volunteer")
             {
                 s_dalVolunteer.Delete(idToDelete);
@@ -449,10 +453,7 @@ internal class Program
                 s_dalCall.Delete(idToDelete);
             }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.ToString() + " try again");
-        }
+        catch(Exception ex) { Console.WriteLine(ex.ToString()); }
     }
     static void DeleteAllEntities(string entityName)
     {
