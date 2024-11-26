@@ -5,7 +5,7 @@ public class ConfigImplementation : IConfig
     public TimeSpan RiskRange
     {
         get => Config.RiskRange;
-        set => Config.RiskRange = value;    
+        set => Config.RiskRange = value;
     }
     public DateTime Clock
     {
@@ -13,18 +13,17 @@ public class ConfigImplementation : IConfig
         set => Config.Clock = value;
     }
     //...
-    public void UpdatenextAssignmentId(int newId)
+
+    public int NextAssignmentId()
     {
-        Config.UpdatenextAssignmentId(newId);
+        return Config.NextAssignmentId;
     }
-    public void UpdatenextCallId(int newId)
+    public int NextCallId()
     {
-        Config.UpdatenextCallId(newId);
+        return Config.NextCallId;
     }
     public void Reset()
     {
         Config.Reset();
     }
 }
-
-//i dont know why there are errors here......

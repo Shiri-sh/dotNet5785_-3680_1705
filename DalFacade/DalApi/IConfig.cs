@@ -5,6 +5,6 @@ public interface IConfig
     DateTime Clock { get; set; }
     //...
     void Reset();
-    void UpdatenextCallId(int newId);
-    void UpdatenextAssignmentId(int newId);
+    int NextCallId();
+    int NextAssignmentId();
 }
