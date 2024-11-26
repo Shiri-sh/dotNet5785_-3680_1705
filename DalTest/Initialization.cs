@@ -23,7 +23,7 @@ public static class Initialization
     public static int MIN_S = 100000;
     public static int MAX_S = 999999;
    
-    static T GetRandomEnumValue<T>(Random random,int range=0) where T : Enum
+    
 
     /// <summary>
     /// 

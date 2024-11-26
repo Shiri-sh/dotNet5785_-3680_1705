@@ -226,11 +226,11 @@ internal class Program
     /// <exception cref="FormatException">the user didnt type an int input </exception>
     static Volunteer CreateNewVolunteer(int id = 0)
     {
-        Console.Write("Enter Volunteer details: Id, Name, Phone-Number, Email,Position,Password,Active,Current-Address,Latitude,Longitude, Maximum-Distance-For-Reading,Type-Of-Distance");
+        Console.Write("Enter Volunteer details: Id(for creat new object), Name, Phone-Number, Email,Position,Password,Active,Current-Address,Latitude,Longitude, Maximum-Distance-For-Reading,Type-Of-Distance\n");
         int finalId;
         if (id == 0)///that means that you got here for creat new volunteer
             finalId = ReadHelper.ReadInt();
-        else//you w
+        else//you want to update an existing volunteer
             finalId = id;
         try
         {
@@ -265,7 +265,7 @@ internal class Program
     /// <exception cref="FormatException">the user didnt type an int input </exception>
     static Assignment CreateNewAssigment(int id = 0)
     {
-        Console.WriteLine("Enter Assignment details: Id, Called-Id, Volunteer-Id,Treatment-Entry-Time, Treatment-End-Time,Type-Of-Treatment-Termination ");
+        Console.WriteLine("Enter Assignment details: Id(for creat new object), Called-Id, Volunteer-Id,Treatment-Entry-Time, Treatment-End-Time,Type-Of-Treatment-Termination\n ");
         try
         {
             Assignment newAssignment = new Assignment()
@@ -292,7 +292,7 @@ internal class Program
     /// <exception cref="FormatException">the user didnt type an int input </exception>
     static Call CreateNewCall(int id = 0)
     {
-        Console.Write("Enter Call details: Id,Kind-Of-Call,Address-Of-Call,Latitude,Longitude,Opening-Time,Finish-Time,Description");
+        Console.Write("Enter Call details: Id(for creat new object),Kind-Of-Call,Address-Of-Call,Latitude,Longitude,Opening-Time,Finish-Time,Description\n");
         try
         {
             Call newCall = new Call()
@@ -320,12 +320,12 @@ internal class Program
     static void ReadVolunteer(Volunteer volunteerToRead)
     {
         Console.WriteLine("Id: " + volunteerToRead.Id);
-        Console.WriteLine(" Name: " + volunteerToRead.Name);
-        Console.WriteLine(" PhoneNumber: " + volunteerToRead.PhoneNumber);
-        Console.WriteLine(" Email: " + volunteerToRead.Email);
-        Console.WriteLine(" Position: " + volunteerToRead.Position);
-        Console.WriteLine(" Password: " + volunteerToRead.Password);
-        Console.WriteLine(" Active: " + volunteerToRead.Active);
+        Console.WriteLine("Name: " + volunteerToRead.Name);
+        Console.WriteLine("PhoneNumber: " + volunteerToRead.PhoneNumber);
+        Console.WriteLine("Email: " + volunteerToRead.Email);
+        Console.WriteLine("Position: " + volunteerToRead.Position);
+        Console.WriteLine("Password: " + volunteerToRead.Password);
+        Console.WriteLine("Active: " + volunteerToRead.Active);
 
         if (!string.IsNullOrEmpty(volunteerToRead.CurrentAddress))
             Console.WriteLine("CurrentAddress: " + volunteerToRead.CurrentAddress);
@@ -345,7 +345,7 @@ internal class Program
             Console.WriteLine("Longitude: null");
 
         if (volunteerToRead.MaximumDistanceForReading.HasValue)
-            Console.WriteLine("MaximumDistanceForReading: " + volunteerToRead.MaximumDistanceForReading.Value);
+            Console.WriteLine("MaximumDistanceForReading: " + volunteerToRead.MaximumDistanceForReading.Value+" meters");
         else
             Console.WriteLine("MaximumDistanceForReading: null");
 
