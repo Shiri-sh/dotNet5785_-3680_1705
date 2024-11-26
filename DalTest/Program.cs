@@ -292,7 +292,6 @@ internal class Program
     /// <exception cref="FormatException">the user didnt type an int input </exception>
     static Call CreateNewCall(int id = 0)
     {
-
         Console.Write("Enter Call details: Id,Kind-Of-Call,Address-Of-Call,Latitude,Longitude,Opening-Time,Finish-Time,Description");
         try
         {
@@ -580,6 +579,12 @@ internal class Program
             Console.WriteLine(s_dalConfig.RiskRange);
         else
             Console.WriteLine(s_dalConfig.Clock);
+        /* Console.WriteLine("To display a specific variable, press:\n 1.to display RiskRange. \n 2. to display the clock");
+        int chooseWathToDo = int.TryParse(Console.ReadLine(), out var chooseWathDo) ? chooseWathDo : throw new FormatException("Id is invalid!");
+        if (chooseWathToDo is 1)
+            Console.WriteLine(s_dalConfig.RiskRange);
+        else if (chooseWathToDo is 1)
+            Console.WriteLine(s_dalConfig.Clock);*/
     }
     /// <summary>
     /// show all data of Volunteer entity, Call entity and Assignment entity
@@ -589,5 +594,6 @@ internal class Program
         ReadAllEntities("Volunteer");
         ReadAllEntities("Assignment");
         ReadAllEntities("Call");
+        Console.WriteLine($"clock: {s_dalConfig.Clock}.\n nextcallid:{s_dalConfig.RiskRange} ");
     }
 }

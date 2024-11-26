@@ -13,13 +13,12 @@ public class ConfigImplementation : IConfig
         set => Config.Clock = value;
     }
     //...
-
+  
     public int NextAssignmentId()
     {
         return Config.NextAssignmentId;
     }
-    public int NextCallId()
-    {
+    public int NextCallId() {
         return Config.NextCallId;
     }
     public void Reset()
