@@ -154,7 +154,7 @@ internal class Program
                     AdvanceClock(60);
                     break;
                 case "3":
-                    int minuteToAdvance=int.Parse(Console.ReadLine());
+                    int minuteToAdvance = int.Parse(Console.ReadLine());
                     AdvanceClock(minuteToAdvance);
                     break;
                 case "4":
@@ -197,23 +197,24 @@ internal class Program
             }
             Console.WriteLine($"new object has been added to {entityName}s");
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString()+" try again");
+            Console.WriteLine(ex.ToString() + " try again");
         }
- 
+
     }
-    static Volunteer CreateNewVolunteer(int id=0)
+    static Volunteer CreateNewVolunteer(int id = 0)
     {
-        Console.Write("Enter Volunteer details: Id, Name, Phone-Number, Email,Position,Password,Active,Current-Address,Latitude,Longitude, Maximum-Distance-For-Reading,Type-Of-Distance");
-        int finalId;
-        if (id == 0)///that means that you got here for creat new volunteer
-            finalId = int.TryParse(Console.ReadLine(), out var _id) ? _id : throw new FormatException("Id is invalid!");
-        else//you w
-            finalId = id;
+        Volunteer newVolunteer=new Volunteer();
+        int finalId=0;
         try
         {
-            Volunteer newVolunteer = new Volunteer()
+            Console.Write("Enter Volunteer details: Id, Name, Phone-Number, Email,Position,Password,Active,Current-Address,Latitude,Longitude, Maximum-Distance-For-Reading,Type-Of-Distance");
+            if (id == 0)///that means that you got here for creat new volunteer
+                finalId = int.TryParse(Console.ReadLine(), out var _id) ? _id : throw new FormatException("Id is unvalid!");
+            else//you w
+                finalId = id;
+             newVolunteer = new Volunteer()
             {
                 Id = finalId,
                 Name = StringParse(),
@@ -230,20 +231,22 @@ internal class Program
             };
             return newVolunteer;
         }
-        catch(Exception ex) {
-            throw ex;   
+        catch (Exception ex)
+        {
+            Console.WriteLine(finalId);
+            ReadVolunteer(newVolunteer);
+            throw ex;
         }
-        
     }
-    static Assignment CreateNewAssigment(int id=0)
+    static Assignment CreateNewAssigment(int id = 0)
     {
         Console.WriteLine("Enter Assignment details: Id, Called-Id, Volunteer-Id,Treatment-Entry-Time, Treatment-End-Time,Type-Of-Treatment-Termination ");
         try
         {
             Assignment newAssignment = new Assignment()
             {
-                Id =id, //int.TryParse(Console.ReadLine(), out var id) ? id : throw new FormatException("Id is invalid!"),
-                CalledId = int.TryParse(Console.ReadLine(), out var calledId) ? calledId: throw new FormatException("calledId is invalid!"),
+                Id = id, //int.TryParse(Console.ReadLine(), out var id) ? id : throw new FormatException("Id is invalid!"),
+                CalledId = int.TryParse(Console.ReadLine(), out var calledId) ? calledId : throw new FormatException("calledId is invalid!"),
                 VolunteerId = int.TryParse(Console.ReadLine(), out var volunteerId) ? volunteerId : throw new FormatException("volunteerId is invalid!"),
                 TreatmentEntryTime = DateTime.TryParse(Console.ReadLine(), out var treatmentEntryTime) ? treatmentEntryTime : s_dalConfig.Clock,
                 TreatmentEndTime = DateTime.TryParse(Console.ReadLine(), out var treatmentEndTime) ? treatmentEndTime : null,
@@ -258,7 +261,6 @@ internal class Program
     }
     static Call CreateNewCall(int id = 0)
     {
-
         Console.Write("Enter Call details: Id,Kind-Of-Call,Address-Of-Call,Latitude,Longitude,Opening-Time,Finish-Time,Description");
         try
         {
@@ -289,16 +291,12 @@ internal class Program
             " Position: " + volunteerToRead.Position +
             " Password: " + volunteerToRead.Password +
             " Active: " + volunteerToRead.Active);
-
         if (!string.IsNullOrEmpty(volunteerToRead.CurrentAddress))
             Console.WriteLine("CurrentAddress: " + volunteerToRead.CurrentAddress);
         else
             Console.WriteLine("CurrentAddress: null");
-
         if (volunteerToRead.Latitude.HasValue)
-            Console.WriteLine(
-
-    "Latitude: " + volunteerToRead.Latitude.Value);
+            Console.WriteLine("Latitude: " + volunteerToRead.Latitude.Value);
         else
             Console.WriteLine("Latitude: null");
 
@@ -306,12 +304,10 @@ internal class Program
             Console.WriteLine("Longitude: " + volunteerToRead.Longitude.Value);
         else
             Console.WriteLine("Longitude: null");
-
         if (volunteerToRead.MaximumDistanceForReading.HasValue)
             Console.WriteLine("MaximumDistanceForReading: " + volunteerToRead.MaximumDistanceForReading.Value);
         else
             Console.WriteLine("MaximumDistanceForReading: null");
-
         Console.WriteLine("TypeOfDistance: " + volunteerToRead.TypeOfDistance);
         Console.WriteLine("----------------------------");
     }
@@ -321,7 +317,6 @@ internal class Program
         Console.WriteLine("CalledId: " + assignmentToRead.CalledId);
         Console.WriteLine("VolunteerId: " + assignmentToRead.VolunteerId);
         Console.WriteLine("TreatmentEntryTime: " + assignmentToRead.TreatmentEntryTime);
-
         if (assignmentToRead.TreatmentEndTime.HasValue)
             Console.WriteLine("TreatmentEndTime: " + assignmentToRead.TreatmentEndTime.Value);
         else
@@ -331,19 +326,16 @@ internal class Program
             Console.WriteLine("TypeOfTreatmentTermination: " + assignmentToRead.TypeOfTreatmentTermination.Value);
         else
             Console.WriteLine("TypeOfTreatmentTermination: null");
-
         Console.WriteLine("----------------------------");
     }
     static void ReadCall(Call callToRead)
     {
-
         Console.WriteLine("Id: " + callToRead.Id);
         Console.WriteLine("KindOfCall: " + callToRead.KindOfCall);
         Console.WriteLine("AddressOfCall: " + callToRead.AddressOfCall);
         Console.WriteLine("Latitude: " + callToRead.Latitude);
         Console.WriteLine("Longitude: " + callToRead.Longitude);
         Console.WriteLine("OpeningTime: " + callToRead.OpeningTime);
-
         if (callToRead.FinishTime.HasValue)
             Console.WriteLine("FinishTime: " + callToRead.FinishTime.Value);
         else
@@ -353,7 +345,6 @@ internal class Program
             Console.WriteLine("Description: " + callToRead.Description);
         else
             Console.WriteLine("Description: null");
-
         Console.WriteLine("----------------------------");
     }
     static void ReadEntity(string entityName)
@@ -362,7 +353,7 @@ internal class Program
         int idToRead = int.TryParse(Console.ReadLine(), out var id) ? id : throw new FormatException("Id is invalid!");
         if (entityName is "Volunteer")
         {
-           Volunteer volunteerToRead = s_dalVolunteer.Read(idToRead);
+            Volunteer volunteerToRead = s_dalVolunteer.Read(idToRead);
             ReadVolunteer(volunteerToRead);
         }
         else if (entityName is "Assignment")
@@ -405,13 +396,12 @@ internal class Program
 
             foreach (var call in calls)
             {
-               ReadCall(call);
+                ReadCall(call);
             }
         }
     }
     static void UpdateEntity(string entityName)
     {
-        
         try
         {
             Console.WriteLine("Enter the ID number for the object you want to update.");
@@ -429,17 +419,19 @@ internal class Program
                 s_dalCall.Update(CreateNewCall(id));
             }
             Console.WriteLine($"Update object for {entityName}");
-
         }
-        catch (Exception ex) { Console.WriteLine(ex.ToString() + " try again"); }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message + " try again");
+        }
 
     }
     static void DeleteEntity(string entityName)   //delete entity by id
     {
-        Console.WriteLine("Enter the ID number for the object you want to delete.");
         try
         {
-            int idToDelete = int.TryParse(Console.ReadLine(), out var _id) ? _id : throw new FormatException("Id is invalid!");
+            Console.WriteLine("Enter the ID number for the object you want to delete.");
+            int idToDelete = int.TryParse(Console.ReadLine(), out var idDelete) ? idDelete : throw new FormatException("Id is unvalid!");
             if (entityName is "Volunteer")
             {
                 s_dalVolunteer.Delete(idToDelete);
@@ -453,7 +445,10 @@ internal class Program
                 s_dalCall.Delete(idToDelete);
             }
         }
-        catch(Exception ex) { Console.WriteLine(ex.ToString()); }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message + " try again");
+        }
     }
     static void DeleteAllEntities(string entityName)
     {
@@ -474,30 +469,26 @@ internal class Program
     static void AdvanceClock(int minutes)
     {
         Console.WriteLine($"The system clock has advanced by-{minutes} minute.");
-        s_dalConfig.Clock.AddMinutes( minutes );
+        s_dalConfig.Clock.AddMinutes(minutes);
     }
     static void SetConfigurationValue()
     {
         Console.WriteLine("To change a specific variable, press:\n 1. to change RiskRange. \n 2. to reset the clock");
-        int chooseWathToDo=int.TryParse(Console.ReadLine(), out var chooseDo) ? chooseDo : throw new FormatException("Id is invalid!");
-        Console.WriteLine($"enter number to update{chooseWathToDo}");   
-        int numberToUpdate = int.TryParse(Console.ReadLine(), out var numberUpdate) ? numberUpdate : throw new FormatException("Id is invalid!");
-        if (chooseWathToDo is 1)
+        int chooseWhatToDo = int.TryParse(Console.ReadLine(), out var chooseDo) ? chooseDo : throw new FormatException("choose is unvalid!");
+        Console.WriteLine($"enter number to update");
+        int numberToUpdate = int.TryParse(Console.ReadLine(), out var numberUpdate) ? numberUpdate : throw new FormatException("number is unvalid!");
+        if (chooseWhatToDo is 1)
             s_dalConfig.RiskRange = TimeSpan.FromMinutes(numberToUpdate);
-        else if(chooseWathToDo is 2)
+        else if (chooseWhatToDo is 2)
             s_dalConfig.Clock = DateTime.Now;
     }
     static void DisplayConfigurationValue()
     {
-        Console.WriteLine("To display a specific variable, press:\n 1.to display nextAssignmentId.\n 2. to display nextCallId. \n 3.to display RiskRange. \n 4. to display the clock");
+        Console.WriteLine("To display a specific variable, press:\n 1.to display RiskRange. \n 2. to display the clock");
         int chooseWathToDo = int.TryParse(Console.ReadLine(), out var chooseWathDo) ? chooseWathDo : throw new FormatException("Id is invalid!");
         if (chooseWathToDo is 1)
-          Console.WriteLine(s_dalConfig.NextAssignmentId());
-        else if (chooseWathToDo is 2)
-            Console.WriteLine (s_dalConfig.NextCallId());
-        else if (chooseWathToDo is 3)
             Console.WriteLine(s_dalConfig.RiskRange);
-        else
+        else if (chooseWathToDo is 1)
             Console.WriteLine(s_dalConfig.Clock);
     }
     static void DisplayAllData()
@@ -505,10 +496,11 @@ internal class Program
         ReadAllEntities("Volunteer");
         ReadAllEntities("Assignment");
         ReadAllEntities("Call");
+        Console.WriteLine($"clock: {s_dalConfig.Clock}.\n nextcallid:{s_dalConfig.RiskRange} ");
     }
-    private static string? StringParse()
+    static string? StringParse()
     {
-        string st = Console.ReadLine() ?? "";
+        string st = Console.ReadLine();
         if (string.IsNullOrEmpty(st))
             throw new FormatException("input is invalid!");
         return st;
