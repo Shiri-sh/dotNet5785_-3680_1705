@@ -43,34 +43,34 @@ internal class Program
             Console.WriteLine("6. Display sub-menu for configuration entity");
             Console.WriteLine("7. Reset database and configuration data");
             Console.Write("Choose an option: ");
-            string choice = ReadHelper.ReadString();
+            MainMenuEnum choice = ReadHelper.ReadEnum<MainMenuEnum>();
             switch (choice)
             {
-                case "1":
+                case MainMenuEnum.SubMenuVolunteer:
                     SubMenu("Volunteer");
                     break;
-                case "2":
+                case MainMenuEnum.SubMenuCall:
                     SubMenu("Call");
                     break;
-                case "3":
+                case MainMenuEnum.SubMenuAssignment:
                     SubMenu("Assignment");
                     break;
-                case "4":
+                case MainMenuEnum.InitializationAll:
                     Initialization.Do(s_dalVolunteer, s_dalCall, s_dalAssignment, s_dalConfig);
                     break;
-                case "5":
+                case MainMenuEnum.DisplayAllData:
                     DisplayAllData();
                     break;
-                case "6":
+                case MainMenuEnum.SubMenuConfig:
                     ConfigurationSubMenu();
                     break;
-                case "7":
+                case MainMenuEnum.ResetAllDetails:
                     s_dalConfig.Reset();
                     s_dalVolunteer.DeleteAll();
                     s_dalCall.DeleteAll();
                     s_dalAssignment.DeleteAll();
                     break;
-                case "0":
+                case MainMenuEnum.Exit:
                     exit = true;
                     break;
                 default:
@@ -98,31 +98,30 @@ internal class Program
             Console.WriteLine("6. Delete all objects");
             Console.Write("Choose an option: ");
 
-            string choice = ReadHelper.ReadString();
-
+            SubMenuEnum choice = ReadHelper.ReadEnum<SubMenu>();
             try
             {
                 switch (choice)
                 {
-                    case "1":
+                    case SubMenuEnum.AddNew:
                         AddEntity(entityName);
                         break;
-                    case "2":
+                    case SubMenuEnum.DisplayById:
                         ReadEntity(entityName);
                         break;
-                    case "3":
+                    case SubMenuEnum.DisplayAll:
                         ReadAllEntities(entityName);
                         break;
-                    case "4":
+                    case SubMenuEnum.Update:
                         UpdateEntity(entityName);
                         break;
-                    case "5":
+                    case SubMenuEnum.Delete:
                         DeleteEntity(entityName);
                         break;
-                    case "6":
+                    case SubMenuEnum.DeleteAll:
                         DeleteAllEntities(entityName);
                         break;
-                    case "0":
+                    case SubMenuEnum.Exit:
                         exit = true;
                         break;
                     default:
@@ -154,34 +153,34 @@ internal class Program
             Console.WriteLine("6. Display the current value of a configuration variable");
             Console.WriteLine("7. Reset values for all configuration variables");
             Console.Write("Choose an option: ");
-            string choice = ReadHelper.ReadString();
+            ConfigSubMenuEnum choice = ReadHelper.ReadEnum<ConfigSubMenuEnum>();
 
             switch (choice)
             {
-                case "1":
+                case ConfigSubMenuEnum.AdvanceMinute:
                     AdvanceClock(1);
                     break;
-                case "2":
+                case ConfigSubMenuEnum.AdvanceHour:
                     AdvanceClock(60);
                     break;
-                case "3":
+                case ConfigSubMenuEnum.AdvancePress:
                     int minuteToAdvance = ReadHelper.ReadInt();
                     AdvanceClock(minuteToAdvance);
                     break;
-                case "4":
+                case ConfigSubMenuEnum.DisplayClock:
                     Console.WriteLine($"Current system clock: {s_dalConfig.Clock}");
                     break;
-                case "5":
+                case ConfigSubMenuEnum.SetOne:
                     SetConfigurationValue();
                     break;
-                case "6":
+                case ConfigSubMenuEnum.DisplayConfig:
                     DisplayConfigurationValue();
                     break;
-                case "7":
+                case ConfigSubMenuEnum.Reset:
                     s_dalConfig.Reset();
                     Console.WriteLine("All configuration variables have been reset.");
                     break;
-                case "0":
+                case ConfigSubMenuEnum.Exit:
                     exit = true;
                     break;
                 default:
@@ -569,15 +568,11 @@ internal class Program
     /// <exception cref="FormatException">the user didnt type an int input</exception>
     static void DisplayConfigurationValue()
     {
-        Console.WriteLine("To display a specific variable, press:\n 1.to display nextAssignmentId.\n 2. to display nextCallId. \n 3.to display RiskRange. \n 4. to display the clock");
+        Console.WriteLine("To display a specific variable, press:\n 1.to display RiskRange. \n 2. to display the clock");
         int chooseWathToDo = ReadHelper.ReadInt();
         if (chooseWathToDo is 1)    
-            Console.WriteLine(s_dalConfig.NextAssignmentId());
-        else if (chooseWathToDo is 2)
-            Console.WriteLine(s_dalConfig.NextCallId());
-        else if (chooseWathToDo is 3)
             Console.WriteLine(s_dalConfig.RiskRange);
-        else
+        else if (chooseWathToDo is 2)
             Console.WriteLine(s_dalConfig.Clock);
         /* Console.WriteLine("To display a specific variable, press:\n 1.to display RiskRange. \n 2. to display the clock");
         int chooseWathToDo = int.TryParse(Console.ReadLine(), out var chooseWathDo) ? chooseWathDo : throw new FormatException("Id is invalid!");
