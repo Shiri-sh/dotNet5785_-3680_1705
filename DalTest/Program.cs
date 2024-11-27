@@ -98,7 +98,7 @@ internal class Program
             Console.WriteLine("6. Delete all objects");
             Console.Write("Choose an option: ");
 
-            SubMenuEnum choice = ReadHelper.ReadEnum<SubMenu>();
+            SubMenuEnum choice = ReadHelper.ReadEnum<SubMenuEnum>();
             try
             {
                 switch (choice)
