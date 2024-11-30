@@ -1,10 +1,13 @@
 ﻿
 using DalApi;
 using DO;
-using System.Data;using Accessories;
+using System.Data;
+using Accessories;
 using DalList;
+using Dal;
 
 namespace DalTest;
+
 internal class Program
 {
     //private static IVolunteer? s_dalVolunteer = new VolunteerImplementation();
@@ -12,7 +15,6 @@ internal class Program
     //private static IAssignment? s_dalAssignment = new AssignmetImplementation();
     //private static IConfig? s_dalConfig = new ConfigImplementation();
     static readonly IDal s_dal = new DalList(); //stage 2
-
     static void Main(string[] args)
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -433,7 +435,7 @@ internal class Program
         if (entityName is "Volunteer")
         {
 
-            List<Volunteer> Volunteers = s_dal.Volunteer.ReadAll();
+            IEnumerable<Volunteer> Volunteers = s_dal.Volunteer.ReadAll();
 
             foreach (var volunteer in Volunteers)
             {
@@ -443,7 +445,7 @@ internal class Program
         }
         else if (entityName is "Assignment")
         {
-            List<Assignment> assignments = s_dal.Assignment.ReadAll();
+            IEnumerable<Assignment> assignments = s_dal.Assignment.ReadAll();
 
             foreach (var assignment in assignments)
             {
@@ -452,7 +454,7 @@ internal class Program
         }
         else
         {
-            List<Call> calls = s_dal.Call.ReadAll();
+            IEnumerable<Call> calls = s_dal.Call.ReadAll();
 
             foreach (var call in calls)
             {

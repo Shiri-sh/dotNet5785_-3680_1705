@@ -40,16 +40,15 @@ internal class AssignmetImplementation : IAssignment
     /// <returns>Returning a reference to a single object of type Assignment with a certain ID, if it exists in a database, or null if the object does not exist.</returns>
     public Assignment? Read(int id)
     {
-        return DataSource.Assignments.Find(assignment => assignment.Id == id);
-    }
+        return DataSource.Assignments.FirstOrDefault(item => item.Id == id);   }
     /// <summary>
     /// Return a copy of the list of references to all objects from a type
     /// </summary>
     /// <returns>Return a copy of the list of references to all objects from a type</returns>
-    public List<Assignment> ReadAll()
-    {
-        return new List<Assignment>(DataSource.Assignments);
-    }
+    public IEnumerable<Assignment> ReadAll(Func<Assignment, bool>? filter = null)
+            => filter == null
+            ? DataSource.Assignments.Select(item => item) : DataSource.Assignments.Where(filter);
+
     /// <summary>
     /// Update of an existing object.
     /// </summary>

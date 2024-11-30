@@ -42,16 +42,17 @@ internal class VolunteerImplementation : IVolunteer
     /// <returns>Returning a reference to a single object of type Volunteer with a certain ID, if it exists in a database, or null if the object does not exist.</returns>
     public Volunteer? Read(int id)
     {
-         return DataSource.Volunteers.Find(volunteer => volunteer.Id == id);
+        return DataSource.Volunteers.FirstOrDefault(item => item.Id == id);
     }
     /// <summary>
     ///
     /// </summary>
     /// <returns>Return a copy of the list of references to all objects from a type</returns>
-    public List<Volunteer> ReadAll()
-    {
-        return new List<Volunteer>(DataSource.Volunteers);
-    }
+    public IEnumerable<Volunteer> ReadAll(Func<Volunteer, bool>? filter = null)
+            => filter == null
+            ? DataSource.Volunteers.Select(item => item) : DataSource.Volunteers.Where(filter);
+
+    
     /// <summary>
     /// Update of an existing object.
     /// </summary>

@@ -42,18 +42,16 @@ internal class CallImplementation : ICall
     /// <returns>Returning a reference to a single object of type Call with a certain ID, if it exists in a database, or null if the object does not exist.</returns>
     public Call? Read(int id)
     {
-        return DataSource.Calls.Find(call => call.Id == id);
-
+        return DataSource.Calls.FirstOrDefault(item => item.Id == id);
     }
     /// <summary>
     /// Return a copy of the list of references to all objects from a type
     /// </summary>
     /// <returns>Return a copy of the list of references to all objects from a type</returns>
-    public List<Call> ReadAll()
-    {
-        return new List<Call>(DataSource.Calls);
+    public IEnumerable<Call> ReadAll(Func<Call, bool>? filter = null)
+            => filter == null
+            ? DataSource.Calls.Select(item => item) : DataSource.Calls.Where(filter);
 
-    }
     /// <summary>
     /// Update of an existing object.
     /// </summary>
