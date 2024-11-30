@@ -1,23 +1,24 @@
-﻿using Dal;
+﻿
 using DalApi;
 using DO;
-using System.Data;
-using Accessories;
+using System.Data;using Accessories;
+using DalList;
 
 namespace DalTest;
 internal class Program
 {
-    private static IVolunteer? s_dalVolunteer = new VolunteerImplementation();
-    private static ICall? s_dalCall = new CallImplementation();
-    private static IAssignment? s_dalAssignment = new AssignmetImplementation();
-    private static IConfig? s_dalConfig = new ConfigImplementation();
+    //private static IVolunteer? s_dalVolunteer = new VolunteerImplementation();
+    //private static ICall? s_dalCall = new CallImplementation();
+    //private static IAssignment? s_dalAssignment = new AssignmetImplementation();
+    //private static IConfig? s_dalConfig = new ConfigImplementation();
+    static readonly IDal s_dal = new DalList(); //stage 2
 
     static void Main(string[] args)
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
         try
         {
-            Initialization.Do(s_dalVolunteer, s_dalCall, s_dalAssignment, s_dalConfig);
+            Initialization.Do(s_dal); //stage 2
             MainMenu();
         }
         catch (Exception errorMassage)
@@ -56,7 +57,7 @@ internal class Program
                     SubMenu("Assignment");
                     break;
                 case MainMenuEnum.InitializationAll:
-                    Initialization.Do(s_dalVolunteer, s_dalCall, s_dalAssignment, s_dalConfig);
+                    Initialization.Do(s_dal);
                     break;
                 case MainMenuEnum.DisplayAllData:
                     DisplayAllData();
@@ -65,10 +66,7 @@ internal class Program
                     ConfigurationSubMenu();
                     break;
                 case MainMenuEnum.ResetAllDetails:
-                    s_dalConfig.Reset();
-                    s_dalVolunteer.DeleteAll();
-                    s_dalCall.DeleteAll();
-                    s_dalAssignment.DeleteAll();
+                    s_dal.ResetDB();
                     break;
                 case MainMenuEnum.Exit:
                     exit = true;
@@ -168,7 +166,7 @@ internal class Program
                     AdvanceClock(minuteToAdvance);
                     break;
                 case ConfigSubMenuEnum.DisplayClock:
-                    Console.WriteLine($"Current system clock: {s_dalConfig.Clock}");
+                    Console.WriteLine($"Current system clock: {s_dal.Config.Clock}");
                     break;
                 case ConfigSubMenuEnum.SetOne:
                     SetConfigurationValue();
@@ -177,7 +175,7 @@ internal class Program
                     DisplayConfigurationValue();
                     break;
                 case ConfigSubMenuEnum.Reset:
-                    s_dalConfig.Reset();
+                    s_dal.Config.Reset();
                     Console.WriteLine("All configuration variables have been reset.");
                     break;
                 case ConfigSubMenuEnum.Exit:
@@ -199,15 +197,15 @@ internal class Program
         {
             if (entityName == "Volunteer")
             {
-                s_dalVolunteer.Create(CreateNewVolunteer());
+                s_dal.Volunteer.Create(CreateNewVolunteer());
             }
             else if (entityName == "Assignment")
             {
-                s_dalAssignment.Create(CreateNewAssigment());
+                s_dal.Assignment.Create(CreateNewAssigment());
             }
             else
             {
-                s_dalCall.Create(CreateNewCall());
+                s_dal.Call.Create(CreateNewCall());
             }
             Console.WriteLine($"new object has been added to {entityName}s");
         }
@@ -411,17 +409,17 @@ internal class Program
         int idToRead = ReadHelper.ReadInt();
         if (entityName is "Volunteer")
         {
-            Volunteer volunteerToRead = s_dalVolunteer.Read(idToRead);
+            Volunteer volunteerToRead = s_dal.Volunteer.Read(idToRead);
             ReadVolunteer(volunteerToRead);
         }
         else if (entityName is "Assignment")
         {
-            Assignment assignmentToRead = s_dalAssignment.Read(idToRead);
+            Assignment assignmentToRead = s_dal.Assignment.Read(idToRead);
             ReadAssignment(assignmentToRead);
         }
         else
         {
-            Call callToRead = s_dalCall.Read(idToRead);
+            Call callToRead = s_dal.Call.Read(idToRead);
             ReadCall(callToRead);
         }
     }
@@ -435,7 +433,7 @@ internal class Program
         if (entityName is "Volunteer")
         {
 
-            List<Volunteer> Volunteers = s_dalVolunteer.ReadAll();
+            List<Volunteer> Volunteers = s_dal.Volunteer.ReadAll();
 
             foreach (var volunteer in Volunteers)
             {
@@ -445,7 +443,7 @@ internal class Program
         }
         else if (entityName is "Assignment")
         {
-            List<Assignment> assignments = s_dalAssignment.ReadAll();
+            List<Assignment> assignments = s_dal.Assignment.ReadAll();
 
             foreach (var assignment in assignments)
             {
@@ -454,7 +452,7 @@ internal class Program
         }
         else
         {
-            List<Call> calls = s_dalCall.ReadAll();
+            List<Call> calls = s_dal.Call.ReadAll();
 
             foreach (var call in calls)
             {
@@ -476,15 +474,15 @@ internal class Program
             int id = ReadHelper.ReadInt();
             if (entityName is "Volunteer")
             {
-                s_dalVolunteer.Update(CreateNewVolunteer(id));
+                s_dal.Volunteer.Update(CreateNewVolunteer(id));
             }
             else if (entityName is "Assignment")
             {
-                s_dalAssignment.Update(CreateNewAssigment(id));
+                s_dal.Assignment.Update(CreateNewAssigment(id));
             }
             else
             {
-                s_dalCall.Update(CreateNewCall(id));
+                s_dal.Call.Update(CreateNewCall(id));
             }
             Console.WriteLine($"Update object for {entityName}");
 
@@ -505,15 +503,15 @@ internal class Program
             int idToDelete = ReadHelper.ReadInt();
             if (entityName is "Volunteer")
             {
-                s_dalVolunteer.Delete(idToDelete);
+                s_dal.Volunteer.Delete(idToDelete);
             }
             else if (entityName is "Assignment")
             {
-                s_dalAssignment.Delete(idToDelete);
+                s_dal.Assignment.Delete(idToDelete);
             }
             else
             {
-                s_dalCall.Delete(idToDelete);
+                s_dal.Call.Delete(idToDelete);
             }
         }
         catch (Exception ex) { Console.WriteLine(ex.Message); }
@@ -527,15 +525,15 @@ internal class Program
         Console.WriteLine($"Deleting all objects for {entityName}");
         if (entityName is "Volunteer")
         {
-            s_dalVolunteer.DeleteAll();
+            s_dal.Volunteer.DeleteAll();
         }
         else if (entityName is "Assignment")
         {
-            s_dalAssignment.DeleteAll();
+            s_dal.Assignment.DeleteAll();
         }
         else
         {
-            s_dalCall.DeleteAll();
+            s_dal.Call.DeleteAll();
         }
     }
     /// <summary>
@@ -545,7 +543,7 @@ internal class Program
     static void AdvanceClock(int minutes)
     {
         Console.WriteLine($"The system clock has advanced by-{minutes} minute.");
-        s_dalConfig.Clock.AddMinutes(minutes);
+        s_dal. Config.Clock.AddMinutes(minutes);
     }
     /// <summary>
     /// 
@@ -558,9 +556,9 @@ internal class Program
         Console.WriteLine($"enter number to update{chooseWathToDo}");
         int numberToUpdate = ReadHelper.ReadInt();
         if (chooseWathToDo is 1)
-            s_dalConfig.RiskRange = TimeSpan.FromMinutes(numberToUpdate);
+            s_dal.Config.RiskRange = TimeSpan.FromMinutes(numberToUpdate);
         else if (chooseWathToDo is 2)
-            s_dalConfig.Clock = DateTime.Now;
+            s_dal.Config.Clock = DateTime.Now;
     }
     /// <summary>
     /// show all Configuration Values
@@ -571,9 +569,9 @@ internal class Program
         Console.WriteLine("To display a specific variable, press:\n 1.to display RiskRange. \n 2. to display the clock");
         int chooseWathToDo = ReadHelper.ReadInt();
         if (chooseWathToDo is 1)    
-            Console.WriteLine(s_dalConfig.RiskRange);
+            Console.WriteLine(s_dal.Config.RiskRange);
         else if (chooseWathToDo is 2)
-            Console.WriteLine(s_dalConfig.Clock);
+            Console.WriteLine(s_dal.Config.Clock);
         /* Console.WriteLine("To display a specific variable, press:\n 1.to display RiskRange. \n 2. to display the clock");
         int chooseWathToDo = int.TryParse(Console.ReadLine(), out var chooseWathDo) ? chooseWathDo : throw new FormatException("Id is invalid!");
         if (chooseWathToDo is 1)
@@ -589,6 +587,6 @@ internal class Program
         ReadAllEntities("Volunteer");
         ReadAllEntities("Assignment");
         ReadAllEntities("Call");
-        Console.WriteLine($"clock: {s_dalConfig.Clock}.\n nextcallid:{s_dalConfig.RiskRange} ");
+        Console.WriteLine($"clock: {s_dal.Config.Clock}.\n nextcallid:{s_dal.Config.RiskRange} ");
     }
 }

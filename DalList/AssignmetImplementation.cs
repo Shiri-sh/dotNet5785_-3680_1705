@@ -3,7 +3,7 @@ using DalApi;
 using DO;
 using System.Collections.Generic;
 
-public class AssignmetImplementation : IAssignment
+internal class AssignmetImplementation : IAssignment
 {
     /// <summary>
     /// Adding a new object of type Assigment to a database,

@@ -4,7 +4,7 @@ using DalApi;
 using System.Collections.Generic;
 namespace Dal;
 
-public class CallImplementation : ICall
+internal class CallImplementation : ICall
 {
     /// <summary>
     /// Adding a new object of type Call to a database,

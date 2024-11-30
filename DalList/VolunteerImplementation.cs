@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Dal;
 
-public class VolunteerImplementation : IVolunteer
+internal class VolunteerImplementation : IVolunteer
 {
     /// <summary>
     /// Adding a new object of type Volunteer to a database,
