@@ -3,7 +3,6 @@ using DalApi;
 using DO;
 using System.Data;
 using Accessories;
-using DalList;
 using Dal;
 
 namespace DalTest;
@@ -411,18 +410,25 @@ internal class Program
         int idToRead = ReadHelper.ReadInt();
         if (entityName is "Volunteer")
         {
-            Volunteer volunteerToRead = s_dal.Volunteer.Read(idToRead);
-            ReadVolunteer(volunteerToRead);
+            Volunteer? volunteerToRead = s_dal.Volunteer.Read(vol => vol.Id == idToRead);
+            if (volunteerToRead is not null)
+                ReadVolunteer(volunteerToRead);
+            else Console.WriteLine("there is no entity with this id");
         }
         else if (entityName is "Assignment")
         {
-            Assignment assignmentToRead = s_dal.Assignment.Read(idToRead);
-            ReadAssignment(assignmentToRead);
+            Assignment? assignmentToRead = s_dal.Assignment.Read(ass => ass.Id ==idToRead);
+            if (assignmentToRead is not null)
+                ReadAssignment(assignmentToRead);
+            else Console.WriteLine("there is no entity with this id");
         }
         else
         {
-            Call callToRead = s_dal.Call.Read(idToRead);
-            ReadCall(callToRead);
+            Call? callToRead = s_dal.Call.Read(call => call.Id == idToRead);
+            if (callToRead is not null)
+                ReadCall(callToRead);
+            else Console.WriteLine("there is no entity with this id");
+    
         }
     }
     /// <summary>

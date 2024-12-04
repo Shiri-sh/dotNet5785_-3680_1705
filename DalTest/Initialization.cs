@@ -1,7 +1,6 @@
 ﻿namespace DalTest;
 
 using DalApi;
-using DalList;
 using Dal;
 using DO;
 using System;
@@ -52,7 +51,7 @@ public static class Initialization
             int id;
             do
                 id = s_rand.Next(MIN_ID, MAX_ID);
-            while (s_dal.Volunteer!.Read(id) != null);
+            while (s_dal.Volunteer!.Read(vol => vol.Id == id) != null);
             string phoneNumber = "05" + Convert.ToString(s_rand.Next(MIN_P, MAX_P));
             string password = Convert.ToString(s_rand.Next(MIN_S, MAX_S)) + (char)s_rand.Next('A', 'Z' + 1) + (char)s_rand.Next(32, 127);
             string passwordHidden = "";
@@ -116,11 +115,16 @@ public static class Initialization
              [ "changeWheel", "Quick replacement of a faulty wheel" ],
              [ "FirstAid", "Immediate medical assistance at the scene" ],
              [ "CableAssistance", "Service for starting a stalled vehicle" ],
-             [ "fuelOilWater", "Completing fluids for the engine" ]
+             [ "fuelOilWater", "Completing fluids for the engine" ],
+             [ "changeWheel", "Help with installing a new wheel" ],
+             [ "FirstAid", "Providing first aid to an injured person" ],
+             [ "FirstAid", "Emergency treatment in a medical situation" ],
+             [ "FirstAid", "First aid before medical team arrival" ],
+             [ "CableAssistance", "Jumpstarting a car with cables" ]
         };
         string[][] streetsNames = { ["Even Gvirol 11, Elad", "32.0579", "34"], ["Rabbi Hiyya, Elad", "32.049344", "34.963798"], ["Derech Menachem Begin, Petah Tikva", "32.069869", "34.914232"], ["Pinhas Rozen 12, Tel Aviv-Yafo", "32.108024", "34.827305"], ["Be'er Mayim Chaim 12, Bnei Brak", "32.083079", "34.841832"], ["Herzl Street 25, Tel Aviv", "32.060780", "34.770589"], ["Jabotinsky 15, Ramat Gan", "32.073667", "34.809965"], ["Allenby Street, Tel Aviv", "32.067519", "34.771222"], ["King George Street, Tel Aviv", "32.073428", "34.775037"], ["Dizengoff Street 120, Tel Aviv", "32.083687", "34.773541"], ["Ehad Ha'am Street 9, Tel Aviv", "32.065789", "34.776231"], ["Rothschild Boulevard, Tel Aviv", "32.063229", "34.774996"], ["Balfour Street 20, Bat Yam", "32.027325", "34.747369"], ["Shenkar Street 7, Herzliya", "32.164458", "34.836211"], ["Nordau Boulevard, Tel Aviv", "32.091236", "34.785009"], ["Ben Yehuda Street, Tel Aviv", "32.082246", "34.769322"], ["Hashalom Road, Givatayim", "32.069478", "34.808196"], ["Arlozorov Street 78, Tel Aviv", "32.085679", "34.782549"], ["HaYarkon Street 123, Tel Aviv", "32.089678", "34.769126"], ["King George Street, Tel Aviv", "32.073428", "34.775037"], ["Allenby Street, Tel Aviv", "32.067519", "34.771222"] };
         DateTime startTime = new DateTime(s_dal.Config.Clock.Year, s_dal.Config.Clock.Month, s_dal.Config.Clock.Day - 1);
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 50; i++) 
         {
             string[] detailLocation = streetsNames[s_rand.Next(0, streetsNames.Length)];
             DateTime dateTime = startTime.AddHours(s_rand.Next((s_dal.Config.Clock - startTime).Hours));

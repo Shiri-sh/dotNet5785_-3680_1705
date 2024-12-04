@@ -12,8 +12,8 @@ internal class VolunteerImplementation : IVolunteer
     /// <param name="item">exist Volunteer object</param>
     public void Create(Volunteer item)
     {
-        if (Read(item.Id) is not null)
-            throw new NotImplementedException($"Volunteer with ID ={item.Id} already exist");
+        if (Read(vol => vol.Id == item.Id) is not null)
+            throw new DalAlreadyExistsException($"Volunteer with ID ={item.Id} already exist");
         DataSource.Volunteers.Add(item); 
     }
     /// <summary>
@@ -23,8 +23,8 @@ internal class VolunteerImplementation : IVolunteer
     /// <exception cref="NotImplementedException"></exception>
     public void Delete(int id)
     {
-        if (Read(id) is null)
-            throw new NotImplementedException($"Volunteer with ID ={id} isn't exists");
+        if (Read(volunteer => volunteer.Id == id) is null)
+            throw new DalDoesNotExistException($"Volunteer with ID ={id} isn't exists");
         DataSource.Volunteers.RemoveAll(Volunteer=>Volunteer.Id==id);
 
     }
@@ -40,10 +40,9 @@ internal class VolunteerImplementation : IVolunteer
     /// </summary>
     /// <param name="id">ID number of an object</param>
     /// <returns>Returning a reference to a single object of type Volunteer with a certain ID, if it exists in a database, or null if the object does not exist.</returns>
-    public Volunteer? Read(int id)
-    {
-        return DataSource.Volunteers.FirstOrDefault(item => item.Id == id);
-    }
+    public Volunteer? Read(Func<Volunteer, bool> filter)
+      => DataSource.Volunteers.FirstOrDefault(filter);
+
     /// <summary>
     ///
     /// </summary>
@@ -60,8 +59,8 @@ internal class VolunteerImplementation : IVolunteer
     /// <exception cref="NotImplementedException">If there is no object with the received ID number - an exception will be thrown</exception>
     public void Update(Volunteer item)
     {
-        if (Read(item.Id) is null) 
-           throw new NotImplementedException($"Volunteer with ID ={ item.Id } isn't exists");
+        if (Read(vol => vol.Id == item.Id) is null) 
+           throw new DalDoesNotExistException($"Volunteer with ID ={ item.Id } isn't exists");
         Volunteer newVolunteer = item with { Id = item.Id };
         DataSource.Volunteers.RemoveAll(Volunteer => Volunteer.Id == item.Id);
         DataSource.Volunteers.Add(newVolunteer);
