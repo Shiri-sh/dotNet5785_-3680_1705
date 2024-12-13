@@ -9,10 +9,6 @@ namespace DalTest;
 
 internal class Program
 {
-    //private static IVolunteer? s_dalVolunteer = new VolunteerImplementation();
-    //private static ICall? s_dalCall = new CallImplementation();
-    //private static IAssignment? s_dalAssignment = new AssignmetImplementation();
-    //private static IConfig? s_dalConfig = new ConfigImplementation();
     static readonly IDal s_dal = new DalList(); //stage 2
     static void Main(string[] args)
     {
@@ -580,12 +576,6 @@ internal class Program
             Console.WriteLine(s_dal.Config.RiskRange);
         else if (chooseWathToDo is 2)
             Console.WriteLine(s_dal.Config.Clock);
-        /* Console.WriteLine("To display a specific variable, press:\n 1.to display RiskRange. \n 2. to display the clock");
-        int chooseWathToDo = int.TryParse(Console.ReadLine(), out var chooseWathDo) ? chooseWathDo : throw new FormatException("Id is invalid!");
-        if (chooseWathToDo is 1)
-            Console.WriteLine(s_dalConfig.RiskRange);
-        else if (chooseWathToDo is 1)
-            Console.WriteLine(s_dalConfig.Clock);*/
     }
     /// <summary>
     /// show all data of Volunteer entity, Call entity and Assignment entity

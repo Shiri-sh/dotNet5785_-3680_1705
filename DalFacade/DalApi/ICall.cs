@@ -2,7 +2,5 @@
 namespace DalApi;
 using DO;
 
-public interface ICall : ICrud<Call>
-{
-    
-}
+public interface ICall : ICrud<Call> { }
+
