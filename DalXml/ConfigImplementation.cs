@@ -11,12 +11,13 @@ internal class ConfigImplementation : IConfig
     {
         get => Config.Clock;
         set => Config.Clock = value;
-    }  
+    }
     public int NextAssignmentId()
     {
         return Config.NextAssignmentId;
     }
-    public int NextCallId() {
+    public int NextCallId()
+    {
         return Config.NextCallId;
     }
     public void Reset()
@@ -24,3 +25,4 @@ internal class ConfigImplementation : IConfig
         Config.Reset();
     }
 }
+
