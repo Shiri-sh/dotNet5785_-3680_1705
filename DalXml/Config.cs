@@ -1,5 +1,6 @@
 ﻿
 namespace Dal;
+//stage 3
 internal static class Config
 {
     internal const string s_data_config_xml = "data-config.xml";

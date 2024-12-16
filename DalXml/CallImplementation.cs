@@ -12,7 +12,8 @@ internal class CallImplementation : ICall
         List<Call> Calls = XMLTools.LoadListFromXMLSerializer<Call>(Config.s_calls_xml);
         if (Calls.RemoveAll(it => it.Id == item.Id) > 0)
             throw new DalDoesNotExistException($"Call with ID={item.Id} already exists");
-        Calls.Add(item);
+        Call newCall = item with { Id = Config.NextCallId };
+        Calls.Add(newCall);
         XMLTools.SaveListToXMLSerializer(Calls, Config.s_calls_xml);
     }
     public void Delete(int id)

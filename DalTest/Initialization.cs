@@ -162,18 +162,9 @@ public static class Initialization
     /// <param name="dalConfig"></param>
     /// <exception cref="NullReferenceException"></exception>
     public static void Do(IDal dal)
-    {
-        //s_dalVolunteer = dalVolunteer ?? throw new NullReferenceException("DAL object can not be null!");
-        //s_dalCall = dalCall ?? throw new NullReferenceException("DAL object can not be null!");
-        //s_dalAssignment = dalAssignment ?? throw new NullReferenceException("DAL object can not be null!");
-        //s_dalConfig = dalConfig ?? throw new NullReferenceException("DAL object can not be null!");
-        s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!"); // stage 2
-
+    { 
+       s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!");
         Console.WriteLine("Reset Configuration values and List values...");
-        //s_dalConfig.Reset();
-        //s_dalVolunteer.DeleteAll();
-        //s_dalCall.DeleteAll();
-        //s_dalAssignment.DeleteAll();
         s_dal.ResetDB();
         Console.WriteLine("Initializing Volunteer list ...");
         createVolunteer();
