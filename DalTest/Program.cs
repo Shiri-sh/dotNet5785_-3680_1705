@@ -443,7 +443,6 @@ internal class Program
             {
                 ReadVolunteer(volunteer);
             }
-
         }
         else if (entityName is "Assignment")
         {
@@ -457,7 +456,6 @@ internal class Program
         else
         {
             IEnumerable<Call> calls = s_dal.Call.ReadAll();
-
             foreach (var call in calls)
             {
                 ReadCall(call);
@@ -471,7 +469,6 @@ internal class Program
     /// <exception cref="FormatException">the user didnt type an int input</exception>
     static void UpdateEntity(string entityName)
     {
-
         try
         {
             Console.WriteLine("Enter the ID number for the object you want to update.");
@@ -489,10 +486,8 @@ internal class Program
                 s_dal.Call.Update(CreateNewCall(id));
             }
             Console.WriteLine($"Update object for {entityName}");
-
         }
         catch (Exception ex) { Console.WriteLine(ex.Message + " try again"); }
-
     }
     /// <summary>
     /// general function of deleting object of certain entity
@@ -583,8 +578,8 @@ internal class Program
     static void DisplayAllData()
     {
         ReadAllEntities("Volunteer");
-        ReadAllEntities("Assignment");
         ReadAllEntities("Call");
+        ReadAllEntities("Assignment");
         Console.WriteLine($"clock: {s_dal.Config.Clock}.\n nextcallid:{s_dal.Config.RiskRange} ");
     }
 }

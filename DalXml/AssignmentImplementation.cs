@@ -17,34 +17,27 @@ internal class AssignmentImplementation : IAssignment
             VolunteerId = a.ToIntNullable("VolunteerId") ?? throw new FormatException("can't convert Volunteer Id"),
             TreatmentEntryTime = a.ToDateTimeNullable("TreatmentEntryTime") ?? throw new FormatException("can't convert Volunteer Id"),
             TreatmentEndTime = a.ToDateTimeNullable("TreatmentEndTime")
-
             // Name = (string?)a.Element("CalledId") ?? "",
             // Alias = (string?)a.Element("Alias") ?? null,
             // IsActive = (bool?)a.Element("IsActive") ?? false,
             //CurrentYear = s.ToEnumNullable<Year>("CurrentYear") ?? Year.FirstYear,
-
         };
     }
-
     public Assignment? Read(int id)
     {
         XElement? assignmentElem =
     XMLTools.LoadListFromXMLElement(Config.s_assignments_xml).Elements().FirstOrDefault(asi => (int?)asi.Element("Id") == id);
         return assignmentElem is null ? null : getAssignment(assignmentElem);
     }
-
     public Assignment? Read(Func<Assignment, bool> filter)
     {
         return XMLTools.LoadListFromXMLElement(Config.s_assignments_xml).Elements().Select(asi => getAssignment(asi)).FirstOrDefault(filter);
     }
-
     public void Update(Assignment item)
     {
         XElement assignmentsRootElem = XMLTools.LoadListFromXMLElement(Config.s_assignments_xml);
-
         (assignmentsRootElem.Elements().FirstOrDefault(st => (int?)st.Element("Id") == item.Id)
-        ?? throw new DO.DalDoesNotExistException($"Assignment with ID={item.Id} does Not exist"))
-                .Remove();
+        ?? throw new DO.DalDoesNotExistException($"Assignment with ID={item.Id} does Not exist")).Remove();
         XElement assignmentsRoot = new XElement("Assignment",
           new XElement("Id", item.Id),
           new XElement("CalledId", item.CalledId),
@@ -52,12 +45,9 @@ internal class AssignmentImplementation : IAssignment
           new XElement("TreatmentEntryTime", item.TreatmentEntryTime),
           new XElement("TreatmentEndTime", item.TreatmentEndTime)
           );
-
-        assignmentsRootElem.Add(new XElement("Assignment", assignmentsRoot));
-
+        assignmentsRootElem.Add( assignmentsRoot);
         XMLTools.SaveListToXMLElement(assignmentsRootElem, Config.s_assignments_xml);
     }
-
     public void Create(Assignment item)
     {
         XElement assignmentsRootElem = XMLTools.LoadListFromXMLElement(Config.s_assignments_xml);
@@ -68,7 +58,7 @@ internal class AssignmentImplementation : IAssignment
             new XElement("TreatmentEntryTime", item.TreatmentEntryTime),
             new XElement("TreatmentEndTime", item.TreatmentEndTime)
             );
-        assignmentsRootElem.Add(new XElement("Assignment", assignmentsRoot));
+        assignmentsRootElem.Add( assignmentsRoot);
 
         XMLTools.SaveListToXMLElement(assignmentsRootElem, Config.s_assignments_xml);
     }

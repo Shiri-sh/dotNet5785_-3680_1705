@@ -137,8 +137,11 @@ static class XMLTools
         TimeSpan.TryParse((string?)element.Element(name), out var result) ? (TimeSpan?)result : null;
     public static double? ToDoubleNullable(this XElement element, string name) =>
         double.TryParse((string?)element.Element(name), out var result) ? (double?)result : null;
-    public static int? ToIntNullable(this XElement element, string name) =>
-        int.TryParse((string?)element.Element(name), out var result) ? (int?)result : null;
+    public static int? ToIntNullable(this XElement element, string name)
+    {
+        Console.WriteLine(element);
+       return int.TryParse((string?)element.Element(name), out var result) ? (int?)result : null;
+    }
     #endregion
     
 }

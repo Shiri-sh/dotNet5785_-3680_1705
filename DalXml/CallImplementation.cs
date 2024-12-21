@@ -23,12 +23,10 @@ internal class CallImplementation : ICall
             throw new DalDoesNotExistException($"Call with ID={id} does Not exist");
         XMLTools.SaveListToXMLSerializer(Calls, Config.s_calls_xml);
     }
-
     public void DeleteAll()
     {
         XMLTools.SaveListToXMLSerializer(new List<Call>(), Config.s_calls_xml);
     }
-
     public Call? Read(Func<Call, bool> filter)
     {
         List<Call> Calls = XMLTools.LoadListFromXMLSerializer<Call>(Config.s_calls_xml);
@@ -36,7 +34,6 @@ internal class CallImplementation : ICall
         XMLTools.SaveListToXMLSerializer(Calls, Config.s_calls_xml);
         return readCall;
     }
-
     public IEnumerable<Call> ReadAll(Func<Call, bool>? filter = null)
     {
         List<Call> Calls = XMLTools.LoadListFromXMLSerializer<Call>(Config.s_calls_xml);
@@ -44,7 +41,6 @@ internal class CallImplementation : ICall
         XMLTools.SaveListToXMLSerializer(Calls, Config.s_calls_xml);
         return readCalls;
     }
-
     public void Update(Call item)
     {
         List<Call> Calls = XMLTools.LoadListFromXMLSerializer<Call>(Config.s_calls_xml);

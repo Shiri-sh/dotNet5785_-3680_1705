@@ -1,8 +1,7 @@
 ﻿using DalApi;
-
 namespace Dal;
 //stage 3
-public class DalXml : IDal
+sealed  public class DalXml : IDal
 {
     public IVolunteer Volunteer { get; }=new  VolunteerImplementation();
 
