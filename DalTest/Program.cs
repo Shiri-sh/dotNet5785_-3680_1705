@@ -9,13 +9,13 @@ namespace DalTest;
 
 internal class Program
 {
-    static readonly IDal s_dal = new DalXml(); //stage 3
+    static readonly IDal s_dal = Factory.Get; //stage 2
     static void Main(string[] args)
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
         try
         {
-            Initialization.Do(s_dal); //stage 2
+            Initialization.Do(); //stage 2
             MainMenu();
         }
         catch (Exception errorMassage)
@@ -54,7 +54,7 @@ internal class Program
                     SubMenu("Assignment");
                     break;
                 case MainMenuEnum.InitializationAll:
-                    Initialization.Do(s_dal);
+                    Initialization.Do();
                     break;
                 case MainMenuEnum.DisplayAllData:
                     DisplayAllData();
