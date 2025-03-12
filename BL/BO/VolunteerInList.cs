@@ -17,7 +17,7 @@ namespace BO
         public int sumIrelevantCalls { get; set; }
         public int? IdOfCall {  get; set; }
         public KindOfCall KindOfCall { get; set; }
-        public override string ToString() => this.ToStringProperty();
+       // public override string ToString() => this.ToStringProperty();
 
     }
 }

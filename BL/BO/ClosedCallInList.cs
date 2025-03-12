@@ -17,6 +17,6 @@ namespace BO
         public DateTime TreatmentEntryTime {  get; set; }
         public DateTime? TreatmentEndTime {  get; set; }
         public TypeOfTreatmentTermination? TypeOfTreatmentTermination {  get; set; }
-        public override string ToString() => this.ToStringProperty();
+       // public override string ToString() => this.ToStringProperty();
     }
 }
