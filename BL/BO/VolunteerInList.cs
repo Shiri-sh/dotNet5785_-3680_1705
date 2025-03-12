@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BO
 {
-    internal class VolunteerInList
+    public class VolunteerInList
     {
         public int Id { get; init; }
         public string Name { get; set; }
