@@ -14,7 +14,7 @@ namespace BO
         public bool Active { get; set; }
         public int SumCancledCalls { get; set; }
         public int SumCaredCalls { get; set; }
-        public int sumIrelevantCalls { get; set; }
+        public int SumIrelevantCalls { get; set; }
         public int? IdOfCall {  get; set; }
         public KindOfCall KindOfCall { get; set; }
        // public override string ToString() => this.ToStringProperty();
