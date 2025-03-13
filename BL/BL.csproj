@@ -22,7 +22,6 @@
 
   <ItemGroup>
 	<Folder Include="BO\" />
-    <Folder Include="BlImplementation\" />
   </ItemGroup>
 
 </Project>

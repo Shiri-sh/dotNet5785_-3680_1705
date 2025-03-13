@@ -1,4 +1,4 @@
-﻿using BO;
+﻿//using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace BlApi;
 
 public interface IVolunteer
 {
-    Position Login(string username, string password);
+    BO.Position Login(string username, string password);
     IEnumerable<BO.VolunteerInList>ReadAll(bool? activity=null, VoluteerInListObjects? objectToSort=null);
     BO.Volunteer Read(int id);
     void UpdateVolunteer(int id, BO.Volunteer volunteer);

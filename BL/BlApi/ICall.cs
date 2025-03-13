@@ -1,4 +1,4 @@
-﻿using BO;
+﻿//using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ public interface ICall
     void UpdateCall(BO.Call call);
     void DeleteCall(int id);
     void AddCall(BO.Call call);
-    IEnumerable<BO.ClosedCallInList> GetAllCallByVolunteer(int volunteerId, KindOfCall? kindOfCall=null, CloseCallInListObjects? objCloseCall=null);
+    IEnumerable<BO.ClosedCallInList> GetAllCallByVolunteer(int volunteerId, BO.KindOfCall? kindOfCall=null, CloseCallInListObjects? objCloseCall=null);
     void UpdateEndCall(int volunteerId, int callID);
     void CancelCall(int volunteerId, int callID);
     void CooseCall(int volunteerId, int callID);
