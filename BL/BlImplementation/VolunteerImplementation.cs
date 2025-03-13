@@ -1,15 +1,6 @@
 ﻿using BlApi;
-//using BO;
-//using DalApi;
 using Helpers;
-
-
-//using BO;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlImplementation;
 
@@ -74,13 +65,16 @@ internal class VolunteerImplementation: IVolunteer
 
     public BO.Volunteer Read(int id)
     {
+      //  CallImplementation call = new CallImplementation();
+     //  var callByEnd= call.GetAllCallByVolunteer(id).FirstOrDefault(c => c.TreatmentEndTime is null);
         var doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id) ??
         throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");//need tocreate it later
+                                                                                       // var allCall=_dal.Call.ReadAll(call=>call.Id==id);
         return new()
         {
             Id = id,
             Name = doVolunteer.Name,
-            PhoneNumber= doVolunteer.PhoneNumber,
+            PhoneNumber = doVolunteer.PhoneNumber,
             Email = doVolunteer.Email,
             Position = doVolunteer.Position,
             Password = doVolunteer.Password,
@@ -88,12 +82,16 @@ internal class VolunteerImplementation: IVolunteer
             CurrentAddress = doVolunteer.CurrentAddress,
             Latitude = doVolunteer.Latitude,
             Longitude = doVolunteer.Longitude,
-            MaximumDistanceForReading=doVolunteer?.MaximumDistanceForReading,
-            TypeOfDistance=doVolunteer?.TypeOfDistance,
-            SumCancledCalls=doVolunteer?.SumCancledCalls,
-           // SumCaredCalls=this.SumCaredCalls
-           // SumIrelevantCalls =
-            //CallInProgress=
+            MaximumDistanceForReading = doVolunteer?.MaximumDistanceForReading,
+            TypeOfDistance = doVolunteer?.TypeOfDistance,
+            //הקריאות שביטל
+         //   SumCancledCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
+          //הקריאות שטיפל
+          //  SumCaredCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
+            //קריאות שטיפל ופג תוקפן
+          //  SumIrelevantCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
+            //קריאה בטיפול המתנדב
+          //  CallInProgress =new(callByEnd.Id,callByEnd.KindOfCall,callByEnd.AddressOfCall,callByEnd.OpeningTime,callByEnd.)
         };
 
     }

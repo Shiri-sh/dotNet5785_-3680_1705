@@ -11,15 +11,14 @@ namespace BO
         public int Id { get; init; }
         public int CallId {  get; init; }
         public KindOfCall KindOfCall { get; set; }
-        public string AddressOfCall { get; set; }
-
+        public required string AddressOfCall { get; set; }
         public DateTime OpeningTime { get; set; }
         public DateTime? FinishTime { get; set; }
         public string? Description { get; set; }
         public DateTime TreatmentEntryTime { get; set; }
         public double DistanceFromVolunteer { get; set; }
-        public Status Status { get; set; }
-        public override string ToString() => this.ToStringProperty();
+        public StatusCallInProgress Status { get; set; }
+     //   public override string ToString() => this.ToStringProperty();
 
     }
 }
