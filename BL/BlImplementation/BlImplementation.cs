@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlImplementation;
 
-internal class BlImplementation: IBl
+internal class BlImplementation: Bl
 {
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
 

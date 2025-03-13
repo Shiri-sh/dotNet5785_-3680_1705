@@ -1,5 +1,4 @@
-﻿using BO;
-using DO;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,7 @@ namespace BlApi;
 public interface IAdmin
 {
     DateTime GetClock();
-    void UpdateClock(TypeOfTime typeOfTime);
+    void UpdateClock(BO.TypeOfTime typeOfTime);
     TimeSpan GetRiskRange();
     void UpdateRiskRange(TimeSpan riskRange);
     void Reset();
