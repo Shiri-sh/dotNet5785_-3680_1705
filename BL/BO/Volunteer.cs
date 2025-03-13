@@ -24,7 +24,7 @@ namespace BO
         public int SumCancledCalls {  get; set; }
         public int SumCaredCalls {  get; set; }
         public BO.CallInProgress? CallInProgress { get; set; }
-        public int sumIrelevantCalls {  get; set; }
+        public int SumIrelevantCalls {  get; set; }
        // public override string ToString() => this.ToStringProperty();
 
     }
