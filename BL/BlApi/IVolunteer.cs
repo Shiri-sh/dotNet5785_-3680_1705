@@ -15,4 +15,8 @@ public interface IVolunteer
     void UpdateVolunteer(int id, BO.Volunteer volunteer);
     void DeleteVolunteer(int id);
     void AddVolunteer(BO.Volunteer boVolunteer);
+    void ValidateVolunteer(BO.Volunteer boVolunteer);
+    bool IsValidIsraeliID(int id);
+    bool IsValidAddress(double? lon, double? lat);
+
 }
