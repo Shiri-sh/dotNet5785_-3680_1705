@@ -52,7 +52,7 @@ public class ReadHelper
 
     public static T ReadEnum<T>()
     {
-        string dateInput = Console.ReadLine();
+        string? dateInput = Console.ReadLine();
         object data;
         while (!Enum.TryParse(typeof(T), dateInput, out data))
         {

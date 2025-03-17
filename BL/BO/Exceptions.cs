@@ -15,7 +15,8 @@ public class BlNullPropertyException : Exception
 //מספר מזהה שכבר קיים
 public class BlAlreadyExistsException : Exception
 {
-    public BlAlreadyExistsException(string? message) : base(message) { }
+    public BlAlreadyExistsException(string message, Exception innerException): base(message, innerException) { }
+
 }
 //אא למחוק
 public class BlDeletionImpossible : Exception
@@ -26,6 +27,16 @@ public class BlDeletionImpossible : Exception
 public class BlXMLFileLoadCreateException : Exception
 {
     public BlXMLFileLoadCreateException(string? message) : base(message) { }
+
+}
+public class BlNotAloudToDoException : Exception
+{
+    public BlNotAloudToDoException(string? message) : base(message) { }
+
+}
+public class BlInvalidDataException : Exception
+{
+    public BlInvalidDataException(string? message) : base(message) { }
 
 }
 
