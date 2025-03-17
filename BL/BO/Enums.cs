@@ -6,7 +6,7 @@ public enum TypeOfTime { Minute, Hour, Day, Month, Year }
 public enum Position { Managar, Volunteer }
 public enum TypeOfDistance { Aerial, walking, driving }
 public enum KindOfCall { RescueKid, changeWheel, FirstAid, CableAssistance, fuelOilWater,None }
-public enum Status { Open, BeingCared, Closed , Irelavant,OpenInRisk}
+public enum Status { Open, BeingCared, Closed , Irelavant, OpenInRisk}
 public enum StatusCallInProgress { Open, OpenInRisk }
 
 public enum TypeOfTreatmentTermination { Handled, SelfCancellation, ConcellingAdministrator, CancellationExpired }
