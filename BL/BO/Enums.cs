@@ -17,4 +17,6 @@ public enum CloseCallInListObjects { Id, KindOfCall, AddressOfCall, OpeningTime,
 //main-menu
 public enum MainMenuEnum { Exit, SubMenuVolunteer, SubMenuCall, SubMenuAdmin }
 public enum SubMenuVolunteerEnum { Exit, LoginSystem, DisplayAll, DisplayById, Update, Delete,AddNew }
+public enum SubMenuCallEnum { Exit,Add, CallByStatus, DisplayAll,Cancel, DisplayById, Delete, GetAllCallByVolunteer, GetCall, UpdateCall, UpdateEndCall }
+
 public enum ConfigSubMenuEnum { Exit, AdvanceMinute, AdvanceHour, AdvancePress, DisplayClock, SetOne, DisplayConfig, Reset }
