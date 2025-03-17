@@ -218,10 +218,10 @@ internal class Program
     static void DisplayAllVolunteer()
     {
         Console.WriteLine("Type all but 0 to get a list filtered by active and inactive.");
-        bool filActive= bool.TryParse(Console.ReadLine(), out var active) ? active : false;
+        bool? filActive= bool.TryParse(Console.ReadLine(), out var active) ? active : null;
         Console.WriteLine("Choose a number by which the list will be sorted:\n 1.Id\n 2.Name\n 3.Active\n 4.SumCancledCalls\n 5.SumCaredCalls\n 6.sumIrelevantCalls\n 7.IdOfCall\n 8.KindOfCall\n");
      //אם הוא ילחץ על מספר לא באינם זה יהיה לו נל או שישים ערך לא נכון?
-        BO.VoluteerInListObjects filAll = ReadHelper.ReadEnum<BO.VoluteerInListObjects>();
+        BO.VoluteerInListObjects? filAll = ReadHelper.ReadEnum<BO.VoluteerInListObjects>();
         IEnumerable<BO.VolunteerInList> volunteers=s_bl.Volunteer.ReadAll(filActive,filAll);
         foreach (var item in volunteers)
         {

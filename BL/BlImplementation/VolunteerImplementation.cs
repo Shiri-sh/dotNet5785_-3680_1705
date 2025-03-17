@@ -1,6 +1,8 @@
 ﻿using BlApi;
 using Helpers;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 
 namespace BlImplementation;
 
@@ -76,14 +78,14 @@ internal class VolunteerImplementation: IVolunteer
             Name = doVolunteer.Name,
             PhoneNumber = doVolunteer.PhoneNumber,
             Email = doVolunteer.Email,
-            Position = doVolunteer.Position,
+            Position = (BO.Position)doVolunteer.Position,
             Password = doVolunteer.Password,
             Active = doVolunteer.Active,
             CurrentAddress = doVolunteer.CurrentAddress,
             Latitude = doVolunteer.Latitude,
             Longitude = doVolunteer.Longitude,
             MaximumDistanceForReading = doVolunteer?.MaximumDistanceForReading,
-            TypeOfDistance = doVolunteer?.TypeOfDistance,
+            TypeOfDistance =(BO.TypeOfDistance)doVolunteer.TypeOfDistance,
             //הקריאות שביטל
          //   SumCancledCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
           //הקריאות שטיפל
@@ -96,14 +98,17 @@ internal class VolunteerImplementation: IVolunteer
 
     }
 
-    public IEnumerable<BO.VolunteerInList> ReadAll(bool? activity = null, BO.VoluteerInListObjects? objectToSort = null)
+    public IEnumerable<BO.VolunteerInList> ReadAll(bool? activity = null, BO.VoluteerInListObjects? feildToSort = null)
     {
         IEnumerable<DO.Volunteer> volunteers = _dal.Volunteer.ReadAll();
         IEnumerable<BO.VolunteerInList> readVolunteers;
         volunteers = activity == null ? volunteers.Select(item => item) : volunteers.Where(v => v.Active == activity);
-        volunteers = objectToSort == null ? volunteers.OrderBy(v.ID) : volunteers.OrderBy();
-        readVolunteers = (BO.VolunteerInList)volunteers;
-        return readVolunteers;
+        string poToSor
+        var propertyInfo = typeof(DO.Volunteer).GetProperty(feildToSort);
+        volunteers = feildToSort == null ? volunteers.OrderBy(v=>v.Id) : volunteers.OrderBy(v=>  objectToSort);
+        //readVolunteers = (BO.VolunteerInList)volunteers;
+        //return readVolunteers;
+        return volunteers.Select(v => new BO.VolunteerInList { Id = v.Id, Name = v.Name });
     }
 
     public void UpdateVolunteer(int id, BO.Volunteer volunteer)
