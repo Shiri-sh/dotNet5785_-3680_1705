@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace BO
         public TimeSpan? CompletionTime { get; set; }
         public Status Status { get; set; }
         public int TotalAlocation {  get; set; }
-       // public override string ToString() => this.ToStringProperty();
+        public override string ToString() => this.ToStringProperty();
 
     }
 }

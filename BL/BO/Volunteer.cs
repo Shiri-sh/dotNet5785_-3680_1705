@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +27,7 @@ namespace BO
         public BO.CallInProgress? CallInProgress { get; set; }
         public int SumIrelevantCalls {  get; set; }
      
-        public override string ToString() => this.ToStringProperty();
+        public override string ToString() => this.ToStringProperty(); 
 
     }
 

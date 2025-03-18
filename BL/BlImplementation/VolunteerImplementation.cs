@@ -1,14 +1,4 @@
 ﻿using BlApi;
-using BO;
-//using DalApi;
-
-
-//using BO;
-//using DalApi;
-using DO;
-
-
-//using BO;
 using Helpers;
 using System.Globalization;
 using System.Linq;
@@ -108,8 +98,8 @@ internal class VolunteerImplementation: IVolunteer
             SumCancledCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
             SumCaredCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
             SumIrelevantCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
-            //חסר סטטוס והמרחק
-            CallInProgress = new(assignment.Id, assignment.CalledId, callInProgress.KindOfCall, callInProgress.AddressOfCall, callInProgress.OpeningTime, callInProgress.FinishTime, callInProgress.Description, assignment.TreatmentEntryTime, OpenCallInList.DistanceFromVol, OpcallInProgress.)/////// functionnnnnnsssssss
+            //חסר  והמרחק
+            CallInProgress = new(assignment.Id, assignment.CalledId, callInProgress.KindOfCall, callInProgress.AddressOfCall, callInProgress.OpeningTime, callInProgress.FinishTime, callInProgress.Description, assignment.TreatmentEntryTime, /*OpenCallInList.DistanceFromVol,*/ ,CallManager.StatusCallInProgress(callInProgress))/////// functionnnnnnsssssss
         };
     }
 
