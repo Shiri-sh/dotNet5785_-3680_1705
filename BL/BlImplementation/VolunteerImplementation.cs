@@ -1,5 +1,10 @@
 ﻿using BlApi;
 using BO;
+//using DalApi;
+
+
+//using BO;
+//using DalApi;
 using DO;
 
 
@@ -83,9 +88,8 @@ internal class VolunteerImplementation: IVolunteer
             throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
        
         }
-        //var allCall=_dal.Call.ReadAll(call=>call.Id==id);
         ICall call=new CallImplementation();
-        DO.Assignment? assignment=_dal.Assignment.Read(a=>a.VolunteerId==id)??null;
+        DO.Assignment? assignment=_dal.Assignment.Read(a=>a.VolunteerId== id && a.TreatmentEndTime == null) ??null;
         DO.Call? callInProgress = _dal.Call.Read(c => c.Id == assignment.CalledId)??null;
         return new()
         {
@@ -104,28 +108,41 @@ internal class VolunteerImplementation: IVolunteer
             SumCancledCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
             SumCaredCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
             SumIrelevantCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
-           //חסר סטטוס והמרחק
-            CallInProgress = new (assignment.Id, assignment.CalledId,callInProgress.KindOfCall,callInProgress.AddressOfCall,callInProgress.OpeningTime,callInProgress.FinishTime,callInProgress.Description,assignment.TreatmentEntryTime)
+            //חסר סטטוס והמרחק
+            CallInProgress = new(assignment.Id, assignment.CalledId, callInProgress.KindOfCall, callInProgress.AddressOfCall, callInProgress.OpeningTime, callInProgress.FinishTime, callInProgress.Description, assignment.TreatmentEntryTime, OpenCallInList.DistanceFromVol, OpcallInProgress.)/////// functionnnnnnsssssss
         };
     }
 
     public IEnumerable<BO.VolunteerInList> ReadAll(bool? activity = null, BO.VoluteerInListObjects? feildToSort = null)
     {
         IEnumerable<DO.Volunteer> volunteers = _dal.Volunteer.ReadAll();
-        //IEnumerable<BO.VolunteerInList> readVolunteers;
         volunteers = activity == null ? volunteers.Select(item => item) : volunteers.Where(v => v.Active == activity);
 
         if(feildToSort == null)
         {
             volunteers = volunteers.OrderBy(v => v.Id);
         }
+
         string propertyName = feildToSort.ToString();
         var propertyInfo = typeof(DO.Volunteer).GetProperty(propertyName);
+
         if (propertyInfo != null)
         {
             volunteers = volunteers.OrderBy(v => propertyInfo.GetValue(v, null));
         }
-        return volunteers.Select(v => new BO.VolunteerInList { Id = v.Id, Name = v.Name ,Active=v.Active,SumCancledCalls=,SumCaredCalls=,SumIrelevantCalls=,IdOfCall=,KindOfCall= });
+
+        ICall call = new CallImplementation();
+
+        return volunteers.Select(v => new BO.VolunteerInList {
+            Id = v.Id,
+            Name = v.Name,
+            Active=v.Active,
+            SumCancledCalls= call.GetAllCallByVolunteer(v.Id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
+            SumCaredCalls = call.GetAllCallByVolunteer(v.Id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
+            SumIrelevantCalls = call.GetAllCallByVolunteer(v.Id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
+            IdOfCall = _dal.Assignment.Read(a => a.VolunteerId == v.Id && a.TreatmentEndTime==null).CalledId,
+            KindOfCall = (BO.KindOfCall)_dal.Call.Read(a => a.Id == _dal.Assignment.Read(a => a.VolunteerId == v.Id).CalledId).KindOfCall
+        });
     }
 
     public void UpdateVolunteer(int id, BO.Volunteer volunteer)
@@ -150,7 +167,7 @@ internal class VolunteerImplementation: IVolunteer
         // עדכון הנתונים במערכת
         if (volunteer.Position != (BO.Position)doVolunteer.Position && doVolunteer.Position!=DO.Position.Managar)
         {
-            throw new BlNotAloudToDoException("Only a managar can update the volunteer's Position");
+            throw new BO.BlNotAloudToDoException("Only a managar can update the volunteer's Position");
         }
         _dal.Volunteer.Update(new DO.Volunteer
         {
@@ -161,7 +178,6 @@ internal class VolunteerImplementation: IVolunteer
             Latitude = volunteer.Latitude,
             Position = (DO.Position)volunteer.Position
         });
-
     }
 
     public void ValidateVolunteer(BO.Volunteer boVolunteer)

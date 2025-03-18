@@ -2,6 +2,7 @@
 using BO;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,12 +20,48 @@ internal class CallImplementation: ICall
 
     public int[] CallByStatus()
     {
-        throw new NotImplementedException();
+        int[] sumCallByStatus = new int[5];
+        var groupedCalls = CallList().GroupBy(x => (int)x.Status);
+        for (int i = 0; i < 5; i++)
+        {
+            sumCallByStatus[i]= groupedCalls.Where(x=>x.Key==i).Select(x=>x.Count()).FirstOrDefault();
+        }
+        return sumCallByStatus;
     }
 
     public IEnumerable<CallInList> CallList(CallInListObjects? objFilter = null, object? filterBy = null, CallInListObjects? objSort = null)
     {
-        throw new NotImplementedException();
+
+        IEnumerable<DO.Call> calls = _dal.Call.ReadAll();
+        calls = filterBy == null ? calls.Select(item => item) : calls.Where(v => v.Active == filterBy);
+
+        if (objSort == null)
+        {
+            calls = calls.OrderBy(v => v.Id);
+        }
+
+        string propertyName = feildToSort.ToString();
+        var propertyInfo = typeof(DO.Volunteer).GetProperty(propertyName);
+
+        if (propertyInfo != null)
+        {
+            calls = calls.OrderBy(v => propertyInfo.GetValue(v, null));
+        }
+
+        ICall call = new CallImplementation();
+
+        return calls.Select(c => new BO.CallInList
+        {
+            Id =,
+            CallId =c.Id ,
+            KindOfCall = ,
+            OpeningTime = ,
+            RemainingTimeToFinish =,
+            LastVolunteer =,
+            CompletionTime = ,
+            Status = ,
+            TotalAlocation=
+        });
     }
 
     public void CancelCall(int volunteerId, int callID)
