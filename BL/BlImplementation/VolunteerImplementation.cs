@@ -202,7 +202,6 @@ internal class VolunteerImplementation: IVolunteer
             }
             return sum % 10 == 0;
     }
-
     public bool IsValidAddress(double? lon, double? lat)
     {
         string requestUri = $"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}";

@@ -1,7 +1,5 @@
 ﻿using Accessories;
-using BO;
 using DalApi;
-using DO;
 
 namespace BlTest;
 
@@ -20,19 +18,19 @@ internal class Program
             Console.WriteLine("2. Display sub-Menu for Icalls");
             Console.WriteLine("3. Display sub-Menu for IAdmin");
             Console.Write("Choose an option: ");
-            MainMenuEnum choice = ReadHelper.ReadEnum<MainMenuEnum>();
+            BO.MainMenuEnum choice = ReadHelper.ReadEnum<BO.MainMenuEnum>();
             switch (choice)
             {
-                case MainMenuEnum.SubMenuVolunteer:
+                case BO.MainMenuEnum.SubMenuVolunteer:
                     SubMenuVolunteer();
                     break;
-                case MainMenuEnum.SubMenuCall:
+                case BO.MainMenuEnum.SubMenuCall:
                     SubMenuCall();
                     break;
-                case MainMenuEnum.SubMenuAdmin:
+                case BO.MainMenuEnum.SubMenuAdmin:
                     SubMenuAdmin();
                     break;
-                case MainMenuEnum.Exit:
+                case BO.MainMenuEnum.Exit:
                     exit = true;
                     break;
                 default:
@@ -59,30 +57,30 @@ internal class Program
             Console.WriteLine("6. Delete all objects");
             Console.Write("Choose an option: ");
 
-            SubMenuVolunteerEnum choice = ReadHelper.ReadEnum<SubMenuVolunteerEnum>();
+            BO.SubMenuVolunteerEnum choice = ReadHelper.ReadEnum<BO.SubMenuVolunteerEnum>();
             try
             {
                 switch (choice)
                 {
-                    case SubMenuVolunteerEnum.AddNew:
+                    case BO.SubMenuVolunteerEnum.AddNew:
                         AddNewVolunteer();
                         break;
-                    case SubMenuVolunteerEnum.DisplayById:
+                    case BO.SubMenuVolunteerEnum.DisplayById:
                         DisplayByIdVolunteer();
                         break;
-                    case SubMenuVolunteerEnum.DisplayAll:
+                    case BO.SubMenuVolunteerEnum.DisplayAll:
                         DisplayAllVolunteer();
                         break;
-                    case SubMenuVolunteerEnum.Update:
+                    case BO.SubMenuVolunteerEnum.Update:
                         UpdateVolunteer();
                         break;
-                    case SubMenuVolunteerEnum.Delete:
+                    case BO.SubMenuVolunteerEnum.Delete:
                         DeleteVolunteer();
                         break;
-                    case SubMenuVolunteerEnum.LoginSystem:
+                    case BO.SubMenuVolunteerEnum.LoginSystem:
                         LoginSystem();
                         break;
-                    case SubMenuVolunteerEnum.Exit:
+                    case BO.SubMenuVolunteerEnum.Exit:
                         exit = true;
                         break;
                     default:
@@ -267,6 +265,7 @@ internal class Program
         Console.Write("Enter Volunteer details: Id, Name, Phone-Number, Email,Position,Password,Active,Current-Address,Latitude,Longitude, Maximum-Distance-For-Reading,Type-Of-Distance\n");
         return new()
         {
+            //חסר כאן המידע שאם זה עדכון אז שיהיה קריאה בתהליך
             Id = ReadHelper.ReadInt(),
             Name = ReadHelper.ReadString(),
             PhoneNumber = ReadHelper.ReadString(),
