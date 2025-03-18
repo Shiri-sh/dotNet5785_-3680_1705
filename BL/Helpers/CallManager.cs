@@ -11,5 +11,27 @@ namespace Helpers
     {
         private static IDal s_dal = Factory.Get; //stage 4
 
+        public static BO.StatusCallInProgress StatusCallInProgress(DO.Call call)
+        {
+            return ClockManager.Now + s_dal.Config.RiskRange > call.FinishTime ? BO.StatusCallInProgress.OpenInRisk : BO.StatusCallInProgress.Open;
+
+        }
+        public static BO.Status StatusCall(DO.Call call)
+        {
+            IEnumerable<DO.Assignment> assignments= s_dal.Assignment.ReadAll(a => a.CalledId == call.Id);
+            //הקריאה לא הוקצתה לאף מתנדב והיא בטווח סיכון
+            if (assignments==null&& ClockManager.Now + s_dal.Config.RiskRange > call.FinishTime)
+                return BO.Status.OpenInRisk;
+            //מחפש אם יש הקצאה לקריאה שמטופלת עכשיו ולא עבר זמנה
+           if (call.FinishTime > ClockManager.Now && null == assignments.FirstOrDefault(a=> a.TypeOfTreatmentTermination != DO.TypeOfTreatmentTermination.SelfCancellation && a.TypeOfTreatmentTermination != DO.TypeOfTreatmentTermination.CancellationExpired))
+                return BO.Status.Open;
+            //מתנדב סים לטפל בה
+            if (null!=assignments.FirstOrDefault(a => a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled))
+                return BO.Status.Closed;
+            //פג תוקף
+            if (call.FinishTime < ClockManager.Now)
+                return BO.Status.Irelavant;
+            return (BO.Status)StatusCallInProgress(call);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ public class Call
     public DateTime OpeningTime {  get; set; }
     public DateTime? FinishTime {  get; set; }
     public string? Description {  get; set; }
-    public Status status {  get; set; }
+    public StatusCall status {  get; set; }
     public List<BO.CallAssignInList>? listOfAlocation {  get; set; }
     public override string ToString() => this.ToStringProperty();
 

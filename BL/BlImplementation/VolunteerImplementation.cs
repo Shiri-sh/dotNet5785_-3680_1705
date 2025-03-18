@@ -1,16 +1,5 @@
 ﻿using BlApi;
-using BO;
 using Helpers;
-
-//using DalApi;
-
-
-//using BO;
-//using DalApi;
-using DO;
-
-
-//using BO;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -87,7 +76,6 @@ internal class VolunteerImplementation: IVolunteer
         }
         catch (DO.DalDoesNotExistException ex) {
             throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
-       
         }
         ICall call=new CallImplementation();
         DO.Assignment? assignment=_dal.Assignment.Read(a=>a.VolunteerId== id && a.TreatmentEndTime == null) ??null;
@@ -109,8 +97,8 @@ internal class VolunteerImplementation: IVolunteer
             SumCancledCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
             SumCaredCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
             SumIrelevantCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
-            //חסר סטטוס והמרחק
-            CallInProgress = new(assignment.Id, assignment.CalledId, callInProgress.KindOfCall, callInProgress.AddressOfCall, callInProgress.OpeningTime, callInProgress.FinishTime, callInProgress.Description, assignment.TreatmentEntryTime, OpenCallInList.DistanceFromVol, OpcallInProgress.)/////// functionnnnnnsssssss
+            //חסר  והמרחק
+            CallInProgress = new(assignment.Id, assignment.CalledId, callInProgress.KindOfCall, callInProgress.AddressOfCall, callInProgress.OpeningTime, callInProgress.FinishTime, callInProgress.Description, assignment.TreatmentEntryTime, /*OpenCallInList.DistanceFromVol,*/ ,CallManager.StatusCallInProgress(callInProgress))/////// functionnnnnnsssssss
         };
     }
 
@@ -118,23 +106,17 @@ internal class VolunteerImplementation: IVolunteer
     {
         IEnumerable<DO.Volunteer> volunteers = _dal.Volunteer.ReadAll();
         volunteers = activity == null ? volunteers.Select(item => item) : volunteers.Where(v => v.Active == activity);
-
         if(feildToSort == null)
         {
             volunteers = volunteers.OrderBy(v => v.Id);
         }
-        else
+        string propertyName = feildToSort.ToString();
+        var propertyInfo = typeof(DO.Volunteer).GetProperty(propertyName);
+        if (propertyInfo != null)
         {
-            var propertyInfo = typeof(DO.Volunteer).GetProperty(feildToSort.ToString());
-
-            if (propertyInfo != null)
-            {
-                volunteers = volunteers.OrderBy(v => propertyInfo.GetValue(v, null));
-            }
+            volunteers = volunteers.OrderBy(v => propertyInfo.GetValue(v, null));
         }
-        
         ICall call = new CallImplementation();
-
         return volunteers.Select(v => new BO.VolunteerInList {
             Id = v.Id,
             Name = v.Name,
@@ -146,7 +128,6 @@ internal class VolunteerImplementation: IVolunteer
             KindOfCall = (BO.KindOfCall)_dal.Call.Read(a => a.Id == _dal.Assignment.Read(a => a.VolunteerId == v.Id).CalledId).KindOfCall
         });
     }
-
     public void UpdateVolunteer(int id, BO.Volunteer volunteer)
     {
         DO.Volunteer doVolunteer;

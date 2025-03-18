@@ -1,4 +1,5 @@
 ﻿using Accessories;
+using BO;
 using DalApi;
 
 namespace BlTest;
@@ -49,14 +50,13 @@ internal class Program
         {
             Console.WriteLine($"\n--- Sub-menu for Volunteer ---");
             Console.WriteLine("0. Exit");
-            Console.WriteLine("1. Add a new object");
-            Console.WriteLine("2. Display an object by ID");
-            Console.WriteLine("3. Display the list of all objects");
-            Console.WriteLine("4. Update an existing object");
-            Console.WriteLine("5. Delete an existing object");
-            Console.WriteLine("6. Delete all objects");
+            Console.WriteLine("1. Add a new volunteer");
+            Console.WriteLine("2. Display an volunteer by ID");
+            Console.WriteLine("3. Display the list of all volunteer");
+            Console.WriteLine("4. Update a volunteer");
+            Console.WriteLine("5. Delete a volunteer");
+            Console.WriteLine("6. Login System");
             Console.Write("Choose an option: ");
-
             BO.SubMenuVolunteerEnum choice = ReadHelper.ReadEnum<BO.SubMenuVolunteerEnum>();
             try
             {
@@ -104,12 +104,16 @@ internal class Program
         {
             Console.WriteLine($"\n--- Sub-menu for Call ---");
             Console.WriteLine("0. Exit");
-            Console.WriteLine("1. Add a new object");
-            Console.WriteLine("2. Display an object by ID");
-            Console.WriteLine("3. Display the list of all objects");
-            Console.WriteLine("4. Update an existing object");
-            Console.WriteLine("5. Delete an existing object");
-            Console.WriteLine("6. Delete all objects");
+            Console.WriteLine("1. Add a new call");
+            Console.WriteLine("2. call by status");
+            Console.WriteLine("3. cancel call");
+            Console.WriteLine("4. delete call");
+            Console.WriteLine("5. Display list of calls ");
+            Console.WriteLine("6. Display by id of volunteer list of calls ");
+            Console.WriteLine("7. Update call to ent treatment");
+            Console.WriteLine("8. Update call details");
+            Console.WriteLine("9. Display details of call ");
+            Console.WriteLine("10. Coose Call");
             Console.Write("Choose an option: ");
 
             BO.SubMenuCallEnum choice = ReadHelper.ReadEnum<BO.SubMenuCallEnum>();
@@ -141,11 +145,11 @@ internal class Program
                     case BO.SubMenuCallEnum.UpdateCall:
                         UpdateCall();
                         break;
-                    case BO.SubMenuCallEnum.GetCall:
-                        GetCall();
-                        break;
                     case BO.SubMenuCallEnum.GetAllCallByVolunteer:
                         GetAllCallByVolunteer();
+                        break;
+                    case BO.SubMenuCallEnum.CooseCall:
+                        CooseCall();
                         break;
                     case BO.SubMenuCallEnum.Exit:
                         exit = true;
@@ -161,7 +165,7 @@ internal class Program
             }
         }
     }
-   
+
     /// <summary>
     /// Display sub-menu for Admin 
     /// </summary>
@@ -319,6 +323,7 @@ internal class Program
     /// </summary>
     static BO.Call AddUpdateCall()
     {
+        Console.Write("Enter Call details: Id,Kind-Of-Call,Address-Of-Call,Latitude,Longitude,Opening-Time,Finish-Time,Description,status\n");
         return new()
         {
             Id = ReadHelper.ReadInt(),//if the id is 0 it will update in the creat function in the CallImplementation
@@ -332,49 +337,106 @@ internal class Program
             status=ReadHelper.ReadEnum<BO.Status>()
         };
     }
+    /// <summary>
+    /// dispaly all call by id of volunteer
+    /// </summary>
     private static void GetAllCallByVolunteer()
     {
-        throw new NotImplementedException();
+        Console.WriteLine("press your id of volunteer");
+        int idV=ReadHelper.ReadInt();
+        Console.WriteLine("Choose a number by which the list will be filterd:\n 1.RescueKid\n 2.changeWheel\n 3.FirstAid\n 4.CableAssistance\n 5.fuelOilWater\n 6.None\n");
+        BO.KindOfCall? filAll = ReadHelper.ReadEnum<BO.KindOfCall>();
+        Console.WriteLine("Choose a number by which the list will be sorted:\n 1.Id\n 2.KindOfCall\n 3.AddressOfCall\n 4.OpeningTime\n 5.TreatmentEntryTime\n 6.TreatmentEndTime\n 7.TypeOfTreatmentTermination\n");
+        BO.CloseCallInListObjects? sortAll = ReadHelper.ReadEnum<BO.CloseCallInListObjects>();
+        IEnumerable<BO.ClosedCallInList> calls = s_bl.Call.GetAllCallByVolunteer(idV, filAll, sortAll);
+        foreach (var item in calls)
+        {
+            Console.WriteLine(item);
+        }
     }
-
-    private static void GetCall()
+    /// <summary>
+    /// get detail of call
+    /// </summary>
+    static void DisplayById()
     {
-        throw new NotImplementedException();
+        Console.WriteLine("press id of call");
+        try { Console.WriteLine(s_bl.Call.GetCall(ReadHelper.ReadInt())); }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
-
-    private static void UpdateCall()
+    /// <summary>
+    /// Update Call
+    /// </summary>
+    static void UpdateCall()
+        {
+        try
+        {
+            s_bl.Call.UpdateCall(AddUpdateCall());
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        }
+    /// <summary>
+    /// Update End Call
+    /// </summary>
+    static void UpdateEndCall()
     {
-        throw new NotImplementedException();
+        Console.WriteLine("press your id and id of call you want to close");
+        try
+        {
+            s_bl.Call.UpdateEndCall(ReadHelper.ReadInt(), ReadHelper.ReadInt());
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
-
-    private static void UpdateEndCall()
+    /// <summary>
+    /// display list of call
+    /// </summary>
+     static void DisplayAll()
     {
-        throw new NotImplementedException();
+        object? filValue=null;
+        Console.WriteLine("Choose a number by which the list will be filterd:\n 1.Id\n 2.CallId\n 3.KindOfCall\n 4.OpeningTime\n 5.RemainingTimeToFinish\n 6.LastVolunteer\n 7.CompletionTime\n 8.Status\n 9.TotalAlocation\n");
+        BO.CallInListObjects? filAll = ReadHelper.ReadEnum<BO.CallInListObjects>();
+        if (filAll != null) {
+            Console.WriteLine("press value to filter");
+             filValue = Console.ReadLine();
+        }
+        Console.WriteLine("Choose a number by which the list will be sorted:\n 1.Id\n 2.CallId\n 3.KindOfCall\n 4.OpeningTime\n 5.RemainingTimeToFinish\n 6.LastVolunteer\n 7.CompletionTime\n 8.Status\n 9.TotalAlocation\n");
+        BO.CallInListObjects? sortAll = ReadHelper.ReadEnum<BO.CallInListObjects>();
+        IEnumerable<BO.CallInList> calls = s_bl.Call.CallList( filAll, filValue,sortAll);
+        foreach (var item in calls)
+        {
+            Console.WriteLine(item);
+        }
+     }
+    /// <summary>
+    /// Delete Call
+    /// </summary>
+     static void DeleteCall()
+    {
+        Console.WriteLine("press id of call to delete");
+        try { s_bl.Call.DeleteCall(ReadHelper.ReadInt()); }
+        catch (Exception ex) { }
     }
-
-    private static void DisplayById()
+    /// <summary>
+    /// cancel call
+    /// </summary>
+     static void CancelCall()
     {
-        throw new NotImplementedException();
-    }
-
-    private static void DisplayAll()
-    {
-        throw new NotImplementedException();
-    }
-
-    private static void DeleteCall()
-    {
-        throw new NotImplementedException();
-    }
-
-    private static void CancelCall()
-    {
-        throw new NotImplementedException();
+        Console.WriteLine("press your id and id of call");
+        try { s_bl.Call.CancelCall(ReadHelper.ReadInt(), ReadHelper.ReadInt()); }
+        catch (Exception ex) { Console.WriteLine(ex.Message); }
     }
     /// <summary>
     /// Call By Status
     /// </summary>
-    private static void CallByStatus()
+     static void CallByStatus()
     {
         int[] Calls=s_bl.Call.CallByStatus();
         for (int i = 0; i < Calls.Length; i++)
@@ -383,9 +445,27 @@ internal class Program
             Console.WriteLine($"amount Call in {status}: {Calls[i]}");
         }
     }
-    private static void AddCall()
+    /// <summary>
+    /// add call
+    /// </summary>
+     static void AddCall()
     {
-        throw new NotImplementedException();
+        try
+        {
+            s_bl.Call.AddCall(AddUpdateCall());
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
-
+    /// <summary>
+    ///volunteer Coose Call to treat
+    /// </summary>
+    private static void CooseCall()
+    {
+        Console.WriteLine("press your id and id of call you want treat");
+        try { s_bl.Call.CooseCall(ReadHelper.ReadInt(), ReadHelper.ReadInt()); }
+        catch (Exception ex) { Console.WriteLine(ex.Message); }
+    }
 }
