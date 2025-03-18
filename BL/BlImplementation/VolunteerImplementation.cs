@@ -1,5 +1,7 @@
 ﻿using BlApi;
 using BO;
+using Helpers;
+
 //using DalApi;
 
 
@@ -9,7 +11,6 @@ using DO;
 
 
 //using BO;
-using Helpers;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -25,7 +26,7 @@ internal class VolunteerImplementation: IVolunteer
     public void AddVolunteer(BO.Volunteer boVolunteer)
     {
 
-        ValidateVolunteer(boVolunteer);
+        VolunteerManager.ValidateVolunteer(boVolunteer);
         DO.Volunteer doVolunteer =
             new(boVolunteer.Id,
             boVolunteer.Name,
@@ -122,15 +123,16 @@ internal class VolunteerImplementation: IVolunteer
         {
             volunteers = volunteers.OrderBy(v => v.Id);
         }
-
-        string propertyName = feildToSort.ToString();
-        var propertyInfo = typeof(DO.Volunteer).GetProperty(propertyName);
-
-        if (propertyInfo != null)
+        else
         {
-            volunteers = volunteers.OrderBy(v => propertyInfo.GetValue(v, null));
-        }
+            var propertyInfo = typeof(DO.Volunteer).GetProperty(feildToSort.ToString());
 
+            if (propertyInfo != null)
+            {
+                volunteers = volunteers.OrderBy(v => propertyInfo.GetValue(v, null));
+            }
+        }
+        
         ICall call = new CallImplementation();
 
         return volunteers.Select(v => new BO.VolunteerInList {
@@ -162,7 +164,7 @@ internal class VolunteerImplementation: IVolunteer
             throw new BO.BlNotAloudToDoException("Only a managar can update a volunteer or the volunteer himself");
         }
         // בדיקת תקינות של הנתונים שהוזנו
-        ValidateVolunteer(volunteer);
+        VolunteerManager.ValidateVolunteer(volunteer);
 
         // עדכון הנתונים במערכת
         if (volunteer.Position != (BO.Position)doVolunteer.Position && doVolunteer.Position!=DO.Position.Managar)
@@ -178,62 +180,5 @@ internal class VolunteerImplementation: IVolunteer
             Latitude = volunteer.Latitude,
             Position = (DO.Position)volunteer.Position
         });
-    }
-
-    public void ValidateVolunteer(BO.Volunteer boVolunteer)
-    {
-        // בדיקת תקינות כתובת אימייל
-        if (!Regex.IsMatch(boVolunteer.Email, @"^[^\s@]+@[^\s@]+\.[^\s@]+$"))
-        {
-            throw new BO.BlInvalidDataException("Invalid email format");
-        }
-
-        // בדיקת מספר טלפון (נניח בפורמט ישראלי)
-        if (!Regex.IsMatch(boVolunteer.PhoneNumber, @"^\d{10}$"))
-        {
-            throw new BO.BlInvalidDataException("Invalid phone number format");
-        }
-
-        // בדיקת תקינות ת.ז
-        if (!IsValidIsraeliID(boVolunteer.Id))
-        {
-            throw new BO.BlInvalidDataException("Invalid Israeli ID number");
-        }
-
-        if (!IsValidAddress(boVolunteer.Latitude,boVolunteer.Longitude))
-        {
-            throw new BO.BlInvalidDataException("Address cannot be empty");
-        }
-    }
-
-    public  bool IsValidIsraeliID(int id)
-    {
-       
-            string idStr = id.ToString().PadLeft(9, '0');
-            int sum = 0;
-            for (int i = 0; i < 9; i++)
-            {
-                int num = (idStr[i] - '0') * ((i % 2) + 1);
-                sum += num > 9 ? num - 9 : num;
-            }
-            return sum % 10 == 0;
-    }
-    public bool IsValidAddress(double? lon, double? lat)
-    {
-        string requestUri = $"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}";
-
-        using HttpClient client = new HttpClient();
-        HttpResponseMessage response = client.Send(new HttpRequestMessage(HttpMethod.Get, requestUri));
-
-        if (!response.IsSuccessStatusCode) return false;
-
-        string jsonResponse = response.Content.ReadAsStringAsync().Result;
-        var result = JsonSerializer.Deserialize<OSMGeocodeResponse>(jsonResponse);
-
-        return !string.IsNullOrWhiteSpace(result?.display_name);
-    }
-    private class OSMGeocodeResponse
-    {
-        public string display_name { get; set; }
     }
 }
