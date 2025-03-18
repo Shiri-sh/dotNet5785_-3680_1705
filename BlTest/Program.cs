@@ -50,14 +50,13 @@ internal class Program
         {
             Console.WriteLine($"\n--- Sub-menu for Volunteer ---");
             Console.WriteLine("0. Exit");
-            Console.WriteLine("1. Add a new object");
-            Console.WriteLine("2. Display an object by ID");
-            Console.WriteLine("3. Display the list of all objects");
-            Console.WriteLine("4. Update an existing object");
-            Console.WriteLine("5. Delete an existing object");
-            Console.WriteLine("6. Delete all objects");
+            Console.WriteLine("1. Add a new volunteer");
+            Console.WriteLine("2. Display an volunteer by ID");
+            Console.WriteLine("3. Display the list of all volunteer");
+            Console.WriteLine("4. Update a volunteer");
+            Console.WriteLine("5. Delete a volunteer");
+            Console.WriteLine("6. Login System");
             Console.Write("Choose an option: ");
-
             BO.SubMenuVolunteerEnum choice = ReadHelper.ReadEnum<BO.SubMenuVolunteerEnum>();
             try
             {
@@ -105,12 +104,16 @@ internal class Program
         {
             Console.WriteLine($"\n--- Sub-menu for Call ---");
             Console.WriteLine("0. Exit");
-            Console.WriteLine("1. Add a new object");
-            Console.WriteLine("2. Display an object by ID");
-            Console.WriteLine("3. Display the list of all objects");
-            Console.WriteLine("4. Update an existing object");
-            Console.WriteLine("5. Delete an existing object");
-            Console.WriteLine("6. Delete all objects");
+            Console.WriteLine("1. Add a new call");
+            Console.WriteLine("2. call by status");
+            Console.WriteLine("3. cancel call");
+            Console.WriteLine("4. delete call");
+            Console.WriteLine("5. Display list of calls ");
+            Console.WriteLine("6. Display by id of volunteer list of calls ");
+            Console.WriteLine("7. Update call to ent treatment");
+            Console.WriteLine("8. Update call details");
+            Console.WriteLine("9. Display details of call ");
+            Console.WriteLine("10. Coose Call");
             Console.Write("Choose an option: ");
 
             BO.SubMenuCallEnum choice = ReadHelper.ReadEnum<BO.SubMenuCallEnum>();
@@ -141,9 +144,6 @@ internal class Program
                         break;
                     case BO.SubMenuCallEnum.UpdateCall:
                         UpdateCall();
-                        break;
-                    case BO.SubMenuCallEnum.GetCall:
-                        GetCall();
                         break;
                     case BO.SubMenuCallEnum.GetAllCallByVolunteer:
                         GetAllCallByVolunteer();
@@ -357,7 +357,7 @@ internal class Program
     /// <summary>
     /// get detail of call
     /// </summary>
-    static void GetCall()
+    static void DisplayById()
     {
         Console.WriteLine("press id of call");
         try { Console.WriteLine(s_bl.Call.GetCall(ReadHelper.ReadInt())); }
@@ -394,11 +394,6 @@ internal class Program
         {
             Console.WriteLine(ex.Message);
         }
-    }
-    
-     static void DisplayById()
-    {
-        throw new NotImplementedException();
     }
     /// <summary>
     /// display list of call
