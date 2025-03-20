@@ -130,28 +130,22 @@ internal class VolunteerImplementation: IVolunteer
     }
     public void UpdateVolunteer(int id, BO.Volunteer volunteer)
     {
-        DO.Volunteer doVolunteer;
-        try
+        //המתנדב קיים במערכת
+        DO.Volunteer doVolunteer = _dal.Volunteer.Read(vol => vol.Id == volunteer.Id)?? throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
+        DO.Volunteer voluRequest = _dal.Volunteer.Read(vol => vol.Id == id);
+        //המעדכן הוא מנהל או האדם עצמו
+        if ( id!= volunteer.Id && voluRequest.Position!=DO.Position.Managar)
         {
-            doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id);
-
-        }
-        catch (DO.DalDoesNotExistException e)
-        {
-            throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
-        }
-
-        if (doVolunteer.Position == DO.Position.Volunteer && doVolunteer.Id!=volunteer.Id) {
             throw new BO.BlNotAloudToDoException("Only a managar can update a volunteer or the volunteer himself");
         }
         // בדיקת תקינות של הנתונים שהוזנו
         VolunteerManager.ValidateVolunteer(volunteer);
-
-        // עדכון הנתונים במערכת
-        if (volunteer.Position != (BO.Position)doVolunteer.Position && doVolunteer.Position!=DO.Position.Managar)
+        //בדיקת שינויים בשדות מסוימים
+        if ((volunteer.Position != (BO.Position)doVolunteer.Position || volunteer.Active!=doVolunteer.Active)&&voluRequest.Position!=DO.Position.Managar)
         {
             throw new BO.BlNotAloudToDoException("Only a managar can update the volunteer's Position");
         }
+        // עדכון הנתונים במערכת
         _dal.Volunteer.Update(new DO.Volunteer
         {
             Id = volunteer.Id,
