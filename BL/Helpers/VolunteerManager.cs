@@ -36,7 +36,7 @@ internal static class VolunteerManager
 
         if (!IsValidAddress(boVolunteer.Latitude, boVolunteer.Longitude))
         {
-            throw new BO.BlInvalidDataException("Address cannot be empty");
+            throw new BO.BlInvalidDataException("Address not exist");
         }
     }
 

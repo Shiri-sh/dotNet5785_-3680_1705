@@ -17,6 +17,6 @@ public interface ICall
     void AddCall(BO.Call call);
     IEnumerable<BO.ClosedCallInList> GetAllCallByVolunteer(int volunteerId, BO.KindOfCall? kindOfCall=null, BO.CloseCallInListObjects? objCloseCall=null);
     void UpdateEndCall(int volunteerId, int callID);
-    void CancelCall(int volunteerId, int callID);
+    void UpdateCancelCall(int volunteerId, int callID);
     void CooseCall(int volunteerId, int callID);
 }

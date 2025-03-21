@@ -49,7 +49,7 @@ internal class VolunteerImplementation: IVolunteer
         }
         catch (DO.DalDoesNotExistException ex)
         {
-            throw new BO.BlDoesNotExistException($"Volunteer with {id} does Not exist",ex);//need tocreate it later
+            throw new BO.BlDoesNotExistException($"Volunteer with {id} does Not exist",ex);
         }
         DO.Assignment? assignment = _dal.Assignment.Read(assign=>assign.VolunteerId==id);
         if (assignment == null)
@@ -69,12 +69,12 @@ internal class VolunteerImplementation: IVolunteer
 
     public BO.Volunteer Read(int id)
     {
-        DO.Volunteer doVolunteer;
+        DO.Volunteer? doVolunteer;
         try
         {
             doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id);
         }
-        catch (DO.DalDoesNotExistException ex) {
+        catch (DO.DalDoesNotExistException) {
             throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
         }
         ICall call=new CallImplementation();
@@ -98,7 +98,17 @@ internal class VolunteerImplementation: IVolunteer
             SumCaredCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
             SumIrelevantCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
             //חסר  והמרחק
-            CallInProgress = new(assignment.Id, assignment.CalledId, callInProgress.KindOfCall, callInProgress.AddressOfCall, callInProgress.OpeningTime, callInProgress.FinishTime, callInProgress.Description, assignment.TreatmentEntryTime, /*OpenCallInList.DistanceFromVol,*/ ,CallManager.StatusCallInProgress(callInProgress))/////// functionnnnnnsssssss
+            CallInProgress = new BO.CallInProgress{
+                            Id=assignment.Id,
+                            CallId= assignment.CalledId,
+                            KindOfCall= (BO.KindOfCall)callInProgress.KindOfCall,
+                            AddressOfCall= callInProgress.AddressOfCall,
+                            OpeningTime= callInProgress.OpeningTime,
+                            FinishTime= callInProgress.FinishTime,
+                            Description = callInProgress.Description,
+                            TreatmentEntryTime= assignment.TreatmentEntryTime,
+                            DistanceFromVolunteer= CallManager.GetDistanceFromVol(doVolunteer.Latitude, doVolunteer.Longitude,callInProgress.Latitude, callInProgress.Longitude),//////dont know if this good parameters
+                            Status=  CallManager.StatusCallInProgress(callInProgress) }
         };
     }
 
@@ -131,8 +141,10 @@ internal class VolunteerImplementation: IVolunteer
     public void UpdateVolunteer(int id, BO.Volunteer volunteer)
     {
         //המתנדב קיים במערכת
-        DO.Volunteer doVolunteer = _dal.Volunteer.Read(vol => vol.Id == volunteer.Id)?? throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
-        DO.Volunteer voluRequest = _dal.Volunteer.Read(vol => vol.Id == id);
+        DO.Volunteer doVolunteer = _dal.Volunteer.Read(vol => vol.Id == volunteer.Id)??
+            throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
+        DO.Volunteer voluRequest = _dal.Volunteer.Read(vol => vol.Id == id) ?? 
+            throw new BO.BlDoesNotExistException($"someone with ID={id} does Not exist");
         //המעדכן הוא מנהל או האדם עצמו
         if ( id!= volunteer.Id && voluRequest.Position!=DO.Position.Managar)
         {
@@ -153,7 +165,12 @@ internal class VolunteerImplementation: IVolunteer
             Email = volunteer.Email,
             Longitude = volunteer.Longitude,
             Latitude = volunteer.Latitude,
-            Position = (DO.Position)volunteer.Position
+            Position = (DO.Position)volunteer.Position,
+            Password =volunteer.Password,
+            Active = volunteer.Active,
+            CurrentAddress = volunteer.CurrentAddress,
+            MaximumDistanceForReading = volunteer.MaximumDistanceForReading,
+            TypeOfDistance = (DO.TypeOfDistance)volunteer.TypeOfDistance
         });
     }
 }

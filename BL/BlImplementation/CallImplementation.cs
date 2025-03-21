@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace BlImplementation;
 
 internal class CallImplementation: ICall
@@ -17,7 +16,7 @@ internal class CallImplementation: ICall
 
     public void AddCall(BO.Call call)
     {
-        validateCall(call);
+        CallManager.ValidateCall(call);
         DO.Call doCall = new(
             call.Id,
             (DO.KindOfCall)call.KindOfCall,
@@ -44,7 +43,9 @@ internal class CallImplementation: ICall
         var groupedCalls = CallList().GroupBy(x => (int)x.Status);
         for (int i = 0; i < 5; i++)
         {
-            sumCallByStatus[i]= groupedCalls.Where(x=>x.Key==i).Select(x=>x.Count()).FirstOrDefault();
+            sumCallByStatus[i] = (from x in groupedCalls
+                                 where x.Key == i
+                                 select x.Count()).FirstOrDefault();
         }
         return sumCallByStatus;
     }
@@ -57,22 +58,29 @@ internal class CallImplementation: ICall
         var propertyInfo = typeof(DO.Call).GetProperty(objFilter.ToString());
         if (propertyInfo != null)
         {
-            calls = calls.Where(c => propertyInfo.GetValue(c, null)==filterBy);
+            calls = from c in calls
+                    where propertyInfo.GetValue(c, null) == filterBy
+                    select c;
         }
         else
         {
-            calls.Select(item => item);
+            calls = from item in calls
+                    select item;
         }
  
         var propertyInfoSort = typeof(DO.Call).GetProperty(objSort.ToString());
 
         if (propertyInfoSort != null)
         {
-            calls = calls.OrderBy(c => propertyInfoSort.GetValue(c, null));
+            calls = from c in calls
+                    orderby propertyInfoSort.GetValue(c, null)
+                    select c;
         }
         else
         {
-            calls = calls.OrderBy(c => c.Id);
+            calls = from c in calls
+                    orderby c.Id
+                    select c;
         }
 
         ICall call = new CallImplementation();
@@ -91,24 +99,27 @@ internal class CallImplementation: ICall
                                                 .FirstOrDefault())
                                                 .Name,
             CompletionTime = _dal.Assignment.Read(a => a.CalledId == c.Id).TreatmentEndTime==null ? null: _dal.Assignment.Read(a => a.CalledId == c.Id).TreatmentEndTime - c.OpeningTime,
-            Status = GetStatus(c.Id),
+            Status = CallManager.GetStatus(c),
             TotalAlocation= _dal.Assignment.ReadAll().Count(a=> a.CalledId == _dal.Assignment.Read(a => a.CalledId == c.Id).Id),
         });
     }
 
-    public void CancelCall(int CallId, int callID)
+    public void UpdateCancelCall(int CallId, int callID)
     {
         throw new NotImplementedException();
     }
 
-    public void CooseCall(int CallId, int callID)
+    public void CooseCall(int volunteerId, int callId)
     {
-        throw new NotImplementedException();
+        DO.Call? call=_dal.Call.Read(c=>c.Id== callId);
+       // if(!)
+        _dal.Assignment.Create(new DO.Assignment { CalledId = callId, VolunteerId = volunteerId, TreatmentEntryTime = ClockManager.Now });
+
     }
 
     public void DeleteCall(int id)
     {
-        DO.Call doCall;
+        DO.Call? doCall;
         try
         {
             doCall = _dal.Call.Read(cal => cal.Id == id);
@@ -117,7 +128,7 @@ internal class CallImplementation: ICall
         {
             throw new BO.BlDoesNotExistException($"call with {id} does Not exist", ex);
         }
-        if( GetStatus(doCall.Id)==BO.Status.Open && _dal.Assignment.ReadAll(a => a.CalledId == doCall.Id)==null)
+        if( CallManager.GetStatus(doCall)==BO.Status.Open && _dal.Assignment.ReadAll(a => a.CalledId == doCall.Id)==null)
         {
             _dal.Call.Delete(doCall.Id);
         }
@@ -125,7 +136,7 @@ internal class CallImplementation: ICall
         {
             throw new BO.BlNotAloudToDoException("You cant delete the call since it is open or someone took it");
         }
-
+        ////////////////////////////to put it inside the try?
 
     }
 
@@ -171,7 +182,7 @@ internal class CallImplementation: ICall
 
     public void UpdateCall(BO.Call call)
     {
-        DO.Call doCall;
+        DO.Call? doCall;
         try
         {
             doCall = _dal.Call.Read(vol => vol.Id == call.Id);
@@ -179,15 +190,11 @@ internal class CallImplementation: ICall
         }
         catch (DO.DalDoesNotExistException e)
         {
-            throw new BO.BlDoesNotExistException($"Call with ID={call.Id} does Not exist");
+            throw new BO.BlDoesNotExistException($"Call with ID={call.Id} does Not exist",e);
         }
         // בדיקת תקינות של הנתונים שהוזנו
-        ValidateCall(doCall);
+        CallManager.ValidateCall(call);
 
-        if (call.FinishTime < call.OpeningTime)
-        {
-            throw new BO.BlInvalidDataException("the finish-time cant be earlier than the opening time");
-        }
         _dal.Call.Update(new DO.Call
         {
             Id=call.Id,
