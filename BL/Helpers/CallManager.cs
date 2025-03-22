@@ -14,8 +14,7 @@ namespace Helpers
 
         public static BO.StatusCallInProgress StatusCallInProgress(DO.Call call)
         {
-            return ClockManager.Now + s_dal.Config.RiskRange > call.FinishTime ? BO.StatusCallInProgress.TreatInRisk : BO.StatusCallInProgress.Open;
-
+            return ClockManager.Now + s_dal.Config.RiskRange > call.FinishTime ? BO.StatusCallInProgress.TreatInRisk : BO.StatusCallInProgress.BeingCared;
         }
         public static BO.Status GetStatus(DO.Call call)
         {

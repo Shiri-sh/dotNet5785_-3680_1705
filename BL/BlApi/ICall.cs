@@ -16,7 +16,7 @@ public interface ICall
     void DeleteCall(int id);
     void AddCall(BO.Call call);
     IEnumerable<BO.ClosedCallInList> GetCloseCallByVolunteer(int volunteerId, BO.KindOfCall? kindOfCall=null, BO.CloseCallInListObjects? objCloseCall=null);
-    IEnumerable<BO.ClosedCallInList> GetOpenCallByVolunteer(int volunteerId, BO.KindOfCall? kindOfCall=null, BO.OpenCallInListFields? objCloseCall=null);
+    IEnumerable<BO.OpenCallInList> GetOpenCallByVolunteer(int volunteerId, BO.KindOfCall? kindOfCall=null, BO.OpenCallInListFields? objCloseCall=null);
     void UpdateEndCall(int volunteerId, int callID);
     void UpdateCancelCall(int volunteerId, int callID);
     void CooseCall(int volunteerId, int callID);

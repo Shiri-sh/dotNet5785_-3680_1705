@@ -20,7 +20,7 @@ internal class AdminImplementation:IAdmin
     {
         return _dal.Config.RiskRange;
     }
-
+    //אתחול
     public void Initialization()
     {
         DalTest.Initialization.Do();
