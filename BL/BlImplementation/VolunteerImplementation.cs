@@ -107,8 +107,9 @@ internal class VolunteerImplementation: IVolunteer
                             FinishTime= callInProgress.FinishTime,
                             Description = callInProgress.Description,
                             TreatmentEntryTime= assignment.TreatmentEntryTime,
-                            DistanceFromVolunteer= CallManager.GetDistanceFromVol(doVolunteer.Latitude, doVolunteer.Longitude,callInProgress.Latitude, callInProgress.Longitude),//////dont know if this good parameters
-                            Status=  CallManager.StatusCallInProgress(callInProgress) }
+                            DistanceFromVolunteer= CallManager.GetDistanceFromVol(callInProgress.Latitude, callInProgress.Longitude,doVolunteer.Latitude, doVolunteer.Longitude),//////dont know if this good parameters
+                            Status=  CallManager.StatusCallInProgress(callInProgress)
+            }
         };
     }
 

@@ -168,6 +168,7 @@ internal class CallImplementation : ICall
         });
     }
     public IEnumerable<BO.ClosedCallInList> GetOpenCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListFields? objOpenCall = null)
+
     {
         IEnumerable<DO.Call> calls = _dal.Call.ReadAll();
         IEnumerable<DO.Assignment> assignments = _dal.Assignment.ReadAll();
