@@ -190,30 +190,26 @@ internal class Program
             SubMenuAdminEnum choice = ReadHelper.ReadEnum<SubMenuAdminEnum>();
             switch (choice)
             {
-                case ConfigSubMenuEnum.AdvanceMinute:
-                    AdvanceClock(1);
+                case SubMenuAdminEnum.DisplayTime:
+                    Console.WriteLine(s_bl.Admin.GetClock());
                     break;
-                case ConfigSubMenuEnum.AdvanceHour:
-                    AdvanceClock(60);
+                case SubMenuAdminEnum.DisplayTimeRisk:
+                    Console.WriteLine(s_bl.Admin.GetRiskRange());
                     break;
-                case ConfigSubMenuEnum.AdvancePress:
-                    int minuteToAdvance = ReadHelper.ReadInt();
-                    AdvanceClock(minuteToAdvance);
+                case SubMenuAdminEnum.updateRiskTime:
+                    Console.WriteLine("press time to update risk range time");
+                    s_bl.Admin.UpdateRiskRange( Console.ReadLine() )
                     break;
-                case ConfigSubMenuEnum.DisplayClock:
+                case SubMenuAdminEnum.reset:
                     Console.WriteLine($"Current system clock: {s_dal.Config.Clock}");
                     break;
-                case ConfigSubMenuEnum.SetOne:
+                case SubMenuAdminEnum.initialization:
                     SetConfigurationValue();
                     break;
-                case ConfigSubMenuEnum.DisplayConfig:
+                case SubMenuAdminEnum.updateTime:
                     DisplayConfigurationValue();
                     break;
-                case ConfigSubMenuEnum.Reset:
-                    s_dal.Config.Reset();
-                    Console.WriteLine("All configuration variables have been reset.");
-                    break;
-                case ConfigSubMenuEnum.Exit:
+                case SubMenuAdminEnum.Exit:
                     exit = true;
                     break;
                 default:
