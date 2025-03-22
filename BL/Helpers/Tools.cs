@@ -11,6 +11,13 @@ namespace Helpers;
 
 internal static class Tools
 {
+    /// <summary>
+    /// Converts an object's properties to a string representation.
+    /// </summary>
+    /// <typeparam name="T">The type of the object.</typeparam>
+    /// <param name="t">The object whose properties are to be converted.</param>
+    /// <returns>A string that represents the object's properties in a readable format.</returns>
+
     public static string ToStringProperty<T>(this T t) {
         string str = "";
         foreach (PropertyInfo item in typeof(T).GetProperties())
@@ -30,6 +37,12 @@ internal static class Tools
         }
         return str;
     }
+    /// <summary>
+    /// Validates if the provided longitude and latitude correspond to a valid address.
+    /// </summary>
+    /// <param name="lon">The longitude of the address to validate.</param>
+    /// <param name="lat">The latitude of the address to validate.</param>
+    /// <returns>True if the address is valid, otherwise false.</returns>
     public static bool IsValidAddress(double? lon, double? lat)
     {
         string requestUri = $"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}";
@@ -44,6 +57,9 @@ internal static class Tools
 
         return !string.IsNullOrWhiteSpace(result?.display_name);
     }
+    /// <summary>
+    /// A private class used for deserializing the response from the OpenStreetMap API.
+    /// </summary>
     private class OSMGeocodeResponse
     {
         public string display_name { get; set; }

@@ -29,11 +29,13 @@ public class BlXMLFileLoadCreateException : Exception
     public BlXMLFileLoadCreateException(string? message) : base(message) { }
 
 }
+//Request denied due to permission issues
 public class BlNotAloudToDoException : Exception
 {
     public BlNotAloudToDoException(string? message) : base(message) { }
 
 }
+//Incorrect information type entered.
 public class BlInvalidDataException : Exception
 {
     public BlInvalidDataException(string? message) : base(message) { }
