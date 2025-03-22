@@ -113,6 +113,8 @@ internal class Program
             Console.WriteLine("8. Update call details");
             Console.WriteLine("9. Display details of call ");
             Console.WriteLine("10. Coose Call");
+            Console.WriteLine("11. get all open call");
+            Console.WriteLine("12. update all open call to end treatment");
             Console.Write("Choose an option: ");
 
             BO.SubMenuCallEnum choice = ReadHelper.ReadEnum<BO.SubMenuCallEnum>();
@@ -150,6 +152,13 @@ internal class Program
                     case BO.SubMenuCallEnum.CooseCall:
                         CooseCall();
                         break;
+                    case BO.SubMenuCallEnum.OpenCalls:
+                        OpenCalls();
+                        break;
+                    case BO.SubMenuCallEnum.UpdateOpenCalls:
+                        UpdateOpenCalls();
+                        break;
+
                     case BO.SubMenuCallEnum.Exit:
                         exit = true;
                         break;
@@ -317,6 +326,8 @@ internal class Program
             throw ex;
         }
     }
+
+    //----------------call
     /// <summary>
     /// Add or Update Call
     /// </summary>
@@ -461,10 +472,24 @@ internal class Program
     /// <summary>
     ///volunteer Coose Call to treat
     /// </summary>
-    private static void CooseCall()
+     static void CooseCall()
     {
         Console.WriteLine("press your id and id of call you want treat");
         try { s_bl.Call.CooseCall(ReadHelper.ReadInt(), ReadHelper.ReadInt()); }
         catch (Exception ex) { Console.WriteLine(ex.Message); }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+     static void UpdateOpenCalls()
+    {
+        throw new NotImplementedException();
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    static void OpenCalls()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -10,10 +10,10 @@ using System.Text;
 using System.Threading.Tasks;
 namespace BlImplementation;
 
-internal class CallImplementation: ICall
+internal class CallImplementation : ICall
 {
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
-
+    //
     public void AddCall(BO.Call call)
     {
         CallManager.ValidateCall(call);
@@ -36,7 +36,7 @@ internal class CallImplementation: ICall
             throw new BO.BlAlreadyExistsException($"call with ID={doCall.Id} already exists", ex);
         }
     }
-
+    //
     public int[] CallByStatus()
     {
         int[] sumCallByStatus = new int[5];
@@ -44,17 +44,15 @@ internal class CallImplementation: ICall
         for (int i = 0; i < 5; i++)
         {
             sumCallByStatus[i] = (from x in groupedCalls
-                                 where x.Key == i
-                                 select x.Count()).FirstOrDefault();
+                                  where x.Key == i
+                                  select x.Count()).FirstOrDefault();
         }
         return sumCallByStatus;
     }
-
+    //
     public IEnumerable<BO.CallInList> CallList(BO.CallInListObjects? objFilter = null, object? filterBy = null, BO.CallInListObjects? objSort = null)
     {
-
         IEnumerable<DO.Call> calls = _dal.Call.ReadAll();
-
         var propertyInfo = typeof(DO.Call).GetProperty(objFilter.ToString());
         if (propertyInfo != null)
         {
@@ -67,7 +65,7 @@ internal class CallImplementation: ICall
             calls = from item in calls
                     select item;
         }
- 
+
         var propertyInfoSort = typeof(DO.Call).GetProperty(objSort.ToString());
 
         if (propertyInfoSort != null)
@@ -82,25 +80,23 @@ internal class CallImplementation: ICall
                     orderby c.Id
                     select c;
         }
-
-        ICall call = new CallImplementation();
-
+        //ICall call = new CallImplementation();
         return calls.Select(c => new BO.CallInList
         {
             Id = _dal.Assignment.Read(a => a.CalledId == c.Id).Id,
             CallId = _dal.Assignment.Read(a => a.CalledId == c.Id).CalledId,
             KindOfCall = (BO.KindOfCall)c.KindOfCall,
             OpeningTime = c.OpeningTime,
-            RemainingTimeToFinish =c.FinishTime-ClockManager.Now,
-            LastVolunteer = _dal.Volunteer.Read(v=>v.Id==
+            RemainingTimeToFinish = c.FinishTime - ClockManager.Now,
+            LastVolunteer = _dal.Volunteer.Read(v => v.Id ==
                                                 _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
                                                 .OrderByDescending(a => a.TreatmentEntryTime)
-                                                .Select(a=>a.VolunteerId)
+                                                .Select(a => a.VolunteerId)
                                                 .FirstOrDefault())
                                                 .Name,
-            CompletionTime = _dal.Assignment.Read(a => a.CalledId == c.Id).TreatmentEndTime==null ? null: _dal.Assignment.Read(a => a.CalledId == c.Id).TreatmentEndTime - c.OpeningTime,
+            CompletionTime = _dal.Assignment.Read(a => a.CalledId == c.Id).TreatmentEndTime == null ? null : _dal.Assignment.Read(a => a.CalledId == c.Id).TreatmentEndTime - c.OpeningTime,
             Status = CallManager.GetStatus(c),
-            TotalAlocation= _dal.Assignment.ReadAll().Count(a=> a.CalledId == _dal.Assignment.Read(a => a.CalledId == c.Id).Id),
+            TotalAlocation = _dal.Assignment.ReadAll().Count(a => a.CalledId == _dal.Assignment.Read(a => a.CalledId == c.Id).Id),
         });
     }
 
@@ -108,15 +104,14 @@ internal class CallImplementation: ICall
     {
         throw new NotImplementedException();
     }
-
+    //חסר ערכים לאסימנט
     public void CooseCall(int volunteerId, int callId)
     {
-        DO.Call? call=_dal.Call.Read(c=>c.Id== callId);
-       // if(!)
+        DO.Call? call = _dal.Call.Read(c => c.Id == callId);
+        // if(!)
         _dal.Assignment.Create(new DO.Assignment { CalledId = callId, VolunteerId = volunteerId, TreatmentEntryTime = ClockManager.Now });
-
     }
-
+    //
     public void DeleteCall(int id)
     {
         DO.Call? doCall;
@@ -128,7 +123,7 @@ internal class CallImplementation: ICall
         {
             throw new BO.BlDoesNotExistException($"call with {id} does Not exist", ex);
         }
-        if( CallManager.GetStatus(doCall)==BO.Status.Open && _dal.Assignment.ReadAll(a => a.CalledId == doCall.Id)==null)
+        if (CallManager.GetStatus(doCall) == BO.Status.Open && _dal.Assignment.ReadAll(a => a.CalledId == doCall.Id) == null)
         {
             _dal.Call.Delete(doCall.Id);
         }
@@ -139,13 +134,13 @@ internal class CallImplementation: ICall
         ////////////////////////////to put it inside the try?
 
     }
-
-    public IEnumerable<BO.ClosedCallInList> GetAllCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.CloseCallInListObjects? objCloseCall = null)
+    //
+    public IEnumerable<BO.ClosedCallInList> GetCloseCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.CloseCallInListObjects? objCloseCall = null)
     {
         IEnumerable<DO.Call> calls = _dal.Call.ReadAll();
         IEnumerable<DO.Assignment> assignments = _dal.Assignment.ReadAll();
 
-        List<int> callOfVol = assignments.Where(a => a.VolunteerId == VolunteerId && a.TypeOfTreatmentTermination!=null ).Select(a=>a.CalledId).ToList();
+        List<int> callOfVol = assignments.Where(a => a.VolunteerId == VolunteerId && a.TypeOfTreatmentTermination != null).Select(a => a.CalledId).ToList();
         calls = calls.Where(c => callOfVol.Contains(c.Id));
 
         if (kindOfCall.HasValue)
@@ -165,36 +160,40 @@ internal class CallImplementation: ICall
 
         return calls.Select(c => new BO.ClosedCallInList
         {
-            Id=c.Id,
-            KindOfCall=(BO.KindOfCall)c.KindOfCall,
-            AddressOfCall=c.AddressOfCall,
-            OpeningTime=c.OpeningTime,
-            TreatmentEntryTime= _dal.Assignment.Read(a => a.CalledId == c.Id).TreatmentEntryTime,
-            TreatmentEndTime= _dal.Assignment.Read(a => a.CalledId == c.Id).TreatmentEndTime,
-            TypeOfTreatmentTermination= (BO.TypeOfTreatmentTermination)_dal.Assignment.Read(a => a.CalledId == c.Id).TypeOfTreatmentTermination,
+            Id = c.Id,
+            KindOfCall = (BO.KindOfCall)c.KindOfCall,
+            AddressOfCall = c.AddressOfCall,
+            OpeningTime = c.OpeningTime,
+            TreatmentEntryTime = _dal.Assignment.Read(a => a.CalledId == c.Id).TreatmentEntryTime,
+            TreatmentEndTime = _dal.Assignment.Read(a => a.CalledId == c.Id).TreatmentEndTime,
+            TypeOfTreatmentTermination = (BO.TypeOfTreatmentTermination)_dal.Assignment.Read(a => a.CalledId == c.Id).TypeOfTreatmentTermination,
         });
     }
+    public IEnumerable<BO.ClosedCallInList> GetOpenCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.CloseCallInListObjects? objCloseCall = null)
+    {
 
-    public BO.Call GetCall(int id)
+     }
+
+    public BO.Call ReadCall(int id)
     {
         throw new NotImplementedException();
     }
-
+    //
     public void UpdateCall(BO.Call call)
     {
         DO.Call? doCall;
         try
         {
             doCall = _dal.Call.Read(vol => vol.Id == call.Id);
-
         }
         catch (DO.DalDoesNotExistException e)
         {
             throw new BO.BlDoesNotExistException($"Call with ID={call.Id} does Not exist",e);
         }
         // בדיקת תקינות של הנתונים שהוזנו
-        CallManager.ValidateCall(call);
 
+        //ומה יקרה אם לא יהיה טוב?
+        CallManager.ValidateCall(call);
         _dal.Call.Update(new DO.Call
         {
             Id=call.Id,
@@ -208,7 +207,7 @@ internal class CallImplementation: ICall
         });
     }
 
-    public void UpdateEndCall(int CallId, int callID)
+    public void UpdateEndCall(int volunteerId, int callID)
     {
         throw new NotImplementedException();
     }
