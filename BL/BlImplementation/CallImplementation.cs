@@ -167,7 +167,8 @@ internal class CallImplementation : ICall
             TypeOfTreatmentTermination = (BO.TypeOfTreatmentTermination)_dal.Assignment.Read(a => a.CalledId == c.Id).TypeOfTreatmentTermination,
         });
     }
-    public IEnumerable<BO.ClosedCallInList> GetOpenCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListObjects? objOpenCall = null)
+    public IEnumerable<BO.ClosedCallInList> GetOpenCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListFields? objOpenCall = null)
+
     {
         IEnumerable<DO.Call> calls = _dal.Call.ReadAll();
         IEnumerable<DO.Assignment> assignments = _dal.Assignment.ReadAll();
