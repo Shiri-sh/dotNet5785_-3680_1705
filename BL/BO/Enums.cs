@@ -14,6 +14,8 @@ public enum TypeOfTreatmentTermination { Handled, SelfCancellation, ConcellingAd
 public enum VoluteerInListObjects {Id, Name, Active , SumCancledCalls, SumCaredCalls, sumIrelevantCalls, IdOfCall, KindOfCall }
 public enum CallInListObjects { Id ,CallId, KindOfCall, OpeningTime, RemainingTimeToFinish, LastVolunteer, CompletionTime, Status, TotalAlocation }
 public enum CloseCallInListObjects { Id, KindOfCall, AddressOfCall, OpeningTime, TreatmentEntryTime, TreatmentEndTime, TypeOfTreatmentTermination}
+public enum OpenCallInListFields { Id, KindOfCall, AddressOfCall, OpeningTime, FinishTime, Description, DistanceFromVol }
+
 //main-menu
 public enum MainMenuEnum { Exit, SubMenuVolunteer, SubMenuCall, SubMenuAdmin }
 public enum SubMenuVolunteerEnum { Exit, AddNew, DisplayById, DisplayAll  , Update, Delete, LoginSystem }
