@@ -48,7 +48,7 @@ namespace Helpers
             
         }
 
-        internal static double GetDistanceFromVol(double? latitude1, double? longitude1, double latitude2, double longitude2)
+        internal static double GetDistanceFromVol(double laCall, double lonCall, double? latVol, double? lonVol)
         {
             throw new NotImplementedException();
         }
