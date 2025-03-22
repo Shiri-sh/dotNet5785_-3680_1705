@@ -7,8 +7,8 @@ public enum Position { Managar, Volunteer }
 public enum TypeOfDistance { Aerial, walking, driving }
 public enum KindOfCall { RescueKid, changeWheel, FirstAid, CableAssistance, fuelOilWater,None }
 //לא לשנות את הסדר זה חשוב !
-public enum StatusCallInProgress { Open, TreatInRisk }
-public enum Status { Open, TreatInRisk, OpenInRisk, BeingCared, Closed, Irelavant }
+public enum StatusCallInProgress { BeingCared, TreatInRisk }
+public enum Status { BeingCared, TreatInRisk, Open, OpenInRisk, Closed, Irelavant }
 //
 public enum TypeOfTreatmentTermination { Handled, SelfCancellation, ConcellingAdministrator, CancellationExpired }
 public enum VoluteerInListObjects {Id, Name, Active , SumCancledCalls, SumCaredCalls, sumIrelevantCalls, IdOfCall, KindOfCall }
@@ -19,5 +19,6 @@ public enum OpenCallInListFields { Id, KindOfCall, AddressOfCall, OpeningTime, F
 //main-menu
 public enum MainMenuEnum { Exit, SubMenuVolunteer, SubMenuCall, SubMenuAdmin }
 public enum SubMenuVolunteerEnum { Exit, AddNew, DisplayById, DisplayAll  , Update, Delete, LoginSystem }
-public enum SubMenuCallEnum { Exit,Add, CallByStatus,Cancel, Delete, DisplayAll, GetAllCallByVolunteer , UpdateEndCall, UpdateCall, DisplayById, CooseCall,OpenCalls,UpdateOpenCalls }
+public enum SubMenuAdminEnum { Exit, DisplayTime, DisplayTimeRisk, updateRiskTime  , reset, initialization, updateTime }
+public enum SubMenuCallEnum { Exit,Add, CallByStatus,Cancel, Delete, DisplayAll, GetAllCallByVolunteer , UpdateEndCall, UpdateCall, DisplayById, CooseCall,OpenCalls }
 public enum ConfigSubMenuEnum { Exit, AdvanceMinute, AdvanceHour, AdvancePress, DisplayClock, SetOne, DisplayConfig, Reset }

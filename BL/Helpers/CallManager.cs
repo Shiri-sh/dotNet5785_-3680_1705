@@ -19,8 +19,7 @@ namespace Helpers
         /// <returns>The status of the call in progress (either 'TreatInRisk' or 'Open').</returns>
         public static BO.StatusCallInProgress StatusCallInProgress(DO.Call call)
         {
-            return ClockManager.Now + s_dal.Config.RiskRange > call.FinishTime ? BO.StatusCallInProgress.TreatInRisk : BO.StatusCallInProgress.Open;
-
+            return ClockManager.Now + s_dal.Config.RiskRange > call.FinishTime ? BO.StatusCallInProgress.TreatInRisk : BO.StatusCallInProgress.BeingCared;
         }
         /// <summary>
         /// Retrieves the status of a given call based on various conditions including its finish time and assignments.

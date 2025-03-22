@@ -1,4 +1,5 @@
 ﻿using Accessories;
+using BO;
 using DalApi;
 
 namespace BlTest;
@@ -114,7 +115,6 @@ internal class Program
             Console.WriteLine("9. Display details of call ");
             Console.WriteLine("10. Coose Call");
             Console.WriteLine("11. get all open call");
-            Console.WriteLine("12. update all open call to end treatment");
             Console.Write("Choose an option: ");
 
             BO.SubMenuCallEnum choice = ReadHelper.ReadEnum<BO.SubMenuCallEnum>();
@@ -155,10 +155,6 @@ internal class Program
                     case BO.SubMenuCallEnum.OpenCalls:
                         OpenCalls();
                         break;
-                    case BO.SubMenuCallEnum.UpdateOpenCalls:
-                        UpdateOpenCalls();
-                        break;
-
                     case BO.SubMenuCallEnum.Exit:
                         exit = true;
                         break;
@@ -184,16 +180,14 @@ internal class Program
         {
             Console.WriteLine("\n--- Admin Sub-menu ---");
             Console.WriteLine("0. Exit");
-            Console.WriteLine("1. Advance system clock by a minute");
-            Console.WriteLine("2. Advance system clock by an hour");
-            Console.WriteLine("3. Advance system clock by a minute you enter");
-            Console.WriteLine("4. Display current value of system clock");
-            Console.WriteLine("5. Set a new value for a configuration variable");
-            Console.WriteLine("6. Display the current value of a configuration variable");
-            Console.WriteLine("7. Reset values for all configuration variables");
+            Console.WriteLine("1. Display current value of system clock");
+            Console.WriteLine("2. display time risk ");
+            Console.WriteLine("3. Set a new value for time risk");
+            Console.WriteLine("4. Reset db");
+            Console.WriteLine("5. intilazition db");
+            Console.WriteLine("5. update clock");
             Console.Write("Choose an option: ");
-            ConfigSubMenuEnum choice = ReadHelper.ReadEnum<ConfigSubMenuEnum>();
-
+            SubMenuAdminEnum choice = ReadHelper.ReadEnum<SubMenuAdminEnum>();
             switch (choice)
             {
                 case ConfigSubMenuEnum.AdvanceMinute:
@@ -478,18 +472,22 @@ internal class Program
         try { s_bl.Call.CooseCall(ReadHelper.ReadInt(), ReadHelper.ReadInt()); }
         catch (Exception ex) { Console.WriteLine(ex.Message); }
     }
+   
     /// <summary>
-    /// 
-    /// </summary>
-     static void UpdateOpenCalls()
-    {
-        throw new NotImplementedException();
-    }
-    /// <summary>
-    /// 
+    /// get open calls that volunteer can choose
     /// </summary>
     static void OpenCalls()
     {
-        throw new NotImplementedException();
+        Console.WriteLine("press your id of volunteer");
+        int idV = ReadHelper.ReadInt();
+        Console.WriteLine("Choose a number by which the list will be filterd:\n 1.RescueKid\n 2.changeWheel\n 3.FirstAid\n 4.CableAssistance\n 5.fuelOilWater\n 6.None\n");
+        BO.KindOfCall? filAll = ReadHelper.ReadEnum<BO.KindOfCall>();
+        Console.WriteLine("Choose a number by which the list will be sorted:\n 1.Id\n 2.KindOfCall\n 3.AddressOfCall\n 4.OpeningTime\n 5.FinishTime\n 6.Description\n 7.DistanceFromVol\n");
+        BO.OpenCallInListFields? sortAll = ReadHelper.ReadEnum<BO.OpenCallInListFields>();
+        IEnumerable<BO.OpenCallInList> calls = s_bl.Call.GetOpenCallByVolunteer(idV, filAll, sortAll);
+        foreach (var item in calls)
+        {
+            Console.WriteLine(item);
+        }
     }
 }
