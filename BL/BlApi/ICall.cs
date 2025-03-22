@@ -11,7 +11,7 @@ public interface ICall
 {
     int[] CallByStatus();
     IEnumerable<BO.CallInList> CallList(BO.CallInListObjects? objFilter=null, object? filterBy=null,BO.CallInListObjects? objSort=null);
-    BO.Call GetCall(int id);
+    BO.Call ReadCall(int id);
     void UpdateCall(BO.Call call);
     void DeleteCall(int id);
     void AddCall(BO.Call call);

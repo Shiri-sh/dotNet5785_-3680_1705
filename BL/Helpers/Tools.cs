@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Helpers;
@@ -29,5 +30,22 @@ internal static class Tools
         }
         return str;
     }
+    public static bool IsValidAddress(double? lon, double? lat)
+    {
+        string requestUri = $"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}";
 
+        using HttpClient client = new HttpClient();
+        HttpResponseMessage response = client.Send(new HttpRequestMessage(HttpMethod.Get, requestUri));
+
+        if (!response.IsSuccessStatusCode) return false;
+
+        string jsonResponse = response.Content.ReadAsStringAsync().Result;
+        var result = JsonSerializer.Deserialize<OSMGeocodeResponse>(jsonResponse);
+
+        return !string.IsNullOrWhiteSpace(result?.display_name);
+    }
+    private class OSMGeocodeResponse
+    {
+        public string display_name { get; set; }
+    }
 }

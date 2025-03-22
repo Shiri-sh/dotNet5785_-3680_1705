@@ -131,10 +131,8 @@ internal class CallImplementation : ICall
         {
             throw new BO.BlNotAloudToDoException("You cant delete the call since it is open or someone took it");
         }
-        ////////////////////////////to put it inside the try?
 
     }
-    //
     public IEnumerable<BO.ClosedCallInList> GetCloseCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.CloseCallInListObjects? objCloseCall = null)
     {
         IEnumerable<DO.Call> calls = _dal.Call.ReadAll();
@@ -165,14 +163,44 @@ internal class CallImplementation : ICall
             AddressOfCall = c.AddressOfCall,
             OpeningTime = c.OpeningTime,
             TreatmentEntryTime = _dal.Assignment.Read(a => a.CalledId == c.Id).TreatmentEntryTime,
-            TreatmentEndTime = _dal.Assignment.Read(a => a.CalledId == c.Id).TreatmentEndTime,
+            TreatmentEndTime = _dal.Assignment.Read(a => a.CalledId == c.Id)?.TreatmentEndTime,
             TypeOfTreatmentTermination = (BO.TypeOfTreatmentTermination)_dal.Assignment.Read(a => a.CalledId == c.Id).TypeOfTreatmentTermination,
         });
     }
-    public IEnumerable<BO.ClosedCallInList> GetOpenCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.CloseCallInListObjects? objCloseCall = null)
+    public IEnumerable<BO.ClosedCallInList> GetOpenCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListObjects? objOpenCall = null)
     {
+        IEnumerable<DO.Call> calls = _dal.Call.ReadAll();
+        IEnumerable<DO.Assignment> assignments = _dal.Assignment.ReadAll();
 
-     }
+        List<int> callOfVol = assignments.Where(a => a.VolunteerId == VolunteerId && a.TypeOfTreatmentTermination == null).Select(a => a.CalledId).ToList();
+        calls = calls.Where(c => callOfVol.Contains(c.Id));
+
+        if (kindOfCall.HasValue)
+        {
+            calls = calls.Where(c => c.KindOfCall == (DO.KindOfCall)kindOfCall.Value);
+        }
+
+        if (objOpenCall != null)
+        {
+            var propertyInfoSort = typeof(DO.Call).GetProperty(objOpenCall.ToString());
+            calls = calls.OrderBy(c => propertyInfoSort.GetValue(c, null));
+        }
+        else
+        {
+            calls = calls.OrderBy(c => c.Id);
+        }
+
+        return calls.Select(c => new BO.OpenCallInList
+        {
+            Id = c.Id,
+            KindOfCall = (BO.KindOfCall)c.KindOfCall,
+            AddressOfCall = c.AddressOfCall,
+            OpeningTime = c.OpeningTime,
+            FinishTime=c.FinishTime,
+            Description=c.Description,
+            DistanceFromVol=CallManager.GetDistanceFromVol(c.Latitude,c.Longitude,/**/),
+        });
+    }
 
     public BO.Call ReadCall(int id)
     {
@@ -185,26 +213,28 @@ internal class CallImplementation : ICall
         try
         {
             doCall = _dal.Call.Read(vol => vol.Id == call.Id);
+            CallManager.ValidateCall(call);
+            _dal.Call.Update(new DO.Call
+            {
+                Id = call.Id,
+                KindOfCall = (DO.KindOfCall)call.KindOfCall,
+                AddressOfCall = call.AddressOfCall,
+                Latitude = call.Latitude,
+                Longitude = call.Longitude,
+                OpeningTime = call.OpeningTime,
+                FinishTime = call.FinishTime,
+                Description = call.Description,
+            });
         }
         catch (DO.DalDoesNotExistException e)
         {
             throw new BO.BlDoesNotExistException($"Call with ID={call.Id} does Not exist",e);
         }
-        // בדיקת תקינות של הנתונים שהוזנו
-
-        //ומה יקרה אם לא יהיה טוב?
-        CallManager.ValidateCall(call);
-        _dal.Call.Update(new DO.Call
+        catch(BO.BlInvalidDataException)
         {
-            Id=call.Id,
-            KindOfCall=(DO.KindOfCall)call.KindOfCall,
-            AddressOfCall=call.AddressOfCall,
-            Latitude=call.Latitude,
-            Longitude=call.Longitude,
-            OpeningTime=call.OpeningTime,
-            FinishTime = call.FinishTime,
-            Description = call.Description,
-        });
+            throw new BO.BlInvalidDataException("you put invalid data");
+        }
+        
     }
 
     public void UpdateEndCall(int volunteerId, int callID)

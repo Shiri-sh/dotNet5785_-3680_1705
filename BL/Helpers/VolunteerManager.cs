@@ -34,7 +34,7 @@ internal static class VolunteerManager
             throw new BO.BlInvalidDataException("Invalid Israeli ID number");
         }
 
-        if (!IsValidAddress(boVolunteer.Latitude, boVolunteer.Longitude))
+        if (!Tools.IsValidAddress(boVolunteer.Latitude, boVolunteer.Longitude))
         {
             throw new BO.BlInvalidDataException("Address not exist");
         }
@@ -51,23 +51,5 @@ internal static class VolunteerManager
             sum += num > 9 ? num - 9 : num;
         }
         return sum % 10 == 0;
-    }
-    public static bool IsValidAddress(double? lon, double? lat)
-    {
-        string requestUri = $"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}";
-
-        using HttpClient client = new HttpClient();
-        HttpResponseMessage response = client.Send(new HttpRequestMessage(HttpMethod.Get, requestUri));
-
-        if (!response.IsSuccessStatusCode) return false;
-
-        string jsonResponse = response.Content.ReadAsStringAsync().Result;
-        var result = JsonSerializer.Deserialize<OSMGeocodeResponse>(jsonResponse);
-
-        return !string.IsNullOrWhiteSpace(result?.display_name);
-    }
-    private class OSMGeocodeResponse
-    {
-        public string display_name { get; set; }
     }
 }

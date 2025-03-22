@@ -94,9 +94,9 @@ internal class VolunteerImplementation: IVolunteer
             Longitude = doVolunteer.Longitude,
             MaximumDistanceForReading = doVolunteer?.MaximumDistanceForReading,
             TypeOfDistance = (BO.TypeOfDistance)doVolunteer.TypeOfDistance,
-            SumCancledCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
-            SumCaredCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
-            SumIrelevantCalls = call.GetAllCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
+            SumCancledCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
+            SumCaredCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
+            SumIrelevantCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
             //חסר  והמרחק
             CallInProgress = new BO.CallInProgress{
                             Id=assignment.Id,
@@ -131,9 +131,9 @@ internal class VolunteerImplementation: IVolunteer
             Id = v.Id,
             Name = v.Name,
             Active=v.Active,
-            SumCancledCalls= call.GetAllCallByVolunteer(v.Id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
-            SumCaredCalls = call.GetAllCallByVolunteer(v.Id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
-            SumIrelevantCalls = call.GetAllCallByVolunteer(v.Id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
+            SumCancledCalls= call.GetCloseCallByVolunteer(v.Id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
+            SumCaredCalls = call.GetCloseCallByVolunteer(v.Id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
+            SumIrelevantCalls = call.GetCloseCallByVolunteer(v.Id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
             IdOfCall = _dal.Assignment.Read(a => a.VolunteerId == v.Id && a.TreatmentEndTime==null).CalledId,
             KindOfCall = (BO.KindOfCall)_dal.Call.Read(a => a.Id == _dal.Assignment.Read(a => a.VolunteerId == v.Id).CalledId).KindOfCall
         });
