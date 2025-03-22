@@ -344,7 +344,7 @@ internal class Program
             OpeningTime = ReadHelper.ReadDate(),
             FinishTime = ReadHelper.ReadDate(),
             Description = ReadHelper.ReadString(),
-            status=ReadHelper.ReadEnum<BO.Status>()
+            Status=ReadHelper.ReadEnum<BO.Status>()
         };
     }
     /// <summary>
@@ -358,7 +358,7 @@ internal class Program
         BO.KindOfCall? filAll = ReadHelper.ReadEnum<BO.KindOfCall>();
         Console.WriteLine("Choose a number by which the list will be sorted:\n 1.Id\n 2.KindOfCall\n 3.AddressOfCall\n 4.OpeningTime\n 5.TreatmentEntryTime\n 6.TreatmentEndTime\n 7.TypeOfTreatmentTermination\n");
         BO.CloseCallInListObjects? sortAll = ReadHelper.ReadEnum<BO.CloseCallInListObjects>();
-        IEnumerable<BO.ClosedCallInList> calls = s_bl.Call.GetAllCallByVolunteer(idV, filAll, sortAll);
+        IEnumerable<BO.ClosedCallInList> calls = s_bl.Call.GetCloseCallByVolunteer(idV, filAll, sortAll);
         foreach (var item in calls)
         {
             Console.WriteLine(item);
@@ -370,7 +370,7 @@ internal class Program
     static void DisplayById()
     {
         Console.WriteLine("press id of call");
-        try { Console.WriteLine(s_bl.Call.GetCall(ReadHelper.ReadInt())); }
+        try { Console.WriteLine(s_bl.Call.ReadCall(ReadHelper.ReadInt())); }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
@@ -440,7 +440,7 @@ internal class Program
      static void CancelCall()
     {
         Console.WriteLine("press your id and id of call");
-        try { s_bl.Call.CancelCall(ReadHelper.ReadInt(), ReadHelper.ReadInt()); }
+        try { s_bl.Call.UpdateCancelCall(ReadHelper.ReadInt(), ReadHelper.ReadInt()); }
         catch (Exception ex) { Console.WriteLine(ex.Message); }
     }
     /// <summary>
