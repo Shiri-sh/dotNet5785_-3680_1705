@@ -71,9 +71,8 @@ namespace Helpers
         internal static double GetDistanceFromVol(double laCall, double lonCall, double? latVol, double? lonVol)
         {
             const double R = 6371; // רדיוס כדור הארץ בק"מ
-            double dLat = DegreesToRadians(laCall - latVol);
+            double dLat =DegreesToRadians(laCall - latVol);
             double dLon = DegreesToRadians(lonCall - lonVol);
-
             double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
                        Math.Cos(DegreesToRadians(latVol)) * Math.Cos(DegreesToRadians(laCall)) *
                        Math.Sin(dLon / 2) * Math.Sin(dLon / 2);

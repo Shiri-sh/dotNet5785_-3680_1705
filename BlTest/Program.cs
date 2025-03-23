@@ -198,17 +198,18 @@ internal class Program
                     break;
                 case SubMenuAdminEnum.updateRiskTime:
                     Console.WriteLine("press time to update risk range time");
-                    s_bl.Admin.UpdateRiskRange( Console.ReadLine() )
+                    if(TimeSpan.TryParse(Console.ReadLine(), out TimeSpan timespam))
+                         s_bl.Admin.UpdateRiskRange(timespam);
                     break;
                 case SubMenuAdminEnum.reset:
-                    Console.WriteLine($"Current system clock: {s_dal.Config.Clock}");
+                    s_bl.Admin.Reset();
                     break;
                 case SubMenuAdminEnum.initialization:
-                    SetConfigurationValue();
+                    s_bl.Admin.Initialization();
                     break;
                 case SubMenuAdminEnum.updateTime:
-                    DisplayConfigurationValue();
-                    break;
+                    Console.WriteLine("press number of type time:\n 1.Minute\n 2.Hour\n 3.Day\n 4.Month\n 5.Year");
+                    s_bl.Admin.UpdateClock(ReadHelper.ReadEnum<TypeOfTime>()); break;
                 case SubMenuAdminEnum.Exit:
                     exit = true;
                     break;
@@ -218,10 +219,11 @@ internal class Program
             }
         }
     }
+
     /// <summary>
     /// login to system
     /// </summary>
-     static void LoginSystem()
+    static void LoginSystem()
      {
         Console.WriteLine("press name and password to login");
         Console.WriteLine("your position is a "+s_bl.Volunteer.Login(ReadHelper.ReadString(),ReadHelper.ReadString()));
