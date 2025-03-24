@@ -68,23 +68,26 @@ internal class CallImplementation : ICall
                     orderby c.Id
                     select c;
         }
-        return calls.Select(c => new BO.CallInList
-        {
-            Id = _dal.Assignment.Read(a => a.CalledId == c.Id).Id,
-            CallId = _dal.Assignment.Read(a => a.CalledId == c.Id).CalledId,
-            KindOfCall = (BO.KindOfCall)c.KindOfCall,
-            OpeningTime = c.OpeningTime,
-            RemainingTimeToFinish = c.FinishTime - ClockManager.Now,
-            LastVolunteer = _dal.Volunteer.Read(v => v.Id ==
-                                                _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
-                                                .OrderByDescending(a => a.TreatmentEntryTime)
-                                                .Select(a => a.VolunteerId)
-                                                .FirstOrDefault())
+        return from c in calls
+               let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
+               select new BO.CallInList
+               {
+                   Id = assignment.Id,
+                   CallId = assignment.CalledId,
+                   KindOfCall = (BO.KindOfCall)c.KindOfCall,
+                   OpeningTime = c.OpeningTime,
+                   RemainingTimeToFinish = c.FinishTime - ClockManager.Now,
+                   LastVolunteer = _dal.Volunteer.Read(v => v.Id ==
+                                                       _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
+                                                       .OrderByDescending(a => a.TreatmentEntryTime)
+                                                       .Select(a => a.VolunteerId)
+                                                       .FirstOrDefault())
                                                 .Name,
-            CompletionTime = _dal.Assignment.Read(a => a.CalledId == c.Id).TreatmentEndTime == null ? null : _dal.Assignment.Read(a => a.CalledId == c.Id).TreatmentEndTime - c.OpeningTime,
-            Status = CallManager.GetStatus(c),
-            TotalAlocation = _dal.Assignment.ReadAll().Count(a => a.CalledId == _dal.Assignment.Read(a => a.CalledId == c.Id).Id),
-        });
+                   CompletionTime = assignment.TreatmentEndTime == null ? null : assignment.TreatmentEndTime - c.OpeningTime,
+                   Status = CallManager.GetStatus(c),
+                   TotalAlocation = _dal.Assignment.ReadAll().Count(a => a.CalledId == _dal.Assignment.Read(a => a.CalledId == c.Id).Id),
+
+               };
     }
 
     public void UpdateCancelCall(int volunteerId, int assignId)
@@ -201,17 +204,18 @@ internal class CallImplementation : ICall
         {
             calls = calls.OrderBy(c => c.Id);
         }
-
-        return calls.Select(c => new BO.ClosedCallInList
-        {
-            Id = c.Id,
-            KindOfCall = (BO.KindOfCall)c.KindOfCall,
-            AddressOfCall = c.AddressOfCall,
-            OpeningTime = c.OpeningTime,
-            TreatmentEntryTime = _dal.Assignment.Read(a => a.CalledId == c.Id).TreatmentEntryTime,
-            TreatmentEndTime = _dal.Assignment.Read(a => a.CalledId == c.Id)?.TreatmentEndTime,
-            TypeOfTreatmentTermination = (BO.TypeOfTreatmentTermination)_dal.Assignment.Read(a => a.CalledId == c.Id).TypeOfTreatmentTermination,
-        });
+        return from c in calls
+               let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
+               select new BO.ClosedCallInList
+               {
+                   Id = c.Id,
+                   KindOfCall = (BO.KindOfCall)c.KindOfCall,
+                   AddressOfCall = c.AddressOfCall,
+                   OpeningTime = c.OpeningTime,
+                   TreatmentEntryTime = assignment.TreatmentEntryTime,
+                   TreatmentEndTime = assignment?.TreatmentEndTime,
+                   TypeOfTreatmentTermination = (BO.TypeOfTreatmentTermination)assignment.TypeOfTreatmentTermination,
+               };
     }
     public IEnumerable<BO.OpenCallInList> GetOpenCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListFields? objOpenCall = null)
 
