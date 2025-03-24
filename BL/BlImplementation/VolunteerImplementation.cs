@@ -97,7 +97,6 @@ internal class VolunteerImplementation: IVolunteer
             SumCancledCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
             SumCaredCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
             SumIrelevantCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
-            //חסר  והמרחק
             CallInProgress = new BO.CallInProgress{
                             Id=assignment.Id,
                             CallId= assignment.CalledId,
@@ -136,7 +135,7 @@ internal class VolunteerImplementation: IVolunteer
             SumCaredCalls = call.GetCloseCallByVolunteer(v.Id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
             SumIrelevantCalls = call.GetCloseCallByVolunteer(v.Id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
             IdOfCall = _dal.Assignment.Read(a => a.VolunteerId == v.Id && a.TreatmentEndTime==null).CalledId,
-            KindOfCall = (BO.KindOfCall)_dal.Call.Read(a => a.Id == _dal.Assignment.Read(a => a.VolunteerId == v.Id).CalledId).KindOfCall
+            KindOfCall = (BO.KindOfCall)_dal.Call.Read(a => a.Id == _dal.Assignment.Read(a => a.VolunteerId == v.Id && a.TreatmentEndTime == null).CalledId).KindOfCall
         });
     }
     public void UpdateVolunteer(int id, BO.Volunteer volunteer)
