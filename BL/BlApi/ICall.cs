@@ -30,13 +30,13 @@ public interface ICall
     /// <returns>The details of the call, including its status, assignments, and other relevant information.</returns>
     /// <exception cref="BO.BlDoesNotExistException">Thrown if the call with the given ID does not exist.</exception>
     BO.Call ReadCall(int id);
+
     /// <summary>
     /// Updates an existing call.
     /// </summary>
     /// <param name="call">The call object with updated details.</param>
     /// <exception cref="BO.BlDoesNotExistException">Thrown if the call does not exist.</exception>
     /// <exception cref="BO.BlInvalidDataException">Thrown if the call data is invalid.</exception>
-
     void UpdateCall(BO.Call call);
     /// <summary>
     /// Deletes a call if it's open and not assigned to any volunteer.

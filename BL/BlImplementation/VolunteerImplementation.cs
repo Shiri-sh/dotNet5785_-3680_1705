@@ -97,7 +97,7 @@ internal class VolunteerImplementation: IVolunteer
             SumCancledCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
             SumCaredCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
             SumIrelevantCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
-            CallInProgress = callInProgress!=null?new BO.CallInProgress{
+            CallInProgress = callInProgress!=null ? new BO.CallInProgress{
                             Id=assignment.Id,
                             CallId= assignment.CalledId,
                             KindOfCall= (BO.KindOfCall)callInProgress.KindOfCall,

@@ -259,7 +259,7 @@ internal class Program
     {
         Console.WriteLine("press id to delete");
         try { s_bl.Volunteer.DeleteVolunteer(ReadHelper.ReadInt()); }
-        catch(Exception ex) { throw ex; }
+        catch (BO.BlDoesNotExistException ex) { Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}", ex); }
     }
     /// <summary>
     /// Add or Update cccccccVolunteer
@@ -297,9 +297,9 @@ internal class Program
         {
             s_bl.Volunteer.AddVolunteer(AddUpdateVolunteer());
         }
-        catch (Exception ex)
+        catch (BO.BlAlreadyExistsException ex)
         {
-            throw ex;
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}", ex);
         }
     }
     /// <summary>
@@ -313,9 +313,13 @@ internal class Program
         {
             s_bl.Volunteer.UpdateVolunteer(idRequest, AddUpdateVolunteer());
         }
-        catch (Exception ex)
+        catch (BO.BlDoesNotExistException ex)
         {
-            throw ex;
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}");
+        }
+        catch (BO.BlNotAloudToDoException ex)
+        {
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}");
         }
     }
 
@@ -363,25 +367,28 @@ internal class Program
     {
         Console.WriteLine("press id of call");
         try { Console.WriteLine(s_bl.Call.ReadCall(ReadHelper.ReadInt())); }
-        catch (Exception ex)
+        catch (BO.BlDoesNotExistException ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}");
         }
     }
     /// <summary>
     /// Update Call
     /// </summary>
     static void UpdateCall()
-        {
+    {
         try
         {
             s_bl.Call.UpdateCall(AddUpdateCall());
         }
-        catch (Exception ex)
+        catch (BO.BlDoesNotExistException ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}");
         }
+        catch (BO.BlInvalidDataException ex){
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}"); 
         }
+    }
     /// <summary>
     /// Update End Call
     /// </summary>
@@ -392,9 +399,13 @@ internal class Program
         {
             s_bl.Call.UpdateEndCall(ReadHelper.ReadInt(), ReadHelper.ReadInt());
         }
-        catch (Exception ex)
+        catch (BO.BlDoesNotExistException ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}");
+        }
+        catch(BO.BlNotAloudToDoException ex)
+        {
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}");
         }
     }
     /// <summary>
@@ -424,16 +435,19 @@ internal class Program
     {
         Console.WriteLine("press id of call to delete");
         try { s_bl.Call.DeleteCall(ReadHelper.ReadInt()); }
-        catch (Exception ex) { }
+        catch (BO.BlDoesNotExistException ex) { Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}"); }
+        catch (BO.BlNotAloudToDoException ex) { Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}"); }
+
     }
-    /// <summary>
-    /// cancel call
-    /// </summary>
-     static void CancelCall()
+        /// <summary>
+        /// cancel call
+        /// </summary>
+        static void CancelCall()
     {
         Console.WriteLine("press your id and id of call");
         try { s_bl.Call.UpdateCancelCall(ReadHelper.ReadInt(), ReadHelper.ReadInt()); }
-        catch (Exception ex) { Console.WriteLine(ex.Message); }
+        catch (BO.BlDoesNotExistException ex) { Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}"); }
+        catch (BO.BlNotAloudToDoException ex) { Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}"); }
     }
     /// <summary>
     /// Call By Status
@@ -456,9 +470,9 @@ internal class Program
         {
             s_bl.Call.AddCall(AddUpdateCall());
         }
-        catch (Exception ex)
+        catch (BO.BlAlreadyExistsException ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}");
         }
     }
     /// <summary>
@@ -468,7 +482,7 @@ internal class Program
     {
         Console.WriteLine("press your id and id of call you want treat");
         try { s_bl.Call.CooseCall(ReadHelper.ReadInt(), ReadHelper.ReadInt()); }
-        catch (Exception ex) { Console.WriteLine(ex.Message); }
+        catch (BO.BlNotAloudToDoException ex) { Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}"); }
     }
    
     /// <summary>
