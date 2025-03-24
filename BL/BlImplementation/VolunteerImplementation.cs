@@ -42,21 +42,13 @@ internal class VolunteerImplementation: IVolunteer
 
     public void DeleteVolunteer(int id)
     {
-        try
-        {
-            var doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id);
-
-        }
-        catch (DO.DalDoesNotExistException ex)
-        {
-            throw new BO.BlDoesNotExistException($"Volunteer with {id} does Not exist",ex);
-        }
+        var doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id)??
+                     throw new BO.BlDoesNotExistException($"Volunteer with {id} does Not exist");
         DO.Assignment? assignment = _dal.Assignment.Read(assign=>assign.VolunteerId==id);
         if (assignment == null)
         {
             _dal.Volunteer.Delete(id);
         }
-        
     }
     public BO.Position Login(string username, string password)
     {
@@ -65,18 +57,11 @@ internal class VolunteerImplementation: IVolunteer
         throw new BO.BlDoesNotExistException($"Volunteer with Name ={username} and Password={password} does Not exist");//need tocreate it later
         return (BO.Position)doVolunteer.Position;
     }
-
-
     public BO.Volunteer Read(int id)
     {
         DO.Volunteer? doVolunteer;
-        try
-        {
-            doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id);
-        }
-        catch (DO.DalDoesNotExistException) {
-            throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
-        }
+        doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id)??
+                 throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
         ICall call=new CallImplementation();
         DO.Assignment? assignment=_dal.Assignment.Read(a=>a.VolunteerId== id && a.TreatmentEndTime == null) ??null;
         DO.Call? callInProgress = _dal.Call.Read(c => c.Id == assignment.CalledId)??null;
@@ -111,7 +96,6 @@ internal class VolunteerImplementation: IVolunteer
             }
         };
     }
-
     public IEnumerable<BO.VolunteerInList> ReadAll(bool? activity = null, BO.VoluteerInListObjects? feildToSort = null)
     {
         IEnumerable<DO.Volunteer> volunteers = _dal.Volunteer.ReadAll();
