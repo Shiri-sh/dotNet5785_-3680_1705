@@ -51,13 +51,22 @@ namespace Helpers
         internal static void ValidateCall(BO.Call call)
         {
 
-            if (call.FinishTime < call.OpeningTime)
-            {
-                throw new BO.BlInvalidDataException("the finish-time cant be earlier than the opening time");
-            }
-            if (!Tools.IsValidAddress(call.Longitude, call.Latitude)) {
-                throw new BO.BlInvalidDataException("Address not exist");
-            };
+                if (call.FinishTime < call.OpeningTime)
+                {
+                    throw new BO.BlInvalidDataException("the finish-time cant be earlier than the opening time");
+                }
+                if (!Tools.IsValidAddress(call.Longitude, call.Latitude)) {
+                    throw new BO.BlInvalidDataException("Address not exist");
+                };
+         
+                if (string.IsNullOrWhiteSpace(call.AddressOfCall))
+                {
+                    throw new BO.BlInvalidDataException("The address cannot be empty.");
+                }
+                if (!Enum.IsDefined(typeof(BO.KindOfCall), call.KindOfCall))
+                {
+                    throw new BO.BlInvalidDataException("Invalid call type.");
+                }
             
         }
         /// <summary>
