@@ -55,9 +55,7 @@ internal class CallImplementation : ICall
             calls = from item in calls
                     select item;
         }
-
         var propertyInfoSort = typeof(DO.Call).GetProperty(objSort.ToString());
-
         if (propertyInfoSort != null)
         {
             calls = from c in calls
@@ -274,7 +272,7 @@ internal class CallImplementation : ICall
             FinishTime = doCall.FinishTime,
             Description = doCall.Description,
             Status = CallManager.GetStatus(doCall),
-            ListOfAlocation = _dal.Assignment.ReadAll(a => a.CalledId == id)
+            CallAssignInList = _dal.Assignment.ReadAll(a => a.CalledId == id)
                                                                    .Select(a => new BO.CallAssignInList
                                                                    {
                                                                        VolunteerId = a.VolunteerId,
