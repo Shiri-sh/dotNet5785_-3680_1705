@@ -30,7 +30,7 @@ public class Call
     public DateTime? FinishTime {  get; set; }
     public string? Description {  get; set; }
     public Status Status {  get; set; }
-    public List<BO.CallAssignInList>? ListOfAlocation {  get; set; }
+    public List<BO.CallAssignInList>? CallAssignInList {  get; set; }
     public override string ToString() => this.ToStringProperty();
 
 }
