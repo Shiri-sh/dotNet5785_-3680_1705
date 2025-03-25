@@ -63,7 +63,7 @@ internal class VolunteerImplementation: IVolunteer
         doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id)??
                  throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
         ICall call=new CallImplementation();
-        DO.Assignment? assignment=_dal.Assignment.Read(a=>a.VolunteerId== id && a.TreatmentEndTime == null) ??null;
+        DO.Assignment? assignment=_dal.Assignment.Read(a=>a.VolunteerId== id && a.TreatmentEndTime == null);
         DO.Call? callInProgress = _dal.Call.Read(c => c.Id == assignment.CalledId)??null;
         return new()
         {
