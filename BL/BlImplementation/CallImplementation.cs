@@ -188,6 +188,17 @@ internal class CallImplementation : ICall
     {
         DO.Call doCall= _dal.Call.Read(cal => cal.Id == id)??
             throw new BO.BlDoesNotExistException($"call with {id} does Not exist");
+        List<BO.CallAssignInList> callAssignInList = _dal.Assignment.ReadAll(a => a.CalledId == id)
+                                                                   .Select(a => new BO.CallAssignInList
+                                                                   {
+                                                                       VolunteerId = a.VolunteerId,
+                                                                       VolunteerName = _dal.Volunteer.Read(v => v.Id == a.VolunteerId)?.Name,
+                                                                       TreatmentEntryTime = a.TreatmentEntryTime,
+                                                                       TreatmentEndTime = a.TreatmentEndTime == null ? null : a.TreatmentEndTime,
+                                                                       TypeOfTreatmentTermination = a.TypeOfTreatmentTermination.HasValue
+                                                                                                    ? (BO.TypeOfTreatmentTermination?)a.TypeOfTreatmentTermination.Value
+                                                                                                    : null
+                                                                   }).ToList();
         return new BO.Call
         {
             Id = id,
@@ -199,15 +210,7 @@ internal class CallImplementation : ICall
             FinishTime = doCall.FinishTime,
             Description = doCall.Description,
             Status = CallManager.GetStatus(doCall),
-            CallAssignInList = _dal.Assignment.ReadAll(a => a.CalledId == id)
-                                                                   .Select(a => new BO.CallAssignInList
-                                                                   {
-                                                                       VolunteerId = a.VolunteerId,
-                                                                       VolunteerName = _dal.Volunteer.Read(v => v.Id == a.VolunteerId).Name,
-                                                                       TreatmentEntryTime = a.TreatmentEntryTime,
-                                                                       TreatmentEndTime = a.TreatmentEndTime,
-                                                                       TypeOfTreatmentTermination = (BO.TypeOfTreatmentTermination)a.TypeOfTreatmentTermination
-                                                                   }).ToList()
+            CallAssignInList = callAssignInList
         };
     }
     public void UpdateCall(BO.Call call)
@@ -232,9 +235,9 @@ internal class CallImplementation : ICall
         {
             throw new BO.BlDoesNotExistException($"Call with ID={call.Id} does Not exist",e);
         }
-        catch(BO.BlInvalidDataException)
+        catch(BO.BlInvalidDataException e)
         {
-            throw new BO.BlInvalidDataException("you put invalid data");
+            throw new BO.BlInvalidDataException($"you put invalid data,{e.Message}");
         }
     }
 }

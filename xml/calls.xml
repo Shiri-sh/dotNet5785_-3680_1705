@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfCall xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Call>
-    <Id>1</Id>
-    <KindOfCall>RescueKid</KindOfCall>
-    <AddressOfCall>King George Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.073428</Latitude>
-    <Longitude>34.775037</Longitude>
-    <OpeningTime>2025-03-26T05:00:00</OpeningTime>
-    <FinishTime>2025-03-26T06:00:00</FinishTime>
-    <Description>Rescuing a locked child from a vehicle</Description>
-  </Call>
-  <Call>
     <Id>2</Id>
     <KindOfCall>RescueKid</KindOfCall>
     <AddressOfCall>King George Street, Tel Aviv</AddressOfCall>
@@ -499,5 +489,15 @@
     <OpeningTime>2025-03-26T18:00:00</OpeningTime>
     <FinishTime>2025-03-26T20:00:00</FinishTime>
     <Description>First aid before medical team arrival</Description>
+  </Call>
+  <Call>
+    <Id>1</Id>
+    <KindOfCall>changeWheel</KindOfCall>
+    <AddressOfCall>Dizengoff Street 120, Tel Aviv</AddressOfCall>
+    <Latitude>32.073428</Latitude>
+    <Longitude>34.775037</Longitude>
+    <OpeningTime>2025-03-26T05:00:00</OpeningTime>
+    <FinishTime>2025-03-26T06:00:00</FinishTime>
+    <Description>blabla</Description>
   </Call>
 </ArrayOfCall>

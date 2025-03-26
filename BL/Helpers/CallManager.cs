@@ -79,9 +79,9 @@ namespace Helpers
                 {
                     throw new BO.BlInvalidDataException("the finish-time cant be earlier than the opening time");
                 }
-                if (!Tools.IsValidAddress(call.Longitude, call.Latitude)) {
-                    throw new BO.BlInvalidDataException("Address not exist");
-                };
+                //if (!Tools.IsValidAddress(call.Longitude, call.Latitude)) {
+                //    throw new BO.BlInvalidDataException("Address not exist");
+                //};
          
                 if (string.IsNullOrWhiteSpace(call.AddressOfCall))
                 {
