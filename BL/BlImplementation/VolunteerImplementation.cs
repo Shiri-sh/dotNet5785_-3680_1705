@@ -71,7 +71,7 @@ internal class VolunteerImplementation: IVolunteer
         doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id)??
                  throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
         ICall call=new CallImplementation();
-        DO.Assignment? assignment=_dal.Assignment.Read(a=>a.VolunteerId== id && a.TreatmentEndTime == null) ??null;
+        DO.Assignment? assignment=_dal.Assignment.Read(a=>a.VolunteerId== id && a.TreatmentEndTime == null);
         DO.Call? callInProgress = _dal.Call.Read(c => c.Id == assignment.CalledId)??null;
         return new()
         {
@@ -90,7 +90,7 @@ internal class VolunteerImplementation: IVolunteer
             SumCancledCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
             SumCaredCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
             SumIrelevantCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
-            CallInProgress = callInProgress!=null?new BO.CallInProgress{
+            CallInProgress = callInProgress!=null ? new BO.CallInProgress{
                             Id=assignment.Id,
                             CallId= assignment.CalledId,
                             KindOfCall= (BO.KindOfCall)callInProgress.KindOfCall,

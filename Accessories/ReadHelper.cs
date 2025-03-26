@@ -62,6 +62,15 @@ public class ReadHelper
         return (T)data;
 
     }
+    public static T? ReadEnumOrNull<T>() where T : struct, Enum
+    {
+        string? dateInput = Console.ReadLine();
+        if (Enum.TryParse<T>(dateInput, out T result))
+        {
+            return result;
+        }
+        return null;
+    }
     public static string ReadString()
     {
         string input = Console.ReadLine();

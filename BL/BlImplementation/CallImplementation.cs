@@ -27,13 +27,12 @@ internal class CallImplementation : ICall
     }
     public int[] CallByStatus()
     {
-        int[] sumCallByStatus = new int[5];
+        int i = 0;
+        int[] sumCallByStatus = new int[6];
         var groupedCalls = CallList().GroupBy(x => (int)x.Status);
-        for (int i = 0; i < 5; i++)
+        foreach (var group in groupedCalls)
         {
-            sumCallByStatus[i] = (from x in groupedCalls
-                                  where x.Key == i
-                                  select x.Count()).FirstOrDefault();
+            sumCallByStatus[group.Key] = group.Count();
         }
         return sumCallByStatus;
     }
@@ -64,20 +63,20 @@ internal class CallImplementation : ICall
                let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
                select new BO.CallInList
                {
-                   Id = assignment.Id,
-                   CallId = assignment.CalledId,
+                   Id = assignment?.Id,
+                   CallId = c.Id,
                    KindOfCall = (BO.KindOfCall)c.KindOfCall,
                    OpeningTime = c.OpeningTime,
                    RemainingTimeToFinish = c.FinishTime - ClockManager.Now,
-                   LastVolunteer = _dal.Volunteer.Read(v => v.Id ==
+                   LastVolunteer =assignment==null?null: _dal.Volunteer.Read(v => v.Id ==
                                                        _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
                                                        .OrderByDescending(a => a.TreatmentEntryTime)
                                                        .Select(a => a.VolunteerId)
                                                        .FirstOrDefault())
                                                 .Name,
-                   CompletionTime = assignment.TreatmentEndTime == null ? null : assignment.TreatmentEndTime - c.OpeningTime,
+                   CompletionTime = assignment == null ? null : assignment.TreatmentEndTime == null ? null : assignment.TreatmentEndTime - c.OpeningTime,
                    Status = CallManager.GetStatus(c),
-                   TotalAlocation = _dal.Assignment.ReadAll().Count(a => a.CalledId == _dal.Assignment.Read(a => a.CalledId == c.Id).Id),
+                   TotalAlocation = _dal.Assignment.ReadAll(a => a.CalledId == c.Id).Count(),
 
                };
     }
@@ -186,7 +185,8 @@ internal class CallImplementation : ICall
     }
     public BO.Call ReadCall(int id)
     {
-        DO.Call? doCall = _dal.Call.Read(cal => cal.Id == id)?? throw new BO.BlDoesNotExistException($"call with {id} does Not exist");
+        DO.Call doCall= _dal.Call.Read(cal => cal.Id == id)??
+            throw new BO.BlDoesNotExistException($"call with {id} does Not exist");
         return new BO.Call
         {
             Id = id,
@@ -211,6 +211,7 @@ internal class CallImplementation : ICall
     }
     public void UpdateCall(BO.Call call)
     {
+       
         try
         {
             CallManager.ValidateCall(call);

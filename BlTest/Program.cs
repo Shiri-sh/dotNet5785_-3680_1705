@@ -237,7 +237,7 @@ internal class Program
         bool? filActive= bool.TryParse(Console.ReadLine(), out var active) ? active : null;
         Console.WriteLine("Choose a number by which the list will be sorted:\n 1.Id\n 2.Name\n 3.Active\n 4.SumCancledCalls\n 5.SumCaredCalls\n 6.sumIrelevantCalls\n 7.IdOfCall\n 8.KindOfCall\n");
      //אם הוא ילחץ על מספר לא באינם זה יהיה לו נל או שישים ערך לא נכון?
-        BO.VoluteerInListObjects? filAll = ReadHelper.ReadEnum<BO.VoluteerInListObjects>();
+        BO.VoluteerInListObjects? filAll = ReadHelper.ReadEnumOrNull<BO.VoluteerInListObjects>();
         IEnumerable<BO.VolunteerInList> volunteers=s_bl.Volunteer.ReadAll(filActive,filAll);
         foreach (var item in volunteers)
         {
@@ -259,7 +259,7 @@ internal class Program
     {
         Console.WriteLine("press id to delete");
         try { s_bl.Volunteer.DeleteVolunteer(ReadHelper.ReadInt()); }
-        catch(Exception ex) { throw ex; }
+        catch (BO.BlDoesNotExistException ex) { Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}", ex); }
     }
     /// <summary>
     /// Add or Update cccccccVolunteer
@@ -297,9 +297,9 @@ internal class Program
         {
             s_bl.Volunteer.AddVolunteer(AddUpdateVolunteer());
         }
-        catch (Exception ex)
+        catch (BO.BlAlreadyExistsException ex)
         {
-            throw ex;
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}", ex);
         }
     }
     /// <summary>
@@ -313,9 +313,13 @@ internal class Program
         {
             s_bl.Volunteer.UpdateVolunteer(idRequest, AddUpdateVolunteer());
         }
-        catch (Exception ex)
+        catch (BO.BlDoesNotExistException ex)
         {
-            throw ex;
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}");
+        }
+        catch (BO.BlNotAloudToDoException ex)
+        {
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}");
         }
     }
 
@@ -347,9 +351,9 @@ internal class Program
         Console.WriteLine("press your id of volunteer");
         int idV=ReadHelper.ReadInt();
         Console.WriteLine("Choose a number by which the list will be filterd:\n 1.RescueKid\n 2.changeWheel\n 3.FirstAid\n 4.CableAssistance\n 5.fuelOilWater\n 6.None\n");
-        BO.KindOfCall? filAll = ReadHelper.ReadEnum<BO.KindOfCall>();
+        BO.KindOfCall? filAll = ReadHelper.ReadEnumOrNull<BO.KindOfCall>();
         Console.WriteLine("Choose a number by which the list will be sorted:\n 1.Id\n 2.KindOfCall\n 3.AddressOfCall\n 4.OpeningTime\n 5.TreatmentEntryTime\n 6.TreatmentEndTime\n 7.TypeOfTreatmentTermination\n");
-        BO.CloseCallInListObjects? sortAll = ReadHelper.ReadEnum<BO.CloseCallInListObjects>();
+        BO.CloseCallInListObjects? sortAll = ReadHelper.ReadEnumOrNull<BO.CloseCallInListObjects>();
         IEnumerable<BO.ClosedCallInList> calls = s_bl.Call.GetCloseCallByVolunteer(idV, filAll, sortAll);
         foreach (var item in calls)
         {
@@ -363,25 +367,28 @@ internal class Program
     {
         Console.WriteLine("press id of call");
         try { Console.WriteLine(s_bl.Call.ReadCall(ReadHelper.ReadInt())); }
-        catch (Exception ex)
+        catch (BO.BlDoesNotExistException ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}");
         }
     }
     /// <summary>
     /// Update Call
     /// </summary>
     static void UpdateCall()
-        {
+    {
         try
         {
             s_bl.Call.UpdateCall(AddUpdateCall());
         }
-        catch (Exception ex)
+        catch (BO.BlDoesNotExistException ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}");
         }
+        catch (BO.BlInvalidDataException ex){
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}"); 
         }
+    }
     /// <summary>
     /// Update End Call
     /// </summary>
@@ -392,9 +399,13 @@ internal class Program
         {
             s_bl.Call.UpdateEndCall(ReadHelper.ReadInt(), ReadHelper.ReadInt());
         }
-        catch (Exception ex)
+        catch (BO.BlDoesNotExistException ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}");
+        }
+        catch(BO.BlNotAloudToDoException ex)
+        {
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}");
         }
     }
     /// <summary>
@@ -404,13 +415,13 @@ internal class Program
     {
         object? filValue=null;
         Console.WriteLine("Choose a number by which the list will be filterd:\n 1.Id\n 2.CallId\n 3.KindOfCall\n 4.OpeningTime\n 5.RemainingTimeToFinish\n 6.LastVolunteer\n 7.CompletionTime\n 8.Status\n 9.TotalAlocation\n");
-        BO.CallInListObjects? filAll = ReadHelper.ReadEnum<BO.CallInListObjects>();
+        BO.CallInListObjects? filAll = ReadHelper.ReadEnumOrNull<BO.CallInListObjects>();
         if (filAll != null) {
             Console.WriteLine("press value to filter");
              filValue = Console.ReadLine();
         }
         Console.WriteLine("Choose a number by which the list will be sorted:\n 1.Id\n 2.CallId\n 3.KindOfCall\n 4.OpeningTime\n 5.RemainingTimeToFinish\n 6.LastVolunteer\n 7.CompletionTime\n 8.Status\n 9.TotalAlocation\n");
-        BO.CallInListObjects? sortAll = ReadHelper.ReadEnum<BO.CallInListObjects>();
+        BO.CallInListObjects? sortAll = ReadHelper.ReadEnumOrNull<BO.CallInListObjects>();
         IEnumerable<BO.CallInList> calls = s_bl.Call.CallList( filAll, filValue,sortAll);
         foreach (var item in calls)
         {
@@ -424,16 +435,19 @@ internal class Program
     {
         Console.WriteLine("press id of call to delete");
         try { s_bl.Call.DeleteCall(ReadHelper.ReadInt()); }
-        catch (Exception ex) { }
+        catch (BO.BlDoesNotExistException ex) { Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}"); }
+        catch (BO.BlNotAloudToDoException ex) { Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}"); }
+
     }
-    /// <summary>
-    /// cancel call
-    /// </summary>
-     static void CancelCall()
+        /// <summary>
+        /// cancel call
+        /// </summary>
+        static void CancelCall()
     {
         Console.WriteLine("press your id and id of call");
         try { s_bl.Call.UpdateCancelCall(ReadHelper.ReadInt(), ReadHelper.ReadInt()); }
-        catch (Exception ex) { Console.WriteLine(ex.Message); }
+        catch (BO.BlDoesNotExistException ex) { Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}"); }
+        catch (BO.BlNotAloudToDoException ex) { Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}"); }
     }
     /// <summary>
     /// Call By Status
@@ -456,9 +470,9 @@ internal class Program
         {
             s_bl.Call.AddCall(AddUpdateCall());
         }
-        catch (Exception ex)
+        catch (BO.BlAlreadyExistsException ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}");
         }
     }
     /// <summary>
@@ -468,7 +482,7 @@ internal class Program
     {
         Console.WriteLine("press your id and id of call you want treat");
         try { s_bl.Call.CooseCall(ReadHelper.ReadInt(), ReadHelper.ReadInt()); }
-        catch (Exception ex) { Console.WriteLine(ex.Message); }
+        catch (BO.BlNotAloudToDoException ex) { Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}"); }
     }
    
     /// <summary>
@@ -479,9 +493,9 @@ internal class Program
         Console.WriteLine("press your id of volunteer");
         int idV = ReadHelper.ReadInt();
         Console.WriteLine("Choose a number by which the list will be filterd:\n 1.RescueKid\n 2.changeWheel\n 3.FirstAid\n 4.CableAssistance\n 5.fuelOilWater\n 6.None\n");
-        BO.KindOfCall? filAll = ReadHelper.ReadEnum<BO.KindOfCall>();
+        BO.KindOfCall? filAll = ReadHelper.ReadEnumOrNull<BO.KindOfCall>();
         Console.WriteLine("Choose a number by which the list will be sorted:\n 1.Id\n 2.KindOfCall\n 3.AddressOfCall\n 4.OpeningTime\n 5.FinishTime\n 6.Description\n 7.DistanceFromVol\n");
-        BO.OpenCallInListFields? sortAll = ReadHelper.ReadEnum<BO.OpenCallInListFields>();
+        BO.OpenCallInListFields? sortAll = ReadHelper.ReadEnumOrNull<BO.OpenCallInListFields>();
         IEnumerable<BO.OpenCallInList> calls = s_bl.Call.GetOpenCallByVolunteer(idV, filAll, sortAll);
         foreach (var item in calls)
         {
