@@ -43,6 +43,30 @@ namespace Helpers
                 return BO.Status.Irelavant;
             return (BO.Status)StatusCallInProgress(call);
         }
+        public static IEnumerable<DO.Call> GetCallByVolunteer(List<int> callOfVol, BO.KindOfCall? kindOfCall = null, BO.CloseCallInListObjects? objCloseCall = null, BO.OpenCallInListFields? objOpenCall = null)
+        {
+            IEnumerable<DO.Call> calls = s_dal.Call.ReadAll().Where(c => callOfVol.Contains(c.Id));
+            if (kindOfCall.HasValue)
+            {
+                calls = calls.Where(c => c.KindOfCall == (DO.KindOfCall)kindOfCall.Value);
+            }
+            if (objCloseCall != null)
+            {
+                var propertyInfoSort = typeof(DO.Call).GetProperty(objCloseCall.ToString());
+                calls = calls.OrderBy(c => propertyInfoSort.GetValue(c, null));
+            }
+            else
+            {
+                if (objCloseCall != null)
+                {
+                    var propertyInfoSort = typeof(DO.Call).GetProperty(objCloseCall.ToString());
+                    calls = calls.OrderBy(c => propertyInfoSort.GetValue(c, null));
+                }
+                else
+                   calls = calls.OrderBy(c => c.Id);
+            }
+            return calls;
+        }
         /// <summary>
         /// Validates the call by checking if the finish time is not earlier than the opening time and if the address is valid.
         /// </summary>

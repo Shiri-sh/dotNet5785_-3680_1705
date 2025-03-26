@@ -3,501 +3,501 @@
   <Call>
     <Id>1</Id>
     <KindOfCall>RescueKid</KindOfCall>
-    <AddressOfCall>Dizengoff Street 120, Tel Aviv</AddressOfCall>
-    <Latitude>32.083687</Latitude>
-    <Longitude>34.773541</Longitude>
-    <OpeningTime>2025-03-04T06:00:00</OpeningTime>
-    <FinishTime>2025-03-04T09:00:00</FinishTime>
+    <AddressOfCall>Rothschild Boulevard, Tel Aviv</AddressOfCall>
+    <Latitude>32.063229</Latitude>
+    <Longitude>34.774996</Longitude>
+    <OpeningTime>2025-03-25T07:00:00</OpeningTime>
+    <FinishTime>2025-03-25T10:00:00</FinishTime>
     <Description>Rescuing a locked child from a vehicle</Description>
   </Call>
   <Call>
     <Id>2</Id>
     <KindOfCall>RescueKid</KindOfCall>
-    <AddressOfCall>Pinhas Rozen 12, Tel Aviv-Yafo</AddressOfCall>
-    <Latitude>32.108024</Latitude>
-    <Longitude>34.827305</Longitude>
-    <OpeningTime>2025-03-04T01:00:00</OpeningTime>
-    <FinishTime>2025-03-04T04:00:00</FinishTime>
+    <AddressOfCall>Ehad Ha'am Street 9, Tel Aviv</AddressOfCall>
+    <Latitude>32.065789</Latitude>
+    <Longitude>34.776231</Longitude>
+    <OpeningTime>2025-03-25T04:00:00</OpeningTime>
+    <FinishTime>2025-03-25T05:00:00</FinishTime>
     <Description>Emergency call to rescue a child</Description>
   </Call>
   <Call>
     <Id>3</Id>
     <KindOfCall>RescueKid</KindOfCall>
-    <AddressOfCall>Derech Menachem Begin, Petah Tikva</AddressOfCall>
-    <Latitude>32.069869</Latitude>
-    <Longitude>34.914232</Longitude>
-    <OpeningTime>2025-03-04T00:00:00</OpeningTime>
-    <FinishTime>2025-03-04T01:00:00</FinishTime>
+    <AddressOfCall>Nordau Boulevard, Tel Aviv</AddressOfCall>
+    <Latitude>32.091236</Latitude>
+    <Longitude>34.785009</Longitude>
+    <OpeningTime>2025-03-25T09:00:00</OpeningTime>
+    <FinishTime>2025-03-25T11:00:00</FinishTime>
     <Description>Assistance in freeing a stuck child</Description>
   </Call>
   <Call>
     <Id>4</Id>
     <KindOfCall>changeWheel</KindOfCall>
-    <AddressOfCall>Jabotinsky 15, Ramat Gan</AddressOfCall>
-    <Latitude>32.073667</Latitude>
-    <Longitude>34.809965</Longitude>
-    <OpeningTime>2025-03-04T01:00:00</OpeningTime>
-    <FinishTime>2025-03-04T04:00:00</FinishTime>
+    <AddressOfCall>King George Street, Tel Aviv</AddressOfCall>
+    <Latitude>32.073428</Latitude>
+    <Longitude>34.775037</Longitude>
+    <OpeningTime>2025-03-25T08:00:00</OpeningTime>
+    <FinishTime>2025-03-25T11:00:00</FinishTime>
     <Description>Replacing a damaged wheel</Description>
   </Call>
   <Call>
     <Id>5</Id>
     <KindOfCall>changeWheel</KindOfCall>
-    <AddressOfCall>Rabbi Hiyya, Elad</AddressOfCall>
-    <Latitude>32.049344</Latitude>
-    <Longitude>34.963798</Longitude>
-    <OpeningTime>2025-03-04T01:00:00</OpeningTime>
-    <FinishTime>2025-03-04T03:00:00</FinishTime>
+    <AddressOfCall>Jabotinsky 15, Ramat Gan</AddressOfCall>
+    <Latitude>32.073667</Latitude>
+    <Longitude>34.809965</Longitude>
+    <OpeningTime>2025-03-25T10:00:00</OpeningTime>
+    <FinishTime>2025-03-25T11:00:00</FinishTime>
     <Description>Assistance in replacing a faulty tire</Description>
   </Call>
   <Call>
     <Id>6</Id>
     <KindOfCall>changeWheel</KindOfCall>
-    <AddressOfCall>Even Gvirol 11, Elad</AddressOfCall>
-    <Latitude>32.0579</Latitude>
-    <Longitude>34</Longitude>
-    <OpeningTime>2025-03-04T09:00:00</OpeningTime>
-    <FinishTime>2025-03-04T11:00:00</FinishTime>
+    <AddressOfCall>Dizengoff Street 120, Tel Aviv</AddressOfCall>
+    <Latitude>32.083687</Latitude>
+    <Longitude>34.773541</Longitude>
+    <OpeningTime>2025-03-25T06:00:00</OpeningTime>
+    <FinishTime>2025-03-25T08:00:00</FinishTime>
     <Description>Help with installing a new wheel</Description>
   </Call>
   <Call>
     <Id>7</Id>
     <KindOfCall>FirstAid</KindOfCall>
-    <AddressOfCall>Balfour Street 20, Bat Yam</AddressOfCall>
-    <Latitude>32.027325</Latitude>
-    <Longitude>34.747369</Longitude>
-    <OpeningTime>2025-03-04T02:00:00</OpeningTime>
-    <FinishTime>2025-03-04T03:00:00</FinishTime>
+    <AddressOfCall>Arlozorov Street 78, Tel Aviv</AddressOfCall>
+    <Latitude>32.085679</Latitude>
+    <Longitude>34.782549</Longitude>
+    <OpeningTime>2025-03-25T04:00:00</OpeningTime>
+    <FinishTime>2025-03-25T06:00:00</FinishTime>
     <Description>Providing first aid to an injured person</Description>
   </Call>
   <Call>
     <Id>8</Id>
     <KindOfCall>FirstAid</KindOfCall>
-    <AddressOfCall>Allenby Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.067519</Latitude>
-    <Longitude>34.771222</Longitude>
-    <OpeningTime>2025-03-04T02:00:00</OpeningTime>
-    <FinishTime>2025-03-04T05:00:00</FinishTime>
+    <AddressOfCall>King George Street, Tel Aviv</AddressOfCall>
+    <Latitude>32.073428</Latitude>
+    <Longitude>34.775037</Longitude>
+    <OpeningTime>2025-03-25T05:00:00</OpeningTime>
+    <FinishTime>2025-03-25T06:00:00</FinishTime>
     <Description>Emergency treatment in a medical situation</Description>
   </Call>
   <Call>
     <Id>9</Id>
     <KindOfCall>FirstAid</KindOfCall>
-    <AddressOfCall>Pinhas Rozen 12, Tel Aviv-Yafo</AddressOfCall>
-    <Latitude>32.108024</Latitude>
-    <Longitude>34.827305</Longitude>
-    <OpeningTime>2025-03-04T01:00:00</OpeningTime>
-    <FinishTime>2025-03-04T04:00:00</FinishTime>
+    <AddressOfCall>Ben Yehuda Street, Tel Aviv</AddressOfCall>
+    <Latitude>32.082246</Latitude>
+    <Longitude>34.769322</Longitude>
+    <OpeningTime>2025-03-25T02:00:00</OpeningTime>
+    <FinishTime>2025-03-25T03:00:00</FinishTime>
     <Description>First aid before medical team arrival</Description>
   </Call>
   <Call>
     <Id>10</Id>
     <KindOfCall>CableAssistance</KindOfCall>
-    <AddressOfCall>Ben Yehuda Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.082246</Latitude>
-    <Longitude>34.769322</Longitude>
-    <OpeningTime>2025-03-04T08:00:00</OpeningTime>
-    <FinishTime>2025-03-04T09:00:00</FinishTime>
+    <AddressOfCall>Be'er Mayim Chaim 12, Bnei Brak</AddressOfCall>
+    <Latitude>32.083079</Latitude>
+    <Longitude>34.841832</Longitude>
+    <OpeningTime>2025-03-25T07:00:00</OpeningTime>
+    <FinishTime>2025-03-25T08:00:00</FinishTime>
     <Description>Jumpstarting a car with cables</Description>
   </Call>
   <Call>
     <Id>11</Id>
     <KindOfCall>CableAssistance</KindOfCall>
-    <AddressOfCall>Nordau Boulevard, Tel Aviv</AddressOfCall>
-    <Latitude>32.091236</Latitude>
-    <Longitude>34.785009</Longitude>
-    <OpeningTime>2025-03-04T05:00:00</OpeningTime>
-    <FinishTime>2025-03-04T07:00:00</FinishTime>
+    <AddressOfCall>Rabbi Hiyya, Elad</AddressOfCall>
+    <Latitude>32.049344</Latitude>
+    <Longitude>34.963798</Longitude>
+    <OpeningTime>2025-03-25T09:00:00</OpeningTime>
+    <FinishTime>2025-03-25T11:00:00</FinishTime>
     <Description>Helping with a car that won't start</Description>
   </Call>
   <Call>
     <Id>12</Id>
     <KindOfCall>CableAssistance</KindOfCall>
-    <AddressOfCall>Allenby Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.067519</Latitude>
-    <Longitude>34.771222</Longitude>
-    <OpeningTime>2025-03-04T07:00:00</OpeningTime>
-    <FinishTime>2025-03-04T09:00:00</FinishTime>
+    <AddressOfCall>Pinhas Rozen 12, Tel Aviv-Yafo</AddressOfCall>
+    <Latitude>32.108024</Latitude>
+    <Longitude>34.827305</Longitude>
+    <OpeningTime>2025-03-25T03:00:00</OpeningTime>
+    <FinishTime>2025-03-25T05:00:00</FinishTime>
     <Description>Starting a car using cables</Description>
   </Call>
   <Call>
     <Id>13</Id>
     <KindOfCall>fuelOilWater</KindOfCall>
-    <AddressOfCall>Allenby Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.067519</Latitude>
-    <Longitude>34.771222</Longitude>
-    <OpeningTime>2025-03-04T06:00:00</OpeningTime>
-    <FinishTime>2025-03-04T08:00:00</FinishTime>
+    <AddressOfCall>Herzl Street 25, Tel Aviv</AddressOfCall>
+    <Latitude>32.06078</Latitude>
+    <Longitude>34.770589</Longitude>
+    <OpeningTime>2025-03-25T09:00:00</OpeningTime>
+    <FinishTime>2025-03-25T11:00:00</FinishTime>
     <Description>Filling fuel for a stranded vehicle</Description>
   </Call>
   <Call>
     <Id>14</Id>
     <KindOfCall>fuelOilWater</KindOfCall>
-    <AddressOfCall>King George Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.073428</Latitude>
-    <Longitude>34.775037</Longitude>
-    <OpeningTime>2025-03-04T08:00:00</OpeningTime>
-    <FinishTime>2025-03-04T09:00:00</FinishTime>
+    <AddressOfCall>Rothschild Boulevard, Tel Aviv</AddressOfCall>
+    <Latitude>32.063229</Latitude>
+    <Longitude>34.774996</Longitude>
+    <OpeningTime>2025-03-25T05:00:00</OpeningTime>
+    <FinishTime>2025-03-25T07:00:00</FinishTime>
     <Description>Adding oil to a car in need</Description>
   </Call>
   <Call>
     <Id>15</Id>
     <KindOfCall>fuelOilWater</KindOfCall>
-    <AddressOfCall>Ben Yehuda Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.082246</Latitude>
-    <Longitude>34.769322</Longitude>
-    <OpeningTime>2025-03-04T02:00:00</OpeningTime>
-    <FinishTime>2025-03-04T05:00:00</FinishTime>
+    <AddressOfCall>Pinhas Rozen 12, Tel Aviv-Yafo</AddressOfCall>
+    <Latitude>32.108024</Latitude>
+    <Longitude>34.827305</Longitude>
+    <OpeningTime>2025-03-25T08:00:00</OpeningTime>
+    <FinishTime>2025-03-25T10:00:00</FinishTime>
     <Description>Refueling a vehicle in an emergency</Description>
   </Call>
   <Call>
     <Id>16</Id>
     <KindOfCall>RescueKid</KindOfCall>
-    <AddressOfCall>Rabbi Hiyya, Elad</AddressOfCall>
-    <Latitude>32.049344</Latitude>
-    <Longitude>34.963798</Longitude>
-    <OpeningTime>2025-03-04T07:00:00</OpeningTime>
-    <FinishTime>2025-03-04T08:00:00</FinishTime>
+    <AddressOfCall>Ben Yehuda Street, Tel Aviv</AddressOfCall>
+    <Latitude>32.082246</Latitude>
+    <Longitude>34.769322</Longitude>
+    <OpeningTime>2025-03-25T02:00:00</OpeningTime>
+    <FinishTime>2025-03-25T04:00:00</FinishTime>
     <Description>Rescuing a child in special situations</Description>
   </Call>
   <Call>
     <Id>17</Id>
     <KindOfCall>RescueKid</KindOfCall>
-    <AddressOfCall>Rothschild Boulevard, Tel Aviv</AddressOfCall>
-    <Latitude>32.063229</Latitude>
-    <Longitude>34.774996</Longitude>
-    <OpeningTime>2025-03-04T10:00:00</OpeningTime>
-    <FinishTime>2025-03-04T13:00:00</FinishTime>
+    <AddressOfCall>King George Street, Tel Aviv</AddressOfCall>
+    <Latitude>32.073428</Latitude>
+    <Longitude>34.775037</Longitude>
+    <OpeningTime>2025-03-25T05:00:00</OpeningTime>
+    <FinishTime>2025-03-25T07:00:00</FinishTime>
     <Description>Urgent call to save a child</Description>
   </Call>
   <Call>
     <Id>18</Id>
     <KindOfCall>changeWheel</KindOfCall>
-    <AddressOfCall>Ehad Ha'am Street 9, Tel Aviv</AddressOfCall>
-    <Latitude>32.065789</Latitude>
-    <Longitude>34.776231</Longitude>
-    <OpeningTime>2025-03-04T10:00:00</OpeningTime>
-    <FinishTime>2025-03-04T12:00:00</FinishTime>
+    <AddressOfCall>King George Street, Tel Aviv</AddressOfCall>
+    <Latitude>32.073428</Latitude>
+    <Longitude>34.775037</Longitude>
+    <OpeningTime>2025-03-25T00:00:00</OpeningTime>
+    <FinishTime>2025-03-25T01:00:00</FinishTime>
     <Description>Service for replacing a wheel</Description>
   </Call>
   <Call>
     <Id>19</Id>
     <KindOfCall>changeWheel</KindOfCall>
-    <AddressOfCall>Rabbi Hiyya, Elad</AddressOfCall>
-    <Latitude>32.049344</Latitude>
-    <Longitude>34.963798</Longitude>
-    <OpeningTime>2025-03-04T06:00:00</OpeningTime>
-    <FinishTime>2025-03-04T07:00:00</FinishTime>
+    <AddressOfCall>King George Street, Tel Aviv</AddressOfCall>
+    <Latitude>32.073428</Latitude>
+    <Longitude>34.775037</Longitude>
+    <OpeningTime>2025-03-25T10:00:00</OpeningTime>
+    <FinishTime>2025-03-25T11:00:00</FinishTime>
     <Description>Handling a faulty wheel</Description>
   </Call>
   <Call>
     <Id>20</Id>
     <KindOfCall>FirstAid</KindOfCall>
-    <AddressOfCall>HaYarkon Street 123, Tel Aviv</AddressOfCall>
-    <Latitude>32.089678</Latitude>
-    <Longitude>34.769126</Longitude>
-    <OpeningTime>2025-03-04T09:00:00</OpeningTime>
-    <FinishTime>2025-03-04T11:00:00</FinishTime>
+    <AddressOfCall>Rabbi Hiyya, Elad</AddressOfCall>
+    <Latitude>32.049344</Latitude>
+    <Longitude>34.963798</Longitude>
+    <OpeningTime>2025-03-25T07:00:00</OpeningTime>
+    <FinishTime>2025-03-25T08:00:00</FinishTime>
     <Description>Providing initial medical assistance</Description>
   </Call>
   <Call>
     <Id>21</Id>
     <KindOfCall>FirstAid</KindOfCall>
-    <AddressOfCall>Pinhas Rozen 12, Tel Aviv-Yafo</AddressOfCall>
-    <Latitude>32.108024</Latitude>
-    <Longitude>34.827305</Longitude>
-    <OpeningTime>2025-03-04T09:00:00</OpeningTime>
-    <FinishTime>2025-03-04T12:00:00</FinishTime>
+    <AddressOfCall>Dizengoff Street 120, Tel Aviv</AddressOfCall>
+    <Latitude>32.083687</Latitude>
+    <Longitude>34.773541</Longitude>
+    <OpeningTime>2025-03-25T07:00:00</OpeningTime>
+    <FinishTime>2025-03-25T08:00:00</FinishTime>
     <Description>Immediate help for the injured</Description>
   </Call>
   <Call>
     <Id>22</Id>
     <KindOfCall>CableAssistance</KindOfCall>
-    <AddressOfCall>HaYarkon Street 123, Tel Aviv</AddressOfCall>
-    <Latitude>32.089678</Latitude>
-    <Longitude>34.769126</Longitude>
-    <OpeningTime>2025-03-04T06:00:00</OpeningTime>
-    <FinishTime>2025-03-04T08:00:00</FinishTime>
+    <AddressOfCall>King George Street, Tel Aviv</AddressOfCall>
+    <Latitude>32.073428</Latitude>
+    <Longitude>34.775037</Longitude>
+    <OpeningTime>2025-03-25T08:00:00</OpeningTime>
+    <FinishTime>2025-03-25T10:00:00</FinishTime>
     <Description>Jumpstarting a car with a dead battery</Description>
   </Call>
   <Call>
     <Id>23</Id>
     <KindOfCall>CableAssistance</KindOfCall>
-    <AddressOfCall>Hashalom Road, Givatayim</AddressOfCall>
-    <Latitude>32.069478</Latitude>
-    <Longitude>34.808196</Longitude>
-    <OpeningTime>2025-03-04T10:00:00</OpeningTime>
-    <FinishTime>2025-03-04T12:00:00</FinishTime>
+    <AddressOfCall>Ehad Ha'am Street 9, Tel Aviv</AddressOfCall>
+    <Latitude>32.065789</Latitude>
+    <Longitude>34.776231</Longitude>
+    <OpeningTime>2025-03-25T07:00:00</OpeningTime>
+    <FinishTime>2025-03-25T10:00:00</FinishTime>
     <Description>Temporary fix for a vehicle's electrical system</Description>
   </Call>
   <Call>
     <Id>24</Id>
     <KindOfCall>fuelOilWater</KindOfCall>
-    <AddressOfCall>HaYarkon Street 123, Tel Aviv</AddressOfCall>
-    <Latitude>32.089678</Latitude>
-    <Longitude>34.769126</Longitude>
-    <OpeningTime>2025-03-04T09:00:00</OpeningTime>
-    <FinishTime>2025-03-04T11:00:00</FinishTime>
+    <AddressOfCall>Even Gvirol 11, Elad</AddressOfCall>
+    <Latitude>32.0579</Latitude>
+    <Longitude>34</Longitude>
+    <OpeningTime>2025-03-25T03:00:00</OpeningTime>
+    <FinishTime>2025-03-25T05:00:00</FinishTime>
     <Description>Emergency refueling away from a station</Description>
   </Call>
   <Call>
     <Id>25</Id>
     <KindOfCall>fuelOilWater</KindOfCall>
-    <AddressOfCall>Allenby Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.067519</Latitude>
-    <Longitude>34.771222</Longitude>
-    <OpeningTime>2025-03-04T01:00:00</OpeningTime>
-    <FinishTime>2025-03-04T04:00:00</FinishTime>
+    <AddressOfCall>Jabotinsky 15, Ramat Gan</AddressOfCall>
+    <Latitude>32.073667</Latitude>
+    <Longitude>34.809965</Longitude>
+    <OpeningTime>2025-03-25T04:00:00</OpeningTime>
+    <FinishTime>2025-03-25T05:00:00</FinishTime>
     <Description>Providing water for an overheated car</Description>
   </Call>
   <Call>
     <Id>26</Id>
     <KindOfCall>fuelOilWater</KindOfCall>
-    <AddressOfCall>Rothschild Boulevard, Tel Aviv</AddressOfCall>
-    <Latitude>32.063229</Latitude>
-    <Longitude>34.774996</Longitude>
-    <OpeningTime>2025-03-04T08:00:00</OpeningTime>
-    <FinishTime>2025-03-04T10:00:00</FinishTime>
+    <AddressOfCall>King George Street, Tel Aviv</AddressOfCall>
+    <Latitude>32.073428</Latitude>
+    <Longitude>34.775037</Longitude>
+    <OpeningTime>2025-03-25T02:00:00</OpeningTime>
+    <FinishTime>2025-03-25T05:00:00</FinishTime>
     <Description>Adding essential fluids to a vehicle</Description>
   </Call>
   <Call>
     <Id>27</Id>
     <KindOfCall>RescueKid</KindOfCall>
-    <AddressOfCall>Shenkar Street 7, Herzliya</AddressOfCall>
-    <Latitude>32.164458</Latitude>
-    <Longitude>34.836211</Longitude>
-    <OpeningTime>2025-03-04T04:00:00</OpeningTime>
-    <FinishTime>2025-03-04T06:00:00</FinishTime>
+    <AddressOfCall>Derech Menachem Begin, Petah Tikva</AddressOfCall>
+    <Latitude>32.069869</Latitude>
+    <Longitude>34.914232</Longitude>
+    <OpeningTime>2025-03-25T10:00:00</OpeningTime>
+    <FinishTime>2025-03-25T11:00:00</FinishTime>
     <Description>Assistance for a locked-in child</Description>
   </Call>
   <Call>
     <Id>28</Id>
     <KindOfCall>changeWheel</KindOfCall>
-    <AddressOfCall>Pinhas Rozen 12, Tel Aviv-Yafo</AddressOfCall>
-    <Latitude>32.108024</Latitude>
-    <Longitude>34.827305</Longitude>
-    <OpeningTime>2025-03-04T02:00:00</OpeningTime>
-    <FinishTime>2025-03-04T05:00:00</FinishTime>
+    <AddressOfCall>Ehad Ha'am Street 9, Tel Aviv</AddressOfCall>
+    <Latitude>32.065789</Latitude>
+    <Longitude>34.776231</Longitude>
+    <OpeningTime>2025-03-25T08:00:00</OpeningTime>
+    <FinishTime>2025-03-25T09:00:00</FinishTime>
     <Description>Repairing a tire on a stranded car</Description>
   </Call>
   <Call>
     <Id>29</Id>
     <KindOfCall>FirstAid</KindOfCall>
-    <AddressOfCall>Even Gvirol 11, Elad</AddressOfCall>
-    <Latitude>32.0579</Latitude>
-    <Longitude>34</Longitude>
-    <OpeningTime>2025-03-04T08:00:00</OpeningTime>
-    <FinishTime>2025-03-04T10:00:00</FinishTime>
+    <AddressOfCall>Balfour Street 20, Bat Yam</AddressOfCall>
+    <Latitude>32.027325</Latitude>
+    <Longitude>34.747369</Longitude>
+    <OpeningTime>2025-03-25T03:00:00</OpeningTime>
+    <FinishTime>2025-03-25T04:00:00</FinishTime>
     <Description>Emergency care for injury situations</Description>
   </Call>
   <Call>
     <Id>30</Id>
     <KindOfCall>CableAssistance</KindOfCall>
-    <AddressOfCall>Allenby Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.067519</Latitude>
-    <Longitude>34.771222</Longitude>
-    <OpeningTime>2025-03-04T02:00:00</OpeningTime>
-    <FinishTime>2025-03-04T05:00:00</FinishTime>
+    <AddressOfCall>Rothschild Boulevard, Tel Aviv</AddressOfCall>
+    <Latitude>32.063229</Latitude>
+    <Longitude>34.774996</Longitude>
+    <OpeningTime>2025-03-25T09:00:00</OpeningTime>
+    <FinishTime>2025-03-25T10:00:00</FinishTime>
     <Description>Technical help to start a car</Description>
   </Call>
   <Call>
     <Id>31</Id>
     <KindOfCall>fuelOilWater</KindOfCall>
-    <AddressOfCall>King George Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.073428</Latitude>
-    <Longitude>34.775037</Longitude>
-    <OpeningTime>2025-03-04T05:00:00</OpeningTime>
-    <FinishTime>2025-03-04T07:00:00</FinishTime>
+    <AddressOfCall>Hashalom Road, Givatayim</AddressOfCall>
+    <Latitude>32.069478</Latitude>
+    <Longitude>34.808196</Longitude>
+    <OpeningTime>2025-03-25T05:00:00</OpeningTime>
+    <FinishTime>2025-03-25T07:00:00</FinishTime>
     <Description>Adding emergency oil</Description>
   </Call>
   <Call>
     <Id>32</Id>
     <KindOfCall>RescueKid</KindOfCall>
-    <AddressOfCall>Herzl Street 25, Tel Aviv</AddressOfCall>
-    <Latitude>32.06078</Latitude>
-    <Longitude>34.770589</Longitude>
-    <OpeningTime>2025-03-04T08:00:00</OpeningTime>
-    <FinishTime>2025-03-04T11:00:00</FinishTime>
+    <AddressOfCall>Dizengoff Street 120, Tel Aviv</AddressOfCall>
+    <Latitude>32.083687</Latitude>
+    <Longitude>34.773541</Longitude>
+    <OpeningTime>2025-03-25T10:00:00</OpeningTime>
+    <FinishTime>2025-03-25T12:00:00</FinishTime>
     <Description>Action to rescue a child</Description>
   </Call>
   <Call>
     <Id>33</Id>
     <KindOfCall>changeWheel</KindOfCall>
-    <AddressOfCall>Allenby Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.067519</Latitude>
-    <Longitude>34.771222</Longitude>
-    <OpeningTime>2025-03-04T09:00:00</OpeningTime>
-    <FinishTime>2025-03-04T10:00:00</FinishTime>
+    <AddressOfCall>Shenkar Street 7, Herzliya</AddressOfCall>
+    <Latitude>32.164458</Latitude>
+    <Longitude>34.836211</Longitude>
+    <OpeningTime>2025-03-25T02:00:00</OpeningTime>
+    <FinishTime>2025-03-25T04:00:00</FinishTime>
     <Description>Professional wheel replacement</Description>
   </Call>
   <Call>
     <Id>34</Id>
     <KindOfCall>FirstAid</KindOfCall>
-    <AddressOfCall>Shenkar Street 7, Herzliya</AddressOfCall>
-    <Latitude>32.164458</Latitude>
-    <Longitude>34.836211</Longitude>
-    <OpeningTime>2025-03-04T00:00:00</OpeningTime>
-    <FinishTime>2025-03-04T02:00:00</FinishTime>
+    <AddressOfCall>Allenby Street, Tel Aviv</AddressOfCall>
+    <Latitude>32.067519</Latitude>
+    <Longitude>34.771222</Longitude>
+    <OpeningTime>2025-03-25T08:00:00</OpeningTime>
+    <FinishTime>2025-03-25T09:00:00</FinishTime>
     <Description>On-the-spot emergency care</Description>
   </Call>
   <Call>
     <Id>35</Id>
     <KindOfCall>CableAssistance</KindOfCall>
-    <AddressOfCall>Shenkar Street 7, Herzliya</AddressOfCall>
-    <Latitude>32.164458</Latitude>
-    <Longitude>34.836211</Longitude>
-    <OpeningTime>2025-03-04T03:00:00</OpeningTime>
-    <FinishTime>2025-03-04T04:00:00</FinishTime>
+    <AddressOfCall>HaYarkon Street 123, Tel Aviv</AddressOfCall>
+    <Latitude>32.089678</Latitude>
+    <Longitude>34.769126</Longitude>
+    <OpeningTime>2025-03-25T01:00:00</OpeningTime>
+    <FinishTime>2025-03-25T04:00:00</FinishTime>
     <Description>Cable-based car jumpstart service</Description>
   </Call>
   <Call>
     <Id>36</Id>
     <KindOfCall>fuelOilWater</KindOfCall>
-    <AddressOfCall>Dizengoff Street 120, Tel Aviv</AddressOfCall>
-    <Latitude>32.083687</Latitude>
-    <Longitude>34.773541</Longitude>
-    <OpeningTime>2025-03-04T04:00:00</OpeningTime>
-    <FinishTime>2025-03-04T07:00:00</FinishTime>
+    <AddressOfCall>Balfour Street 20, Bat Yam</AddressOfCall>
+    <Latitude>32.027325</Latitude>
+    <Longitude>34.747369</Longitude>
+    <OpeningTime>2025-03-25T02:00:00</OpeningTime>
+    <FinishTime>2025-03-25T05:00:00</FinishTime>
     <Description>Adding fuel in unusual circumstances</Description>
   </Call>
   <Call>
     <Id>37</Id>
     <KindOfCall>RescueKid</KindOfCall>
-    <AddressOfCall>King George Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.073428</Latitude>
-    <Longitude>34.775037</Longitude>
-    <OpeningTime>2025-03-04T00:00:00</OpeningTime>
-    <FinishTime>2025-03-04T02:00:00</FinishTime>
+    <AddressOfCall>HaYarkon Street 123, Tel Aviv</AddressOfCall>
+    <Latitude>32.089678</Latitude>
+    <Longitude>34.769126</Longitude>
+    <OpeningTime>2025-03-25T08:00:00</OpeningTime>
+    <FinishTime>2025-03-25T11:00:00</FinishTime>
     <Description>Rescuing children in complex circumstances</Description>
   </Call>
   <Call>
     <Id>38</Id>
     <KindOfCall>changeWheel</KindOfCall>
-    <AddressOfCall>Rothschild Boulevard, Tel Aviv</AddressOfCall>
-    <Latitude>32.063229</Latitude>
-    <Longitude>34.774996</Longitude>
-    <OpeningTime>2025-03-04T03:00:00</OpeningTime>
-    <FinishTime>2025-03-04T06:00:00</FinishTime>
+    <AddressOfCall>Pinhas Rozen 12, Tel Aviv-Yafo</AddressOfCall>
+    <Latitude>32.108024</Latitude>
+    <Longitude>34.827305</Longitude>
+    <OpeningTime>2025-03-25T04:00:00</OpeningTime>
+    <FinishTime>2025-03-25T05:00:00</FinishTime>
     <Description>Emergency tire services</Description>
   </Call>
   <Call>
     <Id>39</Id>
     <KindOfCall>FirstAid</KindOfCall>
-    <AddressOfCall>Arlozorov Street 78, Tel Aviv</AddressOfCall>
-    <Latitude>32.085679</Latitude>
-    <Longitude>34.782549</Longitude>
-    <OpeningTime>2025-03-04T05:00:00</OpeningTime>
-    <FinishTime>2025-03-04T08:00:00</FinishTime>
+    <AddressOfCall>Jabotinsky 15, Ramat Gan</AddressOfCall>
+    <Latitude>32.073667</Latitude>
+    <Longitude>34.809965</Longitude>
+    <OpeningTime>2025-03-25T02:00:00</OpeningTime>
+    <FinishTime>2025-03-25T03:00:00</FinishTime>
     <Description>Initial care until medical assistance arrives</Description>
   </Call>
   <Call>
     <Id>40</Id>
     <KindOfCall>CableAssistance</KindOfCall>
-    <AddressOfCall>Rothschild Boulevard, Tel Aviv</AddressOfCall>
-    <Latitude>32.063229</Latitude>
-    <Longitude>34.774996</Longitude>
-    <OpeningTime>2025-03-04T09:00:00</OpeningTime>
-    <FinishTime>2025-03-04T11:00:00</FinishTime>
+    <AddressOfCall>Arlozorov Street 78, Tel Aviv</AddressOfCall>
+    <Latitude>32.085679</Latitude>
+    <Longitude>34.782549</Longitude>
+    <OpeningTime>2025-03-25T09:00:00</OpeningTime>
+    <FinishTime>2025-03-25T12:00:00</FinishTime>
     <Description>Help for a car with battery issues</Description>
   </Call>
   <Call>
     <Id>41</Id>
     <KindOfCall>fuelOilWater</KindOfCall>
-    <AddressOfCall>Even Gvirol 11, Elad</AddressOfCall>
-    <Latitude>32.0579</Latitude>
-    <Longitude>34</Longitude>
-    <OpeningTime>2025-03-04T05:00:00</OpeningTime>
-    <FinishTime>2025-03-04T07:00:00</FinishTime>
+    <AddressOfCall>Herzl Street 25, Tel Aviv</AddressOfCall>
+    <Latitude>32.06078</Latitude>
+    <Longitude>34.770589</Longitude>
+    <OpeningTime>2025-03-25T08:00:00</OpeningTime>
+    <FinishTime>2025-03-25T11:00:00</FinishTime>
     <Description>Filling water for an overheated engine</Description>
   </Call>
   <Call>
     <Id>42</Id>
     <KindOfCall>RescueKid</KindOfCall>
-    <AddressOfCall>Allenby Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.067519</Latitude>
-    <Longitude>34.771222</Longitude>
-    <OpeningTime>2025-03-04T08:00:00</OpeningTime>
-    <FinishTime>2025-03-04T10:00:00</FinishTime>
+    <AddressOfCall>Hashalom Road, Givatayim</AddressOfCall>
+    <Latitude>32.069478</Latitude>
+    <Longitude>34.808196</Longitude>
+    <OpeningTime>2025-03-25T03:00:00</OpeningTime>
+    <FinishTime>2025-03-25T04:00:00</FinishTime>
     <Description>Assistance in child emergency situations</Description>
   </Call>
   <Call>
     <Id>43</Id>
     <KindOfCall>changeWheel</KindOfCall>
-    <AddressOfCall>Allenby Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.067519</Latitude>
-    <Longitude>34.771222</Longitude>
-    <OpeningTime>2025-03-04T03:00:00</OpeningTime>
-    <FinishTime>2025-03-04T06:00:00</FinishTime>
+    <AddressOfCall>Balfour Street 20, Bat Yam</AddressOfCall>
+    <Latitude>32.027325</Latitude>
+    <Longitude>34.747369</Longitude>
+    <OpeningTime>2025-03-25T06:00:00</OpeningTime>
+    <FinishTime>2025-03-25T07:00:00</FinishTime>
     <Description>Quick replacement of a faulty wheel</Description>
   </Call>
   <Call>
     <Id>44</Id>
     <KindOfCall>FirstAid</KindOfCall>
-    <AddressOfCall>Allenby Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.067519</Latitude>
-    <Longitude>34.771222</Longitude>
-    <OpeningTime>2025-03-04T02:00:00</OpeningTime>
-    <FinishTime>2025-03-04T03:00:00</FinishTime>
+    <AddressOfCall>King George Street, Tel Aviv</AddressOfCall>
+    <Latitude>32.073428</Latitude>
+    <Longitude>34.775037</Longitude>
+    <OpeningTime>2025-03-25T07:00:00</OpeningTime>
+    <FinishTime>2025-03-25T08:00:00</FinishTime>
     <Description>Immediate medical assistance at the scene</Description>
   </Call>
   <Call>
     <Id>45</Id>
     <KindOfCall>CableAssistance</KindOfCall>
-    <AddressOfCall>King George Street, Tel Aviv</AddressOfCall>
-    <Latitude>32.073428</Latitude>
-    <Longitude>34.775037</Longitude>
-    <OpeningTime>2025-03-04T06:00:00</OpeningTime>
-    <FinishTime>2025-03-04T08:00:00</FinishTime>
+    <AddressOfCall>Dizengoff Street 120, Tel Aviv</AddressOfCall>
+    <Latitude>32.083687</Latitude>
+    <Longitude>34.773541</Longitude>
+    <OpeningTime>2025-03-25T04:00:00</OpeningTime>
+    <FinishTime>2025-03-25T07:00:00</FinishTime>
     <Description>Service for starting a stalled vehicle</Description>
   </Call>
   <Call>
     <Id>46</Id>
     <KindOfCall>fuelOilWater</KindOfCall>
-    <AddressOfCall>Jabotinsky 15, Ramat Gan</AddressOfCall>
-    <Latitude>32.073667</Latitude>
-    <Longitude>34.809965</Longitude>
-    <OpeningTime>2025-03-04T08:00:00</OpeningTime>
-    <FinishTime>2025-03-04T11:00:00</FinishTime>
+    <AddressOfCall>Nordau Boulevard, Tel Aviv</AddressOfCall>
+    <Latitude>32.091236</Latitude>
+    <Longitude>34.785009</Longitude>
+    <OpeningTime>2025-03-25T03:00:00</OpeningTime>
+    <FinishTime>2025-03-25T05:00:00</FinishTime>
     <Description>Completing fluids for the engine</Description>
   </Call>
   <Call>
     <Id>47</Id>
     <KindOfCall>changeWheel</KindOfCall>
-    <AddressOfCall>HaYarkon Street 123, Tel Aviv</AddressOfCall>
-    <Latitude>32.089678</Latitude>
-    <Longitude>34.769126</Longitude>
-    <OpeningTime>2025-03-04T05:00:00</OpeningTime>
-    <FinishTime>2025-03-04T08:00:00</FinishTime>
+    <AddressOfCall>Arlozorov Street 78, Tel Aviv</AddressOfCall>
+    <Latitude>32.085679</Latitude>
+    <Longitude>34.782549</Longitude>
+    <OpeningTime>2025-03-25T02:00:00</OpeningTime>
+    <FinishTime>2025-03-25T05:00:00</FinishTime>
     <Description>Help with installing a new wheel</Description>
   </Call>
   <Call>
     <Id>48</Id>
     <KindOfCall>FirstAid</KindOfCall>
-    <AddressOfCall>Hashalom Road, Givatayim</AddressOfCall>
-    <Latitude>32.069478</Latitude>
-    <Longitude>34.808196</Longitude>
-    <OpeningTime>2025-03-04T08:00:00</OpeningTime>
-    <FinishTime>2025-03-04T10:00:00</FinishTime>
+    <AddressOfCall>Even Gvirol 11, Elad</AddressOfCall>
+    <Latitude>32.0579</Latitude>
+    <Longitude>34</Longitude>
+    <OpeningTime>2025-03-25T00:00:00</OpeningTime>
+    <FinishTime>2025-03-25T02:00:00</FinishTime>
     <Description>Providing first aid to an injured person</Description>
   </Call>
   <Call>
     <Id>49</Id>
     <KindOfCall>FirstAid</KindOfCall>
-    <AddressOfCall>HaYarkon Street 123, Tel Aviv</AddressOfCall>
-    <Latitude>32.089678</Latitude>
-    <Longitude>34.769126</Longitude>
-    <OpeningTime>2025-03-04T09:00:00</OpeningTime>
-    <FinishTime>2025-03-04T10:00:00</FinishTime>
+    <AddressOfCall>Even Gvirol 11, Elad</AddressOfCall>
+    <Latitude>32.0579</Latitude>
+    <Longitude>34</Longitude>
+    <OpeningTime>2025-03-25T05:00:00</OpeningTime>
+    <FinishTime>2025-03-25T07:00:00</FinishTime>
     <Description>Emergency treatment in a medical situation</Description>
   </Call>
   <Call>
     <Id>50</Id>
     <KindOfCall>FirstAid</KindOfCall>
-    <AddressOfCall>Hashalom Road, Givatayim</AddressOfCall>
-    <Latitude>32.069478</Latitude>
-    <Longitude>34.808196</Longitude>
-    <OpeningTime>2025-03-04T01:00:00</OpeningTime>
-    <FinishTime>2025-03-04T04:00:00</FinishTime>
+    <AddressOfCall>Ehad Ha'am Street 9, Tel Aviv</AddressOfCall>
+    <Latitude>32.065789</Latitude>
+    <Longitude>34.776231</Longitude>
+    <OpeningTime>2025-03-25T00:00:00</OpeningTime>
+    <FinishTime>2025-03-25T02:00:00</FinishTime>
     <Description>First aid before medical team arrival</Description>
   </Call>
 </ArrayOfCall>

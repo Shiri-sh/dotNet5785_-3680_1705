@@ -8,25 +8,22 @@ internal class CallImplementation : ICall
     //
     public void AddCall(BO.Call call)
     {
-        CallManager.ValidateCall(call);
-        DO.Call doCall = new(
-            call.Id,
-            (DO.KindOfCall)call.KindOfCall,
-            call.AddressOfCall,
-            call.Latitude,
-            call.Longitude,
-            call.OpeningTime,
-            call.FinishTime,
-            call.Description
-        );
         try
         {
-            _dal.Call.Create(doCall);
+            CallManager.ValidateCall(call);
+            _dal.Call.Create(new(
+                call.Id,
+                (DO.KindOfCall)call.KindOfCall,
+                call.AddressOfCall,
+                call.Latitude,
+                call.Longitude,
+                call.OpeningTime,
+                call.FinishTime,
+                call.Description
+            ));
         }
-        catch (DO.DalAlreadyExistsException ex)
-        {
-            throw new BO.BlAlreadyExistsException($"call with ID={doCall.Id} already exists", ex);
-        }
+        catch (DO.DalAlreadyExistsException ex) { throw new BO.BlAlreadyExistsException($"call with ID={call.Id} already exists", ex); }
+        catch (BO.BlInvalidDataException ex) { throw new BO.BlInvalidDataException(ex.Message); }
     }
     public int[] CallByStatus()
     {
@@ -49,11 +46,6 @@ internal class CallImplementation : ICall
             calls = from c in calls
                     where propertyInfo.GetValue(c, null) == filterBy
                     select c;
-        }
-        else
-        {
-            calls = from item in calls
-                    select item;
         }
         var propertyInfoSort = typeof(DO.Call).GetProperty(objSort.ToString());
         if (propertyInfoSort != null)
@@ -89,18 +81,10 @@ internal class CallImplementation : ICall
 
                };
     }
-
     public void UpdateCancelCall(int volunteerId, int assignId)
     {
-        DO.Assignment? doAssign;
-        try
-        {
-            doAssign = _dal.Assignment.Read(a => a.Id == assignId);
-        }
-        catch (DO.DalDoesNotExistException ex)
-        {
-            throw new BO.BlDoesNotExistException($"assignt with {assignId} does not exist",ex);
-        }
+        DO.Assignment doAssign = _dal.Assignment.Read(a => a.Id == assignId)??
+             throw new BO.BlDoesNotExistException($"assignt with {assignId} does not exist");
         BO.Position volPosition=(BO.Position)_dal.Volunteer.Read(v=>v.Id==volunteerId).Position;
         if (volPosition != BO.Position.Managar && volunteerId != doAssign.VolunteerId)
         {
@@ -121,15 +105,8 @@ internal class CallImplementation : ICall
     }
     public void UpdateEndCall(int volunteerId, int assignId)
     {
-        DO.Assignment? doAssign;
-        try
-        {
-            doAssign = _dal.Assignment.Read(a => a.Id == assignId);
-        }
-        catch (DO.DalDoesNotExistException ex)
-        {
-            throw new BO.BlDoesNotExistException($"assignt with {assignId} does not exist", ex);
-        }
+        DO.Assignment doAssign = _dal.Assignment.Read(a => a.Id == assignId)??
+           throw new BO.BlDoesNotExistException($"assignt with {assignId} does not exist");
         if (doAssign.VolunteerId!=volunteerId)
         {
             throw new BO.BlNotAloudToDoException("only the volunteer that took the call can finish it");
@@ -163,15 +140,7 @@ internal class CallImplementation : ICall
     }
     public void DeleteCall(int id)
     {
-        DO.Call? doCall;
-        try
-        {
-            doCall = _dal.Call.Read(cal => cal.Id == id);
-        }
-        catch (DO.DalDoesNotExistException ex)
-        {
-            throw new BO.BlDoesNotExistException($"call with {id} does Not exist", ex);
-        }
+        DO.Call doCall = _dal.Call.Read(cal => cal.Id == id)?? throw new BO.BlDoesNotExistException($"call with {id} does Not exist");
         if (CallManager.GetStatus(doCall) == BO.Status.Open && _dal.Assignment.ReadAll(a => a.CalledId == doCall.Id) == null)
         {
             _dal.Call.Delete(doCall.Id);
@@ -180,30 +149,12 @@ internal class CallImplementation : ICall
         {
             throw new BO.BlNotAloudToDoException("You cant delete the call since it is open or someone took it");
         }
-
     }
     public IEnumerable<BO.ClosedCallInList> GetCloseCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.CloseCallInListObjects? objCloseCall = null)
     {
-        IEnumerable<DO.Call> calls = _dal.Call.ReadAll();
-        IEnumerable<DO.Assignment> assignments = _dal.Assignment.ReadAll();
-
-        List<int> callOfVol = assignments.Where(a => a.VolunteerId == VolunteerId && a.TreatmentEndTime != null).Select(a => a.CalledId).ToList();
-        calls = calls.Where(c => callOfVol.Contains(c.Id));
-
-        if (kindOfCall.HasValue)
-        {
-            calls = calls.Where(c => c.KindOfCall == (DO.KindOfCall)kindOfCall.Value);
-        }
-
-        if (objCloseCall != null)
-        {
-            var propertyInfoSort = typeof(DO.Call).GetProperty(objCloseCall.ToString());
-            calls = calls.OrderBy(c => propertyInfoSort.GetValue(c, null));
-        }
-        else
-        {
-            calls = calls.OrderBy(c => c.Id);
-        }
+        List<int> callOfVol = _dal.Assignment.ReadAll().Where(a => a.VolunteerId == VolunteerId && a.TreatmentEndTime != null).Select(a => a.CalledId).ToList();
+        callOfVol.Sort();
+        IEnumerable<DO.Call> calls = CallManager.GetCallByVolunteer(callOfVol, kindOfCall, objCloseCall);
         return from c in calls
                let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
                select new BO.ClosedCallInList
@@ -218,30 +169,10 @@ internal class CallImplementation : ICall
                };
     }
     public IEnumerable<BO.OpenCallInList> GetOpenCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListFields? objOpenCall = null)
-
     {
-        IEnumerable<DO.Call> calls = _dal.Call.ReadAll();
-        IEnumerable<DO.Assignment> assignments = _dal.Assignment.ReadAll();
-        DO.Volunteer? vol = _dal.Volunteer.Read(v=>v.Id==VolunteerId);
-
-        List<int> callOfVol = assignments.Where(a => a.VolunteerId == VolunteerId && a.TreatmentEndTime == null).Select(a => a.CalledId).ToList();
-        calls = calls.Where(c => callOfVol.Contains(c.Id));
-
-        if (kindOfCall.HasValue)
-        {
-            calls = calls.Where(c => c.KindOfCall == (DO.KindOfCall)kindOfCall.Value);
-        }
-
-        if (objOpenCall != null)
-        {
-            var propertyInfoSort = typeof(DO.Call).GetProperty(objOpenCall.ToString());
-            calls = calls.OrderBy(c => propertyInfoSort.GetValue(c, null));
-        }
-        else
-        {
-            calls = calls.OrderBy(c => c.Id);
-        }
-
+        List<int> callOfVol = _dal.Assignment.ReadAll().Where(a => a.VolunteerId == VolunteerId && a.TreatmentEndTime == null).Select(a => a.CalledId).ToList();
+        IEnumerable<DO.Call> calls = CallManager.GetCallByVolunteer(callOfVol, kindOfCall,null, objOpenCall);
+        DO.Volunteer vol = _dal.Volunteer.Read(v => v.Id == VolunteerId);
         return calls.Select(c => new BO.OpenCallInList
         {
             Id = c.Id,
@@ -253,18 +184,9 @@ internal class CallImplementation : ICall
             DistanceFromVol=CallManager.GetDistanceFromVol(c.Latitude,c.Longitude,vol.Latitude,vol.Longitude)
         });
     }
-
     public BO.Call ReadCall(int id)
     {
-        DO.Call? doCall;
-        try
-        {
-            doCall = _dal.Call.Read(cal => cal.Id == id);
-        }
-        catch (DO.DalDoesNotExistException ex)
-        {
-            throw new BO.BlDoesNotExistException($"call with {id} does Not exist", ex);
-        }
+        DO.Call? doCall = _dal.Call.Read(cal => cal.Id == id)?? throw new BO.BlDoesNotExistException($"call with {id} does Not exist");
         return new BO.Call
         {
             Id = id,
@@ -289,10 +211,8 @@ internal class CallImplementation : ICall
     }
     public void UpdateCall(BO.Call call)
     {
-        DO.Call? doCall;
         try
         {
-            doCall = _dal.Call.Read(vol => vol.Id == call.Id);
             CallManager.ValidateCall(call);
             _dal.Call.Update(new DO.Call
             {

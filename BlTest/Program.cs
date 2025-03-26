@@ -185,7 +185,7 @@ internal class Program
             Console.WriteLine("3. Set a new value for time risk");
             Console.WriteLine("4. Reset db");
             Console.WriteLine("5. intilazition db");
-            Console.WriteLine("5. update clock");
+            Console.WriteLine("6. update clock");
             Console.Write("Choose an option: ");
             SubMenuAdminEnum choice = ReadHelper.ReadEnum<SubMenuAdminEnum>();
             switch (choice)

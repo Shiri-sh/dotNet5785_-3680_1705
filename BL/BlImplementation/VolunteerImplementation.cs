@@ -14,9 +14,10 @@ internal class VolunteerImplementation: IVolunteer
 
     public void AddVolunteer(BO.Volunteer boVolunteer)
     {
-
-        VolunteerManager.ValidateVolunteer(boVolunteer);
-        DO.Volunteer doVolunteer =
+        try
+        {
+            VolunteerManager.ValidateVolunteer(boVolunteer);
+            DO.Volunteer doVolunteer =
             new(boVolunteer.Id,
             boVolunteer.Name,
             boVolunteer.PhoneNumber,
@@ -30,25 +31,32 @@ internal class VolunteerImplementation: IVolunteer
             boVolunteer.MaximumDistanceForReading,
             (DO.TypeOfDistance)boVolunteer.TypeOfDistance
         );
-        try
-        {
+       
             _dal.Volunteer.Create(doVolunteer);
         }
         catch (DO.DalAlreadyExistsException ex)
         {
             throw new BO.BlAlreadyExistsException($"Volunteer with ID={boVolunteer.Id} already exists", ex);
         }
+        catch (BO.BlInvalidDataException ex)
+        {
+            throw new BO.BlInvalidDataException(ex.Message);
+        }
     }
-
     public void DeleteVolunteer(int id)
     {
-        var doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id)??
-                     throw new BO.BlDoesNotExistException($"Volunteer with {id} does Not exist");
         DO.Assignment? assignment = _dal.Assignment.Read(assign=>assign.VolunteerId==id);
         if (assignment == null)
         {
-            _dal.Volunteer.Delete(id);
+            try
+            {
+                _dal.Volunteer.Delete(id);
+            }
+            catch (DO.DalDoesNotExistException ex) { throw new BO.BlDoesNotExistException($"Volunteer with {id} does Not exist"); }
         }
+        else
+            throw new BO.BlNotAloudToDoException($"A volunteer with assignments cannot be deleted.");
+
     }
     public BO.Position Login(string username, string password)
     {
