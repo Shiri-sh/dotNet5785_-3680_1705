@@ -109,14 +109,13 @@ internal class Program
             Console.WriteLine("3. cancel call");
             Console.WriteLine("4. delete call");
             Console.WriteLine("5. Display list of calls ");
-            Console.WriteLine("6. Display by id of volunteer list of calls ");
+            Console.WriteLine("6. Display list of close calls by id of volunteer ");
             Console.WriteLine("7. Update call to ent treatment");
             Console.WriteLine("8. Update call details");
             Console.WriteLine("9. Display details of call ");
             Console.WriteLine("10. Coose Call");
-            Console.WriteLine("11. get all open call");
+            Console.WriteLine("11. Display all open call");
             Console.Write("Choose an option: ");
-
             BO.SubMenuCallEnum choice = ReadHelper.ReadEnum<BO.SubMenuCallEnum>();
             try
             {

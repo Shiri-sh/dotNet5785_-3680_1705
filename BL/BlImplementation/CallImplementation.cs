@@ -140,19 +140,20 @@ internal class CallImplementation : ICall
     public void DeleteCall(int id)
     {
         DO.Call doCall = _dal.Call.Read(cal => cal.Id == id)?? throw new BO.BlDoesNotExistException($"call with {id} does Not exist");
-        if (CallManager.GetStatus(doCall) == BO.Status.Open && _dal.Assignment.ReadAll(a => a.CalledId == doCall.Id) == null)
+        IEnumerable<DO.Assignment>? a = _dal.Assignment.ReadAll(a => a.CalledId == doCall.Id);
+        BO.Status st = CallManager.GetStatus(doCall);
+        if (st== BO.Status.Open &&  a.Count()==0)
         {
             _dal.Call.Delete(doCall.Id);
         }
         else
         {
-            throw new BO.BlNotAloudToDoException("You cant delete the call since it is open or someone took it");
+            throw new BO.BlNotAloudToDoException("You cant delete the call since it isn't open or someone took it");
         }
     }
     public IEnumerable<BO.ClosedCallInList> GetCloseCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.CloseCallInListObjects? objCloseCall = null)
     {
         List<int> callOfVol = _dal.Assignment.ReadAll().Where(a => a.VolunteerId == VolunteerId && a.TreatmentEndTime != null).Select(a => a.CalledId).ToList();
-        callOfVol.Sort();
         IEnumerable<DO.Call> calls = CallManager.GetCallByVolunteer(callOfVol, kindOfCall, objCloseCall);
         return from c in calls
                let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
@@ -163,8 +164,8 @@ internal class CallImplementation : ICall
                    AddressOfCall = c.AddressOfCall,
                    OpeningTime = c.OpeningTime,
                    TreatmentEntryTime = assignment.TreatmentEntryTime,
-                   TreatmentEndTime = assignment?.TreatmentEndTime,
-                   TypeOfTreatmentTermination = (BO.TypeOfTreatmentTermination)assignment.TypeOfTreatmentTermination,
+                   TreatmentEndTime = assignment.TreatmentEndTime==null?null: assignment.TreatmentEndTime,
+                   TypeOfTreatmentTermination = assignment.TypeOfTreatmentTermination==null?null:(BO.TypeOfTreatmentTermination)assignment.TypeOfTreatmentTermination,
                };
     }
     public IEnumerable<BO.OpenCallInList> GetOpenCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListFields? objOpenCall = null)
