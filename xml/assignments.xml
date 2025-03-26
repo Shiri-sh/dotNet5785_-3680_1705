@@ -196,13 +196,13 @@
     <TreatmentEntryTime>2025-03-26T18:00:00</TreatmentEntryTime>
     <TreatmentEndTime />
   </Assignment>
-  <Assignment>
-    <Id>29</Id>
-    <CalledId>29</CalledId>
-    <VolunteerId>327691758</VolunteerId>
-    <TreatmentEntryTime>2025-03-26T14:00:00</TreatmentEntryTime>
-    <TreatmentEndTime />
-  </Assignment>
+	<Assignment>
+		<Id>29</Id>
+		<CalledId>29</CalledId>
+		<VolunteerId>327691758</VolunteerId>
+		<TreatmentEntryTime>2025-03-26T14:00:00</TreatmentEntryTime>
+		<TreatmentEndTime>2025-03-26T15:00:00</TreatmentEndTime>
+	</Assignment>
   <Assignment>
     <Id>30</Id>
     <CalledId>30</CalledId>
@@ -243,13 +243,6 @@
     <CalledId>35</CalledId>
     <VolunteerId>370191700</VolunteerId>
     <TreatmentEntryTime>2025-03-26T07:00:00</TreatmentEntryTime>
-    <TreatmentEndTime />
-  </Assignment>
-  <Assignment>
-    <Id>36</Id>
-    <CalledId>36</CalledId>
-    <VolunteerId>327691758</VolunteerId>
-    <TreatmentEntryTime>2025-03-26T06:00:00</TreatmentEntryTime>
     <TreatmentEndTime />
   </Assignment>
   <Assignment>

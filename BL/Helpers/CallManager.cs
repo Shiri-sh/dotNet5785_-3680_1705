@@ -43,9 +43,8 @@ namespace Helpers
                 return BO.Status.Irelavant;
             return (BO.Status)StatusCallInProgress(call);
         }
-        public static IEnumerable<DO.Call> GetCallByVolunteer(List<int> callOfVol, BO.KindOfCall? kindOfCall = null, BO.CloseCallInListObjects? objCloseCall = null, BO.OpenCallInListFields? objOpenCall = null)
+        public static IEnumerable<DO.Call> SortAndFilter(IEnumerable<DO.Call> calls, BO.KindOfCall? kindOfCall = null, BO.CloseCallInListObjects? objCloseCall = null, BO.OpenCallInListFields? objOpenCall = null)
         {
-            IEnumerable<DO.Call> calls = s_dal.Call.ReadAll().Where(c => callOfVol.Contains(c.Id));
             if (kindOfCall.HasValue)
             {
                 calls = calls.Where(c => c.KindOfCall == (DO.KindOfCall)kindOfCall.Value);

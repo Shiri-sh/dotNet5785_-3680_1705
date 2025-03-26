@@ -5,7 +5,6 @@ namespace BlImplementation;
 internal class CallImplementation : ICall
 {
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
-    //
     public void AddCall(BO.Call call)
     {
         try
@@ -154,8 +153,9 @@ internal class CallImplementation : ICall
     public IEnumerable<BO.ClosedCallInList> GetCloseCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.CloseCallInListObjects? objCloseCall = null)
     {
         List<int> callOfVol = _dal.Assignment.ReadAll().Where(a => a.VolunteerId == VolunteerId && a.TreatmentEndTime != null).Select(a => a.CalledId).ToList();
-        IEnumerable<DO.Call> calls = CallManager.GetCallByVolunteer(callOfVol, kindOfCall, objCloseCall);
-        return from c in calls
+        IEnumerable<DO.Call> calls = _dal.Call.ReadAll().Where(c => callOfVol.Contains(c.Id));
+         calls = CallManager.SortAndFilter(calls, kindOfCall, objCloseCall);
+         return from c in calls
                let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
                select new BO.ClosedCallInList
                {
@@ -170,8 +170,9 @@ internal class CallImplementation : ICall
     }
     public IEnumerable<BO.OpenCallInList> GetOpenCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListFields? objOpenCall = null)
     {
-        List<int> callOfVol = _dal.Assignment.ReadAll().Where(a => a.VolunteerId == VolunteerId && a.TreatmentEndTime == null).Select(a => a.CalledId).ToList();
-        IEnumerable<DO.Call> calls = CallManager.GetCallByVolunteer(callOfVol, kindOfCall,null, objOpenCall);
+        List<int> callOfVol = _dal.Assignment.ReadAll().Select(a => a.CalledId).ToList();
+        IEnumerable<DO.Call> calls = _dal.Call.ReadAll().Where(c => !callOfVol.Contains(c.Id));
+         calls = CallManager.SortAndFilter(calls, kindOfCall,null, objOpenCall);
         DO.Volunteer vol = _dal.Volunteer.Read(v => v.Id == VolunteerId);
         return calls.Select(c => new BO.OpenCallInList
         {

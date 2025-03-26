@@ -500,4 +500,14 @@
     <FinishTime>2025-03-26T20:00:00</FinishTime>
     <Description>First aid before medical team arrival</Description>
   </Call>
+  <Call>
+    <Id>51</Id>
+    <KindOfCall>FirstAid</KindOfCall>
+    <AddressOfCall>Balfour Street 20, Bat Yam</AddressOfCall>
+    <Latitude>32.027325</Latitude>
+    <Longitude>34.747369</Longitude>
+    <OpeningTime>2025-03-26T21:00:00</OpeningTime>
+    <FinishTime>2025-03-26T23:00:00</FinishTime>
+    <Description>First aid before medical team arrival</Description>
+  </Call>
 </ArrayOfCall>
