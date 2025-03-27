@@ -38,46 +38,48 @@ internal class CallImplementation : ICall
     public IEnumerable<BO.CallInList> CallList(BO.CallInListObjects? objFilter = null, object? filterBy = null, BO.CallInListObjects? objSort = null)
     {
         IEnumerable<DO.Call> calls = _dal.Call.ReadAll();
-        var propertyInfo = typeof(DO.Call).GetProperty(objFilter.ToString());
+        
+        IEnumerable<BO.CallInList>  listOfCall=from c in calls
+                                               let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
+                                               select new BO.CallInList
+                                               {
+                                                   Id = assignment?.Id,
+                                                   CallId = c.Id,
+                                                   KindOfCall = (BO.KindOfCall)c.KindOfCall,
+                                                   OpeningTime = c.OpeningTime,
+                                                   RemainingTimeToFinish = c.FinishTime - ClockManager.Now,
+                                                   LastVolunteer =assignment==null ? null: _dal.Volunteer.Read(v => v.Id ==
+                                                                                       _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
+                                                                                       .OrderByDescending(a => a.TreatmentEntryTime)
+                                                                                       .Select(a => a.VolunteerId)
+                                                                                       .FirstOrDefault())
+                                                                                .Name,
+                                                   CompletionTime = assignment == null ? null : assignment.TreatmentEndTime == null ? null : assignment.TreatmentEndTime - c.OpeningTime,
+                                                   Status = CallManager.GetStatus(c),
+                                                   TotalAlocation = _dal.Assignment.ReadAll(a => a.CalledId == c.Id).Count(),
+
+                                               };
+        var propertyInfo = typeof(BO.CallInList).GetProperty(objFilter.ToString());
         if (propertyInfo != null)
         {
-            calls = from c in calls
-                    where propertyInfo.GetValue(c, null) == filterBy
-                    select c;
+            listOfCall = from c in listOfCall
+                         where propertyInfo.GetValue(c, null) == filterBy
+                         select c;
         }
-        var propertyInfoSort = typeof(DO.Call).GetProperty(objSort.ToString());
+        var propertyInfoSort = typeof(BO.CallInList).GetProperty(objSort.ToString());
         if (propertyInfoSort != null)
         {
-            calls = from c in calls
-                    orderby propertyInfoSort.GetValue(c, null)
-                    select c;
+            listOfCall = from c in listOfCall
+                         orderby propertyInfoSort.GetValue(c, null)
+                         select c;
         }
         else
         {
-            calls = from c in calls
-                    orderby c.Id
-                    select c;
+            listOfCall = from c in listOfCall
+                        orderby c.Id
+                        select c;
         }
-        return from c in calls
-               let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
-               select new BO.CallInList
-               {
-                   Id = assignment?.Id,
-                   CallId = c.Id,
-                   KindOfCall = (BO.KindOfCall)c.KindOfCall,
-                   OpeningTime = c.OpeningTime,
-                   RemainingTimeToFinish = c.FinishTime - ClockManager.Now,
-                   LastVolunteer =assignment==null?null: _dal.Volunteer.Read(v => v.Id ==
-                                                       _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
-                                                       .OrderByDescending(a => a.TreatmentEntryTime)
-                                                       .Select(a => a.VolunteerId)
-                                                       .FirstOrDefault())
-                                                .Name,
-                   CompletionTime = assignment == null ? null : assignment.TreatmentEndTime == null ? null : assignment.TreatmentEndTime - c.OpeningTime,
-                   Status = CallManager.GetStatus(c),
-                   TotalAlocation = _dal.Assignment.ReadAll(a => a.CalledId == c.Id).Count(),
-
-               };
+        return listOfCall;
     }
     public void UpdateCancelCall(int volunteerId, int assignId)
     {
