@@ -6,7 +6,6 @@ using Accessories;
 using Dal;
 
 namespace DalTest;
-
 internal class Program
 {
     static readonly IDal s_dal = Factory.Get; //stage 2
