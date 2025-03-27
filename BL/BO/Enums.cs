@@ -11,10 +11,10 @@ public enum StatusCallInProgress { BeingCared, TreatInRisk }
 public enum Status { BeingCared, TreatInRisk, Open, OpenInRisk, Closed, Irelavant }
 //
 public enum TypeOfTreatmentTermination { Handled, SelfCancellation, ConcellingAdministrator, CancellationExpired }
-public enum VoluteerInListObjects {Id = 1, Name, Active , SumCancledCalls, SumCaredCalls, sumIrelevantCalls, IdOfCall, KindOfCall }
-public enum CallInListObjects { Id=1 ,CallId, KindOfCall, OpeningTime, RemainingTimeToFinish, LastVolunteer, CompletionTime, Status, TotalAlocation }
-public enum CloseCallInListObjects { Id=1, KindOfCall, AddressOfCall, OpeningTime, TreatmentEntryTime, TreatmentEndTime, TypeOfTreatmentTermination}
-public enum OpenCallInListFields { Id = 1, KindOfCall, AddressOfCall, OpeningTime, FinishTime, Description, DistanceFromVol }
+public enum VoluteerInListObjects { KindOfCall,Id, Name, Active , SumCancledCalls, SumCaredCalls, sumIrelevantCalls, IdOfCall  }
+public enum CallInListObjects { TotalAlocation, Id ,CallId, KindOfCall, OpeningTime, RemainingTimeToFinish, LastVolunteer, CompletionTime, Status }
+public enum CloseCallInListObjects { TypeOfTreatmentTermination,Id, KindOfCall, AddressOfCall, OpeningTime, TreatmentEntryTime, TreatmentEndTime}
+public enum OpenCallInListFields { DistanceFromVol,Id, KindOfCall, AddressOfCall, OpeningTime, FinishTime, Description }
 
 //main-menu
 public enum MainMenuEnum { Exit, SubMenuVolunteer, SubMenuCall, SubMenuAdmin }

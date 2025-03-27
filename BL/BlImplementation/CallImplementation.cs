@@ -171,13 +171,22 @@ internal class CallImplementation : ICall
         {
             calls = calls.Where(c => c.KindOfCall == (BO.KindOfCall)kindOfCall.Value);
         }
-            if (objCloseCall != null)
+        string propertyInfo = objCloseCall.ToString();
+        var propertyInfoSort = typeof(BO.ClosedCallInList).GetProperty(propertyInfo);
+        
+        if (objCloseCall != null)
             {
-                var propertyInfoSort = typeof(BO.CloseCallInListObjects).GetProperty(objCloseCall.ToString());
+
                 calls = calls.OrderBy(c => propertyInfoSort.GetValue(c, null));
             }
             else
                 calls = calls.OrderBy(c => c.Id);
+        //string propertyName = feildToSort.ToString();
+        //var propertyInfo = typeof(BO.VolunteerInList).GetProperty(propertyName);
+        //if (propertyInfo != null)
+        //{
+        //    listOfVol = listOfVol.OrderBy(v => propertyInfo.GetValue(v, null));
+        //}
         return calls;
     }
     public IEnumerable<BO.OpenCallInList> GetOpenCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListFields? objOpenCall = null)
@@ -200,7 +209,7 @@ internal class CallImplementation : ICall
         }
             if (objOpenCall != null)
             {
-                var propertyInfoSort = typeof(BO.OpenCallInListFields).GetProperty(objOpenCall.ToString());
+                var propertyInfoSort = typeof(BO.OpenCallInList).GetProperty(objOpenCall.ToString());
                 calls = calls.OrderBy(c => propertyInfoSort.GetValue(c, null));
             }
             else

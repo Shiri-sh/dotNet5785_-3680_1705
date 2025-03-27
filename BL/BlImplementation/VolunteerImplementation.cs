@@ -108,7 +108,6 @@ internal class VolunteerImplementation: IVolunteer
     {
         IEnumerable<DO.Volunteer> volunteers = _dal.Volunteer.ReadAll();
         volunteers = activity == null ? volunteers.Select(item => item) : volunteers.Where(v => v.Active == activity);
-        
         ICall call = new CallImplementation();
         IEnumerable<BO.VolunteerInList> listOfVol= from v in volunteers
                let closeCalls = call.GetCloseCallByVolunteer(v.Id)

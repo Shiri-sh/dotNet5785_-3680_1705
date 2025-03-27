@@ -9,7 +9,6 @@ internal class Program
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
     static void Main(string[] args)
     {
-
         bool exit = false;
         while (!exit)
         {
@@ -241,7 +240,7 @@ internal class Program
             null or "" => null,
             _ => bool.TryParse(input, out var active) ? active : null
         };
-        Console.WriteLine("Choose a number by which the list will be sorted:\n 1.Id\n 2.Name\n 3.Active\n 4.SumCancledCalls\n 5.SumCaredCalls\n 6.sumIrelevantCalls\n 7.IdOfCall\n 8.KindOfCall\n");
+        Console.WriteLine("Choose a number by which the list will be sorted:\n0.KindOfCall\n 1.Id\n 2.Name\n 3.Active\n 4.SumCancledCalls\n 5.SumCaredCalls\n 6.sumIrelevantCalls\n 7.IdOfCall\n ");
      //אם הוא ילחץ על מספר לא באינם זה יהיה לו נל או שישים ערך לא נכון?
         BO.VoluteerInListObjects? filAll = ReadHelper.ReadEnumOrNull<BO.VoluteerInListObjects>();
         IEnumerable<BO.VolunteerInList> volunteers=s_bl.Volunteer.ReadAll(filActive,filAll);
@@ -356,9 +355,9 @@ internal class Program
     {
         Console.WriteLine("press your id of volunteer");
         int idV=ReadHelper.ReadInt();
-        Console.WriteLine("Choose a number by which the list will be filterd:\n 1.RescueKid\n 2.changeWheel\n 3.FirstAid\n 4.CableAssistance\n 5.fuelOilWater\n 6.None\n");
+        Console.WriteLine("Choose a number by which the list will be filterd:\n 0.RescueKid\n 1.changeWheel\n 2.FirstAid\n 3.CableAssistance\n 4.fuelOilWater\n 5.None\n");
         BO.KindOfCall? filAll = ReadHelper.ReadEnumOrNull<BO.KindOfCall>();
-        Console.WriteLine("Choose a number by which the list will be sorted:\n 1.Id\n 2.KindOfCall\n 3.AddressOfCall\n 4.OpeningTime\n 5.TreatmentEntryTime\n 6.TreatmentEndTime\n 7.TypeOfTreatmentTermination\n");
+        Console.WriteLine("Choose a number by which the list will be sorted:\n0.TypeOfTreatmentTermination\n 1.Id\n 2.KindOfCall\n 3.AddressOfCall\n 4.OpeningTime\n 5.TreatmentEntryTime\n 6.TreatmentEndTime\n ");
         BO.CloseCallInListObjects? sortAll = ReadHelper.ReadEnumOrNull<BO.CloseCallInListObjects>();
         IEnumerable<BO.ClosedCallInList> calls = s_bl.Call.GetCloseCallByVolunteer(idV, filAll, sortAll);
         foreach (var item in calls)
@@ -420,13 +419,13 @@ internal class Program
      static void DisplayAll()
     {
         object? filValue=null;
-        Console.WriteLine("Choose a number by which the list will be filterd:\n 1.Id\n 2.CallId\n 3.KindOfCall\n 4.OpeningTime\n 5.RemainingTimeToFinish\n 6.LastVolunteer\n 7.CompletionTime\n 8.Status\n 9.TotalAlocation\n");
+        Console.WriteLine("Choose a number by which the list will be filterd:\n0.TotalAlocation\n 1.Id\n 2.CallId\n 3.KindOfCall\n 4.OpeningTime\n 5.RemainingTimeToFinish\n 6.LastVolunteer\n 7.CompletionTime\n 8.Status\n ");
         BO.CallInListObjects? filAll = ReadHelper.ReadEnumOrNull<BO.CallInListObjects>();
         if (filAll != null) {
             Console.WriteLine("press value to filter");
              filValue = Console.ReadLine();
         }
-        Console.WriteLine("Choose a number by which the list will be sorted:\n 1.Id\n 2.CallId\n 3.KindOfCall\n 4.OpeningTime\n 5.RemainingTimeToFinish\n 6.LastVolunteer\n 7.CompletionTime\n 8.Status\n 9.TotalAlocation\n");
+        Console.WriteLine("Choose a number by which the list will be sorted:\n0.TotalAlocation\n 1.Id\n 2.CallId\n 3.KindOfCall\n 4.OpeningTime\n 5.RemainingTimeToFinish\n 6.LastVolunteer\n 7.CompletionTime\n 8.Status\n");
         BO.CallInListObjects? sortAll = ReadHelper.ReadEnumOrNull<BO.CallInListObjects>();
         IEnumerable<BO.CallInList> calls = s_bl.Call.CallList( filAll, filValue,sortAll);
         foreach (var item in calls)
@@ -498,9 +497,9 @@ internal class Program
     {
         Console.WriteLine("press your id of volunteer");
         int idV = ReadHelper.ReadInt();
-        Console.WriteLine("Choose a number by which the list will be filterd:\n 1.RescueKid\n 2.changeWheel\n 3.FirstAid\n 4.CableAssistance\n 5.fuelOilWater\n 6.None\n");
+        Console.WriteLine("Choose a number by which the list will be filterd:\n 0.RescueKid\n 1.changeWheel\n 2.FirstAid\n 3.CableAssistance\n 4.fuelOilWater\n 5.None\n");
         BO.KindOfCall? filAll = ReadHelper.ReadEnumOrNull<BO.KindOfCall>();
-        Console.WriteLine("Choose a number by which the list will be sorted:\n 1.Id\n 2.KindOfCall\n 3.AddressOfCall\n 4.OpeningTime\n 5.FinishTime\n 6.Description\n 7.DistanceFromVol\n");
+        Console.WriteLine("Choose a number by which the list will be sorted:\n0.DistanceFromVol\n 1.Id\n 2.KindOfCall\n 3.AddressOfCall\n 4.OpeningTime\n 5.FinishTime\n 6.Description\n ");
         BO.OpenCallInListFields? sortAll = ReadHelper.ReadEnumOrNull<BO.OpenCallInListFields>();
         IEnumerable<BO.OpenCallInList> calls = s_bl.Call.GetOpenCallByVolunteer(idV, filAll, sortAll);
         foreach (var item in calls)
