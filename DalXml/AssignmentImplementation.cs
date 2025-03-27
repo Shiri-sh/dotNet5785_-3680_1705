@@ -16,11 +16,8 @@ internal class AssignmentImplementation : IAssignment
             CalledId = a.ToIntNullable("CalledId") ?? throw new FormatException("can't convert Call Id"),
             VolunteerId = a.ToIntNullable("VolunteerId") ?? throw new FormatException("can't convert Volunteer Id"),
             TreatmentEntryTime = a.ToDateTimeNullable("TreatmentEntryTime") ?? throw new FormatException("can't convert Volunteer Id"),
-            TreatmentEndTime = a.ToDateTimeNullable("TreatmentEndTime")
-            // Name = (string?)a.Element("CalledId") ?? "",
-            // Alias = (string?)a.Element("Alias") ?? null,
-            // IsActive = (bool?)a.Element("IsActive") ?? false,
-            //CurrentYear = s.ToEnumNullable<Year>("CurrentYear") ?? Year.FirstYear,
+            TreatmentEndTime = a.ToDateTimeNullable("TreatmentEndTime"),
+            TypeOfTreatmentTermination=a.ToEnumNullable< TypeOfTreatmentTermination>("TypeOfTreatmentTermination")
         };
     }
     public Assignment? Read(int id)
@@ -56,7 +53,9 @@ internal class AssignmentImplementation : IAssignment
             new XElement("CalledId", item.CalledId),
             new XElement("VolunteerId", item.VolunteerId),
             new XElement("TreatmentEntryTime", item.TreatmentEntryTime),
-            new XElement("TreatmentEndTime", item.TreatmentEndTime)
+            new XElement("TreatmentEndTime", item.TreatmentEndTime),
+            new XElement("TypeOfTreatmentTermination", item.TypeOfTreatmentTermination)
+
             );
         assignmentsRootElem.Add( assignmentsRoot);
 

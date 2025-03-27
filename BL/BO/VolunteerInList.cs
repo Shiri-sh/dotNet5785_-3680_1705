@@ -27,7 +27,7 @@ public class VolunteerInList
     public int SumCaredCalls { get; set; }
     public int SumIrelevantCalls { get; set; }
     public int? IdOfCall {  get; set; }
-    public KindOfCall KindOfCall { get; set; }
+    public KindOfCall? KindOfCall { get; set; }
     public override string ToString() => this.ToStringProperty();
 }
 

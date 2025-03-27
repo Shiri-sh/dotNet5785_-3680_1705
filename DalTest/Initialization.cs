@@ -59,7 +59,7 @@ public static class Initialization
             {
                 passwordHidden += var + (char)s_rand.Next('A', 'Z' + 1);
             }
-            s_dal.Volunteer!.Create(new(id, volunteerName, phoneNumber, volunteerEmail[counter], Position.Volunteer, passwordHidden, MaximumDistanceForReading: s_rand.Next(1, 2500), TypeOfDistance: TypeOfDistance.Aerial));
+            s_dal.Volunteer!.Create(new(id, volunteerName, phoneNumber, volunteerEmail[counter], Position.Volunteer, passwordHidden, true, MaximumDistanceForReading: s_rand.Next(1, 2500), TypeOfDistance: TypeOfDistance.Aerial));
             counter++;
         }
     }
@@ -142,7 +142,7 @@ public static class Initialization
         List<Call> allCallList = allCall.ToList();
         for (int i = 0; i < 12; i++)//clasic assignments which were taken and comlited before the finish time of the call
         {
-            s_dal.Assignment!.Create(new(0, allCallList[i].Id, allVolunteerList[s_rand.Next(0, allVolunteerList.Count - 3)].Id, allCallList[i].OpeningTime.AddMinutes(10), allCallList[i].FinishTime, GetRandomEnumValue<TypeOfTreatmentTermination>(s_rand, 1)));
+            s_dal.Assignment!.Create(new(0, allCallList[i].Id, allVolunteerList[s_rand.Next(0, allVolunteerList.Count - 3)].Id, allCallList[i].OpeningTime.AddMinutes(10), allCallList[i].FinishTime?.AddMinutes(-10), GetRandomEnumValue<TypeOfTreatmentTermination>(s_rand, 1)));
         }
         for (int i = 12; i < 24; i++)//assignments that started and didnt end yet
         {
@@ -150,7 +150,7 @@ public static class Initialization
         }
         for (int i = 24; i < 50; i++)//assignments that started after the finish time of the call 
         {
-            s_dal.Assignment!.Create(new(0, allCallList[i].Id, allVolunteerList[s_rand.Next(0, allVolunteerList.Count - 3)].Id, allCallList[i].OpeningTime.AddHours(5), null, TypeOfTreatmentTermination.CancellationExpired));
+            s_dal.Assignment!.Create(new(0, allCallList[i].Id, allVolunteerList[s_rand.Next(0, allVolunteerList.Count - 3)].Id, allCallList[i].OpeningTime.AddHours(1), allCallList[i].FinishTime?.AddMinutes(1), TypeOfTreatmentTermination.CancellationExpired));
         }
     }
     /// <summary>

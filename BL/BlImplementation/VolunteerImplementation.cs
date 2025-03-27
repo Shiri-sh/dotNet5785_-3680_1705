@@ -72,7 +72,7 @@ internal class VolunteerImplementation: IVolunteer
                  throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
         ICall call=new CallImplementation();
         DO.Assignment? assignment=_dal.Assignment.Read(a=>a.VolunteerId== id && a.TreatmentEndTime == null);
-        DO.Call? callInProgress = _dal.Call.Read(c => c.Id == assignment.CalledId)??null;
+        DO.Call? callInProgress = assignment==null?null:_dal.Call.Read(c => c.Id == assignment.CalledId);
         return new()
         {
             Id = id,
@@ -108,19 +108,11 @@ internal class VolunteerImplementation: IVolunteer
     {
         IEnumerable<DO.Volunteer> volunteers = _dal.Volunteer.ReadAll();
         volunteers = activity == null ? volunteers.Select(item => item) : volunteers.Where(v => v.Active == activity);
-        if(feildToSort == null)
-        {
-            volunteers = volunteers.OrderBy(v => v.Id);
-        }
-        string propertyName = feildToSort.ToString();
-        var propertyInfo = typeof(DO.Volunteer).GetProperty(propertyName);
-        if (propertyInfo != null)
-        {
-            volunteers = volunteers.OrderBy(v => propertyInfo.GetValue(v, null));
-        }
+        
         ICall call = new CallImplementation();
-        return from v in volunteers
+        IEnumerable<BO.VolunteerInList> listOfVol= from v in volunteers
                let closeCalls = call.GetCloseCallByVolunteer(v.Id)
+               let assign= _dal.Assignment.Read(a => a.VolunteerId == v.Id && a.TreatmentEndTime == null)
                select new BO.VolunteerInList
                {
                    Id = v.Id,
@@ -129,10 +121,24 @@ internal class VolunteerImplementation: IVolunteer
                    SumCancledCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
                    SumCaredCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
                    SumIrelevantCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
-                   IdOfCall = _dal.Assignment.Read(a => a.VolunteerId == v.Id && a.TreatmentEndTime == null).CalledId,
-                   KindOfCall = (BO.KindOfCall)_dal.Call.Read(a => a.Id == _dal.Assignment.Read(a => a.VolunteerId == v.Id && a.TreatmentEndTime == null).CalledId).KindOfCall
+                   IdOfCall = assign?.CalledId??null,
+                   KindOfCall = assign==null ? null : (BO.KindOfCall)_dal.Call.Read(a => a.Id == assign.CalledId).KindOfCall
 
                };
+        if (feildToSort == null)
+        {
+            listOfVol = listOfVol.OrderBy(v => v.Id);
+        }
+        else
+        {
+            string propertyName = feildToSort.ToString();
+            var propertyInfo = typeof(BO.VolunteerInList).GetProperty(propertyName);
+            if (propertyInfo != null)
+            {
+                listOfVol = listOfVol.OrderBy(v => propertyInfo.GetValue(v, null));
+            }
+        }
+        return listOfVol;
     }
     public void UpdateVolunteer(int id, BO.Volunteer volunteer)
     {
