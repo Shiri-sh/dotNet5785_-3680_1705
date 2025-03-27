@@ -155,10 +155,8 @@ internal class CallImplementation : ICall
     public IEnumerable<BO.ClosedCallInList> GetCloseCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.CloseCallInListObjects? objCloseCall = null)
     {
         List<int> callOfVol = _dal.Assignment.ReadAll().Where(a => a.VolunteerId == VolunteerId && a.TreatmentEndTime != null).Select(a => a.CalledId).ToList();
-        IEnumerable<DO.Call> calls = _dal.Call.ReadAll().Where(c => callOfVol.Contains(c.Id));
-         calls = CallManager.SortAndFilter(calls, kindOfCall, objCloseCall);
-         return from c in calls
-               let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
+        IEnumerable<BO.ClosedCallInList> calls = from c in _dal.Call.ReadAll().Where(c => callOfVol.Contains(c.Id))
+                                                let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
                select new BO.ClosedCallInList
                {
                    Id = c.Id,
@@ -169,14 +167,24 @@ internal class CallImplementation : ICall
                    TreatmentEndTime = assignment.TreatmentEndTime==null?null: assignment.TreatmentEndTime,
                    TypeOfTreatmentTermination = assignment.TypeOfTreatmentTermination==null?null:(BO.TypeOfTreatmentTermination)assignment.TypeOfTreatmentTermination,
                };
+        if (kindOfCall.HasValue)
+        {
+            calls = calls.Where(c => c.KindOfCall == (BO.KindOfCall)kindOfCall.Value);
+        }
+            if (objCloseCall != null)
+            {
+                var propertyInfoSort = typeof(BO.CloseCallInListObjects).GetProperty(objCloseCall.ToString());
+                calls = calls.OrderBy(c => propertyInfoSort.GetValue(c, null));
+            }
+            else
+                calls = calls.OrderBy(c => c.Id);
+        return calls;
     }
     public IEnumerable<BO.OpenCallInList> GetOpenCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListFields? objOpenCall = null)
     {
         List<int> callOfVol = _dal.Assignment.ReadAll().Select(a => a.CalledId).ToList();
-        IEnumerable<DO.Call> calls = _dal.Call.ReadAll().Where(c => !callOfVol.Contains(c.Id));
-         calls = CallManager.SortAndFilter(calls, kindOfCall,null, objOpenCall);
         DO.Volunteer vol = _dal.Volunteer.Read(v => v.Id == VolunteerId);
-        return calls.Select(c => new BO.OpenCallInList
+        IEnumerable<BO.OpenCallInList> calls= _dal.Call.ReadAll().Where(c => !callOfVol.Contains(c.Id)).Select(c => new BO.OpenCallInList
         {
             Id = c.Id,
             KindOfCall = (BO.KindOfCall)c.KindOfCall,
@@ -186,6 +194,18 @@ internal class CallImplementation : ICall
             Description=c.Description,
             DistanceFromVol=CallManager.GetDistanceFromVol(c.Latitude,c.Longitude,vol.Latitude,vol.Longitude)
         });
+        if (kindOfCall.HasValue)
+        {
+            calls = calls.Where(c => c.KindOfCall == (BO.KindOfCall)kindOfCall.Value);
+        }
+            if (objOpenCall != null)
+            {
+                var propertyInfoSort = typeof(BO.OpenCallInListFields).GetProperty(objOpenCall.ToString());
+                calls = calls.OrderBy(c => propertyInfoSort.GetValue(c, null));
+            }
+            else
+                calls = calls.OrderBy(c => c.Id);
+        return calls;
     }
     public BO.Call ReadCall(int id)
     {
