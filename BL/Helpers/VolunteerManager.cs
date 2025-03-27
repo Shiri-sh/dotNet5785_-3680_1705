@@ -39,10 +39,10 @@ internal static class VolunteerManager
             throw new BO.BlInvalidDataException("Invalid Israeli ID number");
         }
 
-        if (!Tools.IsValidAddress(boVolunteer.Latitude, boVolunteer.Longitude))
-        {
-            throw new BO.BlInvalidDataException("Address not exist");
-        }
+        //if (!Tools.IsValidAddress(boVolunteer.Latitude, boVolunteer.Longitude))
+        //{
+        //    throw new BO.BlInvalidDataException("Address not exist");
+        //}
     }
     /// <summary>
     /// Validates whether a given Israeli ID is valid according to the Luhn algorithm.
