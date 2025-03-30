@@ -442,10 +442,10 @@ internal class Program
         catch (BO.BlNotAloudToDoException ex) { Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}"); }
 
     }
-        /// <summary>
+    /// <summary>
         /// cancel call
         /// </summary>
-        static void CancelCall()
+     static void CancelCall()
     {
         Console.WriteLine("press your id and id of call");
         try { s_bl.Call.UpdateCancelCall(ReadHelper.ReadInt(), ReadHelper.ReadInt()); }
@@ -487,7 +487,6 @@ internal class Program
         try { s_bl.Call.CooseCall(ReadHelper.ReadInt(), ReadHelper.ReadInt()); }
         catch (BO.BlNotAloudToDoException ex) { Console.WriteLine($"Error: {ex.GetType().Name}, Message: {ex.Message}"); }
     }
-   
     /// <summary>
     /// get open calls that volunteer can choose
     /// </summary>
