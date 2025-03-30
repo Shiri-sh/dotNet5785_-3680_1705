@@ -208,4 +208,18 @@
     <MaximumDistanceForReading>235</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
+  <Volunteer>
+    <Id>326598521</Id>
+    <Name>fff</Name>
+    <PhoneNumber>0583235695</PhoneNumber>
+    <Email>w@gmail.com</Email>
+    <Position>Managar</Position>
+    <Password>q!</Password>
+    <Active>false</Active>
+    <CurrentAddress>אבן גבירול 11, אלעד</CurrentAddress>
+    <Latitude>32.0539178</Latitude>
+    <Longitude>34.9586121</Longitude>
+    <MaximumDistanceForReading>20</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
 </ArrayOfVolunteer>

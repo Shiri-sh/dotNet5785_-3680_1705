@@ -6,7 +6,6 @@ public class ReadHelper
 {
     public static int ReadInt(/*int? minValue = null, int? maxValue = null*/)
     {
-   
         string numInput = Console.ReadLine();
         int number;
         while (!int.TryParse(numInput, out number)
@@ -24,7 +23,6 @@ public class ReadHelper
     }
     public static double ReadDouble()
     {
-
         string ageInput = Console.ReadLine();
         double data;
         while (!double.TryParse(ageInput, out data))

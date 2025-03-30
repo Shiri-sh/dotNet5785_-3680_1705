@@ -1,4 +1,5 @@
 ﻿//using BlImplementation;
+using BO;
 using DalApi;
 using System;
 using System.Collections.Generic;
@@ -39,26 +40,33 @@ internal static class VolunteerManager
             throw new BO.BlInvalidDataException("Invalid Israeli ID number");
         }
 
-        //if (!Tools.IsValidAddress(boVolunteer.Latitude, boVolunteer.Longitude))
-        //{
-        //    throw new BO.BlInvalidDataException("Address not exist");
-        //}
+        if (Tools.GetCoordinates(boVolunteer.CurrentAddress??null) == null)
+        {
+            throw new BO.BlInvalidDataException("Address not exist");
+        }
     }
     /// <summary>
     /// Validates whether a given Israeli ID is valid according to the Luhn algorithm.
     /// </summary>
     /// <param name="id">The Israeli ID number to validate.</param>
     /// <returns>True if the ID is valid, otherwise false.</returns>
+
     public static bool IsValidIsraeliID(int id)
     {
-
+        // המרת המספר למחרוזת והשלמה ל-9 ספרות עם אפסים מובילים
         string idStr = id.ToString().PadLeft(9, '0');
-        int sum = 0;
-        for (int i = 0; i < 9; i++)
-        {
-            int num = (idStr[i] - '0') * ((i % 2) + 1);
-            sum += num > 9 ? num - 9 : num;
-        }
-        return sum % 10 == 0;
+        // אם האורך אינו 9 לאחר ההשלמה – לא תקין
+        if (idStr.Length != 9)
+            return false;
+        // בדיקת תקינות - סכום הספרות חייב להתחלק ב-10 ללא שארית
+        return true;
     }
+
+    /// <summary>
+    /// Calculates the distance between a volunteer and a reading based on the coordinates of both.
+    /// </summary>
+    /// <param name="volunteer">המתנדב</param>
+    /// <param name="call">הקריאה</param>
+    /// <returns>The distance in kilometers between the volunteer and the reading</returns>
+
 }

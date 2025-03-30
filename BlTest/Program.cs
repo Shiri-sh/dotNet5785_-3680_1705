@@ -1,6 +1,7 @@
 ﻿using Accessories;
 using BO;
 using DalApi;
+using System.Text;
 
 namespace BlTest;
 
@@ -9,6 +10,7 @@ internal class Program
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
     static void Main(string[] args)
     {
+
         bool exit = false;
         while (!exit)
         {
@@ -271,7 +273,7 @@ internal class Program
     /// </summary>
     static BO.Volunteer AddUpdateVolunteer()
     {
-        Console.Write("Enter Volunteer details: Id, Name, Phone-Number, Email,Position,Password,Active,Current-Address,Latitude,Longitude, Maximum-Distance-For-Reading,Type-Of-Distance\n");
+        Console.Write("Enter Volunteer details: Id, Name, Phone-Number, Email,Position,Password,Active,Current-Address, Maximum-Distance-For-Reading,Type-Of-Distance\n");
         return new()
         {
             //חסר כאן המידע שאם זה עדכון אז שיהיה קריאה בתהליך
@@ -283,8 +285,6 @@ internal class Program
             Password = ReadHelper.ReadString(),
             Active = bool.TryParse(Console.ReadLine(), out var active) ? active : false,
             CurrentAddress = ReadHelper.ReadString(),
-            Latitude = ReadHelper.ReadDouble(),
-            Longitude = ReadHelper.ReadDouble(),
             MaximumDistanceForReading = ReadHelper.ReadDouble(),
             TypeOfDistance = ReadHelper.ReadEnum<BO.TypeOfDistance>(),
             SumCancledCalls = 0,
@@ -340,8 +340,6 @@ internal class Program
             Id = ReadHelper.ReadInt(),//if the id is 0 it will update in the creat function in the CallImplementation
             KindOfCall = ReadHelper.ReadEnum<BO.KindOfCall>(),
             AddressOfCall = ReadHelper.ReadString(),
-            Latitude = ReadHelper.ReadDouble(),
-            Longitude = ReadHelper.ReadDouble(),
             OpeningTime = ReadHelper.ReadDate(),
             FinishTime = ReadHelper.ReadDate(),
             Description = ReadHelper.ReadString(),

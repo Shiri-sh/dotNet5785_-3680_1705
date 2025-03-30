@@ -7,6 +7,10 @@ internal class CallImplementation : ICall
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
     public void AddCall(BO.Call call)
     {
+        double[]? latLon = call.AddressOfCall == null ? null : Tools.GetCoordinates(call.AddressOfCall);
+        if (latLon == null) {
+             throw new BO.BlInvalidDataException("Address not exist");
+        }
         try
         {
             CallManager.ValidateCall(call);
@@ -26,7 +30,6 @@ internal class CallImplementation : ICall
     }
     public int[] CallByStatus()
     {
-        int i = 0;
         int[] sumCallByStatus = new int[6];
         var groupedCalls = CallList().GroupBy(x => (int)x.Status);
         foreach (var group in groupedCalls)
@@ -113,6 +116,12 @@ internal class CallImplementation : ICall
         }
         if (doAssign.TypeOfTreatmentTermination==null && doAssign.TreatmentEndTime == null)
         {
+        }
+        else
+        {
+            throw new BO.BlNotAloudToDoException("you cant cancle a call if its alocation is open");
+        }
+        
             _dal.Assignment.Update(new DO.Assignment
             {
                 Id = assignId,
@@ -122,11 +131,7 @@ internal class CallImplementation : ICall
                 TreatmentEndTime = ClockManager.Now,
                 TypeOfTreatmentTermination = DO.TypeOfTreatmentTermination.Handled,
             });
-        }
-        else
-        {
-            throw new BO.BlNotAloudToDoException("you cant cancle a call if its alocation is open");
-        }
+       
     }
     public void CooseCall(int volunteerId, int callId)
     {
@@ -201,7 +206,7 @@ internal class CallImplementation : ICall
             OpeningTime = c.OpeningTime,
             FinishTime=c.FinishTime,
             Description=c.Description,
-            DistanceFromVol=CallManager.GetDistanceFromVol(c.Latitude,c.Longitude,vol.Latitude,vol.Longitude)
+            DistanceFromVol=Tools.GetDistance(vol,c)
         });
         if (kindOfCall.HasValue)
         {
@@ -247,7 +252,11 @@ internal class CallImplementation : ICall
     }
     public void UpdateCall(BO.Call call)
     {
-       
+        double[]? latLon = call.AddressOfCall == null ? null : Tools.GetCoordinates(call.AddressOfCall);
+        if (latLon == null)
+        {
+            throw new BO.BlInvalidDataException("Address not exist");
+        }
         try
         {
             CallManager.ValidateCall(call);
@@ -256,8 +265,8 @@ internal class CallImplementation : ICall
                 Id = call.Id,
                 KindOfCall = (DO.KindOfCall)call.KindOfCall,
                 AddressOfCall = call.AddressOfCall,
-                Latitude = call.Latitude,
-                Longitude = call.Longitude,
+                Latitude = latLon[0],
+                Longitude = latLon[1],
                 OpeningTime = call.OpeningTime,
                 FinishTime = call.FinishTime,
                 Description = call.Description,

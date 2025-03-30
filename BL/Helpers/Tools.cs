@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
+using System.Net;
+using System.IO;
+using BO;
+//using Newtonsoft.Json;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Helpers;
 
@@ -37,31 +39,58 @@ internal static class Tools
         }
         return str;
     }
-    /// <summary>
-    /// Validates if the provided longitude and latitude correspond to a valid address.
-    /// </summary>
-    /// <param name="lon">The longitude of the address to validate.</param>
-    /// <param name="lat">The latitude of the address to validate.</param>
-    /// <returns>True if the address is valid, otherwise false.</returns>
-    public static bool IsValidAddress(double? lon, double? lat)
+
+    public static double[]? GetCoordinates(string address)
     {
-        string requestUri = $"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}";
-
-        using HttpClient client = new HttpClient();
-        HttpResponseMessage response = client.Send(new HttpRequestMessage(HttpMethod.Get, requestUri));
-
-        if (!response.IsSuccessStatusCode) return false;
-
-        string jsonResponse = response.Content.ReadAsStringAsync().Result;
-        var result = JsonSerializer.Deserialize<OSMGeocodeResponse>(jsonResponse);
-
-        return !string.IsNullOrWhiteSpace(result?.display_name);
+        if (string.IsNullOrWhiteSpace(address))
+        {
+            return null;
+        }
+        string url = $"https://geocode.maps.co/search?q={Uri.EscapeDataString(address)}&api_key=679a8da6c01a6853187846vomb04142";
+        try
+        {
+            using (WebClient client = new WebClient())
+            {
+                string response = client.DownloadString(url);
+                var result = JsonSerializer.Deserialize<GeocodeResponse[]>(response);
+                if (result == null || result.Length == 0)
+                {
+                    throw new BO.BlInvalidDataException("The address is invalid.");
+                }
+                double latitude = double.Parse(result[0].lat);
+                double longitude = double.Parse(result[0].lon);
+                return [latitude, longitude];
+            }
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
-    /// <summary>
-    /// A private class used for deserializing the response from the OpenStreetMap API.
-    /// </summary>
-    private class OSMGeocodeResponse
+    public class GeocodeResponse
     {
-        public string display_name { get; set; }
+        public string lat { get; set; }
+        public string lon { get; set; }
     }
+    internal static double GetDistance(DO.Volunteer volunteer, DO.Call call)
+    {
+        const double EarthRadius = 6371;
+        if (volunteer.Latitude == null || volunteer.Longitude == null)
+        {
+            throw new BlNullPropertyException("Volunteer latitude or longitude cannot be null.");
+        }
+        double lat1 = volunteer.Latitude.Value * (Math.PI / 180);
+        double lon1 = volunteer.Longitude.Value * (Math.PI / 180);
+        double lat2 = call.Latitude * (Math.PI / 180);
+        double lon2 = call.Longitude * (Math.PI / 180);
+        double dLat = lat2 - lat1;
+        double dLon = lon2 - lon1;
+        double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                   Math.Cos(lat1) * Math.Cos(lat2) *
+                   Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+        double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+        double distance = EarthRadius * c;
+        return distance;
+    }
+
 }

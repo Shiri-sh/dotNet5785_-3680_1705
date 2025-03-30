@@ -14,6 +14,7 @@ internal class VolunteerImplementation: IVolunteer
 
     public void AddVolunteer(BO.Volunteer boVolunteer)
     {
+        double[]? latLon = boVolunteer.CurrentAddress == null ? null : Tools.GetCoordinates(boVolunteer.CurrentAddress);
         try
         {
             VolunteerManager.ValidateVolunteer(boVolunteer);
@@ -25,9 +26,9 @@ internal class VolunteerImplementation: IVolunteer
             (DO.Position)boVolunteer.Position,
             boVolunteer.Password,
             boVolunteer.Active,
-            boVolunteer.CurrentAddress,
-            boVolunteer.Latitude,
-            boVolunteer.Longitude,
+            latLon==null?null: boVolunteer.CurrentAddress,
+            latLon?[0],
+            latLon?[1],
             boVolunteer.MaximumDistanceForReading,
             (DO.TypeOfDistance)boVolunteer.TypeOfDistance
         );
@@ -62,7 +63,7 @@ internal class VolunteerImplementation: IVolunteer
     {
 
         var doVolunteer = _dal.Volunteer.Read(vol =>  vol.Name == username && vol.Password == password) ??
-        throw new BO.BlDoesNotExistException($"Volunteer with Name ={username} and Password={password} does Not exist");//need tocreate it later
+               throw new BO.BlDoesNotExistException($"Volunteer with Name ={username} and Password={password} does Not exist");//need tocreate it later
         return (BO.Position)doVolunteer.Position;
     }
     public BO.Volunteer Read(int id)
@@ -99,7 +100,7 @@ internal class VolunteerImplementation: IVolunteer
                             FinishTime= callInProgress.FinishTime,
                             Description = callInProgress.Description,
                             TreatmentEntryTime= assignment.TreatmentEntryTime,
-                            DistanceFromVolunteer= CallManager.GetDistanceFromVol(callInProgress.Latitude, callInProgress.Longitude,doVolunteer.Latitude, doVolunteer.Longitude),//////dont know if this good parameters
+                            DistanceFromVolunteer= Tools.GetDistance(doVolunteer,callInProgress),//////dont know if this good parameters
                             Status=  CallManager.StatusCallInProgress(callInProgress)
             }:null
         };
@@ -159,17 +160,18 @@ internal class VolunteerImplementation: IVolunteer
             throw new BO.BlNotAloudToDoException("Only a managar can update the volunteer's Position");
         }
         // עדכון הנתונים במערכת
+        double[]? latLon= volunteer.CurrentAddress==null?null:Tools.GetCoordinates(volunteer.CurrentAddress);
         _dal.Volunteer.Update(new DO.Volunteer
         {
             Id = volunteer.Id,
             Name = volunteer.Name,
             Email = volunteer.Email,
-            Longitude = volunteer.Longitude,
-            Latitude = volunteer.Latitude,
+            Longitude = latLon?[1],
+            Latitude = latLon?[0],
             Position = (DO.Position)volunteer.Position,
             Password =volunteer.Password,
             Active = volunteer.Active,
-            CurrentAddress = volunteer.CurrentAddress,
+            CurrentAddress =latLon==null?null: volunteer.CurrentAddress,
             MaximumDistanceForReading = volunteer.MaximumDistanceForReading,
             TypeOfDistance = (DO.TypeOfDistance)volunteer.TypeOfDistance
         });

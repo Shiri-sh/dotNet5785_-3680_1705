@@ -51,17 +51,9 @@ namespace Helpers
         internal static void ValidateCall(BO.Call call)
         {
 
-                if (call.FinishTime < call.OpeningTime)
+                if (call.FinishTime < call.OpeningTime|| call.FinishTime<ClockManager.Now)
                 {
-                    throw new BO.BlInvalidDataException("the finish-time cant be earlier than the opening time");
-                }
-                //if (!Tools.IsValidAddress(call.Longitude, call.Latitude)) {
-                //    throw new BO.BlInvalidDataException("Address not exist");
-                //};
-         
-                if (string.IsNullOrWhiteSpace(call.AddressOfCall))
-                {
-                    throw new BO.BlInvalidDataException("The address cannot be empty.");
+                    throw new BO.BlInvalidDataException("the finish-time cant be earlier than the opening time or passed ");
                 }
                 if (!Enum.IsDefined(typeof(BO.KindOfCall), call.KindOfCall))
                 {
@@ -77,21 +69,5 @@ namespace Helpers
         /// <param name="latVol">Latitude of the volunteer's location.</param>
         /// <param name="lonVol">Longitude of the volunteer's location.</param>
         /// <returns>The distance in kilometers between the call's location and the volunteer's location.</returns>
-        internal static double GetDistanceFromVol(double laCall, double lonCall, double? latVol, double? lonVol)
-        {
-            const double R = 6371; // רדיוס כדור הארץ בק"מ
-            double dLat =DegreesToRadians(laCall - latVol);
-            double dLon = DegreesToRadians(lonCall - lonVol);
-            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                       Math.Cos(DegreesToRadians(latVol)) * Math.Cos(DegreesToRadians(laCall)) *
-                       Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
-            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-            return R * c;
-        }
-
-        private static double DegreesToRadians(double? v)
-        {
-            return 1;
-        }
     }
 }
