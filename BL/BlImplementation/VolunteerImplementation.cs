@@ -34,6 +34,7 @@ internal class VolunteerImplementation: IVolunteer
         );
        
             _dal.Volunteer.Create(doVolunteer);
+            VolunteerManager.Observers.NotifyListUpdated();
         }
         catch (DO.DalAlreadyExistsException ex)
         {
@@ -52,6 +53,8 @@ internal class VolunteerImplementation: IVolunteer
             try
             {
                 _dal.Volunteer.Delete(id);
+                VolunteerManager.Observers.NotifyListUpdated();
+
             }
             catch (DO.DalDoesNotExistException ex) { throw new BO.BlDoesNotExistException($"Volunteer with {id} does Not exist"); }
         }
@@ -175,5 +178,18 @@ internal class VolunteerImplementation: IVolunteer
             MaximumDistanceForReading = volunteer.MaximumDistanceForReading,
             TypeOfDistance = (DO.TypeOfDistance)volunteer.TypeOfDistance
         });
+        VolunteerManager.Observers.NotifyItemUpdated(volunteer.Id);
+        VolunteerManager.Observers.NotifyListUpdated();
     }
+    #region Stage 5
+    public void AddObserver(Action listObserver) =>
+    VolunteerManager.Observers.AddListObserver(listObserver); //stage 5
+    public void AddObserver(int id, Action observer) =>
+    VolunteerManager.Observers.AddObserver(id, observer); //stage 5
+    public void RemoveObserver(Action listObserver) =>
+    VolunteerManager.Observers.RemoveListObserver(listObserver); //stage 5
+    public void RemoveObserver(int id, Action observer) =>
+    VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
+    #endregion Stage 5
+
 }

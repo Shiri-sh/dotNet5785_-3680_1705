@@ -1,4 +1,5 @@
 ﻿//using BO;
+using Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace BlApi;
 
-public interface ICall
+public interface ICall: IObservable
 {
+
     /// <summary>
     /// Retrieves the count of calls grouped by their status.
     /// </summary>

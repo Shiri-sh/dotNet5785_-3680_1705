@@ -8,4 +8,5 @@ internal class Bl : IBl
     public IVolunteer Volunteer {  get; }=new VolunteerImplementation();
 
     public IAdmin Admin {  get; }=new AdminImplementation();
+
 }

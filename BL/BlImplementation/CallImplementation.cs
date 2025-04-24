@@ -24,6 +24,8 @@ internal class CallImplementation : ICall
                 call.FinishTime,
                 call.Description
             ));
+            CallManager.Observers.NotifyListUpdated();
+
         }
         catch (DO.DalAlreadyExistsException ex) { throw new BO.BlAlreadyExistsException($"call with ID={call.Id} already exists", ex); }
         catch (BO.BlInvalidDataException ex) { throw new BO.BlInvalidDataException(ex.Message); }
@@ -105,6 +107,8 @@ internal class CallImplementation : ICall
             TreatmentEndTime = ClockManager.Now,
             TypeOfTreatmentTermination = volPosition==BO.Position.Managar?DO.TypeOfTreatmentTermination.ConcellingAdministrator: DO.TypeOfTreatmentTermination.SelfCancellation,
         });
+        CallManager.Observers.NotifyItemUpdated(assignId);
+        CallManager.Observers.NotifyListUpdated();
     }
     public void UpdateEndCall(int volunteerId, int assignId)
     {
@@ -122,16 +126,19 @@ internal class CallImplementation : ICall
             throw new BO.BlNotAloudToDoException("you cant cancle a call if its alocation is open");
         }
         
-            _dal.Assignment.Update(new DO.Assignment
-            {
-                Id = assignId,
-                VolunteerId = volunteerId,
-                CalledId = doAssign.CalledId,
-                TreatmentEntryTime = doAssign.TreatmentEntryTime,
-                TreatmentEndTime = ClockManager.Now,
-                TypeOfTreatmentTermination = DO.TypeOfTreatmentTermination.Handled,
-            });
-       
+        _dal.Assignment.Update(new DO.Assignment
+        {
+            Id = assignId,
+            VolunteerId = volunteerId,
+            CalledId = doAssign.CalledId,
+            TreatmentEntryTime = doAssign.TreatmentEntryTime,
+            TreatmentEndTime = ClockManager.Now,
+            TypeOfTreatmentTermination = DO.TypeOfTreatmentTermination.Handled,
+        });
+        CallManager.Observers.NotifyItemUpdated(assignId);
+        CallManager.Observers.NotifyListUpdated();
+
+
     }
     public void CooseCall(int volunteerId, int callId)
     {
@@ -151,6 +158,7 @@ internal class CallImplementation : ICall
         if (st== BO.Status.Open &&  a.Count()==0)
         {
             _dal.Call.Delete(doCall.Id);
+            CallManager.Observers.NotifyListUpdated();
         }
         else
         {
@@ -271,6 +279,8 @@ internal class CallImplementation : ICall
                 FinishTime = call.FinishTime,
                 Description = call.Description,
             });
+            CallManager.Observers.NotifyItemUpdated(call.Id);
+            CallManager.Observers.NotifyListUpdated();
         }
         catch (DO.DalDoesNotExistException e)
         {
@@ -281,4 +291,16 @@ internal class CallImplementation : ICall
             throw new BO.BlInvalidDataException($"you put invalid data,{e.Message}");
         }
     }
+
+    #region Stage 5
+    public void AddObserver(Action listObserver) =>
+    CallManager.Observers.AddListObserver(listObserver); //stage 5
+    public void AddObserver(int id, Action observer) =>
+    CallManager.Observers.AddObserver(id, observer); //stage 5
+    public void RemoveObserver(Action listObserver) =>
+    CallManager.Observers.RemoveListObserver(listObserver); //stage 5
+    public void RemoveObserver(int id, Action observer) =>
+    CallManager.Observers.RemoveObserver(id, observer); //stage 5
+    #endregion Stage 5
+
 }

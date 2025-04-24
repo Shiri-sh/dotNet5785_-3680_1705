@@ -13,6 +13,8 @@ namespace Helpers;
 
 internal static class VolunteerManager
 {
+    internal static ObserverManager Observers = new(); //stage 5 
+
     private static IDal s_dal = Factory.Get; //stage 4
 
     /// <summary>
@@ -50,7 +52,6 @@ internal static class VolunteerManager
     /// </summary>
     /// <param name="id">The Israeli ID number to validate.</param>
     /// <returns>True if the ID is valid, otherwise false.</returns>
-
     public static bool IsValidIsraeliID(int id)
     {
         // המרת המספר למחרוזת והשלמה ל-9 ספרות עם אפסים מובילים
@@ -61,12 +62,4 @@ internal static class VolunteerManager
         // בדיקת תקינות - סכום הספרות חייב להתחלק ב-10 ללא שארית
         return true;
     }
-
-    /// <summary>
-    /// Calculates the distance between a volunteer and a reading based on the coordinates of both.
-    /// </summary>
-    /// <param name="volunteer">המתנדב</param>
-    /// <param name="call">הקריאה</param>
-    /// <returns>The distance in kilometers between the volunteer and the reading</returns>
-
 }

@@ -72,6 +72,13 @@ internal static class Tools
         public string lat { get; set; }
         public string lon { get; set; }
     }
+
+    /// <summary>
+    /// Calculates the distance between a volunteer and a reading based on the coordinates of both.
+    /// </summary>
+    /// <param name="volunteer">המתנדב</param>
+    /// <param name="call">הקריאה</param>
+    /// <returns>The distance in kilometers between the volunteer and the reading</returns>
     internal static double GetDistance(DO.Volunteer volunteer, DO.Call call)
     {
         const double EarthRadius = 6371;

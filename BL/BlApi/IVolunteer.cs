@@ -1,7 +1,7 @@
 ﻿
 namespace BlApi;
 
-public interface IVolunteer
+public interface IVolunteer: IObservable
 {
     /// <summary>
     /// Logs in to the system.
