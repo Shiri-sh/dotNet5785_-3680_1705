@@ -67,16 +67,32 @@ internal static class CallManager
             {
                 s_dal.Assignment.Create(new DO.Assignment
                 {
-
+                    Id = 0,
+                    CalledId = c.CallId,
+                    VolunteerId = 0,
+                    TreatmentEntryTime = ClockManager.Now,
+                    TreatmentEndTime = ClockManager.Now,
+                    TypeOfTreatmentTermination = DO.TypeOfTreatmentTermination.CancellationExpired
                 });
             }
-            s_dal.Call.Update(new DO.Call
+            else
             {
-                Id =(int)c.Id
-                
-                
-            });
+                var na = s_dal.Assignment.Read(nc => nc.Id == c.Id);
+                s_dal.Assignment.Update(new DO.Assignment
+                {
+                    Id = na.Id,
+                    CalledId = c.CallId,
+                    VolunteerId = na.VolunteerId,
+                    TreatmentEntryTime = na.TreatmentEntryTime,
+                    TreatmentEndTime = ClockManager.Now,
+                    TypeOfTreatmentTermination = DO.TypeOfTreatmentTermination.CancellationExpired
+                });
+                Observers.NotifyItemUpdated(na.Id); //stage 5
+
+            }
         }
-       
+        if(calls!=null)
+            Observers.NotifyListUpdated(); //stage 5
+
     }
  }
