@@ -21,4 +21,3 @@ public enum MainMenuEnum { Exit, SubMenuVolunteer, SubMenuCall, SubMenuAdmin }
 public enum SubMenuVolunteerEnum { Exit, AddNew, DisplayById, DisplayAll  , Update, Delete, LoginSystem }
 public enum SubMenuAdminEnum { Exit, DisplayTime, DisplayTimeRisk, updateRiskTime  , reset, initialization, updateTime }
 public enum SubMenuCallEnum { Exit,Add, CallByStatus,Cancel, Delete, DisplayAll, GetAllCallByVolunteer , UpdateEndCall, UpdateCall, DisplayById, CooseCall,OpenCalls }
-public enum ConfigSubMenuEnum { Exit, AdvanceMinute, AdvanceHour, AdvancePress, DisplayClock, SetOne, DisplayConfig, Reset }
