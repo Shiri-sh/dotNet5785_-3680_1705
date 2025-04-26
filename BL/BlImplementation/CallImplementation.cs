@@ -52,7 +52,7 @@ internal class CallImplementation : ICall
                                                    CallId = c.Id,
                                                    KindOfCall = (BO.KindOfCall)c.KindOfCall,
                                                    OpeningTime = c.OpeningTime,
-                                                   RemainingTimeToFinish = c.FinishTime - ClockManager.Now,
+                                                   RemainingTimeToFinish = c.FinishTime - AdminManager.Now,
                                                    LastVolunteer =assignment==null ? null: _dal.Volunteer.Read(v => v.Id ==
                                                                                        _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
                                                                                        .OrderByDescending(a => a.TreatmentEntryTime)
@@ -104,7 +104,7 @@ internal class CallImplementation : ICall
             VolunteerId = volunteerId,
             CalledId = doAssign.CalledId,
             TreatmentEntryTime = doAssign.TreatmentEntryTime,
-            TreatmentEndTime = ClockManager.Now,
+            TreatmentEndTime = AdminManager.Now,
             TypeOfTreatmentTermination = volPosition==BO.Position.Managar?DO.TypeOfTreatmentTermination.ConcellingAdministrator: DO.TypeOfTreatmentTermination.SelfCancellation,
         });
         CallManager.Observers.NotifyItemUpdated(assignId);
@@ -132,7 +132,7 @@ internal class CallImplementation : ICall
             VolunteerId = volunteerId,
             CalledId = doAssign.CalledId,
             TreatmentEntryTime = doAssign.TreatmentEntryTime,
-            TreatmentEndTime = ClockManager.Now,
+            TreatmentEndTime = AdminManager.Now,
             TypeOfTreatmentTermination = DO.TypeOfTreatmentTermination.Handled,
         });
         CallManager.Observers.NotifyItemUpdated(assignId);
@@ -148,7 +148,7 @@ internal class CallImplementation : ICall
         {
             throw new BO.BlNotAloudToDoException("the call has been handled or someone took it already or the call is irelevant");
         }
-        _dal.Assignment.Create(new DO.Assignment { CalledId = callId, VolunteerId = volunteerId, TreatmentEntryTime = ClockManager.Now });
+        _dal.Assignment.Create(new DO.Assignment { CalledId = callId, VolunteerId = volunteerId, TreatmentEntryTime = AdminManager.Now });
     }
     public void DeleteCall(int id)
     {

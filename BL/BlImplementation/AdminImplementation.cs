@@ -1,4 +1,5 @@
 ﻿using BlApi;
+using DalApi;
 using Helpers;
 using System;
 using System.Collections.Generic;
@@ -12,40 +13,46 @@ internal class AdminImplementation:IAdmin
 {
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
     public DateTime GetClock()
-    {
-        return ClockManager.Now;
-    }
+       => AdminManager.Now;
 
     public TimeSpan GetRiskRange()
-    {
-        return _dal.Config.RiskRange;
-    }
+    => AdminManager.RiskRange;
+    public int GetNextCallId()
+      => AdminManager.NextCallId;
+    public int GetNextAssignmentId()
+       => AdminManager.NextAssignmentId;
+    public void UpdateRiskRange(TimeSpan riskRange) => AdminManager.RiskRange = riskRange;
+
     //אתחול
     public void Initialization()
     {
-        DalTest.Initialization.Do();
-        ClockManager.UpdateClock(ClockManager.Now);
+        AdminManager.InitializeDB();
     }
 
     public void Reset()
     {
-        _dal.ResetDB();
-        ClockManager.UpdateClock(ClockManager.Now);
+        AdminManager.ResetDB();
     }
 
     public void UpdateClock(BO.TypeOfTime typeOfTime)
     {
      switch(typeOfTime)
      {
-            case BO.TypeOfTime.Minute: ClockManager.UpdateClock(ClockManager.Now.AddMinutes(1));break;
-            case BO.TypeOfTime.Hour: ClockManager.UpdateClock(ClockManager.Now.AddHours(1)); break;
-            case BO.TypeOfTime.Day: ClockManager.UpdateClock(ClockManager.Now.AddDays(1)); break;
-            case BO.TypeOfTime.Month: ClockManager.UpdateClock(ClockManager.Now.AddMonths(1)); break;
-            case BO.TypeOfTime.Year: ClockManager.UpdateClock(ClockManager.Now.AddYears(1)); break;
+            case BO.TypeOfTime.Minute: AdminManager.UpdateClock(AdminManager.Now.AddMinutes(1));break;
+            case BO.TypeOfTime.Hour: AdminManager.UpdateClock(AdminManager.Now.AddHours(1)); break;
+            case BO.TypeOfTime.Day: AdminManager.UpdateClock(AdminManager.Now.AddDays(1)); break;
+            case BO.TypeOfTime.Month: AdminManager.UpdateClock(AdminManager.Now.AddMonths(1)); break;
+            case BO.TypeOfTime.Year: AdminManager.UpdateClock(AdminManager.Now.AddYears(1)); break;
      };
     }
-    public void UpdateRiskRange(TimeSpan riskRange)
-    {
-            _dal.Config.RiskRange = riskRange;
-    }
+    #region Stage 5
+    public void AddClockObserver(Action clockObserver) =>
+    AdminManager.ClockUpdatedObservers += clockObserver;
+    public void RemoveClockObserver(Action clockObserver) =>
+    AdminManager.ClockUpdatedObservers -= clockObserver;
+    public void AddConfigObserver(Action configObserver) =>
+   AdminManager.ConfigUpdatedObservers += configObserver;
+    public void RemoveConfigObserver(Action configObserver) =>
+    AdminManager.ConfigUpdatedObservers -= configObserver;
+    #endregion Stage 5
 }
