@@ -7,6 +7,34 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="250*"/>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+        </Grid.ColumnDefinitions>
+        <!--clock-->
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="50,15" Orientation="Vertical" HorizontalAlignment="Left">
+            <Label Content="the time"></Label>
+            <Button Content="add minute" Height="25" Width="100" Margin="5"></Button>
+            <Button Content="add hour" Height="25" Width="100" Margin="5"></Button>
+            <Button Content="add day" Height="25" Width="100" Margin="5"></Button>
+            <Button Content="add month" Height="25" Width="100" Margin="5"></Button>
+            <Button Content="add year" Height="25" Width="100" Margin="5"></Button>
+        </StackPanel>
+        <!--config-->
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="50,15" Orientation="Vertical" HorizontalAlignment="Left">
+            <TextBox Text="risk range" TextChanged="TextBox_TextChanged"></TextBox>
+            <Button Content="save" Height="25" Width="100" Margin="5"></Button>
+        </StackPanel>
+        <!--another-->
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="50,15" Orientation="Vertical" HorizontalAlignment="Left">
+            <Button Content="show list" Height="25" Width="100" Margin="5"></Button>
+            <Button Content="Initialize" Height="25" Width="100" Margin="5"></Button>
+            <Button Content="ResetDB" Height="25" Width="100" Margin="5"></Button>
+        </StackPanel>
     </Grid>
 </Window>
