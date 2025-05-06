@@ -5,7 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+        Loaded="Load_Window"
+        Closed="Window_Closed"
+        >
+    <Window.Resources>
+        <Style x:Key="StandardButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="250*"/>
@@ -18,23 +29,25 @@
         </Grid.ColumnDefinitions>
         <!--clock-->
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="50,15" Orientation="Vertical" HorizontalAlignment="Left">
-            <Label Content="the time"></Label>
-            <Button Content="add minute" Height="25" Width="100" Margin="5"></Button>
-            <Button Content="add hour" Height="25" Width="100" Margin="5"></Button>
-            <Button Content="add day" Height="25" Width="100" Margin="5"></Button>
-            <Button Content="add month" Height="25" Width="100" Margin="5"></Button>
-            <Button Content="add year" Height="25" Width="100" Margin="5"></Button>
+            <Label Content="{Binding CurrentTime}" FontWeight="Bold" FontSize="20"/>
+            <Button Content="add minute" Click="btnAddOneMinute_Click" Style="{StaticResource StandardButtonStyle}"></Button>
+            <Button Content="add hour" Click="btnAddOneHour_Click" Style="{StaticResource StandardButtonStyle}" ></Button>
+            <Button Content="add day" Click="btnAddOneDay_Click" Style="{StaticResource StandardButtonStyle}" ></Button>
+            <Button Content="add month" Click="btnAddOneMonth_Click" Style="{StaticResource StandardButtonStyle}"></Button>
+            <Button Content="add year" Click="btnAddOneYear_Click"  Style="{StaticResource StandardButtonStyle}" ></Button>
         </StackPanel>
         <!--config-->
         <StackPanel Grid.Row="1" Grid.Column="0" Margin="50,15" Orientation="Vertical" HorizontalAlignment="Left">
-            <TextBox Text="risk range" TextChanged="TextBox_TextChanged"></TextBox>
-            <Button Content="save" Height="25" Width="100" Margin="5"></Button>
+            <TextBox Text="{Binding RiskRange}"  TextChanged="TextBox_TextChanged"></TextBox>
+            <Button Content="save" Style="{StaticResource StandardButtonStyle}" Click="UpdateRiskRange_Click"></Button>
         </StackPanel>
         <!--another-->
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="50,15" Orientation="Vertical" HorizontalAlignment="Left">
-            <Button Content="show list" Height="25" Width="100" Margin="5"></Button>
-            <Button Content="Initialize" Height="25" Width="100" Margin="5"></Button>
-            <Button Content="ResetDB" Height="25" Width="100" Margin="5"></Button>
+            <Button Content="Handle Volunteer" Click="btnShowVolunteers_Click" Style="{StaticResource StandardButtonStyle}"></Button>
+            <Button Content="Handle Call" Click="btnShowCalls_Click" Style="{StaticResource StandardButtonStyle}"></Button>
+
+            <Button Content="Initialize" Click="btnIntialize_Click" Style="{StaticResource StandardButtonStyle}"></Button>
+            <Button Content="ResetDB" Click="btnResetDB_Click" Style="{StaticResource StandardButtonStyle}"></Button>
         </StackPanel>
     </Grid>
 </Window>

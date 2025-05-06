@@ -3,8 +3,8 @@
   <Volunteer>
     <Id>327691758</Id>
     <Name>kobi dinavetsky</Name>
-    <PhoneNumber> 0583235695 </PhoneNumber>
-    <Email>mimi20054@gmail.com</Email>
+    <PhoneNumber> mimi20054@gmail.com </PhoneNumber>
+    <Email>0583235695</Email>
     <Position>Managar</Position>
     <Password>123456!A</Password>
     <Active>false</Active>
@@ -14,212 +14,198 @@
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>281476501</Id>
+    <Id>251574812</Id>
     <Name>Dani Levy</Name>
-    <PhoneNumber>0542352247</PhoneNumber>
+    <PhoneNumber>0567076934</PhoneNumber>
     <Email> mimigins2005@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>138125141133139140154131</Password>
-    <Active>false</Active>
+    <Password>124115131124121113152121</Password>
+    <Active>true</Active>
     <Latitude xsi:nil="true" />
     <Longitude xsi:nil="true" />
-    <MaximumDistanceForReading>2313</MaximumDistanceForReading>
+    <MaximumDistanceForReading>1389</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>364624354</Id>
+    <Id>354412822</Id>
     <Name>Eli Amar</Name>
-    <PhoneNumber>0571782579</PhoneNumber>
+    <PhoneNumber>0581336749</PhoneNumber>
     <Email> frgvvv@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>120134137114129128168196</Password>
-    <Active>false</Active>
+    <Password>122137124140129128160152</Password>
+    <Active>true</Active>
     <Latitude xsi:nil="true" />
     <Longitude xsi:nil="true" />
-    <MaximumDistanceForReading>1685</MaximumDistanceForReading>
+    <MaximumDistanceForReading>2416</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>361009430</Id>
+    <Id>259041345</Id>
     <Name>Yair Cohen</Name>
-    <PhoneNumber>0598361059</PhoneNumber>
+    <PhoneNumber>0546369317</PhoneNumber>
     <Email> rutrc@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>130140130145126135159148</Password>
-    <Active>false</Active>
+    <Password>121122122138118127150161</Password>
+    <Active>true</Active>
+    <Latitude xsi:nil="true" />
+    <Longitude xsi:nil="true" />
+    <MaximumDistanceForReading>2152</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>353802480</Id>
+    <Name>Ariela Levin</Name>
+    <PhoneNumber>0592063041</PhoneNumber>
+    <Email> avigail6282@gmail.com </Email>
+    <Position>Volunteer</Position>
+    <Password>128138120146145132135140</Password>
+    <Active>true</Active>
+    <Latitude xsi:nil="true" />
+    <Longitude xsi:nil="true" />
+    <MaximumDistanceForReading>1332</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>202460375</Id>
+    <Name>Dina Klein</Name>
+    <PhoneNumber>0522122565</PhoneNumber>
+    <Email> avitalbortz@gmail.com </Email>
+    <Position>Volunteer</Position>
+    <Password>116114127121119118163207</Password>
+    <Active>true</Active>
+    <Latitude xsi:nil="true" />
+    <Longitude xsi:nil="true" />
+    <MaximumDistanceForReading>942</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>260867837</Id>
+    <Name>Shira Israelof</Name>
+    <PhoneNumber>0593406135</PhoneNumber>
+    <Email> ms0583242931@gmail.com </Email>
+    <Position>Volunteer</Position>
+    <Password>125141120132135133149166</Password>
+    <Active>true</Active>
+    <Latitude xsi:nil="true" />
+    <Longitude xsi:nil="true" />
+    <MaximumDistanceForReading>1178</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>383600901</Id>
+    <Name>Shir Levi</Name>
+    <PhoneNumber>0583786296</PhoneNumber>
+    <Email> miri57566@gmail.com </Email>
+    <Position>Volunteer</Position>
+    <Password>127134144128123138163157</Password>
+    <Active>true</Active>
+    <Latitude xsi:nil="true" />
+    <Longitude xsi:nil="true" />
+    <MaximumDistanceForReading>827</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>241890799</Id>
+    <Name>Ron Catz</Name>
+    <PhoneNumber>0534368617</PhoneNumber>
+    <Email>noya.boruhov@gmail.com </Email>
+    <Position>Volunteer</Position>
+    <Password>125133118137132131154102</Password>
+    <Active>true</Active>
+    <Latitude xsi:nil="true" />
+    <Longitude xsi:nil="true" />
+    <MaximumDistanceForReading>325</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>254181687</Id>
+    <Name>Rut Levi</Name>
+    <PhoneNumber>0532117607</PhoneNumber>
+    <Email> naama0052@gmail.com </Email>
+    <Position>Volunteer</Position>
+    <Password>125133118123137132155129</Password>
+    <Active>true</Active>
+    <Latitude xsi:nil="true" />
+    <Longitude xsi:nil="true" />
+    <MaximumDistanceForReading>911</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>319168923</Id>
+    <Name>Ayala Cohen</Name>
+    <PhoneNumber>0586539007</PhoneNumber>
+    <Email>zipi.3382@gmail.com </Email>
+    <Position>Volunteer</Position>
+    <Password>142132134143128129167195</Password>
+    <Active>true</Active>
     <Latitude xsi:nil="true" />
     <Longitude xsi:nil="true" />
     <MaximumDistanceForReading>1241</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>377032456</Id>
-    <Name>Ariela Levin</Name>
-    <PhoneNumber>0521107299</PhoneNumber>
-    <Email> avigail6282@gmail.com </Email>
-    <Position>Volunteer</Position>
-    <Password>127144121116116133147114</Password>
-    <Active>false</Active>
-    <Latitude xsi:nil="true" />
-    <Longitude xsi:nil="true" />
-    <MaximumDistanceForReading>1070</MaximumDistanceForReading>
-    <TypeOfDistance>Aerial</TypeOfDistance>
-  </Volunteer>
-  <Volunteer>
-    <Id>399135296</Id>
-    <Name>Dina Klein</Name>
-    <PhoneNumber>0547725180</PhoneNumber>
-    <Email> avitalbortz@gmail.com </Email>
-    <Position>Volunteer</Position>
-    <Password>141127126142123142167171</Password>
-    <Active>false</Active>
-    <Latitude xsi:nil="true" />
-    <Longitude xsi:nil="true" />
-    <MaximumDistanceForReading>1939</MaximumDistanceForReading>
-    <TypeOfDistance>Aerial</TypeOfDistance>
-  </Volunteer>
-  <Volunteer>
-    <Id>350944461</Id>
-    <Name>Shira Israelof</Name>
-    <PhoneNumber>0579714090</PhoneNumber>
-    <Email> ms0583242931@gmail.com </Email>
-    <Position>Volunteer</Position>
-    <Password>139121122137131136171213</Password>
-    <Active>false</Active>
-    <Latitude xsi:nil="true" />
-    <Longitude xsi:nil="true" />
-    <MaximumDistanceForReading>974</MaximumDistanceForReading>
-    <TypeOfDistance>Aerial</TypeOfDistance>
-  </Volunteer>
-  <Volunteer>
-    <Id>389553562</Id>
-    <Name>Shir Levi</Name>
-    <PhoneNumber>0524013155</PhoneNumber>
-    <Email> miri57566@gmail.com </Email>
-    <Position>Volunteer</Position>
-    <Password>122122123132142126171127</Password>
-    <Active>false</Active>
-    <Latitude xsi:nil="true" />
-    <Longitude xsi:nil="true" />
-    <MaximumDistanceForReading>987</MaximumDistanceForReading>
-    <TypeOfDistance>Aerial</TypeOfDistance>
-  </Volunteer>
-  <Volunteer>
-    <Id>271818866</Id>
-    <Name>Ron Catz</Name>
-    <PhoneNumber>0515055999</PhoneNumber>
-    <Email>noya.boruhov@gmail.com </Email>
-    <Position>Volunteer</Position>
-    <Password>139121129121118134156130</Password>
-    <Active>false</Active>
-    <Latitude xsi:nil="true" />
-    <Longitude xsi:nil="true" />
-    <MaximumDistanceForReading>39</MaximumDistanceForReading>
-    <TypeOfDistance>Aerial</TypeOfDistance>
-  </Volunteer>
-  <Volunteer>
-    <Id>210470567</Id>
-    <Name>Rut Levi</Name>
-    <PhoneNumber>0575767243</PhoneNumber>
-    <Email> naama0052@gmail.com </Email>
-    <Position>Volunteer</Position>
-    <Password>132126136131134128156179</Password>
-    <Active>false</Active>
-    <Latitude xsi:nil="true" />
-    <Longitude xsi:nil="true" />
-    <MaximumDistanceForReading>1827</MaximumDistanceForReading>
-    <TypeOfDistance>Aerial</TypeOfDistance>
-  </Volunteer>
-  <Volunteer>
-    <Id>314232671</Id>
-    <Name>Ayala Cohen</Name>
-    <PhoneNumber>0545258539</PhoneNumber>
-    <Email>zipi.3382@gmail.com </Email>
-    <Position>Volunteer</Position>
-    <Password>124131124128124124158172</Password>
-    <Active>false</Active>
-    <Latitude xsi:nil="true" />
-    <Longitude xsi:nil="true" />
-    <MaximumDistanceForReading>2230</MaximumDistanceForReading>
-    <TypeOfDistance>Aerial</TypeOfDistance>
-  </Volunteer>
-  <Volunteer>
-    <Id>245702561</Id>
+    <Id>265168240</Id>
     <Name>Shiri Shahor</Name>
-    <PhoneNumber>0590486043</PhoneNumber>
+    <PhoneNumber>0516992865</PhoneNumber>
     <Email> shirishahor@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>139138121135117123141140</Password>
-    <Active>false</Active>
+    <Password>137122118128120120162192</Password>
+    <Active>true</Active>
     <Latitude xsi:nil="true" />
     <Longitude xsi:nil="true" />
-    <MaximumDistanceForReading>2027</MaximumDistanceForReading>
+    <MaximumDistanceForReading>649</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>263028638</Id>
+    <Id>217198601</Id>
     <Name>Enana Fedut</Name>
-    <PhoneNumber>0538885146</PhoneNumber>
+    <PhoneNumber>0536026614</PhoneNumber>
     <Email> t0583235695@gmail.com</Email>
     <Position>Volunteer</Position>
-    <Password>141137141133126139156159</Password>
-    <Active>false</Active>
+    <Password>117133136123136129164135</Password>
+    <Active>true</Active>
     <Latitude xsi:nil="true" />
     <Longitude xsi:nil="true" />
-    <MaximumDistanceForReading>178</MaximumDistanceForReading>
+    <MaximumDistanceForReading>983</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>202772400</Id>
+    <Id>329460859</Id>
     <Name>Tammy Dabin</Name>
-    <PhoneNumber>0534061643</PhoneNumber>
+    <PhoneNumber>0532079980</PhoneNumber>
     <Email> tamar86950@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>146129122120126123153209</Password>
-    <Active>false</Active>
+    <Password>138139125127137135151153</Password>
+    <Active>true</Active>
     <Latitude xsi:nil="true" />
     <Longitude xsi:nil="true" />
-    <MaximumDistanceForReading>654</MaximumDistanceForReading>
+    <MaximumDistanceForReading>1458</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>265031960</Id>
+    <Id>364808154</Id>
     <Name>Sari Levin</Name>
-    <PhoneNumber>0561153502</PhoneNumber>
+    <PhoneNumber>0556429475</PhoneNumber>
     <Email> michalortzel@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>133134133128125135164154</Password>
-    <Active>false</Active>
+    <Password>122136122129118125147148</Password>
+    <Active>true</Active>
     <Latitude xsi:nil="true" />
     <Longitude xsi:nil="true" />
-    <MaximumDistanceForReading>464</MaximumDistanceForReading>
+    <MaximumDistanceForReading>1439</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>203915775</Id>
+    <Id>362089842</Id>
     <Name>Michal Ortel</Name>
-    <PhoneNumber>0547414281</PhoneNumber>
+    <PhoneNumber>0556548883</PhoneNumber>
     <Email> ys0583299134@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>125135120139127133146166</Password>
-    <Active>false</Active>
+    <Password>133126130145128121148110</Password>
+    <Active>true</Active>
     <Latitude xsi:nil="true" />
     <Longitude xsi:nil="true" />
-    <MaximumDistanceForReading>235</MaximumDistanceForReading>
-    <TypeOfDistance>Aerial</TypeOfDistance>
-  </Volunteer>
-  <Volunteer>
-    <Id>326598521</Id>
-    <Name>fff</Name>
-    <PhoneNumber>0583235695</PhoneNumber>
-    <Email>w@gmail.com</Email>
-    <Position>Managar</Position>
-    <Password>q!</Password>
-    <Active>false</Active>
-    <CurrentAddress>אבן גבירול 11, אלעד</CurrentAddress>
-    <Latitude>32.0539178</Latitude>
-    <Longitude>34.9586121</Longitude>
-    <MaximumDistanceForReading>20</MaximumDistanceForReading>
+    <MaximumDistanceForReading>161</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
 </ArrayOfVolunteer>
