@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Volunteer"
         mc:Ignorable="d"
-        Title="VolunteerListWindow" Height="450" Width="800">
+        Title="VolunteerListWindow" Height="450" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+    >
+
     <!--External Grid-->
     <Grid>
         <Grid.RowDefinitions>
@@ -20,9 +23,12 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0"></Label>
-            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ComboBox>
+            <ComboBox ItemsSource="{Binding Source={StaticResource KindOfCallCollectionKey}}"
+               Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
-        <DataGrid Grid.Row="1"></DataGrid>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding VolunteerList}">
+            
+        </DataGrid>
         <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
     </Grid>
 </Window>
