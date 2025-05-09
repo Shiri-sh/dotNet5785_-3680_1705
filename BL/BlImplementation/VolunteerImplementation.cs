@@ -108,7 +108,7 @@ internal class VolunteerImplementation: IVolunteer
             }:null
         };
     }
-    public IEnumerable<BO.VolunteerInList> ReadAll(bool? activity = null, BO.VoluteerInListObjects? feildToSort = null)
+    public IEnumerable<BO.VolunteerInList> ReadAll(bool? activity = null, BO.VoluteerInListObjects? feildToSort = null, object? valueOfFilter=null)
     {
         IEnumerable<DO.Volunteer> volunteers = _dal.Volunteer.ReadAll();
         volunteers = activity == null ? volunteers.Select(item => item) : volunteers.Where(v => v.Active == activity);
@@ -130,16 +130,21 @@ internal class VolunteerImplementation: IVolunteer
                };
         if (feildToSort == null)
         {
-            listOfVol = listOfVol.OrderBy(v => v.Id);
+            return listOfVol.OrderBy(v => v.Id);
         }
-        else
+        string propertyName = feildToSort.ToString();
+        var propertyInfo = typeof(BO.VolunteerInList).GetProperty(propertyName);
+        if (propertyInfo != null)
         {
-            string propertyName = feildToSort.ToString();
-            var propertyInfo = typeof(BO.VolunteerInList).GetProperty(propertyName);
-            if (propertyInfo != null)
-            {
-                listOfVol = listOfVol.OrderBy(v => propertyInfo.GetValue(v, null));
-            }
+            if (valueOfFilter == null)
+                return listOfVol.OrderBy(v => propertyInfo.GetValue(v, null));
+            else
+                return listOfVol.Where(v=>
+                {
+                    var propValue = propertyInfo.GetValue(v, null);
+                    return object.Equals(propValue, valueOfFilter);
+                });
+
         }
         return listOfVol;
     }

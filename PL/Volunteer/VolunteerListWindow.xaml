@@ -23,11 +23,31 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0"></Label>
-            <ComboBox ItemsSource="{Binding Source={StaticResource KindOfCallCollectionKey}}"
+            <ComboBox SelectedValue="{Binding KindOfCall, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource KindOfCallCollectionKey}}" SelectionChanged="FilterListByKindOfCall"
                Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding VolunteerList}">
-            
+        <DataGrid Grid.Row="1" ItemsSource="{Binding VolunteerList}" IsReadOnly ="True" AutoGenerateColumns="False"
+            EnableRowVirtualization="True" RowDetailsVisibilityMode="VisibleWhenSelected" >
+            <!--MouseDoubleClick="dgVolunteerList_MouseDoubleClick" SelectedItem="{Binding SelectedVolunteer}"--> 
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="Id" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="Auto"/>
+                
+                <DataGridTemplateColumn Header="Is Active" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsEnabled="False" IsChecked="{Binding Active}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding SumCancledCalls}" Header="SumCancledCalls" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding SumCaredCalls}" Header="SumCaredCalls" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding SumIrelevantCalls}" Header="SumIrelevantCalls" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding IdOfCall}" Header="IdOfCall" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding KindOfCall}" Header="KindOfCall" Width="Auto"/>
+
+            </DataGrid.Columns>
+
         </DataGrid>
         <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
     </Grid>

@@ -20,6 +20,7 @@ namespace PL.Volunteer
     public partial class VolunteerListWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+        public BO.KindOfCall KindOfCall { get; set; } = BO.KindOfCall.None;
         public VolunteerListWindow()
         {
             InitializeComponent();
@@ -32,5 +33,25 @@ namespace PL.Volunteer
 
         public static readonly DependencyProperty VolunteerListProperty =
             DependencyProperty.Register("VolunteerList", typeof(IEnumerable<BO.VolunteerInList>), typeof(VolunteerListWindow), new PropertyMetadata(null));
+
+        
+        private void FilterListByKindOfCall(object sender, SelectionChangedEventArgs e)
+           =>
+            VolunteerList = (KindOfCall == BO.KindOfCall.None) ?
+                  s_bl?.Volunteer.ReadAll()! : s_bl?.Volunteer.ReadAll(null, BO.VoluteerInListObjects.KindOfCall,KindOfCall)!;
+
+        private void queryVolunteerList()
+            => VolunteerList = (KindOfCall == BO.KindOfCall.None) ?
+                s_bl?.Volunteer.ReadAll()! : s_bl?.Volunteer.ReadAll(null, BO.VoluteerInListObjects.KindOfCall,KindOfCall)!;
+
+        private void volunteerListObserver()
+            => queryVolunteerList();
+ 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+            => s_bl.Volunteer.AddObserver(volunteerListObserver);
+
+        private void Window_Closed(object sender, EventArgs e)
+            => s_bl.Volunteer.RemoveObserver(volunteerListObserver);
+
     }
 }

@@ -17,7 +17,7 @@ public interface IVolunteer: IObservable
     /// <param name="activity">Filter by active status.</param>
     /// <param name="feildToSort">Field to sort by.</param>
     /// <returns>A list of volunteers.</returns>
-    IEnumerable<BO.VolunteerInList>ReadAll(bool? activity=null, BO.VoluteerInListObjects? objectToSort=null);
+    IEnumerable<BO.VolunteerInList>ReadAll(bool? activity=null, BO.VoluteerInListObjects? objectToSort=null,object? valueOfVilter=null);
     /// <summary>
     /// Reads a volunteer by ID.
     /// </summary>
