@@ -19,8 +19,10 @@ namespace PL.Volunteer
     /// </summary>
     public partial class VolunteerWindow : Window
     {
+        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         public VolunteerWindow()
         {
+
             InitializeComponent();
         }
     }
