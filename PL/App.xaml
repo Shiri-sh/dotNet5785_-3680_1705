@@ -5,5 +5,9 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <local:KindOfCallCollection x:Key="KindOfCallCollectionKey"/>
+        <local:PositionCollection x:Key="PositionCollection"/>
+        <local:TypeOfDistanceCollection x:Key="TypeOfDistanceCollection"/>
+        <local:StatusCallInProgressCollection x:Key="StatusCallInProgressCollection"/>
+
     </Application.Resources>
 </Application>

@@ -9,68 +9,105 @@
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}" >
     <Window.Resources>
         <Style x:Key="StandardLabelStyle" TargetType="Label">
-            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontSize" Value="10"/>
             <Setter Property="Width" Value="110"/>
             <!--<Setter Property="Margin" Value="5"/>-->
         </Style>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="250*"/>
-            <RowDefinition Height="100*"/>
+            <RowDefinition/>
+            <RowDefinition Height="0*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100*"/>
             <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="0" Grid.Column="0" Margin="50,15" Orientation="Vertical" HorizontalAlignment="Left">
-          
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="50,15,0,15" Orientation="Vertical" HorizontalAlignment="Left" Width="210">
+
             <!--id-->
             <StackPanel Orientation="Horizontal">
                 <Label Content="id:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBox Text="325698" Width="100"  ></TextBox>
+                <TextBox IsReadOnly="{Binding AddOrUpdate, Converter={StaticResource ConvertUpdateToTrueKey}}"
+                                               Text="{Binding CurrentVolunteer.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  Width="100"  ></TextBox>
             </StackPanel>
-          
+
             <!--name-string-->
             <StackPanel Orientation="Horizontal">
                 <Label Content="name:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBox Text="yosi" Width="100"  ></TextBox>
+                <TextBox Text="{Binding CurrentVolunteer.Name, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
             </StackPanel>
-         
+
             <!--phone-srting-->
             <StackPanel Orientation="Horizontal">
                 <Label Content="phone number:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBox Text="0583235695"  Width="100"  ></TextBox>
+                <TextBox Text="{Binding CurrentVolunteer.PhoneNumber, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  Width="100"  ></TextBox>
             </StackPanel>
             <!--email-srting-->
             <StackPanel Orientation="Horizontal">
                 <Label Content="email:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBox Text="t@gmail" Width="100"  ></TextBox>
+                <TextBox Text="{Binding CurrentVolunteer.Email, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
             </StackPanel>
             <!--position-enum-->
             <!--password-srting-->
             <StackPanel Orientation="Horizontal">
-                <Label Content="name:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBox Text="yosi" Width="100"  ></TextBox>
+                <Label Content="position:"  Style="{StaticResource StandardLabelStyle}"/>
+                <ComboBox ItemsSource="{Binding Source={StaticResource PositionCollection}}" 
+                  SelectedValue="{Binding CurrentVolunteer.Position , Mode=TwoWay, NotifyOnValidationError=true, 
+                  ValidatesOnExceptions=true}" Width="100"  ></ComboBox>        
             </StackPanel>
             <!--addres-srting-->
             <StackPanel Orientation="Horizontal">
                 <Label Content="password:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBox Text="yosi" Width="100"  ></TextBox>
+                <TextBox Text="{Binding CurrentVolunteer.Password, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
             </StackPanel>
             <!--maxium distance-double-->
             <StackPanel Orientation="Horizontal">
                 <Label Content="maxium distance:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBox Text="60" Width="100"  ></TextBox>
+                <TextBox Text="{Binding CurrentVolunteer.MaximumDistanceForReading, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="type of distance"  Style="{StaticResource StandardLabelStyle}"/>
+                <ComboBox ItemsSource="{Binding Source={StaticResource TypeOfDistanceCollection}}" 
+                    SelectedValue="{Binding CurrentVolunteer.TypeOfDistance , Mode=TwoWay, NotifyOnValidationError=true, 
+                    ValidatesOnExceptions=true}" Width="100"  ></ComboBox>  
             </StackPanel>
             <!--type of distance-enum-->
-            
+            <StackPanel Orientation="Horizontal">
+                <Label Content="current address:"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBox Text="{Binding CurrentVolunteer.CurrentAddress, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="latitude:"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBlock Text="{Binding CurrentVolunteer.Latitude, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="longitude:"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBlock Text="{Binding CurrentVolunteer.Longitude, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConvertUpdateToVisibleKey}}">
+                <Label Content="SumCancledCalls"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBlock Text="{Binding CurrentVolunteer.SumCancledCalls, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConvertUpdateToVisibleKey}}" >
+                <Label Content="SumCaredCalls"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBlock Text="{Binding CurrentVolunteer.SumCaredCalls, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"  Visibility="{Binding AddOrUpdate, Converter={StaticResource ConvertUpdateToVisibleKey}}"
+>
+                <Label Content="SumIrelevantCalls"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBlock Text="{Binding CurrentVolunteer.SumIrelevantCalls, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConvertUpdateToVisibleKey}}" >
+                <Label Content="CallInProgress"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBlock Text="{Binding CurrentVolunteer.CallInProgress ,Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"></TextBlock>
+            </StackPanel>
             <!--active-bool-->
             <StackPanel Orientation="Horizontal" >
                 <Label Content="is active:"  Style="{StaticResource StandardLabelStyle}"/>
-                <CheckBox Width="100" />
+                <CheckBox Content="{Binding CurrentVolunteer.Active, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
             </StackPanel>
         </StackPanel>
 
@@ -79,5 +116,7 @@
             <Button Content="Initialize" Click="btnIntialize_Click" Style="{StaticResource StandardButtonStyle}"></Button>
             <Button Content="ResetDB" Click="btnResetDB_Click" Style="{StaticResource StandardButtonStyle}"></Button>
         </StackPanel>-->
+        <Button Content="{Binding AddOrUpdate}" Click="btnAddUpdate_Click"/>
+
     </Grid>
 </Window>
