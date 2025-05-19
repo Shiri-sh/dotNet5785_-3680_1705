@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:PL.Volunteer"
         mc:Ignorable="d"
         Title="VolunteerWindow" Height="450" Width="800"
-        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}" >
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+         Loaded="Window_Loaded"
+         Closed="Window_Closed"
+        >
     <Window.Resources>
         <Style x:Key="StandardLabelStyle" TargetType="Label">
             <Setter Property="FontSize" Value="10"/>
@@ -30,7 +33,7 @@
             <!--id-->
             <StackPanel Orientation="Horizontal">
                 <Label Content="id:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBox IsReadOnly="{Binding AddOrUpdate, Converter={StaticResource ConvertUpdateToTrueKey}}"
+                <TextBox IsReadOnly="{Binding AddOrUpdate, Converter={StaticResource ConverterAddWriteUpdateReadKey}}"
                                                Text="{Binding CurrentVolunteer.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  Width="100"  ></TextBox>
             </StackPanel>
 
@@ -51,14 +54,13 @@
                 <TextBox Text="{Binding CurrentVolunteer.Email, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
             </StackPanel>
             <!--position-enum-->
-            <!--password-srting-->
             <StackPanel Orientation="Horizontal">
                 <Label Content="position:"  Style="{StaticResource StandardLabelStyle}"/>
-                <ComboBox ItemsSource="{Binding Source={StaticResource PositionCollection}}" 
+                <ComboBox ItemsSource="{Binding Source={StaticResource PositionCollectionKey}}" 
                   SelectedValue="{Binding CurrentVolunteer.Position , Mode=TwoWay, NotifyOnValidationError=true, 
-                  ValidatesOnExceptions=true}" Width="100"  ></ComboBox>        
+                  ValidatesOnExceptions=true}" Width="100"  ></ComboBox>
             </StackPanel>
-            <!--addres-srting-->
+            <!--password-srting-->
             <StackPanel Orientation="Horizontal">
                 <Label Content="password:"  Style="{StaticResource StandardLabelStyle}"/>
                 <TextBox Text="{Binding CurrentVolunteer.Password, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
@@ -68,55 +70,51 @@
                 <Label Content="maxium distance:"  Style="{StaticResource StandardLabelStyle}"/>
                 <TextBox Text="{Binding CurrentVolunteer.MaximumDistanceForReading, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="type of distance"  Style="{StaticResource StandardLabelStyle}"/>
-                <ComboBox ItemsSource="{Binding Source={StaticResource TypeOfDistanceCollection}}" 
-                    SelectedValue="{Binding CurrentVolunteer.TypeOfDistance , Mode=TwoWay, NotifyOnValidationError=true, 
-                    ValidatesOnExceptions=true}" Width="100"  ></ComboBox>  
-            </StackPanel>
             <!--type of distance-enum-->
             <StackPanel Orientation="Horizontal">
-                <Label Content="current address:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBox Text="{Binding CurrentVolunteer.CurrentAddress, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="latitude:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBlock Text="{Binding CurrentVolunteer.Latitude, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="longitude:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBlock Text="{Binding CurrentVolunteer.Longitude, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConvertUpdateToVisibleKey}}">
-                <Label Content="SumCancledCalls"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBlock Text="{Binding CurrentVolunteer.SumCancledCalls, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConvertUpdateToVisibleKey}}" >
-                <Label Content="SumCaredCalls"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBlock Text="{Binding CurrentVolunteer.SumCaredCalls, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal"  Visibility="{Binding AddOrUpdate, Converter={StaticResource ConvertUpdateToVisibleKey}}"
->
-                <Label Content="SumIrelevantCalls"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBlock Text="{Binding CurrentVolunteer.SumIrelevantCalls, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConvertUpdateToVisibleKey}}" >
-                <Label Content="CallInProgress"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBlock Text="{Binding CurrentVolunteer.CallInProgress ,Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"></TextBlock>
+                <Label Content="type of distance"  Style="{StaticResource StandardLabelStyle}"/>
+                <ComboBox ItemsSource="{Binding Source={StaticResource TypeOfDistanceCollectionKey}}" 
+                    SelectedValue="{Binding CurrentVolunteer.TypeOfDistance , Mode=TwoWay, NotifyOnValidationError=true, 
+                    ValidatesOnExceptions=true}" Width="100"  ></ComboBox>
             </StackPanel>
             <!--active-bool-->
             <StackPanel Orientation="Horizontal" >
                 <Label Content="is active:"  Style="{StaticResource StandardLabelStyle}"/>
-                <CheckBox Content="{Binding CurrentVolunteer.Active, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
+                <CheckBox IsChecked="{Binding CurrentVolunteer.Active, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
             </StackPanel>
-        </StackPanel>
+            <!--addres-srting-->
+            <StackPanel Orientation="Horizontal">
+                <Label Content="current address:"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBox Text="{Binding CurrentVolunteer.CurrentAddress, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConverterAddCollapsedUpdateVissableKey}}">
+                <Label Content="latitude:"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBlock Text="{Binding CurrentVolunteer.Latitude, Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConverterAddCollapsedUpdateVissableKey}}">
+                <Label Content="longitude:"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBlock Text="{Binding CurrentVolunteer.Longitude, Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConverterAddCollapsedUpdateVissableKey}}">
+                <Label Content="SumCancledCalls"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBlock Text="{Binding CurrentVolunteer.SumCancledCalls, Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConverterAddCollapsedUpdateVissableKey}}" >
+                <Label Content="SumCaredCalls"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBlock Text="{Binding CurrentVolunteer.SumCaredCalls, Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"  Visibility="{Binding AddOrUpdate, Converter={StaticResource ConverterAddCollapsedUpdateVissableKey}}">
+                <Label Content="SumIrelevantCalls"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBlock Text="{Binding CurrentVolunteer.SumIrelevantCalls, Mode=OneTime, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConverterAddCollapsedUpdateVissableKey}}" >
+                <Label Content="CallInProgress"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBlock Text="{Binding CurrentVolunteer.CallInProgress ,Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"></TextBlock>
+            </StackPanel>
+            
 
-        <!--another-->
-        <!--<StackPanel Grid.Row="0" Grid.Column="1" Margin="50,15" Orientation="Vertical" HorizontalAlignment="Left">
-            <Button Content="Initialize" Click="btnIntialize_Click" Style="{StaticResource StandardButtonStyle}"></Button>
-            <Button Content="ResetDB" Click="btnResetDB_Click" Style="{StaticResource StandardButtonStyle}"></Button>
-        </StackPanel>-->
-        <Button Content="{Binding AddOrUpdate}" Click="btnAddUpdate_Click"/>
+        </StackPanel>
+        <Button Content="{Binding AddOrUpdate}" Click="btnAddUpdate_Click" Height="50" Grid.Column="1"/>
 
     </Grid>
 </Window>

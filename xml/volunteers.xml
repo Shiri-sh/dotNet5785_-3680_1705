@@ -208,4 +208,32 @@
     <MaximumDistanceForReading>1851</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
+  <Volunteer>
+    <Id>326598741</Id>
+    <Name>tami</Name>
+    <PhoneNumber>0547125874</PhoneNumber>
+    <Email>gggg@gnail.com</Email>
+    <Position>Volunteer</Position>
+    <Password>!23e</Password>
+    <Active>true</Active>
+    <CurrentAddress>even gvirol 11 elad</CurrentAddress>
+    <Latitude>32.0539178</Latitude>
+    <Longitude>34.9586121</Longitude>
+    <MaximumDistanceForReading>20</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>326598328</Id>
+    <Name>tali</Name>
+    <PhoneNumber />
+    <Email>real@gmail.com</Email>
+    <Position>Volunteer</Position>
+    <Password>!12345</Password>
+    <Active>true</Active>
+    <CurrentAddress>rashi 2 elad</CurrentAddress>
+    <Latitude>32.0503287</Latitude>
+    <Longitude>34.9552498</Longitude>
+    <MaximumDistanceForReading>20</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
 </ArrayOfVolunteer>

@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="VolunteerListWindow" Height="450" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+         Loaded="Window_Loaded"
+         Closed="Window_Closed"
     >
 
     <!--External Grid-->
@@ -27,12 +29,12 @@
                Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
         <DataGrid Grid.Row="1" ItemsSource="{Binding VolunteerList}" IsReadOnly ="True" AutoGenerateColumns="False"
-            EnableRowVirtualization="True" RowDetailsVisibilityMode="VisibleWhenSelected" >
-            <!--MouseDoubleClick="dgVolunteerList_MouseDoubleClick" SelectedItem="{Binding SelectedVolunteer}"--> 
+            EnableRowVirtualization="True" RowDetailsVisibilityMode="VisibleWhenSelected" 
+            MouseDoubleClick="ChooseVolunteerToUpdate" SelectedItem="{Binding SelectedVolunteer}">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Id}" Header="Id" Width="Auto"/>
                 <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="Auto"/>
-                
+
                 <DataGridTemplateColumn Header="Is Active" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -45,10 +47,8 @@
                 <DataGridTextColumn Binding="{Binding SumIrelevantCalls}" Header="SumIrelevantCalls" Width="Auto"/>
                 <DataGridTextColumn Binding="{Binding IdOfCall}" Header="IdOfCall" Width="Auto"/>
                 <DataGridTextColumn Binding="{Binding KindOfCall}" Header="KindOfCall" Width="Auto"/>
-
             </DataGrid.Columns>
-
         </DataGrid>
-        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
+        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="AddNewVolunteer"/>
     </Grid>
 </Window>

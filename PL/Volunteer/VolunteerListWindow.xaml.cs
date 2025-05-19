@@ -21,6 +21,8 @@ namespace PL.Volunteer
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         public BO.KindOfCall KindOfCall { get; set; } = BO.KindOfCall.None;
+       
+        public BO.VolunteerInList? SelectedVolunteer { get; set; }
         public VolunteerListWindow()
         {
             InitializeComponent();
@@ -34,7 +36,6 @@ namespace PL.Volunteer
         public static readonly DependencyProperty VolunteerListProperty =
             DependencyProperty.Register("VolunteerList", typeof(IEnumerable<BO.VolunteerInList>), typeof(VolunteerListWindow), new PropertyMetadata(null));
 
-        
         private void FilterListByKindOfCall(object sender, SelectionChangedEventArgs e)
            =>
             VolunteerList = (KindOfCall == BO.KindOfCall.None) ?
@@ -53,5 +54,15 @@ namespace PL.Volunteer
         private void Window_Closed(object sender, EventArgs e)
             => s_bl.Volunteer.RemoveObserver(volunteerListObserver);
 
+        private void AddNewVolunteer(object sender, RoutedEventArgs e)
+        {
+            new VolunteerWindow().Show();
+        }
+
+        private void ChooseVolunteerToUpdate(object sender, MouseButtonEventArgs e)
+        {
+            if(SelectedVolunteer!=null)
+              new VolunteerWindow(SelectedVolunteer.Id).Show();
+        }
     }
 }
