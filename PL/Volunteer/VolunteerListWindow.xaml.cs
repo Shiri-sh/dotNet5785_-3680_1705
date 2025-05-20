@@ -21,7 +21,7 @@ namespace PL.Volunteer
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         public BO.KindOfCall KindOfCall { get; set; } = BO.KindOfCall.None;
-       
+        
         public BO.VolunteerInList? SelectedVolunteer { get; set; }
         public VolunteerListWindow()
         {
@@ -63,6 +63,18 @@ namespace PL.Volunteer
         {
             if(SelectedVolunteer!=null)
               new VolunteerWindow(SelectedVolunteer.Id).Show();
+        }
+
+        private void DeleteVolunteerButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("are you sure you want to delete?");
+            try
+            {
+                s_bl.Volunteer.DeleteVolunteer(SelectedVolunteer!.Id);
+            }
+            catch (Exception ex) {
+                MessageBox.Show($"error: {ex.Message}");
+            }
         }
     }
 }

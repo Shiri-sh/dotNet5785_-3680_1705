@@ -52,8 +52,8 @@ public partial class VolunteerWindow : Window
                    TypeOfDistance                       = BO.TypeOfDistance.Aerial,
                    SumCancledCalls                      = 0,
                    SumCaredCalls                        = 0,
-                   CallInProgress                       =null,
-                   SumIrelevantCalls                    = 0
+                   SumIrelevantCalls                    = 0,
+                   CallInProgress                       = null
 
              };
 

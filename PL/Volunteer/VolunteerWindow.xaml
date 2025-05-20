@@ -13,8 +13,12 @@
     <Window.Resources>
         <Style x:Key="StandardLabelStyle" TargetType="Label">
             <Setter Property="FontSize" Value="10"/>
-            <Setter Property="Width" Value="110"/>
+            <Setter Property="Width" Value="90"/>
             <!--<Setter Property="Margin" Value="5"/>-->
+        </Style>
+        <Style x:Key="convertAddCollapsed" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Visibility" Value="{Binding AddOrUpdate, Converter={StaticResource ConverterAddCollapsedUpdateVissableKey}}"/>
         </Style>
     </Window.Resources>
 
@@ -28,7 +32,7 @@
             <ColumnDefinition Width="100*"/>
             <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="0" Grid.Column="0" Margin="50,15,0,15" Orientation="Vertical" HorizontalAlignment="Left" Width="210">
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="50,15,0,15" Orientation="Vertical" HorizontalAlignment="Left" Width="auto">
 
             <!--id-->
             <StackPanel Orientation="Horizontal">
@@ -85,31 +89,31 @@
             <!--addres-srting-->
             <StackPanel Orientation="Horizontal">
                 <Label Content="current address:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBox Text="{Binding CurrentVolunteer.CurrentAddress, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
+                <TextBox Text="{Binding CurrentVolunteer.CurrentAddress, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="auto"  ></TextBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConverterAddCollapsedUpdateVissableKey}}">
+            <StackPanel Style="{StaticResource convertAddCollapsed}">
                 <Label Content="latitude:"  Style="{StaticResource StandardLabelStyle}"/>
                 <TextBlock Text="{Binding CurrentVolunteer.Latitude, Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBlock>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConverterAddCollapsedUpdateVissableKey}}">
+            <StackPanel  Style="{StaticResource convertAddCollapsed}">
                 <Label Content="longitude:"  Style="{StaticResource StandardLabelStyle}"/>
                 <TextBlock Text="{Binding CurrentVolunteer.Longitude, Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBlock>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConverterAddCollapsedUpdateVissableKey}}">
+            <StackPanel  Style="{StaticResource convertAddCollapsed}">
                 <Label Content="SumCancledCalls"  Style="{StaticResource StandardLabelStyle}"/>
                 <TextBlock Text="{Binding CurrentVolunteer.SumCancledCalls, Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConverterAddCollapsedUpdateVissableKey}}" >
+            <StackPanel  Style="{StaticResource convertAddCollapsed}">
                 <Label Content="SumCaredCalls"  Style="{StaticResource StandardLabelStyle}"/>
                 <TextBlock Text="{Binding CurrentVolunteer.SumCaredCalls, Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal"  Visibility="{Binding AddOrUpdate, Converter={StaticResource ConverterAddCollapsedUpdateVissableKey}}">
+            <StackPanel Style="{StaticResource convertAddCollapsed}">
                 <Label Content="SumIrelevantCalls"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBlock Text="{Binding CurrentVolunteer.SumIrelevantCalls, Mode=OneTime, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
+                <TextBlock Text="{Binding CurrentVolunteer.SumIrelevantCalls, Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Visibility="{Binding AddOrUpdate, Converter={StaticResource ConverterAddCollapsedUpdateVissableKey}}" >
+            <StackPanel Style="{StaticResource convertAddCollapsed}">
                 <Label Content="CallInProgress"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBlock Text="{Binding CurrentVolunteer.CallInProgress ,Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"></TextBlock>
+                <TextBlock Text="{Binding CurrentVolunteer.CallInProgress ,Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="auto"></TextBlock>
             </StackPanel>
             
 

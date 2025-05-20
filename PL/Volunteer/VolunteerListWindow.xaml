@@ -47,6 +47,14 @@
                 <DataGridTextColumn Binding="{Binding SumIrelevantCalls}" Header="SumIrelevantCalls" Width="Auto"/>
                 <DataGridTextColumn Binding="{Binding IdOfCall}" Header="IdOfCall" Width="Auto"/>
                 <DataGridTextColumn Binding="{Binding KindOfCall}" Header="KindOfCall" Width="Auto"/>
+
+                <DataGridTemplateColumn Header="delete" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="DeleteVolunteerButton_Click" HorizontalAlignment="Stretch"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="AddNewVolunteer"/>
