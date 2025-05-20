@@ -43,9 +43,10 @@ public static class Initialization
     private static void createVolunteer()
     {
         int counter = 0;
-        s_dal.Volunteer!.Create(new(327691758, "kobi dinavetsky", " mimi20054@gmail.com ", "0583235695", Position.Managar, "123456!A"));
         string[] volunteerNames = { "Dani Levy", "Eli Amar", "Yair Cohen", "Ariela Levin", "Dina Klein", "Shira Israelof", "Shir Levi", "Ron Catz", "Rut Levi", "Ayala Cohen", "Shiri Shahor", "Enana Fedut", "Tammy Dabin", "Sari Levin", "Michal Ortel" };
         string[] volunteerEmail = { " mimigins2005@gmail.com ", " frgvvv@gmail.com ", " rutrc@gmail.com ", " avigail6282@gmail.com ", " avitalbortz@gmail.com ", " ms0583242931@gmail.com ", " miri57566@gmail.com ", "noya.boruhov@gmail.com ", " naama0052@gmail.com ", "zipi.3382@gmail.com ", " shirishahor@gmail.com ", " t0583235695@gmail.com", " tamar86950@gmail.com ", " michalortzel@gmail.com ", " ys0583299134@gmail.com " };
+        string[][] streetsNames = { ["Even Gvirol 11, Elad", "32.0579", "34"], ["Rabbi Hiyya, Elad", "32.049344", "34.963798"], ["Derech Menachem Begin, Petah Tikva", "32.069869", "34.914232"], ["Pinhas Rozen 12, Tel Aviv-Yafo", "32.108024", "34.827305"], ["Be'er Mayim Chaim 12, Bnei Brak", "32.083079", "34.841832"], ["Herzl Street 25, Tel Aviv", "32.060780", "34.770589"], ["Jabotinsky 15, Ramat Gan", "32.073667", "34.809965"], ["Allenby Street, Tel Aviv", "32.067519", "34.771222"], ["King George Street, Tel Aviv", "32.073428", "34.775037"], ["Dizengoff Street 120, Tel Aviv", "32.083687", "34.773541"], ["Ehad Ha'am Street 9, Tel Aviv", "32.065789", "34.776231"], ["Rothschild Boulevard, Tel Aviv", "32.063229", "34.774996"], ["Balfour Street 20, Bat Yam", "32.027325", "34.747369"], ["Shenkar Street 7, Herzliya", "32.164458", "34.836211"], ["Nordau Boulevard, Tel Aviv", "32.091236", "34.785009"], ["Ben Yehuda Street, Tel Aviv", "32.082246", "34.769322"], ["Hashalom Road, Givatayim", "32.069478", "34.808196"], ["Arlozorov Street 78, Tel Aviv", "32.085679", "34.782549"], ["HaYarkon Street 123, Tel Aviv", "32.089678", "34.769126"], ["King George Street, Tel Aviv", "32.073428", "34.775037"], ["Allenby Street, Tel Aviv", "32.067519", "34.771222"] };
+
         foreach (string volunteerName in volunteerNames)
         {
             int id;
@@ -59,7 +60,8 @@ public static class Initialization
             {
                 passwordHidden += var + (char)s_rand.Next('A', 'Z' + 1);
             }
-            s_dal.Volunteer!.Create(new(id, volunteerName, phoneNumber, volunteerEmail[counter], Position.Volunteer, passwordHidden, true, MaximumDistanceForReading: s_rand.Next(1, 2500), TypeOfDistance: TypeOfDistance.Aerial));
+            string[] detailLocation = streetsNames[s_rand.Next(0, streetsNames.Length)];
+            s_dal.Volunteer!.Create(new(id, volunteerName, phoneNumber, volunteerEmail[counter], Position.Volunteer, passwordHidden, true, detailLocation[0], double.Parse(detailLocation[1]), double.Parse(detailLocation[2]), MaximumDistanceForReading: s_rand.Next(1, 2500), TypeOfDistance: TypeOfDistance.Aerial));
             counter++;
         }
     }
@@ -68,6 +70,8 @@ public static class Initialization
     /// </summary>
     private static void createCall()
     {
+        string[][] streetsNames = { ["Even Gvirol 11, Elad", "32.0579", "34"], ["Rabbi Hiyya, Elad", "32.049344", "34.963798"], ["Derech Menachem Begin, Petah Tikva", "32.069869", "34.914232"], ["Pinhas Rozen 12, Tel Aviv-Yafo", "32.108024", "34.827305"], ["Be'er Mayim Chaim 12, Bnei Brak", "32.083079", "34.841832"], ["Herzl Street 25, Tel Aviv", "32.060780", "34.770589"], ["Jabotinsky 15, Ramat Gan", "32.073667", "34.809965"], ["Allenby Street, Tel Aviv", "32.067519", "34.771222"], ["King George Street, Tel Aviv", "32.073428", "34.775037"], ["Dizengoff Street 120, Tel Aviv", "32.083687", "34.773541"], ["Ehad Ha'am Street 9, Tel Aviv", "32.065789", "34.776231"], ["Rothschild Boulevard, Tel Aviv", "32.063229", "34.774996"], ["Balfour Street 20, Bat Yam", "32.027325", "34.747369"], ["Shenkar Street 7, Herzliya", "32.164458", "34.836211"], ["Nordau Boulevard, Tel Aviv", "32.091236", "34.785009"], ["Ben Yehuda Street, Tel Aviv", "32.082246", "34.769322"], ["Hashalom Road, Givatayim", "32.069478", "34.808196"], ["Arlozorov Street 78, Tel Aviv", "32.085679", "34.782549"], ["HaYarkon Street 123, Tel Aviv", "32.089678", "34.769126"], ["King George Street, Tel Aviv", "32.073428", "34.775037"], ["Allenby Street, Tel Aviv", "32.067519", "34.771222"] };
+
         string[][] callDescriptionsMatrix =
         {
              [ "RescueKid", "Rescuing a locked child from a vehicle" ],
@@ -122,7 +126,6 @@ public static class Initialization
              [ "FirstAid", "First aid before medical team arrival" ],
              [ "CableAssistance", "Jumpstarting a car with cables" ]
         };
-        string[][] streetsNames = { ["Even Gvirol 11, Elad", "32.0579", "34"], ["Rabbi Hiyya, Elad", "32.049344", "34.963798"], ["Derech Menachem Begin, Petah Tikva", "32.069869", "34.914232"], ["Pinhas Rozen 12, Tel Aviv-Yafo", "32.108024", "34.827305"], ["Be'er Mayim Chaim 12, Bnei Brak", "32.083079", "34.841832"], ["Herzl Street 25, Tel Aviv", "32.060780", "34.770589"], ["Jabotinsky 15, Ramat Gan", "32.073667", "34.809965"], ["Allenby Street, Tel Aviv", "32.067519", "34.771222"], ["King George Street, Tel Aviv", "32.073428", "34.775037"], ["Dizengoff Street 120, Tel Aviv", "32.083687", "34.773541"], ["Ehad Ha'am Street 9, Tel Aviv", "32.065789", "34.776231"], ["Rothschild Boulevard, Tel Aviv", "32.063229", "34.774996"], ["Balfour Street 20, Bat Yam", "32.027325", "34.747369"], ["Shenkar Street 7, Herzliya", "32.164458", "34.836211"], ["Nordau Boulevard, Tel Aviv", "32.091236", "34.785009"], ["Ben Yehuda Street, Tel Aviv", "32.082246", "34.769322"], ["Hashalom Road, Givatayim", "32.069478", "34.808196"], ["Arlozorov Street 78, Tel Aviv", "32.085679", "34.782549"], ["HaYarkon Street 123, Tel Aviv", "32.089678", "34.769126"], ["King George Street, Tel Aviv", "32.073428", "34.775037"], ["Allenby Street, Tel Aviv", "32.067519", "34.771222"] };
         DateTime startTime = new DateTime(s_dal.Config.Clock.Year, s_dal.Config.Clock.Month, s_dal.Config.Clock.Day);
         for (int i = 0; i < 50; i++) 
         {

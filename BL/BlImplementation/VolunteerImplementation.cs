@@ -172,6 +172,7 @@ internal class VolunteerImplementation: IVolunteer
         _dal.Volunteer.Update(new DO.Volunteer
         {
             Id = volunteer.Id,
+            PhoneNumber =volunteer.PhoneNumber,
             Name = volunteer.Name,
             Email = volunteer.Email,
             Longitude = latLon?[1],
