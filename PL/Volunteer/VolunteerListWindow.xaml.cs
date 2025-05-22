@@ -36,15 +36,14 @@ namespace PL.Volunteer
         public static readonly DependencyProperty VolunteerListProperty =
             DependencyProperty.Register("VolunteerList", typeof(IEnumerable<BO.VolunteerInList>), typeof(VolunteerListWindow), new PropertyMetadata(null));
 
-        private void FilterListByKindOfCall(object sender, SelectionChangedEventArgs e)
-           =>
-            VolunteerList = (KindOfCall == BO.KindOfCall.None) ?
-                  s_bl?.Volunteer.ReadAll()! : s_bl?.Volunteer.ReadAll(null, BO.VoluteerInListObjects.KindOfCall,KindOfCall)!;
+       
 
         private void queryVolunteerList()
             => VolunteerList = (KindOfCall == BO.KindOfCall.None) ?
                 s_bl?.Volunteer.ReadAll()! : s_bl?.Volunteer.ReadAll(null, BO.VoluteerInListObjects.KindOfCall,KindOfCall)!;
-
+        private void FilterListByKindOfCall(object sender, SelectionChangedEventArgs e)
+          =>
+           queryVolunteerList();
         private void volunteerListObserver()
             => queryVolunteerList();
  

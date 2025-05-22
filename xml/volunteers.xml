@@ -1,226 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfVolunteer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Volunteer>
-    <Id>327691758</Id>
-    <Name>kobi dinavetsky</Name>
-    <PhoneNumber> mimi20054@gmail.com </PhoneNumber>
-    <Email>0583235695</Email>
-    <Position>Managar</Position>
-    <Password>123456!A</Password>
-    <Active>false</Active>
-    <Latitude xsi:nil="true" />
-    <Longitude xsi:nil="true" />
-    <MaximumDistanceForReading xsi:nil="true" />
-    <TypeOfDistance>Aerial</TypeOfDistance>
-  </Volunteer>
-  <Volunteer>
-    <Id>295121126</Id>
+    <Id>314185568</Id>
     <Name>Dani Levy</Name>
-    <PhoneNumber>0518572211</PhoneNumber>
+    <PhoneNumber>0563974704</PhoneNumber>
     <Email> mimigins2005@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>119129120126141143161109</Password>
+    <Password>119134131133138133153124</Password>
     <Active>true</Active>
-    <CurrentAddress>Dizengoff Street 120, Tel Aviv</CurrentAddress>
-    <Latitude>32.083687</Latitude>
-    <Longitude>34.773541</Longitude>
-    <MaximumDistanceForReading>522</MaximumDistanceForReading>
+    <CurrentAddress>Jabotinsky 15, Ramat Gan</CurrentAddress>
+    <Latitude>32.073667</Latitude>
+    <Longitude>34.809965</Longitude>
+    <MaximumDistanceForReading>1728</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>380692404</Id>
+    <Id>270883864</Id>
     <Name>Eli Amar</Name>
-    <PhoneNumber>0515051846</PhoneNumber>
+    <PhoneNumber>0535618290</PhoneNumber>
     <Email> frgvvv@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>134133124123123134147176</Password>
+    <Password>136141126124137135143151</Password>
     <Active>true</Active>
-    <CurrentAddress>Herzl Street 25, Tel Aviv</CurrentAddress>
-    <Latitude>32.06078</Latitude>
-    <Longitude>34.770589</Longitude>
-    <MaximumDistanceForReading>2058</MaximumDistanceForReading>
+    <CurrentAddress>Hashalom Road, Givatayim</CurrentAddress>
+    <Latitude>32.069478</Latitude>
+    <Longitude>34.808196</Longitude>
+    <MaximumDistanceForReading>525</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>219270352</Id>
+    <Id>387702485</Id>
     <Name>Yair Cohen</Name>
-    <PhoneNumber>0581283484</PhoneNumber>
+    <PhoneNumber>0559827101</PhoneNumber>
     <Email> rutrc@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>132138122117122123163132</Password>
+    <Password>128137125117138126136171</Password>
     <Active>true</Active>
-    <CurrentAddress>Herzl Street 25, Tel Aviv</CurrentAddress>
-    <Latitude>32.06078</Latitude>
-    <Longitude>34.770589</Longitude>
-    <MaximumDistanceForReading>1854</MaximumDistanceForReading>
+    <CurrentAddress>Rothschild Boulevard, Tel Aviv</CurrentAddress>
+    <Latitude>32.063229</Latitude>
+    <Longitude>34.774996</Longitude>
+    <MaximumDistanceForReading>1594</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>399146609</Id>
+    <Id>242988444</Id>
     <Name>Ariela Levin</Name>
-    <PhoneNumber>0578503656</PhoneNumber>
+    <PhoneNumber>0558810580</PhoneNumber>
     <Email> avigail6282@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>147130136132121126163186</Password>
-    <Active>true</Active>
-    <CurrentAddress>Balfour Street 20, Bat Yam</CurrentAddress>
-    <Latitude>32.027325</Latitude>
-    <Longitude>34.747369</Longitude>
-    <MaximumDistanceForReading>1274</MaximumDistanceForReading>
-    <TypeOfDistance>Aerial</TypeOfDistance>
-  </Volunteer>
-  <Volunteer>
-    <Id>212217009</Id>
-    <Name>Dina Klein</Name>
-    <PhoneNumber>0552797702</PhoneNumber>
-    <Email> avitalbortz@gmail.com </Email>
-    <Position>Volunteer</Position>
-    <Password>130130133138136118159173</Password>
-    <Active>true</Active>
-    <CurrentAddress>Balfour Street 20, Bat Yam</CurrentAddress>
-    <Latitude>32.027325</Latitude>
-    <Longitude>34.747369</Longitude>
-    <MaximumDistanceForReading>401</MaximumDistanceForReading>
-    <TypeOfDistance>Aerial</TypeOfDistance>
-  </Volunteer>
-  <Volunteer>
-    <Id>337610449</Id>
-    <Name>Shira Israelof</Name>
-    <PhoneNumber>0510172584</PhoneNumber>
-    <Email> ms0583242931@gmail.com </Email>
-    <Position>Volunteer</Position>
-    <Password>137124120116129137159144</Password>
-    <Active>true</Active>
-    <CurrentAddress>Ehad Ha'am Street 9, Tel Aviv</CurrentAddress>
-    <Latitude>32.065789</Latitude>
-    <Longitude>34.776231</Longitude>
-    <MaximumDistanceForReading>1769</MaximumDistanceForReading>
-    <TypeOfDistance>Aerial</TypeOfDistance>
-  </Volunteer>
-  <Volunteer>
-    <Id>387330487</Id>
-    <Name>Shir Levi</Name>
-    <PhoneNumber>0598345802</PhoneNumber>
-    <Email> miri57566@gmail.com </Email>
-    <Position>Volunteer</Position>
-    <Password>132123134119134132142174</Password>
+    <Password>134135139131129130147127</Password>
     <Active>true</Active>
     <CurrentAddress>Pinhas Rozen 12, Tel Aviv-Yafo</CurrentAddress>
     <Latitude>32.108024</Latitude>
     <Longitude>34.827305</Longitude>
-    <MaximumDistanceForReading>490</MaximumDistanceForReading>
+    <MaximumDistanceForReading>179</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>301137747</Id>
-    <Name>Ron Catz</Name>
-    <PhoneNumber>0512425604</PhoneNumber>
-    <Email>noya.boruhov@gmail.com </Email>
+    <Id>307878624</Id>
+    <Name>Dina Klein</Name>
+    <PhoneNumber>0574703459</PhoneNumber>
+    <Email> avitalbortz@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>139117124125125118171192</Password>
+    <Password>129130124134132119170134</Password>
     <Active>true</Active>
-    <CurrentAddress>Be'er Mayim Chaim 12, Bnei Brak</CurrentAddress>
-    <Latitude>32.083079</Latitude>
-    <Longitude>34.841832</Longitude>
-    <MaximumDistanceForReading>1015</MaximumDistanceForReading>
+    <CurrentAddress>Rabbi Hiyya, Elad</CurrentAddress>
+    <Latitude>32.049344</Latitude>
+    <Longitude>34.963798</Longitude>
+    <MaximumDistanceForReading>2002</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>227293502</Id>
-    <Name>Rut Levi</Name>
-    <PhoneNumber>0583744848</PhoneNumber>
-    <Email> naama0052@gmail.com </Email>
+    <Id>361762094</Id>
+    <Name>Shira Israelof</Name>
+    <PhoneNumber>0573493699</PhoneNumber>
+    <Email> ms0583242931@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>118138141136134114154135</Password>
+    <Password>144124130136125143172147</Password>
+    <Active>true</Active>
+    <CurrentAddress>Rabbi Hiyya, Elad</CurrentAddress>
+    <Latitude>32.049344</Latitude>
+    <Longitude>34.963798</Longitude>
+    <MaximumDistanceForReading>562</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>387424554</Id>
+    <Name>Shir Levi</Name>
+    <PhoneNumber>0567663663</PhoneNumber>
+    <Email> miri57566@gmail.com </Email>
+    <Position>Volunteer</Position>
+    <Password>122143141142128122161211</Password>
     <Active>true</Active>
     <CurrentAddress>HaYarkon Street 123, Tel Aviv</CurrentAddress>
     <Latitude>32.089678</Latitude>
     <Longitude>34.769126</Longitude>
-    <MaximumDistanceForReading>1996</MaximumDistanceForReading>
+    <MaximumDistanceForReading>946</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>339095526</Id>
+    <Id>316689568</Id>
+    <Name>Ron Catz</Name>
+    <PhoneNumber>0550398124</PhoneNumber>
+    <Email>noya.boruhov@gmail.com </Email>
+    <Position>Volunteer</Position>
+    <Password>135128124129134135173116</Password>
+    <Active>true</Active>
+    <CurrentAddress>Be'er Mayim Chaim 12, Bnei Brak</CurrentAddress>
+    <Latitude>32.083079</Latitude>
+    <Longitude>34.841832</Longitude>
+    <MaximumDistanceForReading>319</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>318719548</Id>
+    <Name>Rut Levi</Name>
+    <PhoneNumber>0555309335</PhoneNumber>
+    <Email> naama0052@gmail.com </Email>
+    <Position>Volunteer</Position>
+    <Password>126129131124144127171159</Password>
+    <Active>true</Active>
+    <CurrentAddress>King George Street, Tel Aviv</CurrentAddress>
+    <Latitude>32.073428</Latitude>
+    <Longitude>34.775037</Longitude>
+    <MaximumDistanceForReading>85</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>242876247</Id>
     <Name>Ayala Cohen</Name>
-    <PhoneNumber>0525019551</PhoneNumber>
+    <PhoneNumber>0554310539</PhoneNumber>
     <Email>zipi.3382@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>140119125135133141169170</Password>
+    <Password>130133125126123121157173</Password>
     <Active>true</Active>
-    <CurrentAddress>Derech Menachem Begin, Petah Tikva</CurrentAddress>
-    <Latitude>32.069869</Latitude>
-    <Longitude>34.914232</Longitude>
-    <MaximumDistanceForReading>2354</MaximumDistanceForReading>
+    <CurrentAddress>Herzl Street 25, Tel Aviv</CurrentAddress>
+    <Latitude>32.06078</Latitude>
+    <Longitude>34.770589</Longitude>
+    <MaximumDistanceForReading>1770</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>343631466</Id>
+    <Id>275970675</Id>
     <Name>Shiri Shahor</Name>
-    <PhoneNumber>0592656446</PhoneNumber>
+    <PhoneNumber>0548246919</PhoneNumber>
     <Email> shirishahor@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>138127137118140114153155</Password>
+    <Password>140134127140130123156186</Password>
     <Active>true</Active>
-    <CurrentAddress>Arlozorov Street 78, Tel Aviv</CurrentAddress>
-    <Latitude>32.085679</Latitude>
-    <Longitude>34.782549</Longitude>
-    <MaximumDistanceForReading>1002</MaximumDistanceForReading>
+    <CurrentAddress>Ehad Ha'am Street 9, Tel Aviv</CurrentAddress>
+    <Latitude>32.065789</Latitude>
+    <Longitude>34.776231</Longitude>
+    <MaximumDistanceForReading>1105</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>386841958</Id>
+    <Id>232408443</Id>
     <Name>Enana Fedut</Name>
-    <PhoneNumber>0515561983</PhoneNumber>
+    <PhoneNumber>0555737715</PhoneNumber>
     <Email> t0583235695@gmail.com</Email>
     <Position>Volunteer</Position>
-    <Password>128130140122125120142141</Password>
+    <Password>133131133142141135147160</Password>
     <Active>true</Active>
-    <CurrentAddress>Even Gvirol 11, Elad</CurrentAddress>
-    <Latitude>32.0579</Latitude>
-    <Longitude>34</Longitude>
-    <MaximumDistanceForReading>234</MaximumDistanceForReading>
+    <CurrentAddress>Shenkar Street 7, Herzliya</CurrentAddress>
+    <Latitude>32.164458</Latitude>
+    <Longitude>34.836211</Longitude>
+    <MaximumDistanceForReading>2314</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>258144324</Id>
+    <Id>234598726</Id>
     <Name>Tammy Dabin</Name>
-    <PhoneNumber>0545455440</PhoneNumber>
+    <PhoneNumber>0518545170</PhoneNumber>
     <Email> tamar86950@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>142128128133130147155174</Password>
+    <Password>117141126126132136157173</Password>
     <Active>true</Active>
-    <CurrentAddress>King George Street, Tel Aviv</CurrentAddress>
-    <Latitude>32.073428</Latitude>
-    <Longitude>34.775037</Longitude>
-    <MaximumDistanceForReading>2391</MaximumDistanceForReading>
+    <CurrentAddress>Be'er Mayim Chaim 12, Bnei Brak</CurrentAddress>
+    <Latitude>32.083079</Latitude>
+    <Longitude>34.841832</Longitude>
+    <MaximumDistanceForReading>2267</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>335043007</Id>
+    <Id>308073156</Id>
     <Name>Sari Levin</Name>
-    <PhoneNumber>0532095746</PhoneNumber>
+    <PhoneNumber>0592739689</PhoneNumber>
     <Email> michalortzel@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>140133132119129118156138</Password>
+    <Password>140125131134124127168161</Password>
     <Active>true</Active>
-    <CurrentAddress>Pinhas Rozen 12, Tel Aviv-Yafo</CurrentAddress>
-    <Latitude>32.108024</Latitude>
-    <Longitude>34.827305</Longitude>
-    <MaximumDistanceForReading>2329</MaximumDistanceForReading>
+    <CurrentAddress>Rabbi Hiyya, Elad</CurrentAddress>
+    <Latitude>32.049344</Latitude>
+    <Longitude>34.963798</Longitude>
+    <MaximumDistanceForReading>2028</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>285461978</Id>
+    <Id>311882833</Id>
     <Name>Michal Ortel</Name>
-    <PhoneNumber>0515228670</PhoneNumber>
+    <PhoneNumber>0559575531</PhoneNumber>
     <Email> ys0583299134@gmail.com </Email>
     <Position>Volunteer</Position>
-    <Password>138134144140135135147140</Password>
+    <Password>124131119139133118157176</Password>
     <Active>true</Active>
-    <CurrentAddress>King George Street, Tel Aviv</CurrentAddress>
-    <Latitude>32.073428</Latitude>
-    <Longitude>34.775037</Longitude>
-    <MaximumDistanceForReading>2446</MaximumDistanceForReading>
+    <CurrentAddress>Balfour Street 20, Bat Yam</CurrentAddress>
+    <Latitude>32.027325</Latitude>
+    <Longitude>34.747369</Longitude>
+    <MaximumDistanceForReading>207</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
 </ArrayOfVolunteer>
