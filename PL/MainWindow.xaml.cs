@@ -103,44 +103,38 @@ namespace PL
         {
             new CallListWindow().Show();
         }
-
-        private void btnIntialize_Click(object sender, RoutedEventArgs e)
+        private void InitializationOrReset(string which)
         {
-            var result = MessageBox.Show("Are you sure you want to initialize?",
+            var result = MessageBox.Show($"Are you sure you want to {which}?",
                              "Confirmation",
                              MessageBoxButton.OKCancel,
                              MessageBoxImage.Information);
 
             if (result == MessageBoxResult.OK)
             {
-                foreach(Window win in Application.Current.Windows) { if(win!=this) win.Close(); }
-                s_bl.Admin.Initialization();
-                MessageBox.Show("Initialization completed successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                foreach (Window win in Application.Current.Windows) { if (win != this) win.Close(); }
+                if (which == "reset")
+                    s_bl.Admin.Reset();
+                else
+                    s_bl.Admin.Initialization();
+                MessageBox.Show($"{which} completed successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                MessageBox.Show("Initialization canceled.", "Canceled", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"{which} canceled.", "Canceled", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+        }
+        private void btnIntialize_Click(object sender, RoutedEventArgs e)
+        {
+            InitializationOrReset("Initialization");
+           
         }
 
         private void btnResetDB_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show("Are you sure you want to reset?",
-                            "Confirmation",
-                            MessageBoxButton.OKCancel,
-                            MessageBoxImage.Information);
-
-            if (result == MessageBoxResult.OK)
-            {
-                foreach (Window win in Application.Current.Windows) { if (win != this) win.Close(); }
-                s_bl.Admin.Reset();
-                MessageBox.Show("Reset completed successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
-            {
-                MessageBox.Show("Reset canceled.", "Canceled", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            InitializationOrReset("reset");
 
         }
+
     }
 }
