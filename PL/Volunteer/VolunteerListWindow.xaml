@@ -46,8 +46,14 @@
                 <DataGridTextColumn Binding="{Binding SumCaredCalls}" Header="SumCaredCalls" Width="Auto"/>
                 <DataGridTextColumn Binding="{Binding SumIrelevantCalls}" Header="SumIrelevantCalls" Width="Auto"/>
                 <DataGridTextColumn Binding="{Binding IdOfCall}" Header="IdOfCall" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding KindOfCall}" Header="KindOfCall" Width="Auto"/>
-
+                <DataGridTextColumn Binding="{Binding KindOfCall}" Header="KindOfCall" Width="Auto"  >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" 
+                                Value="{Binding KindOfCall, Converter={StaticResource ConverterEnumKindOfCallToColorKey}}" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTemplateColumn Header="delete" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

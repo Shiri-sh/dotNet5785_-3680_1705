@@ -16,7 +16,7 @@ class ConverterAddCollapsedUpdateVissable : IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         string status = (string)value;
-        if(status =="Add") return Visibility.Collapsed; //בהוספה אין לו מקום בכלל לערך הזה 
+        if(status == "Add") return Visibility.Collapsed; //בהוספה אין לו מקום בכלל לערך הזה 
        return Visibility.Visible;   //בעדכון זה יראה לעין
     }
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -37,4 +37,35 @@ class ConverterAddWriteUpdateRead : IValueConverter
         throw new NotImplementedException();
     }
 
+}
+class ConverterEnumKindOfCallToColor : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if(value == null) return Brushes.White;
+        BO.KindOfCall kindOfcall = (BO.KindOfCall)value;
+
+        switch (kindOfcall)
+        {
+            case BO.KindOfCall.CableAssistance:
+                return Brushes.Yellow;
+            case BO.KindOfCall.RescueKid:
+                return Brushes.Orange;
+            case BO.KindOfCall.FirstAid:
+                return Brushes.Plum;
+            case BO.KindOfCall.changeWheel:
+                return Brushes.Pink;
+            case BO.KindOfCall.fuelOilWater:
+                return Brushes.Purple;
+            case BO.KindOfCall.None:
+                return Brushes.White;
+            default:
+                return Brushes.White;
+
+        }
+    }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
 }
