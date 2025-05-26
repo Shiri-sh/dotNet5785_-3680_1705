@@ -19,7 +19,7 @@ namespace PL.Call
     /// </summary>
     public partial class CallWindow : Window
     {
-        public CallWindow()
+        public CallWindow(int id=0)
         {
             InitializeComponent();
         }

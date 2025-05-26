@@ -19,9 +19,9 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="250*"/>
-            <RowDefinition Height="100*"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="Auto"/>
+
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100*"/>
@@ -48,6 +48,33 @@
 
             <Button Content="Initialize" Click="btnIntialize_Click" Style="{StaticResource StandardButtonStyle}"></Button>
             <Button Content="ResetDB" Click="btnResetDB_Click" Style="{StaticResource StandardButtonStyle}"></Button>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <Label Content="sum of calls by status"></Label>
+            <StackPanel Orientation="Horizontal">
+                <Button   Content="Being Cared" Click="btnShowCalls_Click"/>
+                <TextBlock Text="{Binding CallByStatus[0]}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Treat In Risk" Click="btnShowCalls_Click"/>
+                <TextBlock Text="{Binding CallByStatus[1]}"/>
+            </StackPanel>
+            <StackPanel  Orientation="Horizontal">
+                <Button  Content="Open" Click="btnShowCalls_Click"/>
+                <TextBlock Text="{Binding CallByStatus[2]}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button  Content="Open In Risk" Click="btnShowCalls_Click"/>
+                <TextBlock Text="{Binding CallByStatus[3]}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button  Content="Closed" Click="btnShowCalls_Click"/>
+                <TextBlock Text="{Binding CallByStatus[4]}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button  Content="Irelavant" Click="btnShowCalls_Click"/>
+                <TextBlock Text="{Binding CallByStatus[5]}"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

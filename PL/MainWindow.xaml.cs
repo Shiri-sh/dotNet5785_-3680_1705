@@ -19,8 +19,11 @@ namespace PL
     public partial class MainWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+        public int[]? CallByStatus { get; set; }
         public MainWindow()
         {
+            CallByStatus = s_bl.Call.CallByStatus();
+
             InitializeComponent();
         }
 

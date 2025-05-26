@@ -42,7 +42,7 @@ class ConverterEnumKindOfCallToColor : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if(value == null) return Brushes.White;
+        if (value == null) return Brushes.White;
         BO.KindOfCall kindOfcall = (BO.KindOfCall)value;
 
         switch (kindOfcall)
@@ -64,7 +64,36 @@ class ConverterEnumKindOfCallToColor : IValueConverter
 
         }
     }
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    } 
+}
+class ConverterEnumStatusToColor : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value == null) return Brushes.White;
+        BO.Status status = (BO.Status)value;
+
+        switch (status)
+        {
+            case BO.Status.Open:
+                return Brushes.Yellow;
+            case BO.Status.TreatInRisk:
+                return Brushes.Red;
+            case BO.Status.Closed:
+                return Brushes.Plum;
+            case BO.Status.BeingCared:
+                return Brushes.Pink;
+            case BO.Status.Irelavant:
+                return Brushes.LightBlue;
+            default:
+                return Brushes.White;
+
+        }
+    }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }

@@ -8,7 +8,7 @@ public enum TypeOfDistance { Aerial, walking, driving }
 public enum KindOfCall { RescueKid, changeWheel, FirstAid, CableAssistance, fuelOilWater,None }
 //לא לשנות את הסדר זה חשוב !
 public enum StatusCallInProgress { BeingCared, TreatInRisk }
-public enum Status { BeingCared, TreatInRisk, Open, OpenInRisk, Closed, Irelavant }
+public enum Status { BeingCared, TreatInRisk, Open, OpenInRisk, Closed, Irelavant,None }
 //
 public enum TypeOfTreatmentTermination { Handled, SelfCancellation, ConcellingAdministrator, CancellationExpired }
 public enum VoluteerInListObjects { KindOfCall,Id, Name, Active , SumCancledCalls, SumCaredCalls, sumIrelevantCalls, IdOfCall  }
