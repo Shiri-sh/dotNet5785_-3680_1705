@@ -25,6 +25,7 @@ namespace PL
             CallByStatus = s_bl.Call.CallByStatus();
 
             InitializeComponent();
+
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -104,7 +105,10 @@ namespace PL
 
         private void btnShowCalls_Click(object sender, RoutedEventArgs e)
         {
-            new CallListWindow().Show();
+            if (sender is Button btn && btn.Tag is string roleTag)
+            {
+                new CallListWindow((BO.Status)Enum.Parse(typeof(BO.Status), roleTag)).Show();
+            }
         }
         private void InitializationOrReset(string which)
         {

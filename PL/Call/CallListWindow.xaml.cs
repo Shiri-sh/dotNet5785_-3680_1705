@@ -25,10 +25,12 @@ namespace PL.Call
         public BO.Status Status { get; set; } = BO.Status.Open;
 
         public BO.CallInList? SelectedCall { get; set; }
-        public CallListWindow(BO.Status statusTofilter=BO.Status.Open)
+        public CallListWindow(BO.Status statusTofilter = BO.Status.None)
         {
             this.Status = statusTofilter;
+
             InitializeComponent();
+            filterListByStatus();
         }
         public IEnumerable<BO.CallInList> CallList
         {
@@ -61,11 +63,11 @@ namespace PL.Call
             new CallWindow().Show();
         }
 
-        //private void ChooseCallToUpdate(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (SelectedCall != null)
-        //        new CallWindow(SelectedCall.Id).Show();
-        //}
+        private void ChooseCallToUpdate(object sender, MouseButtonEventArgs e)
+        {
+            if (SelectedCall != null)
+                new CallWindow().Show();
+        }
         //private void DeleteCallButton_Click(object sender, RoutedEventArgs e)
         //{
         //    MessageBox.Show("are you sure you want to delete?");
@@ -80,8 +82,10 @@ namespace PL.Call
         //}
 
         private void FilterListByStatus(object sender, SelectionChangedEventArgs e)
-      
-              => CallList = (Status==BO.Status.None) ?
-                s_bl?.Call.CallList()! : s_bl?.Call.CallList(null, Status, BO.CallInListObjects.Status)!;
+
+              => filterListByStatus();
+        private void filterListByStatus()=>
+            CallList = (Status == BO.Status.None) ?
+                s_bl?.Call.CallList()! : s_bl?.Call.CallList(BO.CallInListObjects.Status, Status.ToString(),null)!;
     }
 }

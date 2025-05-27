@@ -54,7 +54,7 @@
                 <DataGridTemplateColumn Header="delete" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="DeleteCallButton_Click" HorizontalAlignment="Stretch"/>
+                            <!--<Button Click="DeleteCallButton_Click" HorizontalAlignment="Stretch"/>-->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

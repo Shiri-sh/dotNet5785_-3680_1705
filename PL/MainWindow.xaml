@@ -52,27 +52,27 @@
         <StackPanel Grid.Column="1" Grid.Row="1">
             <Label Content="sum of calls by status"></Label>
             <StackPanel Orientation="Horizontal">
-                <Button   Content="Being Cared" Click="btnShowCalls_Click"/>
+                <Button Tag="0"  Content="Being Cared" Click="btnShowCalls_Click"/>
                 <TextBlock Text="{Binding CallByStatus[0]}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button Content="Treat In Risk" Click="btnShowCalls_Click"/>
+                <Button Tag="1" Content="Treat In Risk" Click="btnShowCalls_Click"/>
                 <TextBlock Text="{Binding CallByStatus[1]}"/>
             </StackPanel>
             <StackPanel  Orientation="Horizontal">
-                <Button  Content="Open" Click="btnShowCalls_Click"/>
+                <Button Tag="2" Content="Open" Click="btnShowCalls_Click"/>
                 <TextBlock Text="{Binding CallByStatus[2]}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button  Content="Open In Risk" Click="btnShowCalls_Click"/>
+                <Button Tag="3" Content="Open In Risk" Click="btnShowCalls_Click"/>
                 <TextBlock Text="{Binding CallByStatus[3]}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button  Content="Closed" Click="btnShowCalls_Click"/>
+                <Button Tag="Closed" Content="Closed" Click="btnShowCalls_Click"/>
                 <TextBlock Text="{Binding CallByStatus[4]}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button  Content="Irelavant" Click="btnShowCalls_Click"/>
+                <Button Tag="5" Content="Irelavant" Click="btnShowCalls_Click"/>
                 <TextBlock Text="{Binding CallByStatus[5]}"/>
             </StackPanel>
         </StackPanel>

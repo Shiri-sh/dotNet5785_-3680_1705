@@ -53,37 +53,59 @@ internal class CallImplementation : ICall
                                                    KindOfCall = (BO.KindOfCall)c.KindOfCall,
                                                    OpeningTime = c.OpeningTime,
                                                    RemainingTimeToFinish = c.FinishTime - AdminManager.Now,
-                                                   LastVolunteer =assignment==null ? null: _dal.Volunteer.Read(v => v.Id ==
-                                                                                       _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
-                                                                                       .OrderByDescending(a => a.TreatmentEntryTime)
-                                                                                       .Select(a => a.VolunteerId)
-                                                                                       .FirstOrDefault())
-                                                                                .Name,
+                                                   LastVolunteer =assignment==null ? null:
+                                                   _dal.Volunteer.Read(v => v.Id ==
+                                                    _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
+                                                    .OrderByDescending(a => a.TreatmentEntryTime)
+                                                    .Select(a => a.VolunteerId)
+                                                    .FirstOrDefault())?.Name,
+
                                                    CompletionTime = assignment == null ? null : assignment.TreatmentEndTime == null ? null : assignment.TreatmentEndTime - c.OpeningTime,
                                                    Status = CallManager.GetStatus(c),
                                                    TotalAlocation = _dal.Assignment.ReadAll(a => a.CalledId == c.Id).Count(),
 
                                                };
-        var propertyInfo = typeof(BO.CallInList).GetProperty(objFilter.ToString());
-        if (propertyInfo != null)
+        if (objFilter != null && filterBy != null)
         {
-            listOfCall = from c in listOfCall
-                         where propertyInfo.GetValue(c, null) == filterBy
-                         select c;
+            var propertyInfo = typeof(BO.CallInList).GetProperty(objFilter.ToString());
+            if (propertyInfo != null)
+            {
+                object convertedFilterBy = filterBy;
+
+                // אם סוג המאפיין הוא enum או nullable enum – מבצעים המרה
+                if (propertyInfo.PropertyType.IsEnum)
+                {
+                    convertedFilterBy = Enum.Parse(propertyInfo.PropertyType, filterBy.ToString());
+                }
+                else if (Nullable.GetUnderlyingType(propertyInfo.PropertyType)?.IsEnum == true)
+                {
+                    Type enumType = Nullable.GetUnderlyingType(propertyInfo.PropertyType);
+                    convertedFilterBy = Enum.Parse(enumType, filterBy.ToString());
+                }
+
+                listOfCall = from c in listOfCall
+                             where propertyInfo.GetValue(c) != null &&
+                                   propertyInfo.GetValue(c).Equals(convertedFilterBy)
+                             select c;
+            }
         }
-        var propertyInfoSort = typeof(BO.CallInList).GetProperty(objSort.ToString());
-        if (propertyInfoSort != null)
+        if (objSort != null)
         {
-            listOfCall = from c in listOfCall
-                         orderby propertyInfoSort.GetValue(c, null)
-                         select c;
+            var propertyInfoSort = typeof(BO.CallInList).GetProperty(objSort.ToString());
+            if (propertyInfoSort != null)
+            {
+                listOfCall = from c in listOfCall
+                             orderby propertyInfoSort.GetValue(c)
+                             select c;
+            }
         }
         else
         {
             listOfCall = from c in listOfCall
-                        orderby c.Id
-                        select c;
+                         orderby c.Id
+                         select c;
         }
+
         return listOfCall;
     }
     public void UpdateCancelCall(int volunteerId, int assignId)
