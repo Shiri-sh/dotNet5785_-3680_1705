@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Call"
         mc:Ignorable="d"
-        Title="CallListWindow" Height="450" Width="800">
+        Title="CallListWindow" Height="450" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+        Loaded="Window_Loaded"
+        Closed="Window_Closed">
     <!--External Grid-->
     <Grid>
         <Grid.RowDefinitions>
@@ -21,7 +24,7 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0"></Label>
             <ComboBox SelectedValue="{Binding KindOfCall, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource KindOfCallCollectionKey}}" SelectionChanged="FilterListByKindOfCall"
-               Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+               Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <ComboBox SelectedValue="{Binding Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" SelectionChanged="FilterListByStatus"
                    Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
@@ -54,7 +57,7 @@
                 <DataGridTemplateColumn Header="delete" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <!--<Button Click="DeleteCallButton_Click" HorizontalAlignment="Stretch"/>-->
+                            <Button Click="DeleteCallButton_Click" HorizontalAlignment="Stretch"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

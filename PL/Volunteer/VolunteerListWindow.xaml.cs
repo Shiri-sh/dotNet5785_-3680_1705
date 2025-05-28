@@ -66,14 +66,22 @@ namespace PL.Volunteer
 
         private void DeleteVolunteerButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("are you sure you want to delete?");
-            try
+            var result = MessageBox.Show($"Are you sure you want to delete this volunteer?",
+                           "Confirmation",
+                           MessageBoxButton.OKCancel,
+                           MessageBoxImage.Information);
+            if (result == MessageBoxResult.OK)
             {
-                s_bl.Volunteer.DeleteVolunteer(SelectedVolunteer!.Id);
+                try
+                {
+                    s_bl.Volunteer.DeleteVolunteer(SelectedVolunteer!.Id);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"error: {ex.Message}");
+                }
             }
-            catch (Exception ex) {
-                MessageBox.Show($"error: {ex.Message}");
-            }
+            
         }
     }
 }

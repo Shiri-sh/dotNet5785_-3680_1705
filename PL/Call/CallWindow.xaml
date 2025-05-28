@@ -5,8 +5,76 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Call"
         mc:Ignorable="d"
-        Title="CallWindow" Height="450" Width="800">
+        Title="CallWindow" Height="450" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+        Loaded="Window_Loaded"
+        Closed="Window_Closed">
+    <Window.Resources>
+        <Style x:Key="StandardLabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Width" Value="90"/>
+            <!--<Setter Property="Margin" Value="5"/>-->
+        </Style>
+        <Style x:Key="convertAddCollapsed" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Visibility" Value="{Binding AddOrUpdate, Converter={StaticResource ConverterAddCollapsedUpdateVissableKey}}"/>
+        </Style>
+    </Window.Resources>
+    
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="0*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="50,15,0,15" Orientation="Vertical" HorizontalAlignment="Left" Width="auto">
+            <!--id-->
+            <StackPanel Orientation="Horizontal">
+                <Label Content="id:"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBox IsReadOnly="{Binding AddOrUpdate, Converter={StaticResource ConverterAddWriteUpdateReadKey}}"
+                                    Text="{Binding CurrentCall.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  Width="100"  ></TextBox>
+            </StackPanel>
+            <!--KindOfCall-->
+            <StackPanel Orientation="Horizontal">
+                <Label Content="KindOfCall:"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBox IsReadOnly="{Binding AddOrUpdate, Converter={StaticResource ConverterAddWriteUpdateReadKey}}"
+                         Text="{Binding CurrentCall.KindOfCall, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  Width="100"  ></TextBox>
+            </StackPanel>
+            <!--AddressOfCall-->
+            <StackPanel Orientation="Horizontal">
+                <Label Content="AddressOfCall:"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBox Text="{Binding CurrentCall.AddressOfCall, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
+            </StackPanel>
+            <!--CallAssignInList-->
+            <StackPanel Orientation="Horizontal">
+                <Label Content="CallAssignInList:"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBox Text="{Binding CurrentCall.CallAssignInList, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
+            </StackPanel>
+            <!--Description-->
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Description:"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBox Text="{Binding CurrentCall.Description, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
+            </StackPanel>
+
+            <!--FinishTime-->
+            <StackPanel Orientation="Horizontal">
+                <Label Content="FinishTime:"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBox Text="{Binding CurrentCall.FinishTime, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="OpeningTime:"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBox Text="{Binding CurrentCall.OpeningTime, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
+            </StackPanel>
+            <!--Status-->
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Status:"  Style="{StaticResource StandardLabelStyle}"/>
+                <TextBlock Text="{Binding CurrentCall.Status, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBlock>
+            </StackPanel>
+        </StackPanel>
+
     </Grid>
 </Window>

@@ -109,6 +109,10 @@ namespace PL
             {
                 new CallListWindow((BO.Status)Enum.Parse(typeof(BO.Status), roleTag)).Show();
             }
+            else
+            {
+                new CallListWindow().Show();
+            }
         }
         private void InitializationOrReset(string which)
         {
