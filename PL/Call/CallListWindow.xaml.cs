@@ -28,9 +28,9 @@ namespace PL.Call
         public CallListWindow(BO.Status statusTofilter = BO.Status.None)
         {
             this.Status = statusTofilter;
-
             InitializeComponent();
             filterListByStatus();
+
         }
         public IEnumerable<BO.CallInList> CallList
         {
@@ -45,7 +45,7 @@ namespace PL.Call
 
         private void queryCallList()
             => CallList = (KindOfCall == BO.KindOfCall.None) ?
-                s_bl?.Call.CallList()! : s_bl?.Call.CallList(null, KindOfCall, BO.CallInListObjects.KindOfCall)!;
+                s_bl?.Call.CallList()! : s_bl?.Call.CallList(BO.CallInListObjects.KindOfCall, KindOfCall, null)!;
         private void FilterListByKindOfCall(object sender, SelectionChangedEventArgs e)
           =>
            queryCallList();
