@@ -22,7 +22,9 @@ namespace PL.Call;
 public partial class CallWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+    public string StatusOfCall { get; set; } = "None";
     public string AddOrUpdate { get; set; } = "Add";
+
     private int Id = 0;
     public BO.Call? CurrentCall
     {
@@ -35,28 +37,40 @@ public partial class CallWindow : Window
     public CallWindow(int id = 0)
     {
         AddOrUpdate = id == 0 ? "Add" : "Update";
-
-        InitializeComponent();
         Id = id;
         CurrentCall = (id != 0) ? s_bl.Call.ReadCall(id)! :
             new BO.Call()
             {
                 Id = 0,
                 KindOfCall = BO.KindOfCall.None,
-                AddressOfCall ="",
-                Latitude =0,
-                Longitude =0,
+                AddressOfCall = "",
+                Latitude = 0,
+                Longitude = 0,
                 OpeningTime = s_bl.Admin.GetClock(),
-                FinishTime =null,
-                Description ="",
-                Status =BO.Status.None,
+                FinishTime = null,
+                Description = "",
+                Status = BO.Status.None,
                 CallAssignInList = null
             };
+        StatusOfCall = CurrentCall.Status.ToString();
+        InitializeComponent();
+       
+    }
+    private bool FormatChecking()
+    {
+        if (CurrentCall?.KindOfCall == BO.KindOfCall.None)
+            throw new Exception("Choose king of call");
+        if (CurrentCall?.AddressOfCall != "" || CurrentCall?.AddressOfCall != null)
+            throw new Exception("Write address");
+        return true;
+
     }
     private void btnAddUpdate_Click(object sender, RoutedEventArgs e)
     {
+        
         try
         {
+            if (FormatChecking()) ;
             if (AddOrUpdate == "Add")
             {
                 s_bl.Call.AddCall(CurrentCall!);

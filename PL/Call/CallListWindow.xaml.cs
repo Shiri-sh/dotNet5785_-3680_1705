@@ -1,4 +1,5 @@
 ﻿using PL.Call;
+using PL.Volunteer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,5 +98,23 @@ namespace PL.Call
             }
         }
 
+        private void CencelCallButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show($"Are you sure you want to cancel this call?",
+                          "Confirmation",
+                          MessageBoxButton.OKCancel,
+                          MessageBoxImage.Information);
+            if (result == MessageBoxResult.OK)
+            {
+                try
+                {
+                    s_bl.Call.UpdateCancelCall(1234, SelectedCall!.CallId);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"error: {ex.Message}");
+                }
+            }
+        }
     }
 }
