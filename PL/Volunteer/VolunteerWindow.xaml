@@ -84,21 +84,12 @@
             <!--active-bool-->
             <StackPanel Orientation="Horizontal" >
                 <Label Content="is active:"  Style="{StaticResource StandardLabelStyle}"/>
-                <CheckBox IsChecked="{Binding CurrentVolunteer.Active, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
+                <CheckBox IsEnabled="{Binding CurrentVolunteer.CallInProgress, Converter={StaticResource ConverterEnableActiveKey} }" IsChecked="{Binding CurrentVolunteer.Active, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100" />
             </StackPanel>
             <!--addres-srting-->
             <StackPanel Orientation="Horizontal">
                 <Label Content="current address:"  Style="{StaticResource StandardLabelStyle}"/>
                 <TextBox Text="{Binding CurrentVolunteer.CurrentAddress, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="auto"  ></TextBox>
-            </StackPanel>
-            
-            <StackPanel Style="{StaticResource convertAddCollapsed}">
-                <Label Content="latitude:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBlock Text="{Binding CurrentVolunteer.Latitude, Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBlock>
-            </StackPanel>
-            <StackPanel  Style="{StaticResource convertAddCollapsed}">
-                <Label Content="longitude:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBlock Text="{Binding CurrentVolunteer.Longitude, Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBlock>
             </StackPanel>
             <StackPanel  Style="{StaticResource convertAddCollapsed}">
                 <Label Content="SumCancledCalls"  Style="{StaticResource StandardLabelStyle}"/>

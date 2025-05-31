@@ -15,6 +15,6 @@
         <local:ConverterClosedIrelavantRead x:Key="ConverterClosedIrelavantReadKey"/>
         <local:ConverterEnumKindOfCallToColor x:Key="ConverterEnumKindOfCallToColorKey"/>
         <local:ConverterEnumStatusToColor x:Key="ConverterEnumStatusToColorKey"/>
- 
+        <local:ConverterEnableActive x:Key="ConverterEnableActiveKey"/>
     </Application.Resources>
 </Application>

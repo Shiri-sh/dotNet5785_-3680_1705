@@ -19,7 +19,7 @@ namespace PL
     public partial class MainWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-        public int[]? CallByStatus { get; set; }
+        //public int[]? CallByStatus { get; set; }
         public MainWindow()
         {
             CallByStatus = s_bl.Call.CallByStatus();
@@ -66,6 +66,19 @@ namespace PL
             RiskRange = s_bl.Admin.GetRiskRange();
 
         }
+        private void callByStatusObserver()
+        {
+            CallByStatus = s_bl.Call.CallByStatus();
+        }
+        public int[] CallByStatus
+        {
+            get { return (int[])GetValue(CallByStatusProperty); }
+            set { SetValue(CallByStatusProperty, value); }
+        }
+
+        public static readonly DependencyProperty CallByStatusProperty =
+            DependencyProperty.Register("CallByStatus", typeof(int[]), typeof(MainWindow));
+
         public DateTime CurrentTime
         {
             get { return (DateTime)GetValue(CurrentTimeProperty); }
@@ -90,12 +103,14 @@ namespace PL
             CurrentTime = s_bl.Admin.GetClock();
             s_bl.Admin.AddClockObserver(clockObserver);
             s_bl.Admin.AddConfigObserver(configObserver);
+            s_bl.Call.AddObserver(callByStatusObserver);
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
             s_bl.Admin.RemoveClockObserver(clockObserver);
             s_bl.Admin.RemoveConfigObserver(configObserver);
+            s_bl.Call.RemoveObserver(callByStatusObserver);
         }
 
         private void btnShowVolunteers_Click(object sender, RoutedEventArgs e)
