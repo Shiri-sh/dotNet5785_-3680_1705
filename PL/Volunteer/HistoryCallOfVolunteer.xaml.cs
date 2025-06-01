@@ -46,12 +46,12 @@ namespace PL.Volunteer
         private void queryClosedCallInList()
         {
             ClosedCallInList =  s_bl?.Call.GetCloseCallByVolunteer(Id,KindOfCall,CloseCallInListObjects)! ;
-           
         }
 
         private void FilterListByKindOfCall(object sender, SelectionChangedEventArgs e)
-          =>
-           queryClosedCallInList();
+          => queryClosedCallInList();
+        private void FilterListByCloseCallInListCollection(object sender, SelectionChangedEventArgs e)
+        => queryClosedCallInList();
         private void ClosedCallInListObserver()
             => queryClosedCallInList();
 
@@ -61,9 +61,6 @@ namespace PL.Volunteer
         private void Window_Closed(object sender, EventArgs e)
             => s_bl.Call.RemoveObserver(ClosedCallInListObserver);
 
-        private void FilterListByCloseCallInListCollection(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+       
     }
 }

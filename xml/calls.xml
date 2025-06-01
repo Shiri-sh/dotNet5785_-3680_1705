@@ -441,16 +441,6 @@
     <Description>Immediate medical assistance at the scene</Description>
   </Call>
   <Call>
-    <Id>45</Id>
-    <KindOfCall>CableAssistance</KindOfCall>
-    <AddressOfCall>Pinhas Rozen 12, Tel Aviv-Yafo</AddressOfCall>
-    <Latitude>32.108024</Latitude>
-    <Longitude>34.827305</Longitude>
-    <OpeningTime>2025-05-31T22:00:00</OpeningTime>
-    <FinishTime>2025-06-01T01:00:00</FinishTime>
-    <Description>Service for starting a stalled vehicle</Description>
-  </Call>
-  <Call>
     <Id>46</Id>
     <KindOfCall>fuelOilWater</KindOfCall>
     <AddressOfCall>Dizengoff Street 120, Tel Aviv</AddressOfCall>
@@ -509,5 +499,15 @@
     <OpeningTime>2025-05-26T20:21:32</OpeningTime>
     <FinishTime xsi:nil="true" />
     <Description>רכב לא מצליח להתניע</Description>
+  </Call>
+  <Call>
+    <Id>45</Id>
+    <KindOfCall>CableAssistance</KindOfCall>
+    <AddressOfCall>Pinhas Rozen 12, Tel Aviv-Yafo</AddressOfCall>
+    <Latitude>32.107954</Latitude>
+    <Longitude>34.827427</Longitude>
+    <OpeningTime>2025-05-31T22:00:00</OpeningTime>
+    <FinishTime>2025-06-01T03:00:00</FinishTime>
+    <Description>Service for starting a stalled vehicle</Description>
   </Call>
 </ArrayOfCall>
