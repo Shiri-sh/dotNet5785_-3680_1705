@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,7 +39,7 @@ public partial class VolunteerWindow : Window
         Id = id;
         CurrentVolunteer = (id != 0) ? s_bl.Volunteer.Read(id)! :
             new BO.Volunteer() {
-                    Id                                 = 0,
+                   Id                                 = 0,
                    Name                                 = "",
                    PhoneNumber                          = "",
                    Email                                = "",
@@ -58,13 +59,33 @@ public partial class VolunteerWindow : Window
              };
 
     }
+    private bool formatCheck()
+    {
+        if (CurrentVolunteer?.Id.ToString().Length != 9)
+            throw new Exception("id should be 9 number long");
+        if (string.IsNullOrWhiteSpace(CurrentVolunteer.Name))
+            throw new Exception("Name cannot be empty");
 
+        if (string.IsNullOrWhiteSpace(CurrentVolunteer.PhoneNumber) || CurrentVolunteer.PhoneNumber.ToString().Length!=10)
+            throw new Exception("Phone number must be exactly 10 digits");
+
+        if (string.IsNullOrWhiteSpace(CurrentVolunteer.Email) || !CurrentVolunteer.Email.Contains("@"))
+            throw new Exception("Invalid email format");
+
+        if (CurrentVolunteer.MaximumDistanceForReading < 0)
+            throw new Exception("Maximum distance must be non-negative");
+
+        if (string.IsNullOrWhiteSpace(CurrentVolunteer.CurrentAddress))
+            throw new Exception("Address cannot be empty");
+        return true;
+    }
     private void btnAddUpdate_Click(object sender, RoutedEventArgs e)
     {
         MessageBox.Show(CurrentVolunteer?.Email, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
         try
         {
+            if (formatCheck());
             if (AddOrUpdate == "Add")
             {
                 s_bl.Volunteer.AddVolunteer(CurrentVolunteer!);
