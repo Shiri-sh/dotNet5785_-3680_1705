@@ -500,4 +500,14 @@
     <FinishTime>2025-05-26T20:00:00</FinishTime>
     <Description>First aid before medical team arrival</Description>
   </Call>
+  <Call>
+    <Id>51</Id>
+    <KindOfCall>CableAssistance</KindOfCall>
+    <AddressOfCall>אבן גבירול 36 אלעד</AddressOfCall>
+    <Latitude>0</Latitude>
+    <Longitude>0</Longitude>
+    <OpeningTime>2025-05-26T20:21:32</OpeningTime>
+    <FinishTime xsi:nil="true" />
+    <Description>רכב לא מצליח להתניע</Description>
+  </Call>
 </ArrayOfCall>

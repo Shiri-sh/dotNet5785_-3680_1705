@@ -60,7 +60,7 @@ public partial class CallWindow : Window
     {
         if (CurrentCall?.KindOfCall == BO.KindOfCall.None)
             throw new Exception("Choose king of call");
-        if (CurrentCall?.AddressOfCall != "" || CurrentCall?.AddressOfCall != null)
+        if (CurrentCall?.AddressOfCall == "" || CurrentCall?.AddressOfCall == null)
             throw new Exception("Write address");
         return true;
 

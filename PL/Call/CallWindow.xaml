@@ -37,7 +37,7 @@
             <!--KindOfCall-->
             <StackPanel Orientation="Horizontal">
                 <Label Content="KindOfCall:"  Style="{StaticResource StandardLabelStyle}"/>
-                   <ComboBox IsReadOnly="{Binding StatusOfCall, Converter={StaticResource ConverterClosedIrelavantTreatTreatnInRiskReadKey}}"
+                <ComboBox IsEnabled="{Binding StatusOfCall, Converter={StaticResource ConverterClosedIrelavantTreatTreatnInRiskIEnableKey}}"
                           ItemsSource="{Binding Source={StaticResource KindOfCallCollectionKey}}" 
                   SelectedValue="{Binding CurrentCall.KindOfCall , Mode=TwoWay, NotifyOnValidationError=true, 
                   ValidatesOnExceptions=true}" Width="100"  ></ComboBox>

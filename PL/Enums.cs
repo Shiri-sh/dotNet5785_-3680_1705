@@ -14,6 +14,13 @@ internal class KindOfCallCollection : IEnumerable
 
     public IEnumerator GetEnumerator() => s_enums.GetEnumerator();
 }
+internal class CloseCallInListCollection : IEnumerable
+{
+    static readonly IEnumerable<BO.CloseCallInListObjects> s_enums =
+(Enum.GetValues(typeof(BO.CloseCallInListObjects)) as IEnumerable<BO.CloseCallInListObjects>)!;
+
+    public IEnumerator GetEnumerator() => s_enums.GetEnumerator();
+}
 internal class PositionCollection : IEnumerable
 {
     static readonly IEnumerable<BO.Position> s_enums =

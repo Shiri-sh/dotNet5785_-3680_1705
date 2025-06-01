@@ -5,6 +5,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <local:KindOfCallCollection x:Key="KindOfCallCollectionKey"/>
+        <local:CloseCallInListCollection x:Key="CloseCallInListCollectionKey"/>
         <local:StatusCollection x:Key="StatusCollectionKey"/>
         <local:PositionCollection x:Key="PositionCollectionKey"/>
         <local:TypeOfDistanceCollection x:Key="TypeOfDistanceCollectionKey"/>
@@ -12,6 +13,7 @@
         <local:ConverterAddCollapsedUpdateVissable x:Key="ConverterAddCollapsedUpdateVissableKey" />
         <local:ConverterAddWriteUpdateRead x:Key="ConverterAddWriteUpdateReadKey" />
         <local:ConverterClosedIrelavantTreatTreatnInRiskRead x:Key="ConverterClosedIrelavantTreatTreatnInRiskReadKey"/>
+        <local:ConverterClosedIrelavantTreatTreatnInRiskIEnable x:Key="ConverterClosedIrelavantTreatTreatnInRiskIEnableKey"/>
         <local:ConverterClosedIrelavantRead x:Key="ConverterClosedIrelavantReadKey"/>
         <local:ConverterEnumKindOfCallToColor x:Key="ConverterEnumKindOfCallToColorKey"/>
         <local:ConverterEnumStatusToColor x:Key="ConverterEnumStatusToColorKey"/>

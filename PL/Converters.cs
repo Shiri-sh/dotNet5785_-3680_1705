@@ -51,6 +51,19 @@ class ConverterClosedIrelavantTreatTreatnInRiskRead : IValueConverter
     }
 
 }
+class ConverterClosedIrelavantTreatTreatnInRiskIEnable : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        string status = (string)value;
+        return status != "Closed" && status != "Irelavant" && status != "BeingCared" && status != "TreatInRisk";
+    }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+
+}
 
 class ConverterClosedIrelavantRead : IValueConverter
 {
