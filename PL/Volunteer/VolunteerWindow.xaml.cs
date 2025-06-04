@@ -34,7 +34,7 @@ public partial class VolunteerWindow : Window
 
     public static readonly DependencyProperty CurrentVolunteerProperty =
         DependencyProperty.Register("CurrentVolunteer", typeof(BO.Volunteer), typeof(VolunteerWindow), new PropertyMetadata(null));
-    public VolunteerWindow(int id=0,BO.Position position=0)
+    public VolunteerWindow(int id=0,BO.Position position=BO.Position.Managar)
     {
         AddOrUpdate = id == 0 ? "Add" : "Update";
         UserPosition= position == 0 ? BO.Position.Managar : BO.Position.Volunteer;

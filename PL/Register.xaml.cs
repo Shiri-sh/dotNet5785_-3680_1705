@@ -43,10 +43,10 @@ namespace PL
                 BO.Position p = s_bl.Volunteer.Login(Id??0,Password);
                 if (p == BO.Position.Volunteer)
                 {
-                    new VolunteerWindow(Id ?? 0).Show();
+                    new VolunteerWindow(Id ?? 0,p).Show();
                 }
                 else { 
-
+                    new MainWindow().Show();
                 }
             }
             catch(Exception ex) {

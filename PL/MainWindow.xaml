@@ -50,7 +50,7 @@
             <Button Content="ResetDB" Click="btnResetDB_Click" Style="{StaticResource StandardButtonStyle}"></Button>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="1">
-            <Label Content="sum of calls by status"></Label>
+            <Label Content="sum of calls by status"/>
             <StackPanel Orientation="Horizontal">
                 <Button Tag="0"  Content="Being Cared" Click="btnShowCalls_Click"/>
                 <TextBlock Text="{Binding CallByStatus[0]}"/>

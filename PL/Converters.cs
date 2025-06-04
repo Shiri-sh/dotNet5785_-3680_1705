@@ -138,7 +138,7 @@ class ConverterEnumStatusToColor : IValueConverter
         throw new NotImplementedException();
     }
 }
-class ConverterEnableAndVisibilty : IValueConverter
+class ConverterEnableActive : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -154,12 +154,43 @@ class ConverterVisibiltyStackPanelForVolunteer : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        return (BO.Position)value == BO.Position.Volunteer ? true : false;
+        return (BO.Position)value == BO.Position.Volunteer ? Visibility.Visible : Visibility.Collapsed;
     }
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }
+
 }
 
+public class CallVisibilityMultiConverter : IValueConverter, IMultiValueConverter
+{
+    // לשימוש עם Binding רגיל
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return value == null ? Visibility.Collapsed : Visibility.Visible;
 
+    }
+
+    // לשימוש עם MultiBinding
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (values.Length < 2)
+            return Visibility.Collapsed;
+
+        bool isActive = values[0] is bool b1 && b1;
+        bool callInProgress = values[1] is bool b2 && b2;
+
+        return (isActive && !callInProgress) ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
