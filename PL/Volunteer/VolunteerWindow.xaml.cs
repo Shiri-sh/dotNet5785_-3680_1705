@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PL.Call;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -124,6 +125,37 @@ public partial class VolunteerWindow : Window
 
     private void updateEndCall_Click(object sender, RoutedEventArgs e)
     {
+        try
+        {
+            s_bl.Call.UpdateEndCall(CurrentVolunteer!.Id,CurrentVolunteer!.CallInProgress!.CallId);
+        }
+        catch(Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
+        }
+    }
+
+    private void chooseCall_Click(object sender, RoutedEventArgs e)
+    {
+        new ChooseCallInListWindow(CurrentVolunteer!.Id).Show();
+    }
+
+    private void updateCancelCall_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            s_bl.Call.UpdateCancelCall(CurrentVolunteer!.Id, CurrentVolunteer!.CallInProgress!.CallId);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"error: {ex.Message}");
+
+        }
+    }
+
+    private void showHistoryClosedCalls_Click(object sender, RoutedEventArgs e)
+    {
+        new HistoryCallOfVolunteer(CurrentVolunteer!.Id).Show();
     }
 }

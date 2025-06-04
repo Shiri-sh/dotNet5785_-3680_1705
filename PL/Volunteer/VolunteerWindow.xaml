@@ -35,6 +35,7 @@
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="50,15,0,15" Orientation="Vertical" HorizontalAlignment="Left" Width="auto">
 
             <!--id-->
+            <!--multyConverter update and manager-->
             <StackPanel Orientation="Horizontal">
                 <Label Content="id:"  Style="{StaticResource StandardLabelStyle}"/>
                 <TextBox IsReadOnly="{Binding AddOrUpdate, Converter={StaticResource ConverterAddWriteUpdateReadKey}}"
@@ -112,14 +113,16 @@
         </StackPanel>
         <StackPanel Visibility="{Binding UserPosition,Converter={StaticResource ConverterVisibiltyStackPanelForVolunteerKey}}">
             <StackPanel Visibility="{Binding CurrentVolunteer.CallInProgress, Converter={StaticResource ConverterEnableAndVisibilty}}">
-                <Button  Content="comlete call" Click="updateEndCall_Click"/>
-                <Button Content="cancel call" Click="updateCancelCall_Click"/>
+                <Button  Content="comlete treatment" Click="updateEndCall_Click"/>
+                <Button Content="cancel treatment" Click="updateCancelCall_Click"/>
             </StackPanel>
-
+            <!--multyConverter activ and without callinprogress-->
             <Button Visibility="{Binding CurrentVolunteer.CallInProgress, Converter={StaticResource ConverterEnableAndVisibilty}}" Content="choose new call" Click="chooseCall_Click"/>
+            <Button Content="calls history" Click="showHistoryClosedCalls_Click" Grid.Column="1" Height="50" Width="60" />
         </StackPanel>
   
             <Button Content="{Binding AddOrUpdate}" Click="btnAddUpdate_Click" Grid.Column="1" Height="50" Width="60" />
+        
   
 
     </Grid>
