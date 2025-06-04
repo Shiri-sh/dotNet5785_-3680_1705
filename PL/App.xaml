@@ -17,6 +17,7 @@
         <local:ConverterClosedIrelavantRead x:Key="ConverterClosedIrelavantReadKey"/>
         <local:ConverterEnumKindOfCallToColor x:Key="ConverterEnumKindOfCallToColorKey"/>
         <local:ConverterEnumStatusToColor x:Key="ConverterEnumStatusToColorKey"/>
-        <local:ConverterEnableActive x:Key="ConverterEnableActiveKey"/>
+        <local:ConverterEnableAndVisibilty x:Key="ConverterEnableAndVisibiltyKey"/>
+        <local:ConverterVisibiltyStackPanelForVolunteer x:Key="ConverterVisibiltyStackPanelForVolunteerKey"/>
     </Application.Resources>
 </Application>

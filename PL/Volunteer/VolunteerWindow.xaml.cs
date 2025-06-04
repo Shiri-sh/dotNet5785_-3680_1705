@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PL.Call;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,9 @@ public partial class VolunteerWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
     public string AddOrUpdate { get; set; } = "Add";
+    public BO.Position UserPosition { get; set; }
     private int Id = 0;
+    
     public BO.Volunteer? CurrentVolunteer
     {
         get { return (BO.Volunteer?)GetValue(CurrentVolunteerProperty); }
@@ -31,10 +34,10 @@ public partial class VolunteerWindow : Window
 
     public static readonly DependencyProperty CurrentVolunteerProperty =
         DependencyProperty.Register("CurrentVolunteer", typeof(BO.Volunteer), typeof(VolunteerWindow), new PropertyMetadata(null));
-    public VolunteerWindow(int id=0)
+    public VolunteerWindow(int id=0,BO.Position position=0)
     {
         AddOrUpdate = id == 0 ? "Add" : "Update";
-
+        UserPosition= position == 0 ? BO.Position.Managar : BO.Position.Volunteer;
         InitializeComponent();
         Id = id;
         CurrentVolunteer = (id != 0) ? s_bl.Volunteer.Read(id)! :
@@ -118,5 +121,41 @@ public partial class VolunteerWindow : Window
     {
         if (CurrentVolunteer != null && CurrentVolunteer.Id != 0)
             s_bl.Volunteer.RemoveObserver(CurrentVolunteer.Id, ObservedVolunteer);
+    }
+
+    private void updateEndCall_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            s_bl.Call.UpdateEndCall(CurrentVolunteer!.Id,CurrentVolunteer!.CallInProgress!.CallId);
+        }
+        catch(Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+        }
+    }
+
+    private void chooseCall_Click(object sender, RoutedEventArgs e)
+    {
+        new ChooseCallInListWindow(CurrentVolunteer!.Id).Show();
+    }
+
+    private void updateCancelCall_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            s_bl.Call.UpdateCancelCall(CurrentVolunteer!.Id, CurrentVolunteer!.CallInProgress!.CallId);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"error: {ex.Message}");
+
+        }
+    }
+
+    private void showHistoryClosedCalls_Click(object sender, RoutedEventArgs e)
+    {
+        new HistoryCallOfVolunteer(CurrentVolunteer!.Id).Show();
     }
 }
