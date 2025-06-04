@@ -138,7 +138,7 @@ class ConverterEnumStatusToColor : IValueConverter
         throw new NotImplementedException();
     }
 }
-class ConverterEnableActive : IValueConverter
+class ConverterEnableAndVisibilty : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -149,3 +149,17 @@ class ConverterEnableActive : IValueConverter
         throw new NotImplementedException();
     }
 }
+
+class ConverterVisibiltyStackPanelForVolunteer : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return (BO.Position)value == BO.Position.Volunteer ? true : false;
+    }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+
