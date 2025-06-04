@@ -22,8 +22,8 @@ namespace PL.Call;
 public partial class ChooseCallInListWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-    
-     public BO.KindOfCall KindOfCall { get; set; } = BO.KindOfCall.None;
+
+    public BO.KindOfCall KindOfCall { get; set; } = BO.KindOfCall.None;
     public string UpdateAddress { get; set; } = "";
 
     public ChooseCallInListWindow(int id)
@@ -62,10 +62,9 @@ public partial class ChooseCallInListWindow : Window
 
     private void queryCallList()
     {
-        OpenCallList = s_bl?.Call.GetOpenCallByVolunteer(CurrentVolunteer!.Id,KindOfCall,null)!.Where(c=>c.DistanceFromVol<=CurrentVolunteer.MaximumDistanceForReading)!;
+        OpenCallList = s_bl?.Call.GetOpenCallByVolunteer(CurrentVolunteer!.Id, KindOfCall, null)!.Where(c => c.DistanceFromVol <= CurrentVolunteer.MaximumDistanceForReading)!;
     }
-    private void FilterListByKindOfCall()
-    =>queryCallList();
+
     private void callListObserver()
     => queryCallList();
     private void ObservedVolunteer()
@@ -88,21 +87,6 @@ public partial class ChooseCallInListWindow : Window
         s_bl.Call.RemoveObserver(callListObserver);
     }
 
-    private void ChooseCallToTreat(object sender, MouseButtonEventArgs e)
-    {
-        try
-        {
-
-            if (SelectedCall != null && CurrentVolunteer != null && CurrentVolunteer.CallInProgress == null)
-                s_bl.Call.CooseCall(CurrentVolunteer!.Id, SelectedCall!.Id);
-        }
-        catch(Exception ex)
-        {
-            MessageBox.Show($"error:{ex}");
-        }
-
-    }
-
     private void DisplayDescription(object sender, MouseButtonEventArgs e)
     {
         MessageBox.Show($"description:{SelectedCall!.Description}");
@@ -110,7 +94,7 @@ public partial class ChooseCallInListWindow : Window
 
     private void UpdateAddress_click(object sender, RoutedEventArgs e)
     {
-       
+
         s_bl.Volunteer.UpdateVolunteer(CurrentVolunteer!.Id,
         new BO.Volunteer()
         {
@@ -132,5 +116,23 @@ public partial class ChooseCallInListWindow : Window
             CallInProgress = CurrentVolunteer?.CallInProgress,
 
         });
+    }
+
+    private void FilterListByKindOfCall(object sender, SelectionChangedEventArgs e)
+    
+            =>queryCallList();
+
+    private void ChooseCallToTreat(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+
+            if (SelectedCall != null && CurrentVolunteer != null && CurrentVolunteer.CallInProgress == null)
+                s_bl.Call.CooseCall(CurrentVolunteer!.Id, SelectedCall!.Id);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"error:{ex}");
+        }
     }
 }

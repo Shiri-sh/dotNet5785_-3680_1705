@@ -14,7 +14,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\logo-transparent-bacground.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\logo-transparent-bacground.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

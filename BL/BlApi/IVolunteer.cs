@@ -6,11 +6,11 @@ public interface IVolunteer: IObservable
     /// <summary>
     /// Logs in to the system.
     /// </summary>
-    /// <param name="username">Username</param>
+    /// <param name="id">Id</param>
     /// <param name="password">Password</param>
     /// <returns>Volunteer position</returns>
     /// <exception cref="BO.BlDoesNotExistException">Thrown if the volunteer is not found</exception>
-    BO.Position Login(string username, string password);
+    BO.Position Login(int id, string password);
     /// <summary>
     /// Reads all volunteers with optional filters and sorting.
     /// </summary>

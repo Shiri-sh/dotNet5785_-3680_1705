@@ -62,11 +62,11 @@ internal class VolunteerImplementation: IVolunteer
             throw new BO.BlNotAloudToDoException($"A volunteer with assignments cannot be deleted.");
 
     }
-    public BO.Position Login(string username, string password)
+    public BO.Position Login(int id, string password)
     {
 
-        var doVolunteer = _dal.Volunteer.Read(vol =>  vol.Name == username && vol.Password == password) ??
-               throw new BO.BlDoesNotExistException($"Volunteer with Name ={username} and Password={password} does Not exist");//need tocreate it later
+        var doVolunteer = _dal.Volunteer.Read(vol =>  vol.Id == id && vol.Password == password) ??
+               throw new BO.BlDoesNotExistException($"Volunteer with Id ={id} and Password={password} does Not exist");//need tocreate it later
         return (BO.Position)doVolunteer.Position;
     }
     public BO.Volunteer Read(int id)
