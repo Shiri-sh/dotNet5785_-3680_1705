@@ -20,10 +20,11 @@ namespace PL
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         //public int[]? CallByStatus { get; set; }
-        public MainWindow()
+        public int Id { get; set; }
+        public MainWindow(int id)
         {
             CallByStatus = s_bl.Call.CallByStatus();
-
+            Id = id;    
             InitializeComponent();
 
         }
@@ -122,11 +123,11 @@ namespace PL
         {
             if (sender is Button btn && btn.Tag is string roleTag)
             {
-                new CallListWindow((BO.Status)Enum.Parse(typeof(BO.Status), roleTag)).Show();
+                new CallListWindow(Id,(BO.Status)Enum.Parse(typeof(BO.Status), roleTag)).Show();
             }
             else
             {
-                new CallListWindow().Show();
+                new CallListWindow(Id).Show();
             }
         }
         private void InitializationOrReset(string which)

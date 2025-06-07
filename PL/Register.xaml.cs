@@ -45,9 +45,16 @@ namespace PL
                 {
                     new VolunteerWindow(Id ?? 0,p).Show();
                 }
-                else { 
-                    new MainWindow().Show();
-                }
+                else {
+                    var result = MessageBox.Show(
+                        "do you want enter to manager zone?",
+                        "choose window",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question);
+                    if( result == MessageBoxResult.Yes){
+                        new MainWindow(Id ?? 0).Show(); }
+                    else { new VolunteerWindow(Id ?? 0).Show(); };
+                }       
             }
             catch(Exception ex) {
                 MessageBox.Show($"{ex.Message}", "", MessageBoxButton.OK, MessageBoxImage.Information);

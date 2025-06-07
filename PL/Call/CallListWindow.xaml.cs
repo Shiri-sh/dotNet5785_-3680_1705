@@ -25,10 +25,11 @@ namespace PL.Call
         public BO.KindOfCall KindOfCall { get; set; } = BO.KindOfCall.None;
         public BO.Status Status { get; set; } = BO.Status.None;
 
-
+        public int Id { get; set; }
         public BO.CallInList? SelectedCall { get; set; }
-        public CallListWindow(BO.Status statusTofilter = BO.Status.None)
+        public CallListWindow(int id,BO.Status statusTofilter = BO.Status.None)
         {
+            Id = id;
             this.Status = statusTofilter;
             InitializeComponent();
 
