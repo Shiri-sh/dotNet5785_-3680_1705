@@ -24,15 +24,14 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="0*"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100*"/>
             <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="0" Grid.Column="0" Margin="50,15,0,15" Orientation="Vertical" HorizontalAlignment="Left" Width="auto">
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="50,15,0,15" Orientation="Vertical" HorizontalAlignment="Left" Width="auto">
 
             <!--id-->
             <StackPanel Orientation="Horizontal">
@@ -110,8 +109,8 @@
             
 
         </StackPanel >
-        <StackPanel Visibility="{Binding UserPosition,Converter={StaticResource ConverterVisibiltyStackPanelForVolunteerKey}}">
-            <StackPanel Visibility="{Binding CurrentVolunteer.CallInProgress, Converter={StaticResource CallVisibilityMultiConverterKey}}">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Visibility="{Binding UserPosition,Converter={StaticResource ConverterVisibiltyStackPanelForVolunteerKey}}">
+            <StackPanel Orientation="Horizontal" Visibility="{Binding CurrentVolunteer.CallInProgress, Converter={StaticResource CallVisibilityMultiConverterKey}}">
                 <Button  Content="comlete treatment" Click="updateEndCall_Click"/>
                 <Button Content="cancel treatment" Click="updateCancelCall_Click"/>
             </StackPanel>
@@ -123,10 +122,10 @@
                     </MultiBinding>
                 </Button.Visibility>
             </Button>
-            <Button  Content="calls history" Click="showHistoryClosedCalls_Click" Grid.Column="1" Height="50" Width="60" />
+            <Button  Content="calls history" Click="showHistoryClosedCalls_Click" />
+            <Button Content="{Binding AddOrUpdate}" Click="btnAddUpdate_Click" />
         </StackPanel>
 
-        <Button Content="{Binding AddOrUpdate}" Click="btnAddUpdate_Click" Grid.Column="1" Height="50" Width="60" />
 
     </Grid>
 </Window>
