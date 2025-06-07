@@ -28,8 +28,8 @@ public partial class ChooseCallInListWindow : Window
 
     public ChooseCallInListWindow(int id)
     {
-        InitializeComponent();
         CurrentVolunteer = s_bl.Volunteer.Read(id);
+        InitializeComponent();
     }
     public BO.OpenCallInList? SelectedCall
     {
