@@ -23,7 +23,6 @@ public partial class VolunteerWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
     public string AddOrUpdate { get; set; } = "Add";
-    public BO.Position UserPosition { get; set; }
     private int Id = 0;
     
     public BO.Volunteer? CurrentVolunteer
