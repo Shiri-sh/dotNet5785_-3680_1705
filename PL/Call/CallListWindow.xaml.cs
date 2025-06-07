@@ -109,7 +109,7 @@ namespace PL.Call
             {
                 try
                 {
-                    s_bl.Call.UpdateCancelCall(1234, SelectedCall!.CallId);
+                    s_bl.Call.UpdateCancelCall(Id, SelectedCall!.CallId);
                 }
                 catch (Exception ex)
                 {
