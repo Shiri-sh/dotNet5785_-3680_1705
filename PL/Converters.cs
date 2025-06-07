@@ -179,9 +179,9 @@ public class CallVisibilityMultiConverter : IValueConverter, IMultiValueConverte
             return Visibility.Collapsed;
 
         bool isActive = values[0] is bool b1 && b1;
-        bool callInProgress = values[1] is bool b2 && b2;
+        bool callInProgress = values[1] ==null?true:false;
 
-        return (isActive && !callInProgress) ? Visibility.Visible : Visibility.Collapsed;
+        return (isActive && callInProgress) ? Visibility.Visible : Visibility.Collapsed;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -190,6 +190,18 @@ public class CallVisibilityMultiConverter : IValueConverter, IMultiValueConverte
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+class ConverterEnableChangePosition:IValueConverter
+{
+    public object Convert(object values, Type targetType, object parameter, CultureInfo culture)
+    {
+        return (BO.Position)values == BO.Position.Managar;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }

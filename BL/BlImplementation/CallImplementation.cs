@@ -142,25 +142,24 @@ internal class CallImplementation : ICall
         }
         if (doAssign.TypeOfTreatmentTermination==null && doAssign.TreatmentEndTime == null)
         {
+            _dal.Assignment.Update(new DO.Assignment
+            {
+                Id = assignId,
+                VolunteerId = volunteerId,
+                CalledId = doAssign.CalledId,
+                TreatmentEntryTime = doAssign.TreatmentEntryTime,
+                TreatmentEndTime = AdminManager.Now,
+                TypeOfTreatmentTermination = DO.TypeOfTreatmentTermination.Handled,
+            });
+            CallManager.Observers.NotifyItemUpdated(assignId);
+            CallManager.Observers.NotifyListUpdated();
         }
         else
         {
-            throw new BO.BlNotAloudToDoException("you cant cancle a call if its alocation is open");
+            throw new BO.BlNotAloudToDoException("you cant comlete a call if its alocation is closed");
         }
         
-        _dal.Assignment.Update(new DO.Assignment
-        {
-            Id = assignId,
-            VolunteerId = volunteerId,
-            CalledId = doAssign.CalledId,
-            TreatmentEntryTime = doAssign.TreatmentEntryTime,
-            TreatmentEndTime = AdminManager.Now,
-            TypeOfTreatmentTermination = DO.TypeOfTreatmentTermination.Handled,
-        });
-        CallManager.Observers.NotifyItemUpdated(assignId);
-        CallManager.Observers.NotifyListUpdated();
-
-
+        
     }
     public void CooseCall(int volunteerId, int callId)
     {

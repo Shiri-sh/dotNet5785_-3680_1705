@@ -35,7 +35,6 @@
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="50,15,0,15" Orientation="Vertical" HorizontalAlignment="Left" Width="auto">
 
             <!--id-->
-            <!--multyConverter update and manager-->
             <StackPanel Orientation="Horizontal">
                 <Label Content="id:"  Style="{StaticResource StandardLabelStyle}"/>
                 <TextBox IsReadOnly="{Binding AddOrUpdate, Converter={StaticResource ConverterAddWriteUpdateReadKey}}"
@@ -63,7 +62,7 @@
                 <Label Content="position:"  Style="{StaticResource StandardLabelStyle}"/>
                 <ComboBox ItemsSource="{Binding Source={StaticResource PositionCollectionKey}}" 
                   SelectedValue="{Binding CurrentVolunteer.Position , Mode=TwoWay, NotifyOnValidationError=true, 
-                  ValidatesOnExceptions=true}" Width="100"  ></ComboBox>
+                  ValidatesOnExceptions=true}" Width="100" IsEnabled="{Binding CurrentVolunteer.Position,Converter={StaticResource ConverterEnableChangePositionKey}}" ></ComboBox>
             </StackPanel>
             <!--password-srting-->
             <StackPanel Orientation="Horizontal">
@@ -110,7 +109,7 @@
             </StackPanel>
             
 
-        </StackPanel>
+        </StackPanel >
         <StackPanel Visibility="{Binding UserPosition,Converter={StaticResource ConverterVisibiltyStackPanelForVolunteerKey}}">
             <StackPanel Visibility="{Binding CurrentVolunteer.CallInProgress, Converter={StaticResource CallVisibilityMultiConverterKey}}">
                 <Button  Content="comlete treatment" Click="updateEndCall_Click"/>

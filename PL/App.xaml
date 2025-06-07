@@ -20,5 +20,6 @@
         <local:ConverterEnableActive x:Key="ConverterEnableActiveKey"/>
         <local:ConverterVisibiltyStackPanelForVolunteer x:Key="ConverterVisibiltyStackPanelForVolunteerKey"/>
         <local:CallVisibilityMultiConverter x:Key="CallVisibilityMultiConverterKey"/>
+        <local:ConverterEnableChangePosition x:Key="ConverterEnableChangePositionKey"/>
     </Application.Resources>
 </Application>
