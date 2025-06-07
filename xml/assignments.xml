@@ -145,34 +145,10 @@
     <TypeOfTreatmentTermination />
   </Assignment>
   <Assignment>
-    <Id>19</Id>
-    <CalledId>19</CalledId>
-    <VolunteerId>268990092</VolunteerId>
-    <TreatmentEntryTime>2025-05-31T20:10:00</TreatmentEntryTime>
-    <TreatmentEndTime />
-    <TypeOfTreatmentTermination />
-  </Assignment>
-  <Assignment>
-    <Id>20</Id>
-    <CalledId>20</CalledId>
-    <VolunteerId>268990092</VolunteerId>
-    <TreatmentEntryTime>2025-05-31T22:10:00</TreatmentEntryTime>
-    <TreatmentEndTime />
-    <TypeOfTreatmentTermination />
-  </Assignment>
-  <Assignment>
     <Id>21</Id>
     <CalledId>21</CalledId>
     <VolunteerId>348144021</VolunteerId>
     <TreatmentEntryTime>2025-05-31T05:10:00</TreatmentEntryTime>
-    <TreatmentEndTime />
-    <TypeOfTreatmentTermination />
-  </Assignment>
-  <Assignment>
-    <Id>22</Id>
-    <CalledId>22</CalledId>
-    <VolunteerId>289715036</VolunteerId>
-    <TreatmentEntryTime>2025-05-31T10:10:00</TreatmentEntryTime>
     <TreatmentEndTime />
     <TypeOfTreatmentTermination />
   </Assignment>
@@ -399,5 +375,29 @@
     <TreatmentEntryTime>2025-05-31T04:00:00</TreatmentEntryTime>
     <TreatmentEndTime>2025-05-31T04:01:00</TreatmentEndTime>
     <TypeOfTreatmentTermination>CancellationExpired</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>22</Id>
+    <CalledId>22</CalledId>
+    <VolunteerId>289715036</VolunteerId>
+    <TreatmentEntryTime>2025-05-31T10:10:00</TreatmentEntryTime>
+    <TreatmentEndTime>2025-05-31T23:24:50</TreatmentEndTime>
+    <TypeOfTreatmentTermination>Handled</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>19</Id>
+    <CalledId>19</CalledId>
+    <VolunteerId>268990092</VolunteerId>
+    <TreatmentEntryTime>2025-05-31T20:10:00</TreatmentEntryTime>
+    <TreatmentEndTime>2025-05-31T23:24:50</TreatmentEndTime>
+    <TypeOfTreatmentTermination>Handled</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>20</Id>
+    <CalledId>20</CalledId>
+    <VolunteerId>268990092</VolunteerId>
+    <TreatmentEntryTime>2025-05-31T22:10:00</TreatmentEntryTime>
+    <TreatmentEndTime>2025-05-31T23:24:50</TreatmentEndTime>
+    <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
   </Assignment>
 </ArrayOfAssignment>

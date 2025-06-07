@@ -40,7 +40,8 @@ internal class AssignmentImplementation : IAssignment
           new XElement("CalledId", item.CalledId),
           new XElement("VolunteerId", item.VolunteerId),
           new XElement("TreatmentEntryTime", item.TreatmentEntryTime),
-          new XElement("TreatmentEndTime", item.TreatmentEndTime)
+          new XElement("TreatmentEndTime", item.TreatmentEndTime),
+          new XElement("TypeOfTreatmentTermination", item.TypeOfTreatmentTermination)
           );
         assignmentsRootElem.Add( assignmentsRoot);
         XMLTools.SaveListToXMLElement(assignmentsRootElem, Config.s_assignments_xml);
