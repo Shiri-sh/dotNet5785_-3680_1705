@@ -45,6 +45,7 @@ namespace PL.Volunteer
 
         private void queryClosedCallInList()
         {
+           
             ClosedCallInList =  s_bl?.Call.GetCloseCallByVolunteer(Id,KindOfCall,CloseCallInListObjects)! ;
         }
 

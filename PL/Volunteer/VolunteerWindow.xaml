@@ -109,7 +109,7 @@
             
 
         </StackPanel >
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Visibility="{Binding UserPosition,Converter={StaticResource ConverterVisibiltyStackPanelForVolunteerKey}}">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Visibility="{Binding CurrentVolunteer.Position ,Converter={StaticResource ConverterVisibiltyStackPanelForVolunteerKey}}">
             <StackPanel Orientation="Horizontal" Visibility="{Binding CurrentVolunteer.CallInProgress, Converter={StaticResource CallVisibilityMultiConverterKey}}">
                 <Button  Content="comlete treatment" Click="updateEndCall_Click"/>
                 <Button Content="cancel treatment" Click="updateCancelCall_Click"/>
@@ -125,7 +125,6 @@
             <Button  Content="calls history" Click="showHistoryClosedCalls_Click" />
             <Button Content="{Binding AddOrUpdate}" Click="btnAddUpdate_Click" />
         </StackPanel>
-
 
     </Grid>
 </Window>

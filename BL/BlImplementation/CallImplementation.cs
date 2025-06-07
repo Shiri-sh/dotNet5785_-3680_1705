@@ -201,7 +201,7 @@ internal class CallImplementation : ICall
                    TreatmentEndTime = assignment.TreatmentEndTime==null?null: assignment.TreatmentEndTime,
                    TypeOfTreatmentTermination = assignment.TypeOfTreatmentTermination==null?null:(BO.TypeOfTreatmentTermination)assignment.TypeOfTreatmentTermination,
                };
-        if (kindOfCall.HasValue)
+        if (kindOfCall.HasValue && kindOfCall!=BO.KindOfCall.None)
         {
             calls = calls.Where(c => c.KindOfCall == (BO.KindOfCall)kindOfCall.Value);
         }
@@ -209,18 +209,9 @@ internal class CallImplementation : ICall
         var propertyInfoSort = typeof(BO.ClosedCallInList).GetProperty(propertyInfo);
         
         if (objCloseCall != null)
-            {
-
-                calls = calls.OrderBy(c => propertyInfoSort.GetValue(c, null));
-            }
-            else
+                calls = calls.OrderBy(c => propertyInfoSort.GetValue(c, null));         
+        else
                 calls = calls.OrderBy(c => c.Id);
-        //string propertyName = feildToSort.ToString();
-        //var propertyInfo = typeof(BO.VolunteerInList).GetProperty(propertyName);
-        //if (propertyInfo != null)
-        //{
-        //    listOfVol = listOfVol.OrderBy(v => propertyInfo.GetValue(v, null));
-        //}
         return calls;
     }
     public IEnumerable<BO.OpenCallInList> GetOpenCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListFields? objOpenCall = null)
