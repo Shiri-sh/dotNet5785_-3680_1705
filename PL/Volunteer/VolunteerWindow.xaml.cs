@@ -38,7 +38,7 @@ public partial class VolunteerWindow : Window
     public VolunteerWindow(int id=0,BO.Position position=BO.Position.Managar)
     {
         AddOrUpdate = id == 0 ? "Add" : "Update";
-        UserPosition= position == 0 ? BO.Position.Managar : BO.Position.Volunteer;
+        UserPosition= position;
         InitializeComponent();
         Id = id;
         CurrentVolunteer = (id != 0) ? s_bl.Volunteer.Read(id)! :
