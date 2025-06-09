@@ -131,6 +131,12 @@ internal class CallImplementation : ICall
         });
         CallManager.Observers.NotifyItemUpdated(assignId);
         CallManager.Observers.NotifyListUpdated();
+
+        IVolunteer vol = new VolunteerImplementation();
+        var volunteer = vol.Read(volunteerId);
+        volunteer.CallInProgress = null;
+        vol.UpdateVolunteer(volunteer.Id,volunteer); //update the volunteer and the observer
+
     }
     public void UpdateEndCall(int volunteerId, int assignId)
     {
@@ -153,6 +159,11 @@ internal class CallImplementation : ICall
             });
             CallManager.Observers.NotifyItemUpdated(assignId);
             CallManager.Observers.NotifyListUpdated();
+
+            IVolunteer vol = new VolunteerImplementation();
+            var volunteer = vol.Read(volunteerId);
+            volunteer.CallInProgress = null;
+            vol.UpdateVolunteer(volunteer.Id, volunteer); //update the volunteer and the observer
         }
         else
         {
