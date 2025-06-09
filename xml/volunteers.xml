@@ -183,36 +183,22 @@
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>211164106</Id>
-    <Name>Sari Levin</Name>
-    <PhoneNumber>0511824906</PhoneNumber>
-    <Email> michalortzel@gmail.com </Email>
-    <Position>Volunteer</Position>
-    <Password>135142131132124141131178</Password>
-    <Active>true</Active>
-    <CurrentAddress>Rothschild Boulevard, Tel Aviv</CurrentAddress>
-    <Latitude>32.063229</Latitude>
-    <Longitude>34.774996</Longitude>
-    <MaximumDistanceForReading>1568</MaximumDistanceForReading>
-    <TypeOfDistance>Aerial</TypeOfDistance>
-  </Volunteer>
-  <Volunteer>
     <Id>252741594</Id>
-    <Name>Michal Ortel</Name>
+    <Name>Michal Orte</Name>
     <PhoneNumber>0513098877</PhoneNumber>
-    <Email> ys0583299134@gmail.com </Email>
+    <Email>ys0583299134@gmail.com</Email>
     <Position>Volunteer</Position>
     <Password>132139138122122136161120</Password>
     <Active>true</Active>
-    <CurrentAddress>HaYarkon Street 123, Tel Aviv</CurrentAddress>
-    <Latitude>32.089678</Latitude>
-    <Longitude>34.769126</Longitude>
+    <CurrentAddress>Even Gvirol 36, Elad</CurrentAddress>
+    <Latitude>32.0539178</Latitude>
+    <Longitude>34.9586121</Longitude>
     <MaximumDistanceForReading>146</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
     <Id>123456789</Id>
-    <Name>Meni managa</Name>
+    <Name>Meni managar</Name>
     <PhoneNumber>0525665732</PhoneNumber>
     <Email>managar@gmail.com</Email>
     <Position>Managar</Position>

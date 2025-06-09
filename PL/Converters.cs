@@ -198,7 +198,7 @@ class ConverterEnableChangePosition:IValueConverter
 {
     public object Convert(object values, Type targetType, object parameter, CultureInfo culture)
     {
-        return (BO.Position)values == BO.Position.Managar;
+        return (BO.Position)values != BO.Position.Managar;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

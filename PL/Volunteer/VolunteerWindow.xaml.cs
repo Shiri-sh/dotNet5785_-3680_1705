@@ -39,28 +39,30 @@ public partial class VolunteerWindow : Window
     {
         AddOrUpdate = id == 0 ? "Add" : "Update";
         UserPosition= position;
-        InitializeComponent();
         Id = id;
         CurrentVolunteer = (id != 0) ? s_bl.Volunteer.Read(id)! :
-            new BO.Volunteer() {
-                   Id                                 = 0,
-                   Name                                 = "",
-                   PhoneNumber                          = "",
-                   Email                                = "",
-                   Position                             = BO.Position.Volunteer,
-                   Password                             = "",
-                   Active                               = true,
-                   CurrentAddress                       = "",
-                   Latitude                             = 0,
-                   Longitude                            = 0,
-                   MaximumDistanceForReading            = 0,
-                   TypeOfDistance                       = BO.TypeOfDistance.Aerial,
-                   SumCancledCalls                      = 0,
-                   SumCaredCalls                        = 0,
-                   SumIrelevantCalls                    = 0,
-                   CallInProgress                       = null
+            new BO.Volunteer()
+            {
+                Id = 0,
+                Name = "",
+                PhoneNumber = "",
+                Email = "",
+                Position = BO.Position.Volunteer,
+                Password = "",
+                Active = true,
+                CurrentAddress = "",
+                Latitude = 0,
+                Longitude = 0,
+                MaximumDistanceForReading = 0,
+                TypeOfDistance = BO.TypeOfDistance.Aerial,
+                SumCancledCalls = 0,
+                SumCaredCalls = 0,
+                SumIrelevantCalls = 0,
+                CallInProgress = null
 
-             };
+            };
+        InitializeComponent();
+      
 
     }
     private bool formatCheck()
@@ -85,7 +87,6 @@ public partial class VolunteerWindow : Window
     }
     private void btnAddUpdate_Click(object sender, RoutedEventArgs e)
     {
-        MessageBox.Show(CurrentVolunteer?.Email, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
         try
         {
@@ -128,7 +129,7 @@ public partial class VolunteerWindow : Window
     {
         try
         {
-            s_bl.Call.UpdateEndCall(CurrentVolunteer!.Id,CurrentVolunteer!.CallInProgress!.CallId);
+            s_bl.Call.UpdateEndCall(CurrentVolunteer!.Id,CurrentVolunteer!.CallInProgress!.Id);
         }
         catch(Exception ex)
         {
@@ -146,7 +147,7 @@ public partial class VolunteerWindow : Window
     {
         try
         {
-            s_bl.Call.UpdateCancelCall(CurrentVolunteer!.Id, CurrentVolunteer!.CallInProgress!.CallId);
+            s_bl.Call.UpdateCancelCall(CurrentVolunteer!.Id, CurrentVolunteer!.CallInProgress!.Id);
         }
         catch (Exception ex)
         {
