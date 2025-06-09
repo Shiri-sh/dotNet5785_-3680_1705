@@ -53,7 +53,7 @@ namespace PL
                         MessageBoxImage.Question);
                     if( result == MessageBoxResult.Yes){
                         new MainWindow(Id ?? 0).Show(); }
-                    else { new VolunteerWindow(Id ?? 0,p).Show(); };
+                    else { new VolunteerWindow(Id ?? 0,BO.Position.Volunteer).Show(); };
                 }   
                 
             }

@@ -510,4 +510,14 @@
     <FinishTime>2025-06-01T03:00:00</FinishTime>
     <Description>Service for starting a stalled vehicle</Description>
   </Call>
+  <Call>
+    <Id>54</Id>
+    <KindOfCall>FirstAid</KindOfCall>
+    <AddressOfCall>Even Gvirol 13, Elad</AddressOfCall>
+    <Latitude>0</Latitude>
+    <Longitude>0</Longitude>
+    <OpeningTime>2025-05-31T23:24:50</OpeningTime>
+    <FinishTime xsi:nil="true" />
+    <Description>kid fall</Description>
+  </Call>
 </ArrayOfCall>
