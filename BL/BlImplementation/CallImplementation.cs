@@ -18,8 +18,8 @@ internal class CallImplementation : ICall
                 call.Id,
                 (DO.KindOfCall)call.KindOfCall,
                 call.AddressOfCall,
-                call.Latitude,
-                call.Longitude,
+                latLon[0],
+                latLon[1],
                 call.OpeningTime,
                 call.FinishTime,
                 call.Description

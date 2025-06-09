@@ -62,7 +62,7 @@ public partial class ChooseCallInListWindow : Window
 
     private void queryCallList()
     {
-        OpenCallList = s_bl?.Call.GetOpenCallByVolunteer(CurrentVolunteer!.Id, KindOfCall, null)!.Where(c => c.DistanceFromVol <= CurrentVolunteer.MaximumDistanceForReading)!;
+        OpenCallList = s_bl?.Call.GetOpenCallByVolunteer(CurrentVolunteer!.Id, KindOfCall==BO.KindOfCall.None?null:KindOfCall, null)!.Where(c => c.DistanceFromVol <= CurrentVolunteer.MaximumDistanceForReading)!;
     }
 
     private void callListObserver()

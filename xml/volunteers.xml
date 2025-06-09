@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfVolunteer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Volunteer>
-    <Id>123456789</Id>
-    <Name>Meni managar</Name>
-    <PhoneNumber>0525665732</PhoneNumber>
-    <Email>managar@gmail.com</Email>
-    <Position>Managar</Position>
-    <Password>man1234</Password>
-    <Active>true</Active>
-    <CurrentAddress>Even Gvirol 11, Elad</CurrentAddress>
-    <Latitude>32.0579</Latitude>
-    <Longitude>34</Longitude>
-    <MaximumDistanceForReading>913</MaximumDistanceForReading>
-    <TypeOfDistance>Aerial</TypeOfDistance>
-  </Volunteer>
-  <Volunteer>
     <Id>289715036</Id>
     <Name>Dani Levy</Name>
     <PhoneNumber>0578704040</PhoneNumber>
@@ -222,6 +208,20 @@
     <Latitude>32.089678</Latitude>
     <Longitude>34.769126</Longitude>
     <MaximumDistanceForReading>146</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>123456789</Id>
+    <Name>Meni managa</Name>
+    <PhoneNumber>0525665732</PhoneNumber>
+    <Email>managar@gmail.com</Email>
+    <Position>Managar</Position>
+    <Password>man1234</Password>
+    <Active>true</Active>
+    <CurrentAddress>Even Gvirol 11, Elad</CurrentAddress>
+    <Latitude>32.0539178</Latitude>
+    <Longitude>34.9586121</Longitude>
+    <MaximumDistanceForReading>913</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
 </ArrayOfVolunteer>

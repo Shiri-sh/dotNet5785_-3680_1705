@@ -43,8 +43,6 @@ namespace PL.Call
         public static readonly DependencyProperty CallListProperty =
             DependencyProperty.Register("CallList", typeof(IEnumerable<BO.CallInList>), typeof(CallListWindow), new PropertyMetadata(null));
 
-
-
         private void queryCallList()
         {
             CallList = (KindOfCall == BO.KindOfCall.None) ?
