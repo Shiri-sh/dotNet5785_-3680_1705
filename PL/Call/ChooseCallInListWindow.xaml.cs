@@ -94,7 +94,6 @@ public partial class ChooseCallInListWindow : Window
 
     private void UpdateAddress_click(object sender, RoutedEventArgs e)
     {
-
         s_bl.Volunteer.UpdateVolunteer(CurrentVolunteer!.Id,
         new BO.Volunteer()
         {
@@ -116,6 +115,7 @@ public partial class ChooseCallInListWindow : Window
             CallInProgress = CurrentVolunteer?.CallInProgress,
 
         });
+        queryCallList();
     }
 
     private void FilterListByKindOfCall(object sender, SelectionChangedEventArgs e)
@@ -126,9 +126,12 @@ public partial class ChooseCallInListWindow : Window
     {
         try
         {
-
             if (SelectedCall != null && CurrentVolunteer != null && CurrentVolunteer.CallInProgress == null)
+            {
                 s_bl.Call.CooseCall(CurrentVolunteer!.Id, SelectedCall!.Id);
+                MessageBox.Show($"choosen call succesfully:{CurrentVolunteer.CallInProgress}");
+            }
+            
         }
         catch (Exception ex)
         {

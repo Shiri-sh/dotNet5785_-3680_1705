@@ -78,6 +78,7 @@ public partial class CallWindow : Window
             else
             {
                 s_bl.Call.UpdateCall(CurrentCall!);
+
             }
             MessageBox.Show("Operation completed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();

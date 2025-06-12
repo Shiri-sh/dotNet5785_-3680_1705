@@ -43,9 +43,12 @@ internal class CallImplementation : ICall
     public IEnumerable<BO.CallInList> CallList(BO.CallInListObjects? objFilter = null, object? filterBy = null, BO.CallInListObjects? objSort = null)
     {
         IEnumerable<DO.Call> calls = _dal.Call.ReadAll();
-        
-        IEnumerable<BO.CallInList>  listOfCall=from c in calls
-                                               let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
+
+        IEnumerable<BO.CallInList> listOfCall = from c in calls
+                                                    //let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
+                                                let assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
+                                                                                .OrderByDescending(a => a.TreatmentEntryTime)
+                                                                                .FirstOrDefault()
                                                select new BO.CallInList
                                                {
                                                    Id = assignment?.Id,
@@ -53,17 +56,10 @@ internal class CallImplementation : ICall
                                                    KindOfCall = (BO.KindOfCall)c.KindOfCall,
                                                    OpeningTime = c.OpeningTime,
                                                    RemainingTimeToFinish = c.FinishTime - AdminManager.Now,
-                                                   LastVolunteer =assignment==null ? null:
-                                                   _dal.Volunteer.Read(v => v.Id ==
-                                                    _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
-                                                    .OrderByDescending(a => a.TreatmentEntryTime)
-                                                    .Select(a => a.VolunteerId)
-                                                    .FirstOrDefault())?.Name,
-
+                                                   LastVolunteer =assignment==null ? null: _dal.Volunteer.Read(v => v.Id ==assignment.VolunteerId)?.Name,
                                                    CompletionTime = assignment == null ? null : assignment.TreatmentEndTime == null ? null : assignment.TreatmentEndTime - c.OpeningTime,
                                                    Status = CallManager.GetStatus(c),
                                                    TotalAlocation = _dal.Assignment.ReadAll(a => a.CalledId == c.Id).Count(),
-
                                                };
         if (objFilter != null && filterBy != null)
         {
@@ -129,7 +125,7 @@ internal class CallImplementation : ICall
             TreatmentEndTime = AdminManager.Now,
             TypeOfTreatmentTermination = volPosition==BO.Position.Managar?DO.TypeOfTreatmentTermination.ConcellingAdministrator: DO.TypeOfTreatmentTermination.SelfCancellation,
         });
-        CallManager.Observers.NotifyItemUpdated(assignId);
+        CallManager.Observers.NotifyItemUpdated(doAssign.CalledId);
         CallManager.Observers.NotifyListUpdated();
         VolunteerManager.Observers.NotifyItemUpdated(doAssign.VolunteerId);
         VolunteerManager.Observers.NotifyListUpdated();
@@ -174,6 +170,10 @@ internal class CallImplementation : ICall
             throw new BO.BlNotAloudToDoException("the call has been handled or someone took it already or the call is irelevant");
         }
         _dal.Assignment.Create(new DO.Assignment { CalledId = callId, VolunteerId = volunteerId, TreatmentEntryTime = AdminManager.Now });
+        VolunteerManager.Observers.NotifyItemUpdated(volunteerId);
+        VolunteerManager.Observers.NotifyListUpdated();
+        CallManager.Observers.NotifyItemUpdated(callId);
+        CallManager.Observers.NotifyListUpdated();
     }
     public void DeleteCall(int id)
     {
@@ -189,6 +189,7 @@ internal class CallImplementation : ICall
         {
             throw new BO.BlNotAloudToDoException("You cant delete the call since it isn't open or someone took it");
         }
+      
     }
     public IEnumerable<BO.ClosedCallInList> GetCloseCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.CloseCallInListObjects? objCloseCall = null)
     {
@@ -220,6 +221,7 @@ internal class CallImplementation : ICall
     }
     public IEnumerable<BO.OpenCallInList> GetOpenCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListFields? objOpenCall = null)
     {
+        //כל ההקצאות הקימות
         List<int> callOfVol = _dal.Assignment.ReadAll().Select(a => a.CalledId).ToList();
         DO.Volunteer vol = _dal.Volunteer.Read(v => v.Id == VolunteerId);
         IEnumerable<BO.OpenCallInList> calls= _dal.Call.ReadAll().Where(c => !callOfVol.Contains(c.Id)).Select(c => new BO.OpenCallInList
@@ -297,6 +299,7 @@ internal class CallImplementation : ICall
             });
             CallManager.Observers.NotifyItemUpdated(call.Id);
             CallManager.Observers.NotifyListUpdated();
+
         }
         catch (DO.DalDoesNotExistException e)
         {

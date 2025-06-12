@@ -207,7 +207,7 @@
     <CurrentAddress>Even Gvirol 11, Elad</CurrentAddress>
     <Latitude>32.0539178</Latitude>
     <Longitude>34.9586121</Longitude>
-    <MaximumDistanceForReading>913</MaximumDistanceForReading>
+    <MaximumDistanceForReading>5</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
 </ArrayOfVolunteer>

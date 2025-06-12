@@ -37,6 +37,7 @@
                 <DataGridTextColumn Binding="{Binding RemainingTimeToFinish}" Header="RemainingTimeToFinish" Width="Auto"/>
                 <DataGridTextColumn Binding="{Binding LastVolunteer}" Header="LastVolunteer" Width="Auto"/>
                 <DataGridTextColumn Binding="{Binding CompletionTime}" Header="CompletionTime" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding TotalAlocation}" Header="TotalAlocation" Width="Auto"/>
                 <DataGridTextColumn Binding="{Binding KindOfCall}" Header="KindOfCall" Width="Auto"  >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">

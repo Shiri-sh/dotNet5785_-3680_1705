@@ -1,4 +1,5 @@
-﻿using PL.Call;
+﻿using BO;
+using PL.Call;
 using PL.Volunteer;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace PL.Call
             Id = id;
             this.Status = statusTofilter;
             InitializeComponent();
-
+            
         }
         public IEnumerable<BO.CallInList> CallList
         {
@@ -88,7 +89,8 @@ namespace PL.Call
             {
                 try
                 {
-                    s_bl.Call.DeleteCall(SelectedCall!.CallId);
+                    if (SelectedCall.Id == null) throw new Exception("choose call to delete");
+                    s_bl.Call.DeleteCall(SelectedCall.Id??0);
                 }
                 catch (Exception ex)
                 {
@@ -107,7 +109,8 @@ namespace PL.Call
             {
                 try
                 {
-                    s_bl.Call.UpdateCancelCall(Id, SelectedCall!.CallId);
+                    if (SelectedCall.Id == null) throw new Exception("choose call to cencel");
+                    s_bl.Call.UpdateCancelCall(Id, SelectedCall.Id??0);
                 }
                 catch (Exception ex)
                 {
