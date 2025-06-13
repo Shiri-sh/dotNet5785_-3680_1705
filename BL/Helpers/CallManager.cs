@@ -29,7 +29,7 @@ internal static class CallManager
         if (assignments==null&& AdminManager.Now + s_dal.Config.RiskRange > call.FinishTime)
             return BO.Status.OpenInRisk;
         //מחפש אם יש הקצאה לקריאה שמטופלת עכשיו ולא עבר זמנה
-        if (call.FinishTime > AdminManager.Now && null == assignments.FirstOrDefault(a => a.TreatmentEndTime == null))
+        if (call.FinishTime > AdminManager.Now && null == assignments.FirstOrDefault(a=>a.TypeOfTreatmentTermination==DO.TypeOfTreatmentTermination.Handled))
             return BO.Status.Open;
         //מתנדב סים לטפל בה
         if (null!=assignments.FirstOrDefault(a => a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled))

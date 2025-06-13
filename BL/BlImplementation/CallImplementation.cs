@@ -225,11 +225,11 @@ internal class CallImplementation : ICall
         IEnumerable<DO.Call> listcalls = _dal.Call.ReadAll();
 
         IEnumerable<BO.OpenCallInList> calls = from c in listcalls
+                                               //מחפש הקצאה לקריאה שהסתימה בטיפול או שעבר הזמן
                                             let assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
-                                                                            .OrderByDescending(a => a.TreatmentEntryTime)
-                                                                            .FirstOrDefault()
-                                            where (assignment==null||assignment?.TypeOfTreatmentTermination!=DO.TypeOfTreatmentTermination.Handled)
-                                                  && assignment?.TypeOfTreatmentTermination!=DO.TypeOfTreatmentTermination.CancellationExpired 
+                                                                            .FirstOrDefault(a => a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled ||a.TypeOfTreatmentTermination== DO.TypeOfTreatmentTermination.CancellationExpired)
+                                               where assignment==null
+                                                  
 
                                                select new BO.OpenCallInList
                                             {

@@ -131,7 +131,8 @@ public partial class ChooseCallInListWindow : Window
                 s_bl.Call.CooseCall(CurrentVolunteer!.Id, SelectedCall!.Id);
                 MessageBox.Show($"choosen call succesfully:{CurrentVolunteer.CallInProgress}");
             }
-            
+            else
+                MessageBox.Show("you cant take another call, first finish with your current call");
         }
         catch (Exception ex)
         {
