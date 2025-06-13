@@ -100,7 +100,6 @@ public partial class VolunteerWindow : Window
                 s_bl.Volunteer.UpdateVolunteer(Id, CurrentVolunteer!);
             }
             MessageBox.Show("Operation completed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            this.Close();
         }
         catch (Exception ex) {
             MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);

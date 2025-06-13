@@ -58,6 +58,7 @@ public partial class CallWindow : Window
     }
     private bool FormatChecking()
     {
+        //time check!!!
         if (CurrentCall?.KindOfCall == BO.KindOfCall.None)
             throw new Exception("Choose king of call");
         if (CurrentCall?.AddressOfCall == "" || CurrentCall?.AddressOfCall == null)

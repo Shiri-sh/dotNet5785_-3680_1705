@@ -17,7 +17,7 @@ internal class CallImplementation : ICall
             _dal.Call.Create(new(
                 call.Id,
                 (DO.KindOfCall)call.KindOfCall,
-                call.AddressOfCall,
+                call.AddressOfCall!,
                 latLon[0],
                 latLon[1],
                 call.OpeningTime,
@@ -45,7 +45,6 @@ internal class CallImplementation : ICall
         IEnumerable<DO.Call> calls = _dal.Call.ReadAll();
 
         IEnumerable<BO.CallInList> listOfCall = from c in calls
-                                                    //let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
                                                 let assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
                                                                                 .OrderByDescending(a => a.TreatmentEntryTime)
                                                                                 .FirstOrDefault()
@@ -63,7 +62,7 @@ internal class CallImplementation : ICall
                                                };
         if (objFilter != null && filterBy != null)
         {
-            var propertyInfo = typeof(BO.CallInList).GetProperty(objFilter.ToString());
+            var propertyInfo = typeof(BO.CallInList).GetProperty(objFilter.ToString()!);
             if (propertyInfo != null)
             {
                 object convertedFilterBy = filterBy;
@@ -71,23 +70,23 @@ internal class CallImplementation : ICall
                 // אם סוג המאפיין הוא enum או nullable enum – מבצעים המרה
                 if (propertyInfo.PropertyType.IsEnum)
                 {
-                    convertedFilterBy = Enum.Parse(propertyInfo.PropertyType, filterBy.ToString());
+                    convertedFilterBy = Enum.Parse(propertyInfo.PropertyType, filterBy.ToString()!);
                 }
                 else if (Nullable.GetUnderlyingType(propertyInfo.PropertyType)?.IsEnum == true)
                 {
-                    Type enumType = Nullable.GetUnderlyingType(propertyInfo.PropertyType);
-                    convertedFilterBy = Enum.Parse(enumType, filterBy.ToString());
+                    Type enumType = Nullable.GetUnderlyingType(propertyInfo.PropertyType)!;
+                    convertedFilterBy = Enum.Parse(enumType!, filterBy.ToString()!);
                 }
 
                 listOfCall = from c in listOfCall
                              where propertyInfo.GetValue(c) != null &&
-                                   propertyInfo.GetValue(c).Equals(convertedFilterBy)
+                                   propertyInfo.GetValue(c)!.Equals(convertedFilterBy)
                              select c;
             }
         }
         if (objSort != null)
         {
-            var propertyInfoSort = typeof(BO.CallInList).GetProperty(objSort.ToString());
+            var propertyInfoSort = typeof(BO.CallInList).GetProperty(objSort.ToString()!);
             if (propertyInfoSort != null)
             {
                 listOfCall = from c in listOfCall
@@ -108,7 +107,7 @@ internal class CallImplementation : ICall
     {
         DO.Assignment doAssign = _dal.Assignment.Read(a => a.Id == assignId)??
              throw new BO.BlDoesNotExistException($"assignt with {assignId} does not exist");
-        BO.Position volPosition=(BO.Position)_dal.Volunteer.Read(v=>v.Id==volunteerId).Position;
+        BO.Position volPosition=(BO.Position)_dal.Volunteer.Read(v=>v.Id==volunteerId)!.Position;
         if (volPosition != BO.Position.Managar && volunteerId != doAssign.VolunteerId)
         {
             throw new BO.BlNotAloudToDoException("only a managar can cancle a call or the volunteer that took the call");
@@ -210,38 +209,47 @@ internal class CallImplementation : ICall
         {
             calls = calls.Where(c => c.KindOfCall == (BO.KindOfCall)kindOfCall.Value);
         }
-        string propertyInfo = objCloseCall.ToString();
+        string propertyInfo = objCloseCall.ToString()!;
         var propertyInfoSort = typeof(BO.ClosedCallInList).GetProperty(propertyInfo);
         
         if (objCloseCall != null)
-                calls = calls.OrderBy(c => propertyInfoSort.GetValue(c, null));         
+                calls = calls.OrderBy(c => propertyInfoSort!.GetValue(c, null));         
         else
                 calls = calls.OrderBy(c => c.Id);
         return calls;
     }
-    public IEnumerable<BO.OpenCallInList> GetOpenCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListFields? objOpenCall = null)
+    public IEnumerable<BO.OpenCallInList> GetOpenCallByVolunteer(int volunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListFields? objOpenCall = null)
     {
         //כל ההקצאות הקימות
-        List<int> callOfVol = _dal.Assignment.ReadAll().Select(a => a.CalledId).ToList();
-        DO.Volunteer vol = _dal.Volunteer.Read(v => v.Id == VolunteerId);
-        IEnumerable<BO.OpenCallInList> calls= _dal.Call.ReadAll().Where(c => !callOfVol.Contains(c.Id)).Select(c => new BO.OpenCallInList
-        {
-            Id = c.Id,
-            KindOfCall = (BO.KindOfCall)c.KindOfCall,
-            AddressOfCall = c.AddressOfCall,
-            OpeningTime = c.OpeningTime,
-            FinishTime=c.FinishTime,
-            Description=c.Description,
-            DistanceFromVol=Tools.GetDistance(vol,c)
-        });
+        DO.Volunteer vol = _dal.Volunteer.Read(v=>v.Id==volunteerId)!;
+        IEnumerable<DO.Call> listcalls = _dal.Call.ReadAll();
+
+        IEnumerable<BO.OpenCallInList> calls = from c in listcalls
+                                            let assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
+                                                                            .OrderByDescending(a => a.TreatmentEntryTime)
+                                                                            .FirstOrDefault()
+                                            where (assignment==null||assignment?.TypeOfTreatmentTermination!=DO.TypeOfTreatmentTermination.Handled)
+                                                  && assignment?.TypeOfTreatmentTermination!=DO.TypeOfTreatmentTermination.CancellationExpired 
+
+                                               select new BO.OpenCallInList
+                                            {
+                                                Id = c.Id,
+                                                KindOfCall = (BO.KindOfCall)c.KindOfCall,
+                                                AddressOfCall = c.AddressOfCall,
+                                                OpeningTime = c.OpeningTime,
+                                                FinishTime = c.FinishTime,
+                                                Description = c.Description,
+                                                DistanceFromVol = Tools.GetDistance(vol, c)
+                                            };
+
         if (kindOfCall.HasValue)
         {
             calls = calls.Where(c => c.KindOfCall == (BO.KindOfCall)kindOfCall.Value);
         }
             if (objOpenCall != null)
             {
-                var propertyInfoSort = typeof(BO.OpenCallInList).GetProperty(objOpenCall.ToString());
-                calls = calls.OrderBy(c => propertyInfoSort.GetValue(c, null));
+                var propertyInfoSort = typeof(BO.OpenCallInList).GetProperty(objOpenCall.ToString()!);
+                calls = calls.OrderBy(c => propertyInfoSort!.GetValue(c, null));
             }
             else
                 calls = calls.OrderBy(c => c.Id);
@@ -290,7 +298,7 @@ internal class CallImplementation : ICall
             {
                 Id = call.Id,
                 KindOfCall = (DO.KindOfCall)call.KindOfCall,
-                AddressOfCall = call.AddressOfCall,
+                AddressOfCall = call.AddressOfCall!,
                 Latitude = latLon[0],
                 Longitude = latLon[1],
                 OpeningTime = call.OpeningTime,

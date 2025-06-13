@@ -62,7 +62,7 @@ public interface ICall: IObservable
     /// <returns>A collection of closed calls assigned to the volunteer.</returns>
     IEnumerable<BO.ClosedCallInList> GetCloseCallByVolunteer(int volunteerId, BO.KindOfCall? kindOfCall=null, BO.CloseCallInListObjects? objCloseCall=null);
     /// <summary>
-    /// Retrieves a list of open calls assigned to a volunteer.
+    /// Retrieves a list of open calls that the volunteer can choose from.
     /// </summary>
     /// <param name="VolunteerId">The unique identifier of the volunteer.</param>
     /// <param name="kindOfCall">The optional kind of call filter to apply (e.g., emergency, routine, etc.).</param>

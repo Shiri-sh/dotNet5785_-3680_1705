@@ -29,12 +29,7 @@
         </Grid.RowDefinitions>
       
         <StackPanel Grid.Row="0"  Margin="50,15,0,15" Orientation="Vertical" HorizontalAlignment="Left" Width="auto">
-            <!--id--><!--
-            <StackPanel Orientation="Horizontal">
-                <Label Content="id:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBlock Text="{Binding CurrentCall.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  Width="100"  ></TextBlock>
-            </StackPanel>-->
-            <!--KindOfCall-->
+           
             <StackPanel Orientation="Horizontal">
                 <Label Content="KindOfCall:"  Style="{StaticResource StandardLabelStyle}"/>
                 <ComboBox IsEnabled="{Binding StatusOfCall, Converter={StaticResource ConverterClosedIrelavantTreatTreatnInRiskIEnableKey}}"
@@ -60,13 +55,13 @@
             <StackPanel Orientation="Horizontal">
                 <Label Content="FinishTime:"  Style="{StaticResource StandardLabelStyle}"/>
                 <TextBox IsReadOnly="{Binding StatusOfCall, Converter={StaticResource ConverterClosedIrelavantReadKey}}"
-                         Text="{Binding CurrentCall.FinishTime, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBox>
+                         Text="{Binding CurrentCall.FinishTime, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="auto"  ></TextBox>
             </StackPanel>
             
             <!--OpeningTime-->
             <StackPanel Orientation="Horizontal">
                 <Label Content="OpeningTime:"  Style="{StaticResource StandardLabelStyle}"/>
-                <TextBlock Text="{Binding CurrentCall.OpeningTime, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="100"  ></TextBlock>
+                <TextBlock Text="{Binding CurrentCall.OpeningTime, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Width="auto"  ></TextBlock>
             </StackPanel>
             
             <!--Status-->
