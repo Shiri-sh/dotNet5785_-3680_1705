@@ -15,7 +15,8 @@ internal class CallImplementation : ICall
         try
         {
             CallManager.ValidateCall(call);
-            _dal.Call.Create(new(
+            lock (AdminManager.BlMutex)
+                _dal.Call.Create(new(
                 call.Id,
                 (DO.KindOfCall)call.KindOfCall,
                 call.AddressOfCall!,
@@ -34,33 +35,41 @@ internal class CallImplementation : ICall
     public int[] CallByStatus()
     {
         int[] sumCallByStatus = new int[6];
-        var groupedCalls = CallList().GroupBy(x => (int)x.Status);
-        foreach (var group in groupedCalls)
+        lock (AdminManager.BlMutex)
         {
-            sumCallByStatus[group.Key] = group.Count();
+            var groupedCalls = CallList().GroupBy(x => (int)x.Status);
+            foreach (var group in groupedCalls)
+            {
+                sumCallByStatus[group.Key] = group.Count();
+            }
         }
         return sumCallByStatus;
     }
     public IEnumerable<BO.CallInList> CallList(BO.CallInListObjects? objFilter = null, object? filterBy = null, BO.CallInListObjects? objSort = null)
     {
-        IEnumerable<DO.Call> calls = _dal.Call.ReadAll();
+        IEnumerable<BO.CallInList> listOfCall;
+        lock (AdminManager.BlMutex)
+        {
+            IEnumerable<DO.Call> calls = _dal.Call.ReadAll();
 
-        IEnumerable<BO.CallInList> listOfCall = from c in calls
-                                                let assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
-                                                                                .OrderByDescending(a => a.TreatmentEntryTime)
-                                                                                .FirstOrDefault()
-                                               select new BO.CallInList
-                                               {
-                                                   Id = assignment?.Id,
-                                                   CallId = c.Id,
-                                                   KindOfCall = (BO.KindOfCall)c.KindOfCall,
-                                                   OpeningTime = c.OpeningTime,
-                                                   RemainingTimeToFinish = c.FinishTime - AdminManager.Now,
-                                                   LastVolunteer =assignment==null ? null: _dal.Volunteer.Read(v => v.Id ==assignment.VolunteerId)?.Name,
-                                                   CompletionTime = assignment == null ? null : assignment.TreatmentEndTime == null ? null : assignment.TreatmentEndTime - c.OpeningTime,
-                                                   Status = CallManager.GetStatus(c),
-                                                   TotalAlocation = _dal.Assignment.ReadAll(a => a.CalledId == c.Id).Count(),
-                                               };
+            listOfCall = from c in calls
+                        let assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
+                                                        .OrderByDescending(a => a.TreatmentEntryTime)
+                                                        .FirstOrDefault()
+                        select new BO.CallInList
+                        {
+                            Id = assignment?.Id,
+                            CallId = c.Id,
+                            KindOfCall = (BO.KindOfCall)c.KindOfCall,
+                            OpeningTime = c.OpeningTime,
+                            RemainingTimeToFinish = c.FinishTime - AdminManager.Now,
+                            LastVolunteer = assignment == null ? null : _dal.Volunteer.Read(v => v.Id == assignment.VolunteerId)?.Name,
+                            CompletionTime = assignment == null ? null : assignment.TreatmentEndTime == null ? null : assignment.TreatmentEndTime - c.OpeningTime,
+                            Status = CallManager.GetStatus(c),
+                            TotalAlocation = _dal.Assignment.ReadAll(a => a.CalledId == c.Id).Count(),
+                        };
+
+        }
         if (objFilter != null && filterBy != null)
         {
             var propertyInfo = typeof(BO.CallInList).GetProperty(objFilter.ToString()!);
@@ -107,9 +116,15 @@ internal class CallImplementation : ICall
     public void UpdateCancelCall(int volunteerId, int assignId)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-        DO.Assignment doAssign = _dal.Assignment.Read(a => a.Id == assignId)??
+        DO.Assignment doAssign;
+        BO.Position volPosition;
+        lock (AdminManager.BlMutex)
+        {
+             doAssign = _dal.Assignment.Read(a => a.Id == assignId) ??
              throw new BO.BlDoesNotExistException($"assignt with {assignId} does not exist");
-        BO.Position volPosition=(BO.Position)_dal.Volunteer.Read(v=>v.Id==volunteerId)!.Position;
+             volPosition = (BO.Position)_dal.Volunteer.Read(v => v.Id == volunteerId)!.Position;
+        }
+           
         if (volPosition != BO.Position.Managar && volunteerId != doAssign.VolunteerId)
         {
             throw new BO.BlNotAloudToDoException("only a managar can cancle a call or the volunteer that took the call");
@@ -117,15 +132,16 @@ internal class CallImplementation : ICall
         if((doAssign.TypeOfTreatmentTermination==DO.TypeOfTreatmentTermination.Handled || doAssign.TypeOfTreatmentTermination==DO.TypeOfTreatmentTermination.CancellationExpired) && doAssign.TreatmentEndTime!=null) {
             throw new BO.BlNotAloudToDoException("you cant cancle a call if its alocation is open");
         }
-        _dal.Assignment.Update(new DO.Assignment
-        {
-            Id = assignId,
-            VolunteerId = volunteerId,
-            CalledId = doAssign.CalledId,
-            TreatmentEntryTime = doAssign.TreatmentEntryTime,
-            TreatmentEndTime = AdminManager.Now,
-            TypeOfTreatmentTermination = volPosition==BO.Position.Managar?DO.TypeOfTreatmentTermination.ConcellingAdministrator: DO.TypeOfTreatmentTermination.SelfCancellation,
-        });
+        lock (AdminManager.BlMutex)
+            _dal.Assignment.Update(new DO.Assignment
+            {
+                Id = assignId,
+                VolunteerId = volunteerId,
+                CalledId = doAssign.CalledId,
+                TreatmentEntryTime = doAssign.TreatmentEntryTime,
+                TreatmentEndTime = AdminManager.Now,
+                TypeOfTreatmentTermination = volPosition==BO.Position.Managar?DO.TypeOfTreatmentTermination.ConcellingAdministrator: DO.TypeOfTreatmentTermination.SelfCancellation,
+            });
         CallManager.Observers.NotifyItemUpdated(doAssign.CalledId);
         CallManager.Observers.NotifyListUpdated();
         VolunteerManager.Observers.NotifyItemUpdated(doAssign.VolunteerId);
@@ -134,7 +150,9 @@ internal class CallImplementation : ICall
     public void UpdateEndCall(int volunteerId, int assignId)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-        DO.Assignment doAssign = _dal.Assignment.Read(a => a.Id == assignId)??
+        DO.Assignment doAssign;
+        lock (AdminManager.BlMutex)
+           doAssign = _dal.Assignment.Read(a => a.Id == assignId)??
            throw new BO.BlDoesNotExistException($"assignt with {assignId} does not exist");
         if (doAssign.VolunteerId!=volunteerId)
         {
@@ -142,15 +160,16 @@ internal class CallImplementation : ICall
         }
         if (doAssign.TypeOfTreatmentTermination==null && doAssign.TreatmentEndTime == null)
         {
-            _dal.Assignment.Update(new DO.Assignment
-            {
-                Id = assignId,
-                VolunteerId = volunteerId,
-                CalledId = doAssign.CalledId,
-                TreatmentEntryTime = doAssign.TreatmentEntryTime,
-                TreatmentEndTime = AdminManager.Now,
-                TypeOfTreatmentTermination = DO.TypeOfTreatmentTermination.Handled,
-            });
+            lock (AdminManager.BlMutex)
+                _dal.Assignment.Update(new DO.Assignment
+                {
+                    Id = assignId,
+                    VolunteerId = volunteerId,
+                    CalledId = doAssign.CalledId,
+                    TreatmentEntryTime = doAssign.TreatmentEntryTime,
+                    TreatmentEndTime = AdminManager.Now,
+                    TypeOfTreatmentTermination = DO.TypeOfTreatmentTermination.Handled,
+                });
             CallManager.Observers.NotifyItemUpdated(assignId);
             CallManager.Observers.NotifyListUpdated();
             VolunteerManager.Observers.NotifyItemUpdated(doAssign.VolunteerId);
@@ -166,13 +185,19 @@ internal class CallImplementation : ICall
     public void CooseCall(int volunteerId, int callId)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-        DO.Call? call = _dal.Call.Read(c => c.Id == callId);
-        DO.Assignment? assign = _dal.Assignment.Read(a => a.CalledId == callId && (a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled || a.TypeOfTreatmentTermination==null));
+        DO.Call? call;
+        DO.Assignment? assign;
+        lock (AdminManager.BlMutex)
+        {
+            call = _dal.Call.Read(c => c.Id == callId);
+            assign = _dal.Assignment.Read(a => a.CalledId == callId && (a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled || a.TypeOfTreatmentTermination == null));
+        }
         if(assign!=null && assign.TypeOfTreatmentTermination==DO.TypeOfTreatmentTermination.CancellationExpired)
         {
             throw new BO.BlNotAloudToDoException("the call has been handled or someone took it already or the call is irelevant");
         }
-        _dal.Assignment.Create(new DO.Assignment { CalledId = callId, VolunteerId = volunteerId, TreatmentEntryTime = AdminManager.Now });
+        lock (AdminManager.BlMutex)
+            _dal.Assignment.Create(new DO.Assignment { CalledId = callId, VolunteerId = volunteerId, TreatmentEntryTime = AdminManager.Now });
         VolunteerManager.Observers.NotifyItemUpdated(volunteerId);
         VolunteerManager.Observers.NotifyListUpdated();
         CallManager.Observers.NotifyItemUpdated(callId);
@@ -181,12 +206,20 @@ internal class CallImplementation : ICall
     public void DeleteCall(int id)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-        DO.Call doCall = _dal.Call.Read(cal => cal.Id == id)?? throw new BO.BlDoesNotExistException($"call with {id} does Not exist");
-        IEnumerable<DO.Assignment>? a = _dal.Assignment.ReadAll(a => a.CalledId == doCall.Id);
-        BO.Status st = CallManager.GetStatus(doCall);
+        DO.Call doCall;
+        IEnumerable<DO.Assignment>? a;
+        BO.Status st;
+        lock (AdminManager.BlMutex)
+        {
+            doCall = _dal.Call.Read(cal => cal.Id == id) ?? throw new BO.BlDoesNotExistException($"call with {id} does Not exist");
+            a = _dal.Assignment.ReadAll(a => a.CalledId == doCall.Id);
+            st = CallManager.GetStatus(doCall);
+        }
+            
         if (st== BO.Status.Open &&  a.Count()==0)
         {
-            _dal.Call.Delete(doCall.Id);
+            lock (AdminManager.BlMutex)
+                _dal.Call.Delete(doCall.Id);
             CallManager.Observers.NotifyListUpdated();
         }
         else
@@ -197,19 +230,25 @@ internal class CallImplementation : ICall
     }
     public IEnumerable<BO.ClosedCallInList> GetCloseCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.CloseCallInListObjects? objCloseCall = null)
     {
-        List<int> callOfVol = _dal.Assignment.ReadAll().Where(a => a.VolunteerId == VolunteerId && a.TreatmentEndTime != null).Select(a => a.CalledId).ToList();
-        IEnumerable<BO.ClosedCallInList> calls = from c in _dal.Call.ReadAll().Where(c => callOfVol.Contains(c.Id))
-                                                let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
-               select new BO.ClosedCallInList
-               {
-                   Id = c.Id,
-                   KindOfCall = (BO.KindOfCall)c.KindOfCall,
-                   AddressOfCall = c.AddressOfCall,
-                   OpeningTime = c.OpeningTime,
-                   TreatmentEntryTime = assignment.TreatmentEntryTime,
-                   TreatmentEndTime = assignment.TreatmentEndTime==null?null: assignment.TreatmentEndTime,
-                   TypeOfTreatmentTermination = assignment.TypeOfTreatmentTermination==null?null:(BO.TypeOfTreatmentTermination)assignment.TypeOfTreatmentTermination,
-               };
+        List<int> callOfVol;
+        IEnumerable<BO.ClosedCallInList> calls;
+        lock (AdminManager.BlMutex)
+        {
+            callOfVol = _dal.Assignment.ReadAll().Where(a => a.VolunteerId == VolunteerId && a.TreatmentEndTime != null).Select(a => a.CalledId).ToList();
+            calls= from c in _dal.Call.ReadAll().Where(c => callOfVol.Contains(c.Id))
+                                                     let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
+                                                     select new BO.ClosedCallInList
+                                                     {
+                                                         Id = c.Id,
+                                                         KindOfCall = (BO.KindOfCall)c.KindOfCall,
+                                                         AddressOfCall = c.AddressOfCall,
+                                                         OpeningTime = c.OpeningTime,
+                                                         TreatmentEntryTime = assignment.TreatmentEntryTime,
+                                                         TreatmentEndTime = assignment.TreatmentEndTime == null ? null : assignment.TreatmentEndTime,
+                                                         TypeOfTreatmentTermination = assignment.TypeOfTreatmentTermination == null ? null : (BO.TypeOfTreatmentTermination)assignment.TypeOfTreatmentTermination,
+                                                     };
+        }
+           
         if (kindOfCall.HasValue && kindOfCall!=BO.KindOfCall.None)
         {
             calls = calls.Where(c => c.KindOfCall == (BO.KindOfCall)kindOfCall.Value);
@@ -226,26 +265,31 @@ internal class CallImplementation : ICall
     public IEnumerable<BO.OpenCallInList> GetOpenCallByVolunteer(int volunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListFields? objOpenCall = null)
     {
         //כל ההקצאות הקימות
-        DO.Volunteer vol = _dal.Volunteer.Read(v=>v.Id==volunteerId)!;
-        IEnumerable<DO.Call> listcalls = _dal.Call.ReadAll();
+        DO.Volunteer vol;
+        IEnumerable<DO.Call> listcalls;
+        IEnumerable<BO.OpenCallInList> calls;
+        lock (AdminManager.BlMutex)
+        {
+            vol = _dal.Volunteer.Read(v => v.Id == volunteerId)!;
+            listcalls = _dal.Call.ReadAll();
+            calls = from c in listcalls
+                        //מחפש הקצאה לקריאה שהסתימה בטיפול או שעבר הזמן
+                    let assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
+                                                    .FirstOrDefault(a => a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled || a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.CancellationExpired)
+                    where assignment == null
 
-        IEnumerable<BO.OpenCallInList> calls = from c in listcalls
-                                               //מחפש הקצאה לקריאה שהסתימה בטיפול או שעבר הזמן
-                                            let assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
-                                                                            .FirstOrDefault(a => a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled ||a.TypeOfTreatmentTermination== DO.TypeOfTreatmentTermination.CancellationExpired)
-                                               where assignment==null
-                                                  
 
-                                               select new BO.OpenCallInList
-                                            {
-                                                Id = c.Id,
-                                                KindOfCall = (BO.KindOfCall)c.KindOfCall,
-                                                AddressOfCall = c.AddressOfCall,
-                                                OpeningTime = c.OpeningTime,
-                                                FinishTime = c.FinishTime,
-                                                Description = c.Description,
-                                                DistanceFromVol = Tools.GetDistance(vol, c)
-                                            };
+                    select new BO.OpenCallInList
+                    {
+                        Id = c.Id,
+                        KindOfCall = (BO.KindOfCall)c.KindOfCall,
+                        AddressOfCall = c.AddressOfCall,
+                        OpeningTime = c.OpeningTime,
+                        FinishTime = c.FinishTime,
+                        Description = c.Description,
+                        DistanceFromVol = Tools.GetDistance(vol, c)
+                    };
+        }
 
         if (kindOfCall.HasValue)
         {
@@ -262,19 +306,25 @@ internal class CallImplementation : ICall
     }
     public BO.Call ReadCall(int id)
     {
-        DO.Call doCall= _dal.Call.Read(cal => cal.Id == id)??
-            throw new BO.BlDoesNotExistException($"call with {id} does Not exist");
-        List<BO.CallAssignInList> callAssignInList = _dal.Assignment.ReadAll(a => a.CalledId == id)
-                                                                   .Select(a => new BO.CallAssignInList
-                                                                   {
-                                                                       VolunteerId = a.VolunteerId,
-                                                                       VolunteerName = _dal.Volunteer.Read(v => v.Id == a.VolunteerId)?.Name,
-                                                                       TreatmentEntryTime = a.TreatmentEntryTime,
-                                                                       TreatmentEndTime = a.TreatmentEndTime == null ? null : a.TreatmentEndTime,
-                                                                       TypeOfTreatmentTermination = a.TypeOfTreatmentTermination.HasValue
-                                                                                                    ? (BO.TypeOfTreatmentTermination?)a.TypeOfTreatmentTermination.Value
-                                                                                                    : null
-                                                                   }).ToList();
+        DO.Call doCall;
+        List<BO.CallAssignInList> callAssignInList;
+        lock (AdminManager.BlMutex)
+        {
+           doCall = _dal.Call.Read(cal => cal.Id == id) ??
+           throw new BO.BlDoesNotExistException($"call with {id} does Not exist");
+           callAssignInList = _dal.Assignment.ReadAll(a => a.CalledId == id)
+                                                                       .Select(a => new BO.CallAssignInList
+                                                                       {
+                                                                           VolunteerId = a.VolunteerId,
+                                                                           VolunteerName = _dal.Volunteer.Read(v => v.Id == a.VolunteerId)?.Name,
+                                                                           TreatmentEntryTime = a.TreatmentEntryTime,
+                                                                           TreatmentEndTime = a.TreatmentEndTime == null ? null : a.TreatmentEndTime,
+                                                                           TypeOfTreatmentTermination = a.TypeOfTreatmentTermination.HasValue
+                                                                                                        ? (BO.TypeOfTreatmentTermination?)a.TypeOfTreatmentTermination.Value
+                                                                                                        : null
+                                                                       }).ToList();
+
+        }
         return new BO.Call
         {
             Id = id,
@@ -300,17 +350,18 @@ internal class CallImplementation : ICall
         try
         {
             CallManager.ValidateCall(call);
-            _dal.Call.Update(new DO.Call
-            {
-                Id = call.Id,
-                KindOfCall = (DO.KindOfCall)call.KindOfCall,
-                AddressOfCall = call.AddressOfCall!,
-                Latitude = latLon[0],
-                Longitude = latLon[1],
-                OpeningTime = call.OpeningTime,
-                FinishTime = call.FinishTime,
-                Description = call.Description,
-            });
+            lock (AdminManager.BlMutex)
+                _dal.Call.Update(new DO.Call
+                {
+                    Id = call.Id,
+                    KindOfCall = (DO.KindOfCall)call.KindOfCall,
+                    AddressOfCall = call.AddressOfCall!,
+                    Latitude = latLon[0],
+                    Longitude = latLon[1],
+                    OpeningTime = call.OpeningTime,
+                    FinishTime = call.FinishTime,
+                    Description = call.Description,
+                });
             CallManager.Observers.NotifyItemUpdated(call.Id);
             CallManager.Observers.NotifyListUpdated();
 
