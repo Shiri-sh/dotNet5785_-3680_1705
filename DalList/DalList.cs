@@ -20,6 +20,5 @@ sealed internal class DalList : IDal
         Call.DeleteAll();
         Assignment.DeleteAll();
         Config.Reset();
-
     }
 }

@@ -14,6 +14,7 @@ internal class VolunteerImplementation: IVolunteer
 
     public void AddVolunteer(BO.Volunteer boVolunteer)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();
         double[]? latLon = boVolunteer.CurrentAddress == null ? null : Tools.GetCoordinates(boVolunteer.CurrentAddress);
         try
         {
@@ -47,6 +48,7 @@ internal class VolunteerImplementation: IVolunteer
     }
     public void DeleteVolunteer(int id)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();
         DO.Assignment? assignment = _dal.Assignment.Read(assign=>assign.VolunteerId==id);
         if (assignment == null)
         {
@@ -150,6 +152,7 @@ internal class VolunteerImplementation: IVolunteer
     }
     public void UpdateVolunteer(int id, BO.Volunteer volunteer)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();
         //המתנדב קיים במערכת
         DO.Volunteer doVolunteer = _dal.Volunteer.Read(vol => vol.Id == volunteer.Id)??
             throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
@@ -197,5 +200,4 @@ internal class VolunteerImplementation: IVolunteer
     public void RemoveObserver(int id, Action observer) =>
     VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
     #endregion Stage 5
-
 }

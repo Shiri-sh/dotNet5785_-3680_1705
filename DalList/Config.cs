@@ -1,4 +1,5 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using System.Runtime.CompilerServices;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Dal;
 /// <summary>
@@ -16,20 +17,21 @@ namespace Dal;
 internal static class Config
 {
     //risk range, after 15 minutes the assigment is at risk
-    internal static TimeSpan RiskRange { get; set; } = TimeSpan.FromMinutes(15);
+    internal static TimeSpan RiskRange { [MethodImpl(MethodImplOptions.Synchronized)]  get; [MethodImpl(MethodImplOptions.Synchronized)] set; } = TimeSpan.FromMinutes(15);
 
     //count call id auto
     internal const int startCallId = 1;
     private static int nextCallId = startCallId;
-    internal static int NextCallId { get => nextCallId++; }
+    internal static int NextCallId { [MethodImpl(MethodImplOptions.Synchronized)] get => nextCallId++; }
 
     ///count auto
     internal const int startAssignmentId = 1;
     private static int nextAssignmentId = startAssignmentId;
-    internal static int NextAssignmentId { get => nextAssignmentId++; }
+    internal static int NextAssignmentId { [MethodImpl(MethodImplOptions.Synchronized)] get => nextAssignmentId++; }
 
     //clock
-    internal static DateTime Clock { get; set; } = DateTime.Now;
+    internal static DateTime Clock { [MethodImpl(MethodImplOptions.Synchronized)]  get; [MethodImpl(MethodImplOptions.Synchronized)]  set; } = DateTime.Now;
+    [MethodImpl(MethodImplOptions.Synchronized)]
     internal static void Reset()
     {
         nextCallId = 0;
@@ -37,5 +39,4 @@ internal static class Config
         Clock = DateTime.Now;
         RiskRange = TimeSpan.FromMinutes(15);
     }
-
 }

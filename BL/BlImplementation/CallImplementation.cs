@@ -7,6 +7,7 @@ internal class CallImplementation : ICall
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
     public void AddCall(BO.Call call)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();
         double[]? latLon = call.AddressOfCall == null ? null : Tools.GetCoordinates(call.AddressOfCall);
         if (latLon == null) {
              throw new BO.BlInvalidDataException("Address not exist");
@@ -105,6 +106,7 @@ internal class CallImplementation : ICall
     }
     public void UpdateCancelCall(int volunteerId, int assignId)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();
         DO.Assignment doAssign = _dal.Assignment.Read(a => a.Id == assignId)??
              throw new BO.BlDoesNotExistException($"assignt with {assignId} does not exist");
         BO.Position volPosition=(BO.Position)_dal.Volunteer.Read(v=>v.Id==volunteerId)!.Position;
@@ -131,6 +133,7 @@ internal class CallImplementation : ICall
     }
     public void UpdateEndCall(int volunteerId, int assignId)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();
         DO.Assignment doAssign = _dal.Assignment.Read(a => a.Id == assignId)??
            throw new BO.BlDoesNotExistException($"assignt with {assignId} does not exist");
         if (doAssign.VolunteerId!=volunteerId)
@@ -162,6 +165,7 @@ internal class CallImplementation : ICall
     }
     public void CooseCall(int volunteerId, int callId)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();
         DO.Call? call = _dal.Call.Read(c => c.Id == callId);
         DO.Assignment? assign = _dal.Assignment.Read(a => a.CalledId == callId && (a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled || a.TypeOfTreatmentTermination==null));
         if(assign!=null && assign.TypeOfTreatmentTermination==DO.TypeOfTreatmentTermination.CancellationExpired)
@@ -176,6 +180,7 @@ internal class CallImplementation : ICall
     }
     public void DeleteCall(int id)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();
         DO.Call doCall = _dal.Call.Read(cal => cal.Id == id)?? throw new BO.BlDoesNotExistException($"call with {id} does Not exist");
         IEnumerable<DO.Assignment>? a = _dal.Assignment.ReadAll(a => a.CalledId == doCall.Id);
         BO.Status st = CallManager.GetStatus(doCall);
@@ -286,6 +291,7 @@ internal class CallImplementation : ICall
     }
     public void UpdateCall(BO.Call call)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();
         double[]? latLon = call.AddressOfCall == null ? null : Tools.GetCoordinates(call.AddressOfCall);
         if (latLon == null)
         {

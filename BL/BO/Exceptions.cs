@@ -41,4 +41,10 @@ public class BlInvalidDataException : Exception
     public BlInvalidDataException(string? message) : base(message) { }
 
 }
+public class BLTemporaryNotAvailableException : Exception
+{
+    public BLTemporaryNotAvailableException(string? message) : base(message) { }
+
+}
+
 

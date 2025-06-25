@@ -12,6 +12,7 @@ namespace BlImplementation;
 internal class AdminImplementation:IAdmin
 {
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
+    
     public DateTime GetClock()
        => AdminManager.Now;
 
@@ -21,16 +22,21 @@ internal class AdminImplementation:IAdmin
       => AdminManager.NextCallId;
     public int GetNextAssignmentId()
        => AdminManager.NextAssignmentId;
+    
     public void UpdateRiskRange(TimeSpan riskRange) => AdminManager.RiskRange = riskRange;
 
     //אתחול
     public void Initialization()
     {
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         AdminManager.InitializeDB();
+
     }
 
     public void Reset()
     {
+
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         AdminManager.ResetDB();
     }
 
@@ -55,4 +61,14 @@ internal class AdminImplementation:IAdmin
     public void RemoveConfigObserver(Action configObserver) =>
     AdminManager.ConfigUpdatedObservers -= configObserver;
     #endregion Stage 5
+    #region 7
+    public void StartSimulator(int interval)  //stage 7
+    {
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
+        AdminManager.Start(interval); //stage 7
+    }
+
+    public void StopSimulator()
+    => AdminManager.Stop(); //stage 7
+    #endregion 7
 }
