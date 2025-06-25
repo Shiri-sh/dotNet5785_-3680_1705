@@ -63,8 +63,9 @@ internal static class CallManager
     }
     internal static void UpdateOpenCallNotRelevant(DateTime clock)
     {
-        var calls = s_bl.Call.CallList();
-        calls = calls.Where(c => c.CompletionTime == null && c.RemainingTimeToFinish == TimeSpan.Zero);
+        List<BO.CallInList> calls;
+        lock (AdminManager.BlMutex)
+             calls = s_bl.Call.CallList().Where(c => c.CompletionTime == null && c.RemainingTimeToFinish == TimeSpan.Zero).ToList();
         foreach(var c in calls)
         {
             if (c.TotalAlocation == 0)
@@ -100,7 +101,6 @@ internal static class CallManager
                 
             }
         }
-        if(calls!=null)
             Observers.NotifyListUpdated(); //stage 5
 
     }

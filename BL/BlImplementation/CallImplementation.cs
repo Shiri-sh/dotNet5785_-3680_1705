@@ -277,8 +277,6 @@ internal class CallImplementation : ICall
                     let assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
                                                     .FirstOrDefault(a => a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled || a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.CancellationExpired)
                     where assignment == null
-
-
                     select new BO.OpenCallInList
                     {
                         Id = c.Id,
