@@ -33,8 +33,8 @@ internal class VolunteerImplementation: IVolunteer
             boVolunteer.MaximumDistanceForReading,
             (DO.TypeOfDistance)boVolunteer.TypeOfDistance
         );
-       
-            _dal.Volunteer.Create(doVolunteer);
+            lock (AdminManager.BlMutex)
+                _dal.Volunteer.Create(doVolunteer);
             VolunteerManager.Observers.NotifyListUpdated();
         }
         catch (DO.DalAlreadyExistsException ex)
@@ -49,144 +49,159 @@ internal class VolunteerImplementation: IVolunteer
     public void DeleteVolunteer(int id)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-        DO.Assignment? assignment = _dal.Assignment.Read(assign=>assign.VolunteerId==id);
-        if (assignment == null)
+        lock (AdminManager.BlMutex)
         {
-            try
+            DO.Assignment? assignment = _dal.Assignment.Read(assign => assign.VolunteerId == id);
+            if (assignment == null)
             {
-                _dal.Volunteer.Delete(id);
-                VolunteerManager.Observers.NotifyListUpdated();
+                try
+                {
+                    lock (AdminManager.BlMutex)
+                        _dal.Volunteer.Delete(id);
+                    VolunteerManager.Observers.NotifyListUpdated();
 
+                }
+                catch (DO.DalDoesNotExistException ex) { throw new BO.BlDoesNotExistException($"Volunteer with {id} does Not exist"); }
             }
-            catch (DO.DalDoesNotExistException ex) { throw new BO.BlDoesNotExistException($"Volunteer with {id} does Not exist"); }
+            else
+                throw new BO.BlNotAloudToDoException($"A volunteer with assignments cannot be deleted.");
         }
-        else
-            throw new BO.BlNotAloudToDoException($"A volunteer with assignments cannot be deleted.");
-
     }
     public BO.Position Login(int id, string password)
     {
+        lock (AdminManager.BlMutex)
+        {
+            var doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id && vol.Password == password) ?? throw new BO.BlDoesNotExistException($"Volunteer with Id ={id} and Password={password} does Not exist");//need tocreate it later
 
-        var doVolunteer = _dal.Volunteer.Read(vol =>  vol.Id == id && vol.Password == password) ??
-               throw new BO.BlDoesNotExistException($"Volunteer with Id ={id} and Password={password} does Not exist");//need tocreate it later
-        return (BO.Position)doVolunteer.Position;
+            return (BO.Position)doVolunteer.Position;
+        }
     }
     public BO.Volunteer Read(int id)
     {
-        DO.Volunteer? doVolunteer;
-        doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id)??
-                 throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
-        ICall call=new CallImplementation();
-        DO.Assignment? assignment=_dal.Assignment.Read(a=>a.VolunteerId== id && a.TreatmentEndTime == null);
-        DO.Call? callInProgress = assignment==null?null:_dal.Call.Read(c => c.Id == assignment.CalledId);
-        return new()
+        lock (AdminManager.BlMutex)
         {
-            Id = id,
-            Name = doVolunteer.Name,
-            PhoneNumber = doVolunteer.PhoneNumber,
-            Email = doVolunteer.Email,
-            Position = (BO.Position)doVolunteer.Position,
-            Password = doVolunteer.Password,
-            Active = doVolunteer.Active,
-            CurrentAddress = doVolunteer.CurrentAddress,
-            Latitude = doVolunteer.Latitude,
-            Longitude = doVolunteer.Longitude,
-            MaximumDistanceForReading = doVolunteer?.MaximumDistanceForReading,
-            TypeOfDistance = (BO.TypeOfDistance)doVolunteer.TypeOfDistance,
-            SumCancledCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
-            SumCaredCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
-            SumIrelevantCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
-            CallInProgress = callInProgress!=null ? new BO.CallInProgress{
-                            Id=assignment.Id,
-                            CallId= assignment.CalledId,
-                            KindOfCall= (BO.KindOfCall)callInProgress.KindOfCall,
-                            AddressOfCall= callInProgress.AddressOfCall,
-                            OpeningTime= callInProgress.OpeningTime,
-                            FinishTime= callInProgress.FinishTime,
-                            Description = callInProgress.Description,
-                            TreatmentEntryTime= assignment.TreatmentEntryTime,
-                            DistanceFromVolunteer= Tools.GetDistance(doVolunteer,callInProgress),//////dont know if this good parameters
-                            Status=  CallManager.StatusCallInProgress(callInProgress)
-            }:null
-        };
+            DO.Volunteer? doVolunteer;
+            doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id) ??
+                     throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
+            ICall call = new CallImplementation();
+            DO.Assignment? assignment = _dal.Assignment.Read(a => a.VolunteerId == id && a.TreatmentEndTime == null);
+            DO.Call? callInProgress = assignment == null ? null : _dal.Call.Read(c => c.Id == assignment.CalledId);
+            return new()
+            {
+                Id = id,
+                Name = doVolunteer.Name,
+                PhoneNumber = doVolunteer.PhoneNumber,
+                Email = doVolunteer.Email,
+                Position = (BO.Position)doVolunteer.Position,
+                Password = doVolunteer.Password,
+                Active = doVolunteer.Active,
+                CurrentAddress = doVolunteer.CurrentAddress,
+                Latitude = doVolunteer.Latitude,
+                Longitude = doVolunteer.Longitude,
+                MaximumDistanceForReading = doVolunteer?.MaximumDistanceForReading,
+                TypeOfDistance = (BO.TypeOfDistance)doVolunteer.TypeOfDistance,
+                SumCancledCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
+                SumCaredCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
+                SumIrelevantCalls = call.GetCloseCallByVolunteer(id).Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
+                CallInProgress = callInProgress != null ? new BO.CallInProgress
+                {
+                    Id = assignment.Id,
+                    CallId = assignment.CalledId,
+                    KindOfCall = (BO.KindOfCall)callInProgress.KindOfCall,
+                    AddressOfCall = callInProgress.AddressOfCall,
+                    OpeningTime = callInProgress.OpeningTime,
+                    FinishTime = callInProgress.FinishTime,
+                    Description = callInProgress.Description,
+                    TreatmentEntryTime = assignment.TreatmentEntryTime,
+                    DistanceFromVolunteer = Tools.GetDistance(doVolunteer, callInProgress),//////dont know if this good parameters
+                    Status = CallManager.StatusCallInProgress(callInProgress)
+                } : null
+            };
+        }
     }
     public IEnumerable<BO.VolunteerInList> ReadAll(bool? activity = null, BO.VoluteerInListObjects? feildToSort = null, object? valueOfFilter=null)
     {
-        IEnumerable<DO.Volunteer> volunteers = _dal.Volunteer.ReadAll();
-        volunteers = activity == null ? volunteers.Select(item => item) : volunteers.Where(v => v.Active == activity);
-        ICall call = new CallImplementation();
-        IEnumerable<BO.VolunteerInList> listOfVol= from v in volunteers
-               let closeCalls = call.GetCloseCallByVolunteer(v.Id)
-               let assign= _dal.Assignment.Read(a => a.VolunteerId == v.Id && a.TreatmentEndTime == null)
-               select new BO.VolunteerInList
-               {
-                   Id = v.Id,
-                   Name = v.Name,
-                   Active = v.Active,
-                   SumCancledCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
-                   SumCaredCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
-                   SumIrelevantCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
-                   IdOfCall = assign?.CalledId??null,
-                   KindOfCall = assign==null ? null : (BO.KindOfCall)_dal.Call.Read(a => a.Id == assign.CalledId).KindOfCall
-
-               };
-        if (feildToSort == null)
+        lock (AdminManager.BlMutex)
         {
-            return listOfVol.OrderBy(v => v.Id);
-        }
-        string propertyName = feildToSort.ToString();
-        var propertyInfo = typeof(BO.VolunteerInList).GetProperty(propertyName);
-        if (propertyInfo != null)
-        {
-            if (valueOfFilter == null)
-                return listOfVol.OrderBy(v => propertyInfo.GetValue(v, null));
-            else
-                return listOfVol.Where(v=>
-                {
-                    var propValue = propertyInfo.GetValue(v, null);
-                    return object.Equals(propValue, valueOfFilter);
-                });
+            IEnumerable<DO.Volunteer> volunteers = _dal.Volunteer.ReadAll();
+            volunteers = activity == null ? volunteers.Select(item => item) : volunteers.Where(v => v.Active == activity);
+            ICall call = new CallImplementation();
+            IEnumerable<BO.VolunteerInList> listOfVol = from v in volunteers
+                                                        let closeCalls = call.GetCloseCallByVolunteer(v.Id)
+                                                        let assign = _dal.Assignment.Read(a => a.VolunteerId == v.Id && a.TreatmentEndTime == null)
+                                                        select new BO.VolunteerInList
+                                                        {
+                                                            Id = v.Id,
+                                                            Name = v.Name,
+                                                            Active = v.Active,
+                                                            SumCancledCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
+                                                            SumCaredCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
+                                                            SumIrelevantCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
+                                                            IdOfCall = assign?.CalledId ?? null,
+                                                            KindOfCall = assign == null ? null : (BO.KindOfCall)_dal.Call.Read(a => a.Id == assign.CalledId).KindOfCall
 
+                                                        };
+            if (feildToSort == null)
+            {
+                return listOfVol.OrderBy(v => v.Id);
+            }
+            string propertyName = feildToSort.ToString();
+            var propertyInfo = typeof(BO.VolunteerInList).GetProperty(propertyName);
+            if (propertyInfo != null)
+            {
+                if (valueOfFilter == null)
+                    return listOfVol.OrderBy(v => propertyInfo.GetValue(v, null));
+                else
+                    return listOfVol.Where(v =>
+                    {
+                        var propValue = propertyInfo.GetValue(v, null);
+                        return object.Equals(propValue, valueOfFilter);
+                    });
+
+            }
+            return listOfVol;
         }
-        return listOfVol;
     }
     public void UpdateVolunteer(int id, BO.Volunteer volunteer)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
         //המתנדב קיים במערכת
-        DO.Volunteer doVolunteer = _dal.Volunteer.Read(vol => vol.Id == volunteer.Id)??
+        lock (AdminManager.BlMutex)
+        {
+            DO.Volunteer doVolunteer = _dal.Volunteer.Read(vol => vol.Id == volunteer.Id) ??
             throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
-        DO.Volunteer voluRequest = _dal.Volunteer.Read(vol => vol.Id == id) ?? 
-            throw new BO.BlDoesNotExistException($"someone with ID={id} does Not exist");
-        //המעדכן הוא מנהל או האדם עצמו
-        if ( id!= volunteer.Id && voluRequest.Position!=DO.Position.Managar)
-        {
-            throw new BO.BlNotAloudToDoException("Only a managar can update a volunteer or the volunteer himself");
+            DO.Volunteer voluRequest = _dal.Volunteer.Read(vol => vol.Id == id) ??
+                throw new BO.BlDoesNotExistException($"someone with ID={id} does Not exist");
+            //המעדכן הוא מנהל או האדם עצמו
+            if (id != volunteer.Id && voluRequest.Position != DO.Position.Managar)
+            {
+                throw new BO.BlNotAloudToDoException("Only a managar can update a volunteer or the volunteer himself");
+            }
+            // בדיקת תקינות של הנתונים שהוזנו
+            VolunteerManager.ValidateVolunteer(volunteer);
+            //בדיקת שינויים בשדות מסוימים
+            if ((volunteer.Position != (BO.Position)doVolunteer.Position || volunteer.Active != doVolunteer.Active) && voluRequest.Position != DO.Position.Managar)
+            {
+                throw new BO.BlNotAloudToDoException("Only a managar can update the volunteer's Position");
+            }
+            // עדכון הנתונים במערכת
+            double[]? latLon = volunteer.CurrentAddress == null ? null : Tools.GetCoordinates(volunteer.CurrentAddress);
+            _dal.Volunteer.Update(new DO.Volunteer
+            {
+                Id = volunteer.Id,
+                PhoneNumber = volunteer.PhoneNumber,
+                Name = volunteer.Name,
+                Email = volunteer.Email,
+                Longitude = latLon?[1],
+                Latitude = latLon?[0],
+                Position = (DO.Position)volunteer.Position,
+                Password = volunteer.Password,
+                Active = volunteer.Active,
+                CurrentAddress = latLon == null ? null : volunteer.CurrentAddress,
+                MaximumDistanceForReading = volunteer.MaximumDistanceForReading,
+                TypeOfDistance = (DO.TypeOfDistance)volunteer.TypeOfDistance
+            });
         }
-        // בדיקת תקינות של הנתונים שהוזנו
-        VolunteerManager.ValidateVolunteer(volunteer);
-        //בדיקת שינויים בשדות מסוימים
-        if ((volunteer.Position != (BO.Position)doVolunteer.Position || volunteer.Active!=doVolunteer.Active)&&voluRequest.Position!=DO.Position.Managar)
-        {
-            throw new BO.BlNotAloudToDoException("Only a managar can update the volunteer's Position");
-        }
-        // עדכון הנתונים במערכת
-        double[]? latLon= volunteer.CurrentAddress==null?null:Tools.GetCoordinates(volunteer.CurrentAddress);
-        _dal.Volunteer.Update(new DO.Volunteer
-        {
-            Id = volunteer.Id,
-            PhoneNumber =volunteer.PhoneNumber,
-            Name = volunteer.Name,
-            Email = volunteer.Email,
-            Longitude = latLon?[1],
-            Latitude = latLon?[0],
-            Position = (DO.Position)volunteer.Position,
-            Password =volunteer.Password,
-            Active = volunteer.Active,
-            CurrentAddress =latLon==null?null: volunteer.CurrentAddress,
-            MaximumDistanceForReading = volunteer.MaximumDistanceForReading,
-            TypeOfDistance = (DO.TypeOfDistance)volunteer.TypeOfDistance
-        });
         VolunteerManager.Observers.NotifyItemUpdated(volunteer.Id);
         VolunteerManager.Observers.NotifyListUpdated();
     }

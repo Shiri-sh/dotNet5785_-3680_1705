@@ -325,6 +325,3 @@ internal static class AdminManager //stage 4
     }
     #endregion Stage 7 base
 }
-AdminManager.cs
-
-המערכת מציגה את AdminManager.cs.
