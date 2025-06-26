@@ -86,7 +86,7 @@ internal static class CallManager
                 DO.Assignment na;
                 lock (AdminManager.BlMutex)
                 {
-                     na = s_dal.Assignment.Read(nc => nc.Id == c.Id);
+                     na = s_dal.Assignment.Read(nc => nc.Id == c.Id)!;
                     s_dal.Assignment.Update(new DO.Assignment
                     {
                         Id = na.Id,

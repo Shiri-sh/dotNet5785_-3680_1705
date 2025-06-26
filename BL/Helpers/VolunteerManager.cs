@@ -64,6 +64,9 @@ internal static class VolunteerManager
         // בדיקת תקינות - סכום הספרות חייב להתחלק ב-10 ללא שארית
         return true;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     internal static void SimulatorActivityOfVolunteers()
     {
         List<BO.VolunteerInList> volunteers;
@@ -92,7 +95,7 @@ internal static class VolunteerManager
                 call= s_dal.Call.Read(c=>c.Id==volunteer.IdOfCall)!;
                 volunteer1=s_dal.Volunteer.Read(v=>v.Id==volunteer.Id)!;
                double dis= Tools.GetDistance(volunteer1, call);
-                assignment = s_dal.Assignment.Read(a => a.VolunteerId == volunteer.Id && a.TreatmentEndTime == null);
+                assignment = s_dal.Assignment.Read(a => a.VolunteerId == volunteer.Id && a.TreatmentEndTime == null)!;
                if ( assignment.TreatmentEntryTime.AddMinutes(dis * 3 + 10) < s_dal.Config.Clock)
                     //עבר מספיק זמן
                     s_bl.Call.UpdateEndCall(volunteer.Id, assignment.Id);

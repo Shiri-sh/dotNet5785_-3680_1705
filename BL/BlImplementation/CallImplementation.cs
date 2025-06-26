@@ -47,28 +47,33 @@ internal class CallImplementation : ICall
     }
     public IEnumerable<BO.CallInList> CallList(BO.CallInListObjects? objFilter = null, object? filterBy = null, BO.CallInListObjects? objSort = null)
     {
-        IEnumerable<BO.CallInList> listOfCall;
+        List<BO.CallInList> listOfCall=new List<BO.CallInList>();
+        List<DO.Call> calls;
         lock (AdminManager.BlMutex)
+           calls = _dal.Call.ReadAll().ToList();
+
+        foreach(var c in calls)
         {
-            IEnumerable<DO.Call> calls = _dal.Call.ReadAll();
 
-            listOfCall = from c in calls
-                        let assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
+            lock (AdminManager.BlMutex)
+            {
+                var assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
                                                         .OrderByDescending(a => a.TreatmentEntryTime)
-                                                        .FirstOrDefault()
-                        select new BO.CallInList
-                        {
-                            Id = assignment?.Id,
-                            CallId = c.Id,
-                            KindOfCall = (BO.KindOfCall)c.KindOfCall,
-                            OpeningTime = c.OpeningTime,
-                            RemainingTimeToFinish = c.FinishTime - AdminManager.Now,
-                            LastVolunteer = assignment == null ? null : _dal.Volunteer.Read(v => v.Id == assignment.VolunteerId)?.Name,
-                            CompletionTime = assignment == null ? null : assignment.TreatmentEndTime == null ? null : assignment.TreatmentEndTime - c.OpeningTime,
-                            Status = CallManager.GetStatus(c),
-                            TotalAlocation = _dal.Assignment.ReadAll(a => a.CalledId == c.Id).Count(),
-                        };
-
+                                                        .FirstOrDefault();
+                listOfCall.Add(
+                   new BO.CallInList
+                   {
+                       Id = assignment?.Id,
+                       CallId = c.Id,
+                       KindOfCall = (BO.KindOfCall)c.KindOfCall,
+                       OpeningTime = c.OpeningTime,
+                       RemainingTimeToFinish = c.FinishTime - AdminManager.Now,
+                       LastVolunteer = assignment == null ? null : _dal.Volunteer.Read(v => v.Id == assignment.VolunteerId)?.Name,
+                       CompletionTime = assignment == null ? null : assignment.TreatmentEndTime == null ? null : assignment.TreatmentEndTime - c.OpeningTime,
+                       Status = CallManager.GetStatus(c),
+                       TotalAlocation = _dal.Assignment.ReadAll(a => a.CalledId == c.Id).Count(),
+                   });
+            }
         }
         if (objFilter != null && filterBy != null)
         {
@@ -88,10 +93,10 @@ internal class CallImplementation : ICall
                     convertedFilterBy = Enum.Parse(enumType!, filterBy.ToString()!);
                 }
 
-                listOfCall = from c in listOfCall
-                             where propertyInfo.GetValue(c) != null &&
-                                   propertyInfo.GetValue(c)!.Equals(convertedFilterBy)
-                             select c;
+                listOfCall = listOfCall
+                            .Where(c => propertyInfo.GetValue(c) != null &&
+                                        propertyInfo.GetValue(c)!.Equals(convertedFilterBy))
+                            .ToList();
             }
         }
         if (objSort != null)
@@ -99,16 +104,16 @@ internal class CallImplementation : ICall
             var propertyInfoSort = typeof(BO.CallInList).GetProperty(objSort.ToString()!);
             if (propertyInfoSort != null)
             {
-                listOfCall = from c in listOfCall
-                             orderby propertyInfoSort.GetValue(c)
-                             select c;
+                listOfCall = listOfCall
+                            .OrderBy(c => propertyInfoSort.GetValue(c))
+                            .ToList();
             }
         }
         else
         {
-            listOfCall = from c in listOfCall
-                         orderby c.Id
-                         select c;
+            listOfCall = listOfCall
+                        .OrderBy(c => c.Id)
+                        .ToList();
         }
 
         return listOfCall;
@@ -231,35 +236,39 @@ internal class CallImplementation : ICall
     public IEnumerable<BO.ClosedCallInList> GetCloseCallByVolunteer(int VolunteerId, BO.KindOfCall? kindOfCall = null, BO.CloseCallInListObjects? objCloseCall = null)
     {
         List<int> callOfVol;
-        IEnumerable<BO.ClosedCallInList> calls;
+        List<BO.ClosedCallInList> calls=new List<BO.ClosedCallInList>();
         lock (AdminManager.BlMutex)
-        {
             callOfVol = _dal.Assignment.ReadAll().Where(a => a.VolunteerId == VolunteerId && a.TreatmentEndTime != null).Select(a => a.CalledId).ToList();
-            calls= from c in _dal.Call.ReadAll().Where(c => callOfVol.Contains(c.Id))
-                                                     let assignment = _dal.Assignment.Read(a => a.CalledId == c.Id)
-                                                     select new BO.ClosedCallInList
-                                                     {
-                                                         Id = c.Id,
-                                                         KindOfCall = (BO.KindOfCall)c.KindOfCall,
-                                                         AddressOfCall = c.AddressOfCall,
-                                                         OpeningTime = c.OpeningTime,
-                                                         TreatmentEntryTime = assignment.TreatmentEntryTime,
-                                                         TreatmentEndTime = assignment.TreatmentEndTime == null ? null : assignment.TreatmentEndTime,
-                                                         TypeOfTreatmentTermination = assignment.TypeOfTreatmentTermination == null ? null : (BO.TypeOfTreatmentTermination)assignment.TypeOfTreatmentTermination,
-                                                     };
+        foreach(var c in _dal.Call.ReadAll().Where(c => callOfVol.Contains(c.Id)))
+        {
+            lock (AdminManager.BlMutex)
+            {
+                var assignment = _dal.Assignment.Read(a => a.CalledId == c.Id);
+                calls.Add(
+                    new BO.ClosedCallInList
+                    {
+                        Id = c.Id,
+                        KindOfCall = (BO.KindOfCall)c.KindOfCall,
+                        AddressOfCall = c.AddressOfCall,
+                        OpeningTime = c.OpeningTime,
+                        TreatmentEntryTime = assignment.TreatmentEntryTime,
+                        TreatmentEndTime = assignment.TreatmentEndTime == null ? null : assignment.TreatmentEndTime,
+                        TypeOfTreatmentTermination = assignment.TypeOfTreatmentTermination == null ? null : (BO.TypeOfTreatmentTermination)assignment.TypeOfTreatmentTermination,
+                    }
+                );
+            }
         }
-           
         if (kindOfCall.HasValue && kindOfCall!=BO.KindOfCall.None)
         {
-            calls = calls.Where(c => c.KindOfCall == (BO.KindOfCall)kindOfCall.Value);
+            calls = calls.Where(c => c.KindOfCall == (BO.KindOfCall)kindOfCall.Value).ToList();
         }
         string propertyInfo = objCloseCall.ToString()!;
         var propertyInfoSort = typeof(BO.ClosedCallInList).GetProperty(propertyInfo);
         
         if (objCloseCall != null)
-                calls = calls.OrderBy(c => propertyInfoSort!.GetValue(c, null));         
+                calls = calls.OrderBy(c => propertyInfoSort!.GetValue(c, null)).ToList();         
         else
-                calls = calls.OrderBy(c => c.Id);
+                calls = calls.OrderBy(c => c.Id).ToList();
         return calls;
     }
     public IEnumerable<BO.OpenCallInList> GetOpenCallByVolunteer(int volunteerId, BO.KindOfCall? kindOfCall = null, BO.OpenCallInListFields? objOpenCall = null)
@@ -267,17 +276,19 @@ internal class CallImplementation : ICall
         //כל ההקצאות הקימות
         DO.Volunteer vol;
         IEnumerable<DO.Call> listcalls;
-        IEnumerable<BO.OpenCallInList> calls;
+        List<BO.OpenCallInList> calls=new List<BO.OpenCallInList>();
         lock (AdminManager.BlMutex)
         {
             vol = _dal.Volunteer.Read(v => v.Id == volunteerId)!;
             listcalls = _dal.Call.ReadAll();
-            calls = from c in listcalls
-                        //מחפש הקצאה לקריאה שהסתימה בטיפול או שעבר הזמן
-                    let assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
-                                                    .FirstOrDefault(a => a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled || a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.CancellationExpired)
-                    where assignment == null
-                    select new BO.OpenCallInList
+        }
+        foreach (var c in listcalls)
+        {
+            var assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
+                                           .FirstOrDefault(a => a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled || a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.CancellationExpired)
+            if (assignment == null)
+                calls.Add(
+                    new BO.OpenCallInList
                     {
                         Id = c.Id,
                         KindOfCall = (BO.KindOfCall)c.KindOfCall,
@@ -286,42 +297,46 @@ internal class CallImplementation : ICall
                         FinishTime = c.FinishTime,
                         Description = c.Description,
                         DistanceFromVol = Tools.GetDistance(vol, c)
-                    };
+                    });
+               
         }
-
         if (kindOfCall.HasValue)
         {
-            calls = calls.Where(c => c.KindOfCall == (BO.KindOfCall)kindOfCall.Value);
+            calls = calls.Where(c => c.KindOfCall == (BO.KindOfCall)kindOfCall.Value).ToList();
         }
             if (objOpenCall != null)
             {
                 var propertyInfoSort = typeof(BO.OpenCallInList).GetProperty(objOpenCall.ToString()!);
-                calls = calls.OrderBy(c => propertyInfoSort!.GetValue(c, null));
+                calls = calls.OrderBy(c => propertyInfoSort!.GetValue(c, null)).ToList();
             }
             else
-                calls = calls.OrderBy(c => c.Id);
+                calls = calls.OrderBy(c => c.Id).ToList();
         return calls;
     }
     public BO.Call ReadCall(int id)
     {
         DO.Call doCall;
-        List<BO.CallAssignInList> callAssignInList;
-        lock (AdminManager.BlMutex)
-        {
+        List<BO.CallAssignInList> callAssignInList=new List<BO.CallAssignInList>();
+        lock (AdminManager.BlMutex) 
            doCall = _dal.Call.Read(cal => cal.Id == id) ??
            throw new BO.BlDoesNotExistException($"call with {id} does Not exist");
-           callAssignInList = _dal.Assignment.ReadAll(a => a.CalledId == id)
-                                                                       .Select(a => new BO.CallAssignInList
-                                                                       {
-                                                                           VolunteerId = a.VolunteerId,
-                                                                           VolunteerName = _dal.Volunteer.Read(v => v.Id == a.VolunteerId)?.Name,
-                                                                           TreatmentEntryTime = a.TreatmentEntryTime,
-                                                                           TreatmentEndTime = a.TreatmentEndTime == null ? null : a.TreatmentEndTime,
-                                                                           TypeOfTreatmentTermination = a.TypeOfTreatmentTermination.HasValue
-                                                                                                        ? (BO.TypeOfTreatmentTermination?)a.TypeOfTreatmentTermination.Value
-                                                                                                        : null
-                                                                       }).ToList();
-
+        foreach(var a in _dal.Assignment.ReadAll(a => a.CalledId == id))
+        {
+            lock (AdminManager.BlMutex)
+            {
+                callAssignInList.Add(
+                    new BO.CallAssignInList
+                    {
+                        VolunteerId = a.VolunteerId,
+                        VolunteerName = _dal.Volunteer.Read(v => v.Id == a.VolunteerId)?.Name,
+                        TreatmentEntryTime = a.TreatmentEntryTime,
+                        TreatmentEndTime = a.TreatmentEndTime == null ? null : a.TreatmentEndTime,
+                        TypeOfTreatmentTermination = a.TypeOfTreatmentTermination.HasValue
+                                                    ? (BO.TypeOfTreatmentTermination?)a.TypeOfTreatmentTermination.Value
+                                                    : null
+                    }
+                );
+            }
         }
         return new BO.Call
         {

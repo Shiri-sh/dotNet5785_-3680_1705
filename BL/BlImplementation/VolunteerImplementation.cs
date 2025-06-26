@@ -69,12 +69,12 @@ internal class VolunteerImplementation: IVolunteer
     }
     public BO.Position Login(int id, string password)
     {
+        DO.Volunteer doVolunteer;
         lock (AdminManager.BlMutex)
-        {
-            var doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id && vol.Password == password) ?? throw new BO.BlDoesNotExistException($"Volunteer with Id ={id} and Password={password} does Not exist");//need tocreate it later
-
-            return (BO.Position)doVolunteer.Position;
-        }
+             doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id && vol.Password == password) ?? 
+                throw new BO.BlDoesNotExistException($"Volunteer with Id ={id} and Password={password} does Not exist");//need tocreate it later
+        return (BO.Position)doVolunteer.Position;
+        
     }
     public BO.Volunteer Read(int id)
     {
@@ -121,46 +121,54 @@ internal class VolunteerImplementation: IVolunteer
     }
     public IEnumerable<BO.VolunteerInList> ReadAll(bool? activity = null, BO.VoluteerInListObjects? feildToSort = null, object? valueOfFilter=null)
     {
+        IEnumerable<DO.Volunteer> volunteers;
+        List<BO.VolunteerInList> listOfVol = new List<BO.VolunteerInList>();
         lock (AdminManager.BlMutex)
         {
-            IEnumerable<DO.Volunteer> volunteers = _dal.Volunteer.ReadAll();
+            volunteers = _dal.Volunteer.ReadAll();
             volunteers = activity == null ? volunteers.Select(item => item) : volunteers.Where(v => v.Active == activity);
-            ICall call = new CallImplementation();
-            IEnumerable<BO.VolunteerInList> listOfVol = from v in volunteers
-                                                        let closeCalls = call.GetCloseCallByVolunteer(v.Id)
-                                                        let assign = _dal.Assignment.Read(a => a.VolunteerId == v.Id && a.TreatmentEndTime == null)
-                                                        select new BO.VolunteerInList
-                                                        {
-                                                            Id = v.Id,
-                                                            Name = v.Name,
-                                                            Active = v.Active,
-                                                            SumCancledCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
-                                                            SumCaredCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
-                                                            SumIrelevantCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
-                                                            IdOfCall = assign?.CalledId ?? null,
-                                                            KindOfCall = assign == null ? null : (BO.KindOfCall)_dal.Call.Read(a => a.Id == assign.CalledId).KindOfCall
-
-                                                        };
-            if (feildToSort == null)
-            {
-                return listOfVol.OrderBy(v => v.Id);
-            }
-            string propertyName = feildToSort.ToString();
-            var propertyInfo = typeof(BO.VolunteerInList).GetProperty(propertyName);
-            if (propertyInfo != null)
-            {
-                if (valueOfFilter == null)
-                    return listOfVol.OrderBy(v => propertyInfo.GetValue(v, null));
-                else
-                    return listOfVol.Where(v =>
-                    {
-                        var propValue = propertyInfo.GetValue(v, null);
-                        return object.Equals(propValue, valueOfFilter);
-                    });
-
-            }
-            return listOfVol;
         }
+        ICall call = new CallImplementation();
+        foreach (var v in volunteers)
+        {
+            lock (AdminManager.BlMutex)
+            {
+                var closeCalls = call.GetCloseCallByVolunteer(v.Id);
+                var assign = _dal.Assignment.Read(a => a.VolunteerId == v.Id && a.TreatmentEndTime == null);
+                listOfVol.Add(
+                    new BO.VolunteerInList
+                    {
+                        Id = v.Id,
+                        Name = v.Name,
+                        Active = v.Active,
+                        SumCancledCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.SelfCancellation),
+                        SumCaredCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
+                        SumIrelevantCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
+                        IdOfCall = assign?.CalledId ?? null,
+                        KindOfCall = assign == null ? null : (BO.KindOfCall)_dal.Call.Read(a => a.Id == assign.CalledId)!.KindOfCall
+                    }
+                    );
+            }
+        }
+        if (feildToSort == null)
+        {
+            return listOfVol.OrderBy(v => v.Id);
+        }
+        string propertyName = feildToSort.ToString()!;
+        var propertyInfo = typeof(BO.VolunteerInList).GetProperty(propertyName);
+        if (propertyInfo != null)
+        {
+            if (valueOfFilter == null)
+                return listOfVol.OrderBy(v => propertyInfo.GetValue(v, null));
+            else
+                return listOfVol.Where(v =>
+                {
+                    var propValue = propertyInfo.GetValue(v, null);
+                    return object.Equals(propValue, valueOfFilter);
+                });
+
+        }
+        return listOfVol;
     }
     public void UpdateVolunteer(int id, BO.Volunteer volunteer)
     {
