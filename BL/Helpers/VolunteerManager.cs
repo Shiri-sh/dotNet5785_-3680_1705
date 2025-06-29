@@ -105,5 +105,21 @@ internal static class VolunteerManager
             }
         }
     }
+    public static async Task UpdateCoordinatesForVolunteerAddressAsync(DO.Volunteer dovol)
+    {
+        if(dovol.CurrentAddress is not null)
+        {
+            double[]? loc = await Tools.GetCoordinates(dovol.CurrentAddress);
+            if (loc is not null)
+            {
+                dovol = dovol with { Latitude = loc[0], Longitude = loc[1] };
+                lock (AdminManager.BlMutex)
+                    s_dal.Volunteer.Update(dovol);
+                Observers.NotifyListUpdated();
+                Observers.NotifyItemUpdated(dovol.Id);
+            }
+
+        }
+    }
 }
 

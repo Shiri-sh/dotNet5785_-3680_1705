@@ -104,4 +104,20 @@ internal static class CallManager
             Observers.NotifyListUpdated(); //stage 5
 
     }
- }
+    public static async Task UpdateCoordinatesForCallAddressAsync(DO.Call call)
+    {
+        if (call.AddressOfCall is not null)
+        {
+            double[]? loc = await Tools.GetCoordinates(call.AddressOfCall);
+            if (loc is not null)
+            {
+                call = call with { Latitude = loc[0], Longitude = loc[1] };
+                lock (AdminManager.BlMutex)
+                    s_dal.Call.Update(call);
+                Observers.NotifyListUpdated();
+                Observers.NotifyItemUpdated(call.Id);
+            }
+
+        }
+    }
+}

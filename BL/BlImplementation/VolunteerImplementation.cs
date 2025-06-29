@@ -15,27 +15,31 @@ internal class VolunteerImplementation: IVolunteer
     public void AddVolunteer(BO.Volunteer boVolunteer)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-        double[]? latLon = boVolunteer.CurrentAddress == null ? null : Tools.GetCoordinates(boVolunteer.CurrentAddress);
+      //  double[]? latLon = boVolunteer.CurrentAddress == null ? null : Tools.GetCoordinates(boVolunteer.CurrentAddress);
         try
         {
             VolunteerManager.ValidateVolunteer(boVolunteer);
             DO.Volunteer doVolunteer =
-            new(boVolunteer.Id,
-            boVolunteer.Name,
-            boVolunteer.PhoneNumber,
-            boVolunteer.Email,
-            (DO.Position)boVolunteer.Position,
-            boVolunteer.Password,
-            boVolunteer.Active,
-            latLon==null?null: boVolunteer.CurrentAddress,
-            latLon?[0],
-            latLon?[1],
-            boVolunteer.MaximumDistanceForReading,
-            (DO.TypeOfDistance)boVolunteer.TypeOfDistance
+            new(
+                    boVolunteer.Id,
+                    boVolunteer.Name,
+                    boVolunteer.PhoneNumber,
+                    boVolunteer.Email,
+                    (DO.Position)boVolunteer.Position,
+                    boVolunteer.Password,
+                    boVolunteer.Active,
+                    boVolunteer.CurrentAddress,
+                    //latLon==null?null: boVolunteer.CurrentAddress,
+                    //latLon?[0],
+                    //latLon?[1],
+                    null,null,
+                    boVolunteer.MaximumDistanceForReading,
+                    (DO.TypeOfDistance)boVolunteer.TypeOfDistance
         );
             lock (AdminManager.BlMutex)
                 _dal.Volunteer.Create(doVolunteer);
             VolunteerManager.Observers.NotifyListUpdated();
+            _ = VolunteerManager.UpdateCoordinatesForVolunteerAddressAsync(doVolunteer); //stage 7
         }
         catch (DO.DalAlreadyExistsException ex)
         {
@@ -45,6 +49,7 @@ internal class VolunteerImplementation: IVolunteer
         {
             throw new BO.BlInvalidDataException(ex.Message);
         }
+
     }
     public void DeleteVolunteer(int id)
     {
@@ -173,13 +178,16 @@ internal class VolunteerImplementation: IVolunteer
     public void UpdateVolunteer(int id, BO.Volunteer volunteer)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
+        DO.Volunteer doVolunteer;
+        DO.Volunteer voluRequest;
         //המתנדב קיים במערכת
         lock (AdminManager.BlMutex)
         {
-            DO.Volunteer doVolunteer = _dal.Volunteer.Read(vol => vol.Id == volunteer.Id) ??
+             doVolunteer = _dal.Volunteer.Read(vol => vol.Id == volunteer.Id) ??
             throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
-            DO.Volunteer voluRequest = _dal.Volunteer.Read(vol => vol.Id == id) ??
+             voluRequest = _dal.Volunteer.Read(vol => vol.Id == id) ??
                 throw new BO.BlDoesNotExistException($"someone with ID={id} does Not exist");
+        }
             //המעדכן הוא מנהל או האדם עצמו
             if (id != volunteer.Id && voluRequest.Position != DO.Position.Managar)
             {
@@ -193,23 +201,29 @@ internal class VolunteerImplementation: IVolunteer
                 throw new BO.BlNotAloudToDoException("Only a managar can update the volunteer's Position");
             }
             // עדכון הנתונים במערכת
-            double[]? latLon = volunteer.CurrentAddress == null ? null : Tools.GetCoordinates(volunteer.CurrentAddress);
-            _dal.Volunteer.Update(new DO.Volunteer
-            {
-                Id = volunteer.Id,
-                PhoneNumber = volunteer.PhoneNumber,
-                Name = volunteer.Name,
-                Email = volunteer.Email,
-                Longitude = latLon?[1],
-                Latitude = latLon?[0],
-                Position = (DO.Position)volunteer.Position,
-                Password = volunteer.Password,
-                Active = volunteer.Active,
-                CurrentAddress = latLon == null ? null : volunteer.CurrentAddress,
-                MaximumDistanceForReading = volunteer.MaximumDistanceForReading,
-                TypeOfDistance = (DO.TypeOfDistance)volunteer.TypeOfDistance
-            });
-        }
+            // double[]? latLon = volunteer.CurrentAddress == null ? null : Tools.GetCoordinates(volunteer.CurrentAddress);
+         DO.Volunteer vol=new (
+            
+                 volunteer.Id,
+                 volunteer.PhoneNumber,
+                volunteer.Name,
+                 volunteer.Email,
+                //Longitude = latLon?[1],
+                //Latitude = latLon?[0],
+                (DO.Position)volunteer.Position,
+                 volunteer.Password,
+                 volunteer.Active,
+                 volunteer.CurrentAddress,
+                 null,null,
+                 volunteer.MaximumDistanceForReading,
+                 (DO.TypeOfDistance)volunteer.TypeOfDistance
+            );
+
+        lock (AdminManager.BlMutex)
+            _dal.Volunteer.Update(vol);
+        VolunteerManager.Observers.NotifyListUpdated();
+        _ = VolunteerManager.UpdateCoordinatesForVolunteerAddressAsync(vol); //stage 7
+
         VolunteerManager.Observers.NotifyItemUpdated(volunteer.Id);
         VolunteerManager.Observers.NotifyListUpdated();
     }

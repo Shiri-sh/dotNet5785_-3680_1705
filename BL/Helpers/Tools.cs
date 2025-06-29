@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Net;
 using System.IO;
 using BO;
+using System.Net.Http;
 //using Newtonsoft.Json;
 using System.Text.Json;
 
@@ -40,7 +41,7 @@ internal static class Tools
         return str;
     }
 
-    public static double[]? GetCoordinates(string address)
+    public static  async Task<double[]?> GetCoordinates(string address)
     {
         if (string.IsNullOrWhiteSpace(address))
         {
@@ -49,10 +50,12 @@ internal static class Tools
         string url = $"https://geocode.maps.co/search?q={Uri.EscapeDataString(address)}&api_key=679a8da6c01a6853187846vomb04142";
         try
         {
-            using (WebClient client = new WebClient())
-            {
-                string response = client.DownloadString(url);
-                var result = JsonSerializer.Deserialize<GeocodeResponse[]>(response);
+            //using (WebClient client = new WebClient())
+            //{
+            //    string response = client.DownloadString(url);
+            using HttpClient client = new HttpClient();
+            string response = await client.GetStringAsync(url);
+            var result = JsonSerializer.Deserialize<GeocodeResponse[]>(response);
                 if (result == null || result.Length == 0)
                 {
                     throw new BO.BlInvalidDataException("The address is invalid.");
@@ -60,9 +63,9 @@ internal static class Tools
                 double latitude = double.Parse(result[0].lat);
                 double longitude = double.Parse(result[0].lon);
                 return [latitude, longitude];
-            }
+            //}
         }
-        catch (Exception ex)
+        catch
         {
             return null;
         }

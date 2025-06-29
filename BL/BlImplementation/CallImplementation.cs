@@ -8,7 +8,7 @@ internal class CallImplementation : ICall
     public void AddCall(BO.Call call)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-        double[]? latLon = call.AddressOfCall == null ? null : Tools.GetCoordinates(call.AddressOfCall);
+       double[]? latLon = call.AddressOfCall == null ? null : Tools.GetCoordinates(call.AddressOfCall);
         if (latLon == null) {
              throw new BO.BlInvalidDataException("Address not exist");
         }
@@ -285,7 +285,7 @@ internal class CallImplementation : ICall
         foreach (var c in listcalls)
         {
             var assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
-                                           .FirstOrDefault(a => a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled || a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.CancellationExpired)
+                                           .FirstOrDefault(a => a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled || a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.CancellationExpired);
             if (assignment == null)
                 calls.Add(
                     new BO.OpenCallInList
