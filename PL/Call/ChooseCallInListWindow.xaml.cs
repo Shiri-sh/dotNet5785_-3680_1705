@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace PL.Call;
 
@@ -25,6 +26,8 @@ public partial class ChooseCallInListWindow : Window
 
     public BO.KindOfCall KindOfCall { get; set; } = BO.KindOfCall.None;
     public string UpdateAddress { get; set; } = "";
+    private volatile DispatcherOperation? _observerOperationCall = null;
+    private volatile DispatcherOperation? _observerOperationVol = null;
 
     public ChooseCallInListWindow(int id)
     {
@@ -66,12 +69,23 @@ public partial class ChooseCallInListWindow : Window
     }
 
     private void callListObserver()
-    => queryCallList();
+    {
+        if (_observerOperationCall is null || _observerOperationCall.Status == DispatcherOperationStatus.Completed)
+            _observerOperationCall = Dispatcher.BeginInvoke(() =>
+            {
+                queryCallList();
+            });
+    }
     private void ObservedVolunteer()
     {
-        int id = CurrentVolunteer!.Id;
-        CurrentVolunteer = null;
-        CurrentVolunteer = s_bl.Volunteer.Read(id);
+        if (_observerOperationVol is null || _observerOperationVol.Status == DispatcherOperationStatus.Completed)
+            _observerOperationVol = Dispatcher.BeginInvoke(() =>
+            {
+
+                int id = CurrentVolunteer!.Id;
+                CurrentVolunteer = null;
+                CurrentVolunteer = s_bl.Volunteer.Read(id);
+            });
     }
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {

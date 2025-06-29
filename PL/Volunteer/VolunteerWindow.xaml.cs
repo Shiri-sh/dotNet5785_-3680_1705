@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace PL.Volunteer;
 
@@ -24,6 +25,8 @@ public partial class VolunteerWindow : Window
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
     public string AddOrUpdate { get; set; } = "Add";
     public BO.Position UserPosition { get; set; }
+
+    private volatile DispatcherOperation? _observerOperation = null; //stage 7
 
     private int Id = 0;
     
@@ -106,9 +109,13 @@ public partial class VolunteerWindow : Window
         }
     }
     private void ObservedVolunteer() {
-        int id = CurrentVolunteer!.Id;
-        CurrentVolunteer= null;
-        CurrentVolunteer=s_bl.Volunteer.Read(id);
+        if(_observerOperation is null || _observerOperation.Status == DispatcherOperationStatus.Completed)
+            _observerOperation = Dispatcher.BeginInvoke(() =>
+              {
+                  int id = CurrentVolunteer!.Id;
+                  CurrentVolunteer = null;
+                  CurrentVolunteer = s_bl.Volunteer.Read(id);
+              });
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)

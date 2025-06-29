@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace PL.Call
 {
@@ -28,6 +29,7 @@ namespace PL.Call
 
         public int Id { get; set; }
         public BO.CallInList? SelectedCall { get; set; }
+        private volatile DispatcherOperation? _observerOperation = null;
         public CallListWindow(int id,BO.Status statusTofilter = BO.Status.None)
         {
             Id = id;
@@ -56,7 +58,13 @@ namespace PL.Call
           =>
            queryCallList();
         private void callListObserver()
-            => queryCallList();
+        {
+            if (_observerOperation is null || _observerOperation.Status == DispatcherOperationStatus.Completed)
+                _observerOperation = Dispatcher.BeginInvoke(() =>
+                {
+                    queryCallList();
+                });
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
             => s_bl.Call.AddObserver(callListObserver);

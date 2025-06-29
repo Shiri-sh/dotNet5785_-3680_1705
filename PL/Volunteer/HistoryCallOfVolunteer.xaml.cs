@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace PL.Volunteer
 {
@@ -25,7 +26,7 @@ namespace PL.Volunteer
         public int Id { get; set; } = 0;
         public BO.KindOfCall KindOfCall { get; set; } = BO.KindOfCall.None;
         public BO.CloseCallInListObjects? CloseCallInListObjects { get; set; } =null;
-
+        private volatile DispatcherOperation? _observerOperation = null;
         public HistoryCallOfVolunteer(int id)
         {
             this.Id = id;
@@ -54,7 +55,13 @@ namespace PL.Volunteer
         private void FilterListByCloseCallInListCollection(object sender, SelectionChangedEventArgs e)
         => queryClosedCallInList();
         private void ClosedCallInListObserver()
-            => queryClosedCallInList();
+        {
+            if (_observerOperation is null || _observerOperation.Status == DispatcherOperationStatus.Completed)
+                _observerOperation = Dispatcher.BeginInvoke(() =>
+                {
+                    queryClosedCallInList();
+                });
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
             => s_bl.Call.AddObserver(ClosedCallInListObserver);

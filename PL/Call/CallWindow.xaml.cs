@@ -1,19 +1,5 @@
-﻿using BO;
-using PL.Call;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
+﻿using System.Windows;
+using System.Windows.Threading;
 namespace PL.Call;
 
 /// <summary>
@@ -26,6 +12,7 @@ public partial class CallWindow : Window
     public string AddOrUpdate { get; set; } = "Add";
 
     private int Id = 0;
+    private volatile DispatcherOperation? _observerOperation = null;
     public BO.Call? CurrentCall
     {
         get { return (BO.Call?)GetValue(CurrentCallProperty); }
@@ -71,7 +58,7 @@ public partial class CallWindow : Window
         
         try
         {
-            if (FormatChecking()) ;
+            if (FormatChecking());
             if (AddOrUpdate == "Add")
             {
                 s_bl.Call.AddCall(CurrentCall!);
@@ -91,9 +78,14 @@ public partial class CallWindow : Window
     }
     private void ObservedCall()
     {
-        int id = CurrentCall!.Id;
-        CurrentCall = null;
-        CurrentCall = s_bl.Call.ReadCall(id);
+        if (_observerOperation is null || _observerOperation.Status == DispatcherOperationStatus.Completed)
+            _observerOperation = Dispatcher.BeginInvoke(() =>
+            {
+
+                int id = CurrentCall!.Id;
+                CurrentCall = null;
+                CurrentCall = s_bl.Call.ReadCall(id);
+            });
     }
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {

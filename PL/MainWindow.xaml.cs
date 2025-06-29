@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace PL
 {
@@ -21,6 +22,10 @@ namespace PL
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         //public int[]? CallByStatus { get; set; }
         public int Id { get; set; }
+        private volatile DispatcherOperation? _observerOperationConfig = null;
+        private volatile DispatcherOperation? _observerOperationClock = null;
+        private volatile DispatcherOperation? _observerOperationCallStatus = null;
+
         public MainWindow(int id)
         {
             CallByStatus = s_bl.Call.CallByStatus();
@@ -60,16 +65,27 @@ namespace PL
 
         private void clockObserver()
         {
-            CurrentTime = s_bl.Admin.GetClock();
+            if (_observerOperationClock is null || _observerOperationClock.Status == DispatcherOperationStatus.Completed)
+                _observerOperationClock = Dispatcher.BeginInvoke(() =>
+                {
+                    CurrentTime = s_bl.Admin.GetClock();
+                });
         }
         private void configObserver()
         {
-            RiskRange = s_bl.Admin.GetRiskRange();
-
+            if (_observerOperationConfig is null || _observerOperationConfig.Status == DispatcherOperationStatus.Completed)
+                _observerOperationConfig = Dispatcher.BeginInvoke(() =>
+                {
+                    RiskRange = s_bl.Admin.GetRiskRange();
+                });
         }
         private void callByStatusObserver()
         {
-            CallByStatus = s_bl.Call.CallByStatus();
+            if (_observerOperationCallStatus is null || _observerOperationCallStatus.Status == DispatcherOperationStatus.Completed)
+                _observerOperationCallStatus = Dispatcher.BeginInvoke(() =>
+                {
+                    CallByStatus = s_bl.Call.CallByStatus();
+                });
         }
         public int[] CallByStatus
         {
