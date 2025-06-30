@@ -8,7 +8,9 @@ internal class CallImplementation : ICall
     public void AddCall(BO.Call call)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-       double[]? latLon = call.AddressOfCall == null ? null : Tools.GetCoordinates(call.AddressOfCall);
+        AdminManager.checkIfSimulatorOn();
+
+        double[]? latLon = call.AddressOfCall == null ? null : Tools.GetCoordinates(call.AddressOfCall);
         if (latLon == null) {
              throw new BO.BlInvalidDataException("Address not exist");
         }
@@ -121,6 +123,8 @@ internal class CallImplementation : ICall
     public void UpdateCancelCall(int volunteerId, int assignId)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
+        AdminManager.checkIfSimulatorOn();
+
         DO.Assignment doAssign;
         BO.Position volPosition;
         lock (AdminManager.BlMutex)
@@ -155,6 +159,8 @@ internal class CallImplementation : ICall
     public void UpdateEndCall(int volunteerId, int assignId)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
+        AdminManager.checkIfSimulatorOn();
+
         DO.Assignment doAssign;
         lock (AdminManager.BlMutex)
            doAssign = _dal.Assignment.Read(a => a.Id == assignId)??
@@ -190,6 +196,8 @@ internal class CallImplementation : ICall
     public void CooseCall(int volunteerId, int callId)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
+        AdminManager.checkIfSimulatorOn();
+
         DO.Call? call;
         DO.Assignment? assign;
         lock (AdminManager.BlMutex)
@@ -211,6 +219,8 @@ internal class CallImplementation : ICall
     public void DeleteCall(int id)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
+        AdminManager.checkIfSimulatorOn();
+
         DO.Call doCall;
         IEnumerable<DO.Assignment>? a;
         BO.Status st;
@@ -355,6 +365,8 @@ internal class CallImplementation : ICall
     public void UpdateCall(BO.Call call)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
+        AdminManager.checkIfSimulatorOn();
+
         double[]? latLon = call.AddressOfCall == null ? null : Tools.GetCoordinates(call.AddressOfCall);
         if (latLon == null)
         {

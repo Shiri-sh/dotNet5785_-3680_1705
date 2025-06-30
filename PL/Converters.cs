@@ -206,3 +206,29 @@ class ConverterEnableChangePosition:IValueConverter
         throw new NotImplementedException();
     }
 }
+class ConverterStartSimulatorToStop : IValueConverter
+{
+    public object Convert(object values, Type targetType, object parameter, CultureInfo culture)
+    {
+        if ((bool)values)
+            return "stop simulator";
+        return "start simulator";
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+class ConverterEnableButtonSimulator : IValueConverter
+{
+    public object Convert(object values, Type targetType, object parameter, CultureInfo culture)
+    {
+        return (bool)values!=true;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}

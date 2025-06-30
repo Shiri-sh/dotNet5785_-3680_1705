@@ -1,4 +1,5 @@
-﻿using PL.Call;
+﻿using BlApi;
+using PL.Call;
 using PL.Volunteer;
 using System.Text;
 using System.Windows;
@@ -96,6 +97,15 @@ namespace PL
         public static readonly DependencyProperty CallByStatusProperty =
             DependencyProperty.Register("CallByStatus", typeof(int[]), typeof(MainWindow));
 
+        public bool RunSimulator
+        {
+            get { return (bool)GetValue(RunSimulatorProperty); }
+            set { SetValue(RunSimulatorProperty, value); }
+        }
+
+        public static readonly DependencyProperty RunSimulatorProperty =
+            DependencyProperty.Register("RunSimulator", typeof(bool), typeof(MainWindow));
+
         public DateTime CurrentTime
         {
             get { return (DateTime)GetValue(CurrentTimeProperty); }
@@ -104,6 +114,14 @@ namespace PL
 
         public static readonly DependencyProperty CurrentTimeProperty =
             DependencyProperty.Register("CurrentTime", typeof(DateTime), typeof(MainWindow));
+        public int Interval
+        {
+            get { return (int)GetValue(IntervalProperty); }
+            set { SetValue(IntervalProperty, value); }
+        }
+
+        public static readonly DependencyProperty IntervalProperty =
+            DependencyProperty.Register("Interval", typeof(int), typeof(MainWindow));
 
         public TimeSpan RiskRange 
         {
@@ -128,6 +146,8 @@ namespace PL
             s_bl.Admin.RemoveClockObserver(clockObserver);
             s_bl.Admin.RemoveConfigObserver(configObserver);
             s_bl.Call.RemoveObserver(callByStatusObserver);
+            RunSimulator = false;
+            s_bl.Admin.StopSimulator();
         }
 
         private void btnShowVolunteers_Click(object sender, RoutedEventArgs e)
@@ -178,6 +198,18 @@ namespace PL
             InitializationOrReset("reset");
 
         }
-
+        private void btnSimulatorAction_click(object sender, RoutedEventArgs e)
+        {
+            if (RunSimulator)
+            {
+                RunSimulator = false;
+                s_bl.Admin.StopSimulator();
+            }
+            else
+            {
+                RunSimulator=true;
+                s_bl.Admin.StartSimulator(Interval); //stage 7
+            }
+        }
     }
 }

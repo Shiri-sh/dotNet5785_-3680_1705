@@ -32,7 +32,6 @@ internal class AdminImplementation:IAdmin
         AdminManager.InitializeDB();
 
     }
-
     public void Reset()
     {
 

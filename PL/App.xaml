@@ -21,5 +21,7 @@
         <local:ConverterVisibiltyStackPanelForVolunteer x:Key="ConverterVisibiltyStackPanelForVolunteerKey"/>
         <local:CallVisibilityMultiConverter x:Key="CallVisibilityMultiConverterKey"/>
         <local:ConverterEnableChangePosition x:Key="ConverterEnableChangePositionKey"/>
+        <local:ConverterStartSimulatorToStop x:Key="ConverterStartSimulatorToStopKey"/>
+        <local:ConverterEnableButtonSimulator x:Key="ConverterEnableButtonSimulatorKey"/>
     </Application.Resources>
 </Application>

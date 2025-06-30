@@ -15,7 +15,9 @@ internal class VolunteerImplementation: IVolunteer
     public void AddVolunteer(BO.Volunteer boVolunteer)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-      //  double[]? latLon = boVolunteer.CurrentAddress == null ? null : Tools.GetCoordinates(boVolunteer.CurrentAddress);
+        AdminManager.checkIfSimulatorOn();
+
+        //  double[]? latLon = boVolunteer.CurrentAddress == null ? null : Tools.GetCoordinates(boVolunteer.CurrentAddress);
         try
         {
             VolunteerManager.ValidateVolunteer(boVolunteer);
@@ -54,6 +56,8 @@ internal class VolunteerImplementation: IVolunteer
     public void DeleteVolunteer(int id)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
+        AdminManager.checkIfSimulatorOn();
+
         lock (AdminManager.BlMutex)
         {
             DO.Assignment? assignment = _dal.Assignment.Read(assign => assign.VolunteerId == id);
@@ -178,6 +182,8 @@ internal class VolunteerImplementation: IVolunteer
     public void UpdateVolunteer(int id, BO.Volunteer volunteer)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
+        AdminManager.checkIfSimulatorOn();
+
         DO.Volunteer doVolunteer;
         DO.Volunteer voluRequest;
         //המתנדב קיים במערכת
