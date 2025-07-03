@@ -28,14 +28,11 @@ internal class AdminImplementation:IAdmin
     //אתחול
     public void Initialization()
     {
-        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         AdminManager.InitializeDB();
 
     }
     public void Reset()
     {
-
-        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         AdminManager.ResetDB();
     }
 
@@ -63,11 +60,14 @@ internal class AdminImplementation:IAdmin
     #region 7
     public void StartSimulator(int interval)  //stage 7
     {
-        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         AdminManager.Start(interval); //stage 7
     }
 
     public void StopSimulator()
     => AdminManager.Stop(); //stage 7
+    public void AddSimulatorStoppedObserver(Action observer)
+    {
+        AdminManager.SimulatorStoppedObservers += observer;
+    }
     #endregion 7
 }

@@ -223,9 +223,9 @@ class ConverterStartSimulatorToStop : IValueConverter
 class ConverterEnableButtonSimulator : IValueConverter
 {
     public object Convert(object values, Type targetType, object parameter, CultureInfo culture)
-    {
-        return (bool)values!=true;
-    }
+    
+   => !(bool)values;
+    
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {

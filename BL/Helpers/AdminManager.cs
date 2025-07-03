@@ -268,10 +268,12 @@ internal static class AdminManager //stage 4
     /// 
     private static volatile bool s_stop = false;
 
+    internal static event Action? SimulatorStoppedObservers;
 
     [MethodImpl(MethodImplOptions.Synchronized)] //stage 7                                                 
     public static void ThrowOnSimulatorIsRunning()
     {
+        
         if (s_thread is not null)
             throw new BO.BLTemporaryNotAvailableException("Cannot perform the operation since Simulator is running");
     }
@@ -297,6 +299,7 @@ internal static class AdminManager //stage 4
             s_thread.Interrupt(); //awake a sleeping thread
             s_thread.Name = "ClockRunner stopped";
             s_thread = null;
+            SimulatorStoppedObservers?.Invoke();//simulator fininshed
         }
     }
     public static void checkIfSimulatorOn()

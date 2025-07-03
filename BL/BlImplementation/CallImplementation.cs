@@ -5,12 +5,12 @@ namespace BlImplementation;
 internal class CallImplementation : ICall
 {
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
-    public void AddCall(BO.Call call)
+    public async void AddCall(BO.Call call)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
         AdminManager.checkIfSimulatorOn();
 
-        double[]? latLon = call.AddressOfCall == null ? null : Tools.GetCoordinates(call.AddressOfCall);
+        double[]? latLon = call.AddressOfCall == null ? null : await Tools.GetCoordinates(call.AddressOfCall);
         if (latLon == null) {
              throw new BO.BlInvalidDataException("Address not exist");
         }
@@ -195,8 +195,8 @@ internal class CallImplementation : ICall
     }
     public void CooseCall(int volunteerId, int callId)
     {
-        AdminManager.ThrowOnSimulatorIsRunning();
-        AdminManager.checkIfSimulatorOn();
+        //AdminManager.ThrowOnSimulatorIsRunning();
+        //AdminManager.checkIfSimulatorOn();
 
         DO.Call? call;
         DO.Assignment? assign;
@@ -362,12 +362,12 @@ internal class CallImplementation : ICall
             CallAssignInList = callAssignInList
         };
     }
-    public void UpdateCall(BO.Call call)
+    public async void UpdateCall(BO.Call call)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
         AdminManager.checkIfSimulatorOn();
 
-        double[]? latLon = call.AddressOfCall == null ? null : Tools.GetCoordinates(call.AddressOfCall);
+        double[]? latLon = call.AddressOfCall == null ? null : await Tools.GetCoordinates(call.AddressOfCall);
         if (latLon == null)
         {
             throw new BO.BlInvalidDataException("Address not exist");

@@ -26,6 +26,49 @@ namespace PL
         private volatile DispatcherOperation? _observerOperationConfig = null;
         private volatile DispatcherOperation? _observerOperationClock = null;
         private volatile DispatcherOperation? _observerOperationCallStatus = null;
+        public int[] CallByStatus
+        {
+            get { return (int[])GetValue(CallByStatusProperty); }
+            set { SetValue(CallByStatusProperty, value); }
+        }
+
+        public static readonly DependencyProperty CallByStatusProperty =
+            DependencyProperty.Register("CallByStatus", typeof(int[]), typeof(MainWindow));
+
+        public bool RunSimulator
+        {
+            get { return (bool)GetValue(RunSimulatorProperty); }
+            set { SetValue(RunSimulatorProperty, value); }
+        }
+
+        public static readonly DependencyProperty RunSimulatorProperty =
+            DependencyProperty.Register("RunSimulator", typeof(bool), typeof(MainWindow));
+
+        public DateTime CurrentTime
+        {
+            get { return (DateTime)GetValue(CurrentTimeProperty); }
+            set { SetValue(CurrentTimeProperty, value); }
+        }
+
+        public static readonly DependencyProperty CurrentTimeProperty =
+            DependencyProperty.Register("CurrentTime", typeof(DateTime), typeof(MainWindow));
+        public int Interval
+        {
+            get { return (int)GetValue(IntervalProperty); }
+            set { SetValue(IntervalProperty, value); }
+        }
+
+        public static readonly DependencyProperty IntervalProperty =
+            DependencyProperty.Register("Interval", typeof(int), typeof(MainWindow));
+
+        public TimeSpan RiskRange
+        {
+            get { return (TimeSpan)GetValue(RiskRangeProperty); }
+            set { SetValue(RiskRangeProperty, value); }
+        }
+
+        public static readonly DependencyProperty RiskRangeProperty =
+            DependencyProperty.Register("RiskRange", typeof(TimeSpan), typeof(MainWindow));
 
         public MainWindow(int id)
         {
@@ -88,50 +131,7 @@ namespace PL
                     CallByStatus = s_bl.Call.CallByStatus();
                 });
         }
-        public int[] CallByStatus
-        {
-            get { return (int[])GetValue(CallByStatusProperty); }
-            set { SetValue(CallByStatusProperty, value); }
-        }
-
-        public static readonly DependencyProperty CallByStatusProperty =
-            DependencyProperty.Register("CallByStatus", typeof(int[]), typeof(MainWindow));
-
-        public bool RunSimulator
-        {
-            get { return (bool)GetValue(RunSimulatorProperty); }
-            set { SetValue(RunSimulatorProperty, value); }
-        }
-
-        public static readonly DependencyProperty RunSimulatorProperty =
-            DependencyProperty.Register("RunSimulator", typeof(bool), typeof(MainWindow));
-
-        public DateTime CurrentTime
-        {
-            get { return (DateTime)GetValue(CurrentTimeProperty); }
-            set { SetValue(CurrentTimeProperty, value); }
-        }
-
-        public static readonly DependencyProperty CurrentTimeProperty =
-            DependencyProperty.Register("CurrentTime", typeof(DateTime), typeof(MainWindow));
-        public int Interval
-        {
-            get { return (int)GetValue(IntervalProperty); }
-            set { SetValue(IntervalProperty, value); }
-        }
-
-        public static readonly DependencyProperty IntervalProperty =
-            DependencyProperty.Register("Interval", typeof(int), typeof(MainWindow));
-
-        public TimeSpan RiskRange 
-        {
-            get { return (TimeSpan)GetValue(RiskRangeProperty); }
-            set { SetValue(RiskRangeProperty, value); }
-        }
-
-        public static readonly DependencyProperty  RiskRangeProperty=
-            DependencyProperty.Register("RiskRange", typeof(TimeSpan), typeof(MainWindow));
-
+   
         private void Load_Window(object sender, RoutedEventArgs e)
         {
             RiskRange = s_bl.Admin.GetRiskRange();
@@ -139,6 +139,7 @@ namespace PL
             s_bl.Admin.AddClockObserver(clockObserver);
             s_bl.Admin.AddConfigObserver(configObserver);
             s_bl.Call.AddObserver(callByStatusObserver);
+            s_bl.Admin.AddSimulatorStoppedObserver(OnSimulatorStopped);
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -146,7 +147,6 @@ namespace PL
             s_bl.Admin.RemoveClockObserver(clockObserver);
             s_bl.Admin.RemoveConfigObserver(configObserver);
             s_bl.Call.RemoveObserver(callByStatusObserver);
-            RunSimulator = false;
             s_bl.Admin.StopSimulator();
         }
 
@@ -154,7 +154,13 @@ namespace PL
         {
             new VolunteerListWindow().Show();
         }
-
+        private void OnSimulatorStopped()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                RunSimulator = false; // update after the thread did his job
+            });
+        }
         private void btnShowCalls_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.Tag is string roleTag)
@@ -175,11 +181,18 @@ namespace PL
 
             if (result == MessageBoxResult.OK)
             {
-                foreach (Window win in Application.Current.Windows) { if (win != this) win.Close(); }
-                if (which == "reset")
-                    s_bl.Admin.Reset();
-                else
-                    s_bl.Admin.Initialization();
+                try
+                {
+                    foreach (Window win in Application.Current.Windows) { if (win != this) win.Close(); }
+                    if (which == "reset")
+                        s_bl.Admin.Reset();
+                    else
+                        s_bl.Admin.Initialization();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
                 MessageBox.Show($"{which} completed successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else

@@ -226,7 +226,7 @@ internal class Program
     static void LoginSystem()
      {
         Console.WriteLine("press name and password to login");
-        Console.WriteLine("your position is a "+s_bl.Volunteer.Login(ReadHelper.ReadString(),ReadHelper.ReadString()));
+        Console.WriteLine("your position is a "+s_bl.Volunteer.Login(ReadHelper.ReadInt(),ReadHelper.ReadString()));
      }
     /// <summary>
     /// show list of volunteers 

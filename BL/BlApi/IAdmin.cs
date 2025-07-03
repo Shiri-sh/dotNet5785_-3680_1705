@@ -22,9 +22,10 @@ public interface IAdmin
     void RemoveClockObserver(Action clockObserver);
 
     #endregion Stage 5
-    #region
+    #region 7
     void StartSimulator(int interval); //stage 7
     void StopSimulator();
+    void AddSimulatorStoppedObserver(Action observer);
     #endregion Stage 7
 
 }
