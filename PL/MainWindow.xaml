@@ -37,7 +37,7 @@
             <Button IsEnabled="{Binding RunSimulator, Converter={StaticResource ConverterEnableButtonSimulatorKey}}" Content="add day" Click="btnAddOneDay_Click" Style="{StaticResource StandardButtonStyle}" ></Button>
             <Button IsEnabled="{Binding RunSimulator, Converter={StaticResource ConverterEnableButtonSimulatorKey}}" Content="add month" Click="btnAddOneMonth_Click" Style="{StaticResource StandardButtonStyle}"></Button>
             <Button IsEnabled="{Binding RunSimulator, Converter={StaticResource ConverterEnableButtonSimulatorKey}}" Content="add year" Click="btnAddOneYear_Click"  Style="{StaticResource StandardButtonStyle}" ></Button>
-            <Button Content="{Binding RunSimulator, Converter={StaticResource ConverterStartSimulatorToStopKey}}" Click="btnSimulatorAction_click"></Button>
+            <Button  Content="{Binding RunSimulator, Converter={StaticResource ConverterStartSimulatorToStopKey}}" Click="btnSimulatorAction_click"></Button>
         </StackPanel>
         <!--config-->
         <StackPanel Grid.Row="1" Grid.Column="0" Margin="50,15" Orientation="Vertical" HorizontalAlignment="Left">

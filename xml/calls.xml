@@ -50,4 +50,14 @@
     <FinishTime>2025-06-12T20:28:40</FinishTime>
     <Description>stuck!!! help</Description>
   </Call>
+  <Call>
+    <Id>6</Id>
+    <KindOfCall>FirstAid</KindOfCall>
+    <AddressOfCall>Even Gvirol 11, Elad</AddressOfCall>
+    <Latitude>32.0539178</Latitude>
+    <Longitude>34.9586121</Longitude>
+    <OpeningTime>2025-06-27T10:28:36</OpeningTime>
+    <FinishTime>2025-06-27T10:40:00</FinishTime>
+    <Description>blalalala</Description>
+  </Call>
 </ArrayOfCall>

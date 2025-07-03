@@ -22,8 +22,12 @@ internal class AdminImplementation:IAdmin
       => AdminManager.NextCallId;
     public int GetNextAssignmentId()
        => AdminManager.NextAssignmentId;
-    
-    public void UpdateRiskRange(TimeSpan riskRange) => AdminManager.RiskRange = riskRange;
+
+    public void UpdateRiskRange(TimeSpan riskRange)
+    {
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
+        AdminManager.RiskRange = riskRange;
+    }
 
     //אתחול
     public void Initialization()
