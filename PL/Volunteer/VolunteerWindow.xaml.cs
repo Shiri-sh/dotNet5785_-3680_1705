@@ -158,7 +158,6 @@ public partial class VolunteerWindow : Window
         catch (Exception ex)
         {
             MessageBox.Show($"error: {ex.Message}");
-
         }
     }
 

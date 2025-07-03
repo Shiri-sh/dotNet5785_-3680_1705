@@ -310,12 +310,21 @@ internal static class AdminManager //stage 4
             //TO_DO:
             //Add calls here to any logic simulation that was required in stage 7
             //for example: course registration simulation
-           VolunteerManager.SimulatorActivityOfVolunteers();
             if (_simulateTask is null || _simulateTask.IsCompleted)//stage 7
-                _simulateTask = Task.Run(() => VolunteerManager.SimulatorActivityOfVolunteers());
+                _simulateTask = Task.Run(() => {
+                    lock (BlMutex)
+                    {
+                        try
+                        {
+                            VolunteerManager.SimulatorActivityOfVolunteers();
+
+                        }
+                        catch { }
+                    }
+                 });
 
             //etc...
-
+            ClockUpdatedObservers?.Invoke();
             try
             {
                 Thread.Sleep(1000); // 1 second
