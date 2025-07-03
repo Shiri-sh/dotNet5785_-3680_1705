@@ -299,11 +299,6 @@ internal static class AdminManager //stage 4
             s_thread = null;
         }
     }
-    public static void checkIfSimulatorOn()
-    {
-        if (s_thread is not null)
-            throw new BO.BLTemporaryNotAvailableException("this action is forbiden while the");
-    }
     private static Task? _simulateTask = null;
 
     private static void clockRunner()

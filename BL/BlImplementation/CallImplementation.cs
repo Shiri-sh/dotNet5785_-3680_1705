@@ -8,7 +8,7 @@ internal class CallImplementation : ICall
     public void AddCall(BO.Call call)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-        AdminManager.checkIfSimulatorOn();
+         //
 
         double[]? latLon = call.AddressOfCall == null ? null : Tools.GetCoordinates(call.AddressOfCall);
         if (latLon == null) {
@@ -122,8 +122,8 @@ internal class CallImplementation : ICall
     }
     public void UpdateCancelCall(int volunteerId, int assignId)
     {
-        AdminManager.ThrowOnSimulatorIsRunning();
-        AdminManager.checkIfSimulatorOn();
+        AdminManager.ThrowOnSimulatorIsRunning();///stage 7
+         //
 
         DO.Assignment doAssign;
         BO.Position volPosition;
@@ -141,7 +141,7 @@ internal class CallImplementation : ICall
         if((doAssign.TypeOfTreatmentTermination==DO.TypeOfTreatmentTermination.Handled || doAssign.TypeOfTreatmentTermination==DO.TypeOfTreatmentTermination.CancellationExpired) && doAssign.TreatmentEndTime!=null) {
             throw new BO.BlNotAloudToDoException("you cant cancle a call if its alocation is open");
         }
-        lock (AdminManager.BlMutex)
+        lock (AdminManager.BlMutex)//stage 7
             _dal.Assignment.Update(new DO.Assignment
             {
                 Id = assignId,
@@ -159,7 +159,7 @@ internal class CallImplementation : ICall
     public void UpdateEndCall(int volunteerId, int assignId)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-        AdminManager.checkIfSimulatorOn();
+         //
 
         DO.Assignment doAssign;
         lock (AdminManager.BlMutex)
@@ -196,7 +196,7 @@ internal class CallImplementation : ICall
     public void CooseCall(int volunteerId, int callId)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-        AdminManager.checkIfSimulatorOn();
+         //
 
         DO.Call? call;
         DO.Assignment? assign;
@@ -219,7 +219,7 @@ internal class CallImplementation : ICall
     public void DeleteCall(int id)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-        AdminManager.checkIfSimulatorOn();
+         //
 
         DO.Call doCall;
         IEnumerable<DO.Assignment>? a;
@@ -365,7 +365,7 @@ internal class CallImplementation : ICall
     public void UpdateCall(BO.Call call)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-        AdminManager.checkIfSimulatorOn();
+         //
 
         double[]? latLon = call.AddressOfCall == null ? null : Tools.GetCoordinates(call.AddressOfCall);
         if (latLon == null)
