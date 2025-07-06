@@ -83,7 +83,7 @@ internal static class VolunteerManager
                 {
                     int callId = openCalls.Skip(s_rand.Next(0, openCalls.Count())).First()!.Id;
                     lock (AdminManager.BlMutex)
-                        s_bl.Call.CooseCall(volunteer.Id, callId);
+                        CallManager.CooseCall(volunteer.Id, callId);
                 }
             }
             else
@@ -92,16 +92,20 @@ internal static class VolunteerManager
                 DO.Volunteer volunteer1;
                 DO.Assignment assignment;
                 lock (AdminManager.BlMutex)
-                call= s_dal.Call.Read(c=>c.Id==volunteer.IdOfCall)!;
-                volunteer1=s_dal.Volunteer.Read(v=>v.Id==volunteer.Id)!;
-               double dis= Tools.GetDistance(volunteer1, call);
-                assignment = s_dal.Assignment.Read(a => a.VolunteerId == volunteer.Id && a.TreatmentEndTime == null)!;
+                {
+                    call = s_dal.Call.Read(c => c.Id == volunteer.IdOfCall)!;
+                    volunteer1 = s_dal.Volunteer.Read(v => v.Id == volunteer.Id)!;
+                    assignment = s_dal.Assignment.Read(a => a.VolunteerId == volunteer.Id && a.TreatmentEndTime == null)!;
+                }
+                    double dis = Tools.GetDistance(volunteer1, call);
                if ( assignment.TreatmentEntryTime.AddMinutes(dis * 3 + 10) < s_dal.Config.Clock)
                     //עבר מספיק זמן
-                    s_bl.Call.UpdateEndCall(volunteer.Id, assignment.Id);
+                    lock (AdminManager.BlMutex)
+                        CallManager.UpdateEndCall(volunteer.Id, assignment.Id);
              //להוסיף את הההסתברות
                 else
-                    s_bl.Call.UpdateCancelCall(volunteer.Id,assignment.Id);
+                    lock (AdminManager.BlMutex)
+                        CallManager.UpdateCancelCall(volunteer.Id,assignment.Id);
             }
         }
     }

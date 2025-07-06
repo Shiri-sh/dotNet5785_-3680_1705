@@ -164,7 +164,6 @@
 
 using BO;
 using System.Runtime.CompilerServices;
-
 namespace Helpers;
 
 /// <summary>
@@ -192,6 +191,9 @@ internal static class AdminManager //stage 4
         {
             s_dal.Config.RiskRange = value;
             ConfigUpdatedObservers?.Invoke(); // stage 5
+            CallManager.Observers.NotifyListUpdated();
+            VolunteerManager.Observers.NotifyListUpdated();// stage 5
+
         }
     }
     internal static int NextAssignmentId
@@ -229,6 +231,7 @@ internal static class AdminManager //stage 4
     }
 
     private static Task? _periodicTask = null;
+    private static readonly AsyncLocal<bool> IsSimulatorThread = new();
 
     /// <summary>
     /// Method to perform application's clock from any BL class as may be required
@@ -239,10 +242,21 @@ internal static class AdminManager //stage 4
         var oldClock = s_dal.Config.Clock; //stage 4
         s_dal.Config.Clock = newClock; //stage 4
 
-        CallManager.UpdateOpenCallNotRelevant(newClock);
+        //CallManager.UpdateOpenCallNotRelevant(newClock);
         if (_periodicTask is null || _periodicTask.IsCompleted) //stage 7
-            _periodicTask = Task.Run(() => CallManager.UpdateOpenCallNotRelevant(newClock));
-
+            _periodicTask = Task.Run(() =>CallManager.UpdateOpenCallNotRelevant(newClock));
+                
+        //_periodicTask = Task.Run(() =>
+        //{
+        //    lock (BlMutex)
+        //    {
+        //        try
+        //        {
+        //            CallManager.UpdateOpenCallNotRelevant(newClock);
+        //        }
+        //        catch { }
+        //    }
+        //});
         //Calling all the observers of clock update
         ClockUpdatedObservers?.Invoke(); //prepared for stage 5
     }
@@ -273,7 +287,6 @@ internal static class AdminManager //stage 4
     [MethodImpl(MethodImplOptions.Synchronized)] //stage 7                                                 
     public static void ThrowOnSimulatorIsRunning()
     {
-        
         if (s_thread is not null)
             throw new BO.BLTemporaryNotAvailableException("Cannot perform the operation since Simulator is running");
     }
@@ -314,20 +327,9 @@ internal static class AdminManager //stage 4
             //Add calls here to any logic simulation that was required in stage 7
             //for example: course registration simulation
             if (_simulateTask is null || _simulateTask.IsCompleted)//stage 7
-                _simulateTask = Task.Run(() => {
-                    lock (BlMutex)
-                    {
-                        try
-                        {
-                            VolunteerManager.SimulatorActivityOfVolunteers();
+                _simulateTask = Task.Run(() => 
+                            VolunteerManager.SimulatorActivityOfVolunteers());
 
-                        }
-                        catch { }
-                    }
-                 });
-
-            //etc...
-            ClockUpdatedObservers?.Invoke();
             try
             {
                 Thread.Sleep(1000); // 1 second

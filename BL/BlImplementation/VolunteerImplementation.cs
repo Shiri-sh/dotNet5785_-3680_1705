@@ -56,11 +56,11 @@ internal class VolunteerImplementation: IVolunteer
     public void DeleteVolunteer(int id)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-         //
-
+        //
+        DO.Assignment? assignment;
         lock (AdminManager.BlMutex)
-        {
-            DO.Assignment? assignment = _dal.Assignment.Read(assign => assign.VolunteerId == id);
+        
+            assignment = _dal.Assignment.Read(assign => assign.VolunteerId == id);
             if (assignment == null)
             {
                 try
@@ -74,7 +74,7 @@ internal class VolunteerImplementation: IVolunteer
             }
             else
                 throw new BO.BlNotAloudToDoException($"A volunteer with assignments cannot be deleted.");
-        }
+        
     }
     public BO.Position Login(int id, string password)
     {
@@ -87,15 +87,19 @@ internal class VolunteerImplementation: IVolunteer
     }
     public BO.Volunteer Read(int id)
     {
+        
+            DO.Volunteer? doVolunteer;
+            DO.Assignment? assignment;
+        DO.Call? callInProgress;
+            ICall call = new CallImplementation();
         lock (AdminManager.BlMutex)
         {
-            DO.Volunteer? doVolunteer;
             doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id) ??
                      throw new BO.BlDoesNotExistException($"Volunteer with ID={id} does Not exist");
-            ICall call = new CallImplementation();
-            DO.Assignment? assignment = _dal.Assignment.Read(a => a.VolunteerId == id && a.TreatmentEndTime == null);
-            DO.Call? callInProgress = assignment == null ? null : _dal.Call.Read(c => c.Id == assignment.CalledId);
-            return new()
+             assignment = _dal.Assignment.Read(a => a.VolunteerId == id && a.TreatmentEndTime == null);
+            callInProgress = assignment == null ? null : _dal.Call.Read(c => c.Id == assignment.CalledId);
+        }
+        return new()
             {
                 Id = id,
                 Name = doVolunteer.Name,
@@ -126,24 +130,24 @@ internal class VolunteerImplementation: IVolunteer
                     Status = CallManager.StatusCallInProgress(callInProgress)
                 } : null
             };
-        }
+        
     }
     public IEnumerable<BO.VolunteerInList> ReadAll(bool? activity = null, BO.VoluteerInListObjects? feildToSort = null, object? valueOfFilter=null)
     {
         IEnumerable<DO.Volunteer> volunteers;
         List<BO.VolunteerInList> listOfVol = new List<BO.VolunteerInList>();
         lock (AdminManager.BlMutex)
-        {
             volunteers = _dal.Volunteer.ReadAll();
             volunteers = activity == null ? volunteers.Select(item => item) : volunteers.Where(v => v.Active == activity);
-        }
+        
         ICall call = new CallImplementation();
         foreach (var v in volunteers)
         {
-            lock (AdminManager.BlMutex)
-            {
+            DO.Assignment assign;
                 var closeCalls = call.GetCloseCallByVolunteer(v.Id);
-                var assign = _dal.Assignment.Read(a => a.VolunteerId == v.Id && a.TreatmentEndTime == null);
+            lock (AdminManager.BlMutex)
+                assign = _dal.Assignment.Read(a => a.VolunteerId == v.Id && a.TreatmentEndTime == null);
+               BO.KindOfCall? kindOfCall = assign != null ?  (BO.KindOfCall)_dal.Call.Read(a => a.Id == assign.CalledId)!.KindOfCall :null;
                 listOfVol.Add(
                     new BO.VolunteerInList
                     {
@@ -154,10 +158,9 @@ internal class VolunteerImplementation: IVolunteer
                         SumCaredCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.Handled),
                         SumIrelevantCalls = closeCalls.Count(c => c.TypeOfTreatmentTermination == BO.TypeOfTreatmentTermination.CancellationExpired),
                         IdOfCall = assign?.CalledId ?? null,
-                        KindOfCall = assign == null ? null : (BO.KindOfCall)_dal.Call.Read(a => a.Id == assign.CalledId)!.KindOfCall
+                        KindOfCall = kindOfCall
                     }
                     );
-            }
         }
         if (feildToSort == null)
         {
@@ -182,7 +185,6 @@ internal class VolunteerImplementation: IVolunteer
     public void UpdateVolunteer(int id, BO.Volunteer volunteer)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-         //
 
         DO.Volunteer doVolunteer;
         DO.Volunteer voluRequest;

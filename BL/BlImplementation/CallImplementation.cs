@@ -123,98 +123,17 @@ internal class CallImplementation : ICall
     public void UpdateCancelCall(int volunteerId, int assignId)
     {
         AdminManager.ThrowOnSimulatorIsRunning();///stage 7
-         //
-
-        DO.Assignment doAssign;
-        BO.Position volPosition;
-        lock (AdminManager.BlMutex)
-        {
-             doAssign = _dal.Assignment.Read(a => a.Id == assignId) ??
-             throw new BO.BlDoesNotExistException($"assignt with {assignId} does not exist");
-             volPosition = (BO.Position)_dal.Volunteer.Read(v => v.Id == volunteerId)!.Position;
-        }
-           
-        if (volPosition != BO.Position.Managar && volunteerId != doAssign.VolunteerId)
-        {
-            throw new BO.BlNotAloudToDoException("only a managar can cancle a call or the volunteer that took the call");
-        }
-        if((doAssign.TypeOfTreatmentTermination==DO.TypeOfTreatmentTermination.Handled || doAssign.TypeOfTreatmentTermination==DO.TypeOfTreatmentTermination.CancellationExpired) && doAssign.TreatmentEndTime!=null) {
-            throw new BO.BlNotAloudToDoException("you cant cancle a call if its alocation is open");
-        }
-        lock (AdminManager.BlMutex)//stage 7
-            _dal.Assignment.Update(new DO.Assignment
-            {
-                Id = assignId,
-                VolunteerId = volunteerId,
-                CalledId = doAssign.CalledId,
-                TreatmentEntryTime = doAssign.TreatmentEntryTime,
-                TreatmentEndTime = AdminManager.Now,
-                TypeOfTreatmentTermination = volPosition==BO.Position.Managar?DO.TypeOfTreatmentTermination.ConcellingAdministrator: DO.TypeOfTreatmentTermination.SelfCancellation,
-            });
-        CallManager.Observers.NotifyItemUpdated(doAssign.CalledId);
-        CallManager.Observers.NotifyListUpdated();
-        VolunteerManager.Observers.NotifyItemUpdated(doAssign.VolunteerId);
-        VolunteerManager.Observers.NotifyListUpdated();
+         CallManager.UpdateCancelCall(volunteerId, assignId);
     }
     public void UpdateEndCall(int volunteerId, int assignId)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-         //
-
-        DO.Assignment doAssign;
-        lock (AdminManager.BlMutex)
-           doAssign = _dal.Assignment.Read(a => a.Id == assignId)??
-           throw new BO.BlDoesNotExistException($"assignt with {assignId} does not exist");
-        if (doAssign.VolunteerId!=volunteerId)
-        {
-            throw new BO.BlNotAloudToDoException("only the volunteer that took the call can finish it");
-        }
-        if (doAssign.TypeOfTreatmentTermination==null && doAssign.TreatmentEndTime == null)
-        {
-            lock (AdminManager.BlMutex)
-                _dal.Assignment.Update(new DO.Assignment
-                {
-                    Id = assignId,
-                    VolunteerId = volunteerId,
-                    CalledId = doAssign.CalledId,
-                    TreatmentEntryTime = doAssign.TreatmentEntryTime,
-                    TreatmentEndTime = AdminManager.Now,
-                    TypeOfTreatmentTermination = DO.TypeOfTreatmentTermination.Handled,
-                });
-            CallManager.Observers.NotifyItemUpdated(assignId);
-            CallManager.Observers.NotifyListUpdated();
-            VolunteerManager.Observers.NotifyItemUpdated(doAssign.VolunteerId);
-            VolunteerManager.Observers.NotifyListUpdated();
-        }
-        else
-        {
-            throw new BO.BlNotAloudToDoException("you cant comlete a call if its alocation is closed");
-        }
-        
-        
+         CallManager.UpdateEndCall(volunteerId, assignId);
     }
     public void CooseCall(int volunteerId, int callId)
     {
         AdminManager.ThrowOnSimulatorIsRunning();
-         //
-
-        DO.Call? call;
-        DO.Assignment? assign;
-        lock (AdminManager.BlMutex)
-        {
-            call = _dal.Call.Read(c => c.Id == callId);
-            assign = _dal.Assignment.Read(a => a.CalledId == callId && (a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled || a.TypeOfTreatmentTermination == null));
-        }
-        if(assign!=null && assign.TypeOfTreatmentTermination==DO.TypeOfTreatmentTermination.CancellationExpired)
-        {
-            throw new BO.BlNotAloudToDoException("the call has been handled or someone took it already or the call is irelevant");
-        }
-        lock (AdminManager.BlMutex)
-            _dal.Assignment.Create(new DO.Assignment { CalledId = callId, VolunteerId = volunteerId, TreatmentEntryTime = AdminManager.Now });
-        VolunteerManager.Observers.NotifyItemUpdated(volunteerId);
-        VolunteerManager.Observers.NotifyListUpdated();
-        CallManager.Observers.NotifyItemUpdated(callId);
-        CallManager.Observers.NotifyListUpdated();
+        CallManager.CooseCall(volunteerId, callId); 
     }
     public void DeleteCall(int id)
     {
