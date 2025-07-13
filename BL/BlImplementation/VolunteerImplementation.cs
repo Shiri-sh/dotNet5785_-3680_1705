@@ -14,8 +14,14 @@ internal class VolunteerImplementation: IVolunteer
 
     public void AddVolunteer(BO.Volunteer boVolunteer)
     {
-        AdminManager.ThrowOnSimulatorIsRunning();
-         //
+        try
+        {
+            AdminManager.ThrowOnSimulatorIsRunning();
+        }
+        catch (BO.BLTemporaryNotAvailableException ex)
+        {
+            throw new BO.BLTemporaryNotAvailableException(ex.Message);
+        }
 
         //  double[]? latLon = boVolunteer.CurrentAddress == null ? null : Tools.GetCoordinates(boVolunteer.CurrentAddress);
         try
@@ -55,7 +61,13 @@ internal class VolunteerImplementation: IVolunteer
     }
     public void DeleteVolunteer(int id)
     {
-        AdminManager.ThrowOnSimulatorIsRunning();
+        try
+        {
+            AdminManager.ThrowOnSimulatorIsRunning();
+        }catch(BO.BLTemporaryNotAvailableException ex)
+        {
+            throw new BO.BLTemporaryNotAvailableException(ex.Message);
+        }
         //
         DO.Assignment? assignment;
         lock (AdminManager.BlMutex)
@@ -184,8 +196,14 @@ internal class VolunteerImplementation: IVolunteer
     }
     public void UpdateVolunteer(int id, BO.Volunteer volunteer)
     {
-        AdminManager.ThrowOnSimulatorIsRunning();
-
+        try
+        {
+            AdminManager.ThrowOnSimulatorIsRunning();
+        }
+        catch (BO.BLTemporaryNotAvailableException ex)
+        {
+            throw new BO.BLTemporaryNotAvailableException(ex.Message);
+        }
         DO.Volunteer doVolunteer;
         DO.Volunteer voluRequest;
         //המתנדב קיים במערכת

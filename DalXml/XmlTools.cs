@@ -13,6 +13,28 @@ static class XMLTools
         if (!Directory.Exists(s_xmlDir))
             Directory.CreateDirectory(s_xmlDir);
     }
+    public static void WaitUntilFileIsAvailable(string filePath, int maxAttempts = 5000, int delayMilliseconds = 100)
+    {
+        int attempts = 0;
+
+        while (attempts<maxAttempts)
+            {
+                try
+                {
+                   using FileStream stream = new(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+                
+                return; // הצלחנו לגשת לקובץ, אפשר להמשיך
+                 }
+            catch (Exception ex)
+            {
+                Thread.Sleep(delayMilliseconds);
+                attempts++;
+            }
+
+        }
+
+        throw new IOException($"File {filePath} is still locked after {maxAttempts} attempts.");
+    }
 
     #region SaveLoadWithXMLSerializer
     public static void SaveListToXMLSerializer<T>(List<T> list, string xmlFileName) where T : class
@@ -21,6 +43,7 @@ static class XMLTools
 
         try
         {
+            WaitUntilFileIsAvailable(xmlFilePath);
             using FileStream file = new(xmlFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
             new XmlSerializer(typeof(List<T>)).Serialize(file, list);
         }
@@ -36,6 +59,7 @@ static class XMLTools
         try
         {
             if (!File.Exists(xmlFilePath)) return new();
+            WaitUntilFileIsAvailable(xmlFilePath);
             using FileStream file = new(xmlFilePath, FileMode.Open);
             XmlSerializer x = new(typeof(List<T>));
             return x.Deserialize(file) as List<T> ?? new();
@@ -45,22 +69,40 @@ static class XMLTools
             throw new DalXMLFileLoadCreateException($"fail to load xml file: {xmlFilePath}, {ex.Message}");
         }
     }
+
     #endregion
 
     #region SaveLoadWithXElement
+    //public static void SaveListToXMLElement(XElement rootElem, string xmlFileName)
+    //{
+    //    string xmlFilePath = s_xmlDir + xmlFileName;
+
+    //    try
+    //    {
+    //        WaitUntilFileIsAvailable(xmlFilePath);
+    //        rootElem.Save(xmlFilePath);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        throw new DalXMLFileLoadCreateException($"fail to create xml file: {s_xmlDir + xmlFilePath}, {ex.Message}");
+    //    }
+    //}
     public static void SaveListToXMLElement(XElement rootElem, string xmlFileName)
     {
         string xmlFilePath = s_xmlDir + xmlFileName;
 
         try
         {
-            rootElem.Save(xmlFilePath);
+            WaitUntilFileIsAvailable(xmlFilePath);
+            using FileStream stream = new(xmlFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            rootElem.Save(stream);
         }
         catch (Exception ex)
         {
-            throw new DalXMLFileLoadCreateException($"fail to create xml file: {s_xmlDir + xmlFilePath}, {ex.Message}");
+            throw new DalXMLFileLoadCreateException($"fail to create xml file: {xmlFilePath}, {ex.Message}");
         }
     }
+
     public static XElement LoadListFromXMLElement(string xmlFileName)
     {
         string xmlFilePath = s_xmlDir + xmlFileName;
@@ -68,16 +110,40 @@ static class XMLTools
         try
         {
             if (File.Exists(xmlFilePath))
-                return XElement.Load(xmlFilePath);
+            {
+                using FileStream fileStream = new(xmlFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                return XElement.Load(fileStream);
+            }
+
             XElement rootElem = new(xmlFileName);
-            rootElem.Save(xmlFilePath);
+            WaitUntilFileIsAvailable(xmlFilePath);
+            using FileStream stream = new(xmlFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            rootElem.Save(stream);
             return rootElem;
         }
         catch (Exception ex)
         {
-            throw new DalXMLFileLoadCreateException($"fail to load xml file: {s_xmlDir + xmlFilePath}, {ex.Message}");
+            throw new DalXMLFileLoadCreateException($"fail to load xml file: {xmlFilePath}, {ex.Message}");
         }
     }
+
+    //public static XElement LoadListFromXMLElement(string xmlFileName)
+    //{
+    //    string xmlFilePath = s_xmlDir + xmlFileName;
+
+    //    try
+    //    {
+    //        if (File.Exists(xmlFilePath))
+    //            return XElement.Load(xmlFilePath);
+    //        XElement rootElem = new(xmlFileName);
+    //        rootElem.Save(xmlFilePath);
+    //        return rootElem;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        throw new DalXMLFileLoadCreateException($"fail to load xml file: {s_xmlDir + xmlFilePath}, {ex.Message}");
+    //    }
+    //}
     #endregion
 
     #region XmlConfig

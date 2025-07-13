@@ -7,8 +7,14 @@ internal class CallImplementation : ICall
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
     public async void AddCall(BO.Call call)
     {
-        AdminManager.ThrowOnSimulatorIsRunning();
-         //
+        try
+        {
+            AdminManager.ThrowOnSimulatorIsRunning();
+        }
+        catch (BO.BLTemporaryNotAvailableException ex)
+        {
+            throw new BO.BLTemporaryNotAvailableException(ex.Message);
+        }
 
         double[]? latLon = call.AddressOfCall == null ? null : await Tools.GetCoordinates(call.AddressOfCall);
         if (latLon == null) {
@@ -122,17 +128,38 @@ internal class CallImplementation : ICall
     }
     public void UpdateCancelCall(int volunteerId, int assignId)
     {
-        AdminManager.ThrowOnSimulatorIsRunning();///stage 7
-         CallManager.UpdateCancelCall(volunteerId, assignId);
+        try
+        {
+            AdminManager.ThrowOnSimulatorIsRunning();
+        }
+        catch (BO.BLTemporaryNotAvailableException ex)
+        {
+            throw new BO.BLTemporaryNotAvailableException(ex.Message);
+        }
+        CallManager.UpdateCancelCall(volunteerId, assignId);
     }
     public void UpdateEndCall(int volunteerId, int assignId)
     {
-        AdminManager.ThrowOnSimulatorIsRunning();
-         CallManager.UpdateEndCall(volunteerId, assignId);
+        try
+        {
+            AdminManager.ThrowOnSimulatorIsRunning();
+        }
+        catch (BO.BLTemporaryNotAvailableException ex)
+        {
+            throw new BO.BLTemporaryNotAvailableException(ex.Message);
+        }
+        CallManager.UpdateEndCall(volunteerId, assignId);
     }
     public void CooseCall(int volunteerId, int callId)
     {
-        AdminManager.ThrowOnSimulatorIsRunning();
+        try
+        {
+            AdminManager.ThrowOnSimulatorIsRunning();
+        }
+        catch (BO.BLTemporaryNotAvailableException ex)
+        {
+            throw new BO.BLTemporaryNotAvailableException(ex.Message);
+        }
         CallManager.CooseCall(volunteerId, callId); 
     }
     public void DeleteCall(int id)
@@ -283,8 +310,14 @@ internal class CallImplementation : ICall
     }
     public async void UpdateCall(BO.Call call)
     {
-        AdminManager.ThrowOnSimulatorIsRunning();
-         //
+        try
+        {
+            AdminManager.ThrowOnSimulatorIsRunning();
+        }
+        catch (BO.BLTemporaryNotAvailableException ex)
+        {
+            throw new BO.BLTemporaryNotAvailableException(ex.Message);
+        }
 
         double[]? latLon = call.AddressOfCall == null ? null : await Tools.GetCoordinates(call.AddressOfCall);
         if (latLon == null)
