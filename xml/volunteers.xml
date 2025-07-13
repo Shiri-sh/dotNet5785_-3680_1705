@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfVolunteer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Volunteer>
-    <Id>987654321</Id>
-    <Name>Avi Aviron</Name>
-    <PhoneNumber>1234567890</PhoneNumber>
-    <Email>A@gmail.com</Email>
-    <Position>Volunteer</Position>
-    <Password>12345678999999</Password>
-    <Active>true</Active>
-    <CurrentAddress>Even Gvirol 11, Elad</CurrentAddress>
-    <Latitude>32.0539178</Latitude>
-    <Longitude>34.9586121</Longitude>
-    <MaximumDistanceForReading>10</MaximumDistanceForReading>
-    <TypeOfDistance>Aerial</TypeOfDistance>
-  </Volunteer>
-  <Volunteer>
     <Id>123456789</Id>
     <Name>Mani Manager</Name>
     <PhoneNumber>0548483430</PhoneNumber>
@@ -29,8 +15,36 @@
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
+    <Id>198273645</Id>
+    <Name>shir shirom</Name>
+    <PhoneNumber>0525665732</PhoneNumber>
+    <Email>w@gmail.com</Email>
+    <Position>Volunteer</Position>
+    <Password>@@shir</Password>
+    <Active>true</Active>
+    <CurrentAddress>Even Gvirol 11, Tel Aviv</CurrentAddress>
+    <Latitude>32.09077505</Latitude>
+    <Longitude>34.834955245738115</Longitude>
+    <MaximumDistanceForReading>1</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>998877665</Id>
+    <Name>Gidi Gidoni</Name>
+    <PhoneNumber>0548483430</PhoneNumber>
+    <Email>G@gmail.com</Email>
+    <Position>Volunteer</Position>
+    <Password>!@#GIDI</Password>
+    <Active>true</Active>
+    <CurrentAddress>Even Gvirol 20, Elad</CurrentAddress>
+    <Latitude>32.0539178</Latitude>
+    <Longitude>34.9586121</Longitude>
+    <MaximumDistanceForReading>2</MaximumDistanceForReading>
+    <TypeOfDistance>Aerial</TypeOfDistance>
+  </Volunteer>
+  <Volunteer>
     <Id>112233445</Id>
-    <Name>Shuli Shalom</Name>
+    <Name>Shuli Shalomiii</Name>
     <PhoneNumber>9876543210</PhoneNumber>
     <Email>S@gmail.com</Email>
     <Position>Volunteer</Position>
@@ -43,17 +57,17 @@
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
   <Volunteer>
-    <Id>998877665</Id>
-    <Name>Gidi Gidon</Name>
-    <PhoneNumber>0525665732</PhoneNumber>
-    <Email>G@gmail.com</Email>
+    <Id>987654321</Id>
+    <Name>Avi Aviron</Name>
+    <PhoneNumber>1234567890</PhoneNumber>
+    <Email>A@gmail.com</Email>
     <Position>Volunteer</Position>
-    <Password>!@#GIDI</Password>
+    <Password>12345678999999</Password>
     <Active>true</Active>
-    <CurrentAddress>Even Gvirol 20, Elad</CurrentAddress>
-    <Latitude>32.0539178</Latitude>
-    <Longitude>34.9586121</Longitude>
-    <MaximumDistanceForReading>2</MaximumDistanceForReading>
+    <CurrentAddress>Even Gvirol 11, Tel Aviv</CurrentAddress>
+    <Latitude xsi:nil="true" />
+    <Longitude xsi:nil="true" />
+    <MaximumDistanceForReading>10</MaximumDistanceForReading>
     <TypeOfDistance>Aerial</TypeOfDistance>
   </Volunteer>
 </ArrayOfVolunteer>

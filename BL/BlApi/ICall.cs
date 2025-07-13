@@ -52,7 +52,7 @@ public interface ICall: IObservable
     /// </summary>
     /// <param name="call">The call object to add.</param>
     /// <exception cref="BO.BlAlreadyExistsException">Thrown if the call already exists.</exception>
-    void AddCall(BO.Call call);
+    Task  AddCall(BO.Call call);
     /// <summary>
     /// Retrieves a list of closed calls assigned to a volunteer.
     /// </summary>

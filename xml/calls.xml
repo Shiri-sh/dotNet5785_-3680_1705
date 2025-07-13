@@ -60,4 +60,24 @@
     <FinishTime>2025-06-27T10:40:00</FinishTime>
     <Description>blalalala</Description>
   </Call>
+  <Call>
+    <Id>7</Id>
+    <KindOfCall>FirstAid</KindOfCall>
+    <AddressOfCall>Even Gvirol 20, Tel Aviv</AddressOfCall>
+    <Latitude>32.0736995</Latitude>
+    <Longitude>34.7819872</Longitude>
+    <OpeningTime>2025-06-22T12:46:36</OpeningTime>
+    <FinishTime>2025-06-22T13:00:00</FinishTime>
+    <Description>nnnnn</Description>
+  </Call>
+  <Call>
+    <Id>8</Id>
+    <KindOfCall>fuelOilWater</KindOfCall>
+    <AddressOfCall>Even Gvirol 11, Tel Aviv</AddressOfCall>
+    <Latitude>32.09077505</Latitude>
+    <Longitude>34.834955245738115</Longitude>
+    <OpeningTime>2025-06-22T12:46:36</OpeningTime>
+    <FinishTime>2025-06-22T13:30:00</FinishTime>
+    <Description>Even Gvirol!</Description>
+  </Call>
 </ArrayOfCall>

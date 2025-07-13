@@ -231,8 +231,8 @@ internal class VolunteerImplementation: IVolunteer
          DO.Volunteer vol=new (
             
                  volunteer.Id,
+                 volunteer.Name,
                  volunteer.PhoneNumber,
-                volunteer.Name,
                  volunteer.Email,
                 //Longitude = latLon?[1],
                 //Latitude = latLon?[0],

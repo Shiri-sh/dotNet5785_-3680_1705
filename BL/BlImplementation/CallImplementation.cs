@@ -5,7 +5,7 @@ namespace BlImplementation;
 internal class CallImplementation : ICall
 {
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
-    public async void AddCall(BO.Call call)
+    public async Task  AddCall(BO.Call call)
     {
         try
         {
@@ -128,6 +128,7 @@ internal class CallImplementation : ICall
     }
     public void UpdateCancelCall(int volunteerId, int assignId)
     {
+        //if (Thread.CurrentThread.ManagedThreadId)
         try
         {
             AdminManager.ThrowOnSimulatorIsRunning();
