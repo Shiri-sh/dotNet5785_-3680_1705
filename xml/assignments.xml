@@ -1,107 +1,171 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfAssignment>
   <Assignment>
-    <Id>1</Id>
-    <CalledId>1</CalledId>
-    <VolunteerId>998877665</VolunteerId>
-    <TreatmentEntryTime>2025-06-12T20:28:36</TreatmentEntryTime>
-    <TreatmentEndTime>2025-06-12T20:28:36</TreatmentEndTime>
-    <TypeOfTreatmentTermination>Handled</TypeOfTreatmentTermination>
+    <Id>2</Id>
+    <CalledId>5</CalledId>
+    <VolunteerId>123456789</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:08:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:12:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>ConcellingAdministrator</TypeOfTreatmentTermination>
   </Assignment>
   <Assignment>
-    <Id>2</Id>
-    <CalledId>2</CalledId>
+    <Id>3</Id>
+    <CalledId>4</CalledId>
+    <VolunteerId>198273645</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:08:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:13:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>1</Id>
+    <CalledId>5</CalledId>
+    <VolunteerId>112233445</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:08:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:14:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>4</Id>
+    <CalledId>4</CalledId>
+    <VolunteerId>987654321</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:08:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:17:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>5</Id>
+    <CalledId>4</CalledId>
     <VolunteerId>998877665</VolunteerId>
-    <TreatmentEntryTime>2025-06-12T20:28:36</TreatmentEntryTime>
-    <TreatmentEndTime>2025-06-12T20:28:36</TreatmentEndTime>
+    <TreatmentEntryTime>2025-06-22T21:08:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:19:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>8</Id>
+    <CalledId>3</CalledId>
+    <VolunteerId>112233445</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:15:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:21:36</TreatmentEndTime>
     <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
   </Assignment>
   <Assignment>
     <Id>6</Id>
-    <CalledId>3</CalledId>
-    <VolunteerId>123456789</VolunteerId>
-    <TreatmentEntryTime>2025-06-12T20:28:36</TreatmentEntryTime>
-    <TreatmentEndTime>2025-06-12T20:28:36</TreatmentEndTime>
-    <TypeOfTreatmentTermination>Handled</TypeOfTreatmentTermination>
-  </Assignment>
-  <Assignment>
-    <Id>7</Id>
     <CalledId>4</CalledId>
     <VolunteerId>123456789</VolunteerId>
-    <TreatmentEntryTime>2025-06-12T20:28:36</TreatmentEntryTime>
-    <TreatmentEndTime>2025-06-12T20:28:36</TreatmentEndTime>
+    <TreatmentEntryTime>2025-06-22T21:13:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:21:36</TreatmentEndTime>
     <TypeOfTreatmentTermination>ConcellingAdministrator</TypeOfTreatmentTermination>
   </Assignment>
   <Assignment>
     <Id>9</Id>
-    <CalledId>2</CalledId>
-    <VolunteerId>123456789</VolunteerId>
-    <TreatmentEntryTime>2025-06-12T20:28:36</TreatmentEntryTime>
-    <TreatmentEndTime>2025-06-12T20:28:36</TreatmentEndTime>
-    <TypeOfTreatmentTermination>Handled</TypeOfTreatmentTermination>
+    <CalledId>3</CalledId>
+    <VolunteerId>987654321</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:18:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:22:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
   </Assignment>
   <Assignment>
-    <Id>10</Id>
-    <CalledId>4</CalledId>
-    <VolunteerId>123456789</VolunteerId>
-    <TreatmentEntryTime>2025-06-12T20:28:36</TreatmentEntryTime>
-    <TreatmentEndTime>2025-06-12T20:28:36</TreatmentEndTime>
-    <TypeOfTreatmentTermination>ConcellingAdministrator</TypeOfTreatmentTermination>
+    <Id>7</Id>
+    <CalledId>3</CalledId>
+    <VolunteerId>198273645</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:14:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:25:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>Handled</TypeOfTreatmentTermination>
   </Assignment>
   <Assignment>
     <Id>11</Id>
-    <CalledId>4</CalledId>
-    <VolunteerId>123456789</VolunteerId>
-    <TreatmentEntryTime>2025-06-12T20:28:36</TreatmentEntryTime>
-    <TreatmentEndTime>2025-06-12T20:28:36</TreatmentEndTime>
+    <CalledId>1</CalledId>
+    <VolunteerId>112233445</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:22:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:29:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>13</Id>
+    <CalledId>2</CalledId>
+    <VolunteerId>987654321</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:23:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:29:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>10</Id>
+    <CalledId>2</CalledId>
+    <VolunteerId>998877665</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:20:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:31:36</TreatmentEndTime>
     <TypeOfTreatmentTermination>Handled</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>15</Id>
+    <CalledId>4</CalledId>
+    <VolunteerId>112233445</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:30:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:33:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
   </Assignment>
   <Assignment>
     <Id>12</Id>
-    <CalledId>5</CalledId>
+    <CalledId>1</CalledId>
+    <VolunteerId>123456789</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:22:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:33:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>Handled</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>17</Id>
+    <CalledId>4</CalledId>
+    <VolunteerId>998877665</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:32:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:33:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>19</Id>
+    <CalledId>4</CalledId>
+    <VolunteerId>123456789</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:34:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:35:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>ConcellingAdministrator</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>18</Id>
+    <CalledId>4</CalledId>
     <VolunteerId>112233445</VolunteerId>
-    <TreatmentEntryTime>2025-06-21T04:28:36</TreatmentEntryTime>
-    <TreatmentEndTime>2025-06-21T22:45:36</TreatmentEndTime>
-    <TypeOfTreatmentTermination>Handled</TypeOfTreatmentTermination>
+    <TreatmentEntryTime>2025-06-22T21:34:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:36:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
   </Assignment>
   <Assignment>
-    <Id>280</Id>
-    <CalledId>6</CalledId>
-    <VolunteerId>123456789</VolunteerId>
-    <TreatmentEntryTime>2025-06-22T15:57:36</TreatmentEntryTime>
-    <TreatmentEndTime>2025-06-22T15:57:36</TreatmentEndTime>
-    <TypeOfTreatmentTermination>ConcellingAdministrator</TypeOfTreatmentTermination>
+    <Id>14</Id>
+    <CalledId>1</CalledId>
+    <VolunteerId>198273645</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:26:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:36:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
   </Assignment>
   <Assignment>
-    <Id>281</Id>
-    <CalledId>6</CalledId>
+    <Id>21</Id>
+    <CalledId>4</CalledId>
     <VolunteerId>123456789</VolunteerId>
-    <TreatmentEntryTime>2025-06-22T15:57:36</TreatmentEntryTime>
-    <TreatmentEndTime>2025-06-22T15:57:36</TreatmentEndTime>
-    <TypeOfTreatmentTermination>ConcellingAdministrator</TypeOfTreatmentTermination>
+    <TreatmentEntryTime>2025-06-22T21:36:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:37:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>CancellationExpired</TypeOfTreatmentTermination>
   </Assignment>
   <Assignment>
-    <Id>282</Id>
-    <CalledId>6</CalledId>
-    <VolunteerId>123456789</VolunteerId>
-    <TreatmentEntryTime>2025-06-22T15:57:36</TreatmentEntryTime>
-    <TreatmentEndTime>2025-06-22T15:57:36</TreatmentEndTime>
-    <TypeOfTreatmentTermination>Handled</TypeOfTreatmentTermination>
+    <Id>20</Id>
+    <CalledId>4</CalledId>
+    <VolunteerId>998877665</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:34:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:38:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
   </Assignment>
   <Assignment>
-    <Id>283</Id>
-    <CalledId>9</CalledId>
-    <VolunteerId>123456789</VolunteerId>
-    <TreatmentEntryTime>2025-06-22T15:57:36</TreatmentEntryTime>
-    <TreatmentEndTime>2025-06-22T15:57:36</TreatmentEndTime>
-    <TypeOfTreatmentTermination>ConcellingAdministrator</TypeOfTreatmentTermination>
-  </Assignment>
-  <Assignment>
-    <Id>284</Id>
-    <CalledId>9</CalledId>
-    <VolunteerId>123456789</VolunteerId>
-    <TreatmentEntryTime>2025-06-22T15:57:36</TreatmentEntryTime>
-    <TreatmentEndTime>2025-06-22T15:57:36</TreatmentEndTime>
-    <TypeOfTreatmentTermination>Handled</TypeOfTreatmentTermination>
+    <Id>16</Id>
+    <CalledId>4</CalledId>
+    <VolunteerId>987654321</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:30:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:39:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
   </Assignment>
 </ArrayOfAssignment>

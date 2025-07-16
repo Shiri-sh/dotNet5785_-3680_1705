@@ -67,7 +67,11 @@ internal class CallImplementation : ICall
             {
                 var assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
                                                         .OrderByDescending(a => a.TreatmentEntryTime)
-                                                        .FirstOrDefault();
+                                                       .FirstOrDefault();
+                var remainingTimeToFinish = c.FinishTime - AdminManager.Now;
+                var remaining = assignment?.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled
+                                || assignment?.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.CancellationExpired
+                                || c.FinishTime < AdminManager.Now;
                 listOfCall.Add(
                    new BO.CallInList
                    {
@@ -75,7 +79,7 @@ internal class CallImplementation : ICall
                        CallId = c.Id,
                        KindOfCall = (BO.KindOfCall)c.KindOfCall,
                        OpeningTime = c.OpeningTime,
-                       RemainingTimeToFinish = c.FinishTime - AdminManager.Now,
+                       RemainingTimeToFinish = remaining ? TimeSpan.Zero: c.FinishTime - AdminManager.Now,
                        LastVolunteer = assignment == null ? null : _dal.Volunteer.Read(v => v.Id == assignment.VolunteerId)?.Name,
                        CompletionTime = assignment == null ? null : assignment.TreatmentEndTime == null ? null : assignment.TreatmentEndTime - c.OpeningTime,
                        Status = CallManager.GetStatus(c),
