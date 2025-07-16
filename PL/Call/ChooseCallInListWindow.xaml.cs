@@ -92,6 +92,7 @@ public partial class ChooseCallInListWindow : Window
         if (CurrentVolunteer!.Id != 0)
             s_bl.Volunteer.AddObserver(CurrentVolunteer!.Id, ObservedVolunteer);
         s_bl.Call.AddObserver(callListObserver);
+        LoadVolunteerMap();
     }
 
     private void Window_Closed(object sender, EventArgs e)
@@ -135,7 +136,6 @@ public partial class ChooseCallInListWindow : Window
     private void FilterListByKindOfCall(object sender, SelectionChangedEventArgs e)
     
             =>queryCallList();
-
     private void ChooseCallToTreat(object sender, RoutedEventArgs e)
     {
         try
@@ -153,4 +153,45 @@ public partial class ChooseCallInListWindow : Window
             MessageBox.Show($"error:{ex}");
         }
     }
+    private async void LoadVolunteerMap()
+    {
+        if (CurrentVolunteer == null)
+        {
+            MessageBox.Show("אין מתנדב נבחר.");
+            return;
+        }
+
+        double? lat = CurrentVolunteer.Latitude;
+        double? lon = CurrentVolunteer.Longitude;
+
+        string html = $@"
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Volunteer Map</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <link rel='stylesheet' href='https://unpkg.com/leaflet/dist/leaflet.css' />
+  <style>#map {{ height: 100vh; width: 100%; margin: 0; }}</style>
+</head>
+<body>
+  <div id='map'></div>
+  <script src='https://unpkg.com/leaflet/dist/leaflet.js'></script>
+  <script>
+    var map = L.map('map').setView([{lat}, {lon}], 15);
+    L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png').addTo(map);
+    L.marker([{lat}, {lon}]).addTo(map).bindPopup('אתה כאן').openPopup();
+  </script>
+</body>
+</html>";
+
+        string tempPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "volunteer_map.html");
+        System.IO.File.WriteAllText(tempPath, html);
+
+        await MapBrowser.EnsureCoreWebView2Async();
+        MapBrowser.Source = new Uri(tempPath);
+    }
+
+
+
 }

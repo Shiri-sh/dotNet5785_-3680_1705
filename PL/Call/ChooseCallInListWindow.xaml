@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         xmlns:local="clr-namespace:PL.Call"
         mc:Ignorable="d"
         Title="ChooseCallInListWindow" Height="450" Width="800"
@@ -14,6 +15,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,15,0,15">
@@ -49,5 +52,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <wv2:WebView2 x:Name="MapBrowser" Grid.Row="2" />
+
     </Grid>
 </Window>
