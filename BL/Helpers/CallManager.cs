@@ -146,7 +146,7 @@ internal static class CallManager
         }
         if ((doAssign.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled || doAssign.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.CancellationExpired) && doAssign.TreatmentEndTime != null)
         {
-            throw new BO.BlNotAloudToDoException("you cant cancle a call if its alocation is open");
+            throw new BO.BlNotAloudToDoException("you can cancle a call only if alocation is open");
         }
         lock (AdminManager.BlMutex)//stage 7
             s_dal.Assignment.Update(new DO.Assignment
