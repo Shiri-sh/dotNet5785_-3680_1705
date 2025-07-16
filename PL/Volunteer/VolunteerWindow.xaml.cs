@@ -38,7 +38,7 @@ public partial class VolunteerWindow : Window
 
     public static readonly DependencyProperty CurrentVolunteerProperty =
         DependencyProperty.Register("CurrentVolunteer", typeof(BO.Volunteer), typeof(VolunteerWindow), new PropertyMetadata(null));
-    public VolunteerWindow(int id=0,BO.Position position=BO.Position.Managar)
+    public VolunteerWindow(int id = 0 ,BO.Position position=BO.Position.Managar)
     {
         AddOrUpdate = id == 0 ? "Add" : "Update";
         UserPosition= position;
@@ -100,6 +100,7 @@ public partial class VolunteerWindow : Window
             }
             else
             {
+
                 s_bl.Volunteer.UpdateVolunteer(Id, CurrentVolunteer!);
             }
             MessageBox.Show("Operation completed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);

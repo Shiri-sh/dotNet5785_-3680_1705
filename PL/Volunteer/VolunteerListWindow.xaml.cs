@@ -71,7 +71,7 @@ namespace PL.Volunteer
         private void ChooseVolunteerToUpdate(object sender, MouseButtonEventArgs e)
         {
             if(SelectedVolunteer!=null)
-              new VolunteerWindow(SelectedVolunteer.Id).Show();
+              new VolunteerWindow(SelectedVolunteer.Id,BO.Position.Managar).Show();
         }
 
         private void DeleteVolunteerButton_Click(object sender, RoutedEventArgs e)

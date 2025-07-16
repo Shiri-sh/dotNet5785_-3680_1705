@@ -168,4 +168,52 @@
     <TreatmentEndTime>2025-06-22T21:39:36</TreatmentEndTime>
     <TypeOfTreatmentTermination>SelfCancellation</TypeOfTreatmentTermination>
   </Assignment>
+  <Assignment>
+    <Id>22</Id>
+    <CalledId>7</CalledId>
+    <VolunteerId>0</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:49:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:49:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>CancellationExpired</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>23</Id>
+    <CalledId>8</CalledId>
+    <VolunteerId>0</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:49:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:49:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>CancellationExpired</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>24</Id>
+    <CalledId>9</CalledId>
+    <VolunteerId>0</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:49:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:49:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>CancellationExpired</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>25</Id>
+    <CalledId>10</CalledId>
+    <VolunteerId>0</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:49:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:49:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>CancellationExpired</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>26</Id>
+    <CalledId>11</CalledId>
+    <VolunteerId>0</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:49:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:49:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>CancellationExpired</TypeOfTreatmentTermination>
+  </Assignment>
+  <Assignment>
+    <Id>27</Id>
+    <CalledId>12</CalledId>
+    <VolunteerId>0</VolunteerId>
+    <TreatmentEntryTime>2025-06-22T21:49:36</TreatmentEntryTime>
+    <TreatmentEndTime>2025-06-22T21:49:36</TreatmentEndTime>
+    <TypeOfTreatmentTermination>CancellationExpired</TypeOfTreatmentTermination>
+  </Assignment>
 </ArrayOfAssignment>
