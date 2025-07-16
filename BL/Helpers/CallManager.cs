@@ -1,5 +1,6 @@
 ﻿
 using DalApi;
+using System.Collections.Generic;
 namespace Helpers;
 internal static class CallManager
 {
@@ -25,23 +26,29 @@ internal static class CallManager
     /// <returns>The status of the call (e.g., 'OpenInRisk', 'Closed', 'Irelavant').</returns>
     public static BO.Status GetStatus(DO.Call call)
     {
+        IEnumerable<DO.Assignment> assignments;
         lock (AdminManager.BlMutex)
+            assignments = s_dal.Assignment.ReadAll(a => a.CalledId == call.Id);
+        //מתנדב סים לטפל בה
+        if (null != assignments!.FirstOrDefault(a => a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled))
+            return BO.Status.Closed;
+        //פג תוקף
+        if (call.FinishTime < AdminManager.Now)
+            return BO.Status.Irelavant;
+
+
+        //הקריאה לא הוקצתה לאף מתנדב והיא בטווח סיכון
+        if (null==assignments!.FirstOrDefault(a => a.TypeOfTreatmentTermination == null))
         {
-            IEnumerable<DO.Assignment> assignments = s_dal.Assignment.ReadAll(a => a.CalledId == call.Id);
-            //הקריאה לא הוקצתה לאף מתנדב והיא בטווח סיכון
-            if (assignments == null && AdminManager.Now + s_dal.Config.RiskRange > call.FinishTime)
+            if (AdminManager.Now + s_dal.Config.RiskRange > call.FinishTime)
                 return BO.Status.OpenInRisk;
-            //מחפש אם יש הקצאה לקריאה שמטופלת עכשיו ולא עבר זמנה
-            if (call.FinishTime > AdminManager.Now && null == assignments.FirstOrDefault(a => a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled))
+            else
                 return BO.Status.Open;
-            //מתנדב סים לטפל בה
-            if (null != assignments.FirstOrDefault(a => a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled))
-                return BO.Status.Closed;
-            //פג תוקף
-            if (call.FinishTime < AdminManager.Now)
-                return BO.Status.Irelavant;
-            return (BO.Status)StatusCallInProgress(call);
+
         }
+            
+            return (BO.Status)StatusCallInProgress(call);
+        
     }
     /// <summary>
     /// Validates the call by checking if the finish time is not earlier than the opening time and if the address is valid.

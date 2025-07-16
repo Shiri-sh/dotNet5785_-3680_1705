@@ -128,7 +128,6 @@ internal class CallImplementation : ICall
     }
     public void UpdateCancelCall(int volunteerId, int assignId)
     {
-        //if (Thread.CurrentThread.ManagedThreadId)
         try
         {
             AdminManager.ThrowOnSimulatorIsRunning();
@@ -241,21 +240,31 @@ internal class CallImplementation : ICall
         }
         foreach (var c in listcalls)
         {
-            var assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
-                                           .FirstOrDefault(a => a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled || a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.CancellationExpired);
-            if (assignment == null)
-                calls.Add(
-                    new BO.OpenCallInList
-                    {
-                        Id = c.Id,
-                        KindOfCall = (BO.KindOfCall)c.KindOfCall,
-                        AddressOfCall = c.AddressOfCall,
-                        OpeningTime = c.OpeningTime,
-                        FinishTime = c.FinishTime,
-                        Description = c.Description,
-                        DistanceFromVol = Tools.GetDistance(vol, c)
-                    });
+            DO.Assignment assignment;
+            lock (AdminManager.BlMutex)
+            {
+                //הקצאה טופלה או עבר זמנה 
+                if (c.FinishTime > AdminManager.Now)
+                {
+                    assignment = _dal.Assignment.ReadAll(a => a.CalledId == c.Id)
+                                                          .FirstOrDefault(a =>
+                                                           a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.Handled
+                                                          || a.TypeOfTreatmentTermination == DO.TypeOfTreatmentTermination.CancellationExpired)!;
+                    if (assignment == null)
+                        calls.Add(
+                            new BO.OpenCallInList
+                            {
+                                Id = c.Id,
+                                KindOfCall = (BO.KindOfCall)c.KindOfCall,
+                                AddressOfCall = c.AddressOfCall,
+                                OpeningTime = c.OpeningTime,
+                                FinishTime = c.FinishTime,
+                                Description = c.Description,
+                                DistanceFromVol = Tools.GetDistance(vol, c)
+                            });
+                }
                
+            }
         }
         if (kindOfCall.HasValue)
         {

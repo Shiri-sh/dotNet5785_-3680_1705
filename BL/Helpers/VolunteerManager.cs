@@ -72,7 +72,7 @@ internal static class VolunteerManager
         List<BO.VolunteerInList> volunteers;
         lock (AdminManager.BlMutex) //stage 7
             volunteers = s_bl.Volunteer.ReadAll(true).ToList();
-        foreach(var  volunteer in volunteers)
+        foreach (var volunteer in volunteers)
         {
             if (volunteer.IdOfCall == null)
             {
@@ -89,23 +89,23 @@ internal static class VolunteerManager
             else
             {
                 DO.Call call;
-                DO.Volunteer volunteer1;
-                DO.Assignment assignment;
+    DO.Volunteer volunteer1;
+    DO.Assignment assignment;
                 lock (AdminManager.BlMutex)
                 {
                     call = s_dal.Call.Read(c => c.Id == volunteer.IdOfCall)!;
                     volunteer1 = s_dal.Volunteer.Read(v => v.Id == volunteer.Id)!;
                     assignment = s_dal.Assignment.Read(a => a.VolunteerId == volunteer.Id && a.TreatmentEndTime == null)!;
                 }
-                    double dis = Tools.GetDistance(volunteer1, call);
-               if ( assignment.TreatmentEntryTime.AddMinutes(dis * 3 + 10) < s_dal.Config.Clock)
+double dis = Tools.GetDistance(volunteer1, call);
+               if (assignment.TreatmentEntryTime.AddMinutes(dis* 3 + 10) < s_dal.Config.Clock)
                     //עבר מספיק זמן
                     lock (AdminManager.BlMutex)
                         CallManager.UpdateEndCall(volunteer.Id, assignment.Id);
              //להוסיף את הההסתברות
                 else
                     lock (AdminManager.BlMutex)
-                        CallManager.UpdateCancelCall(volunteer.Id,assignment.Id);
+                        CallManager.UpdateCancelCall(volunteer.Id, assignment.Id);
             }
         }
     }

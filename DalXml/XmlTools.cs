@@ -13,7 +13,7 @@ static class XMLTools
         if (!Directory.Exists(s_xmlDir))
             Directory.CreateDirectory(s_xmlDir);
     }
-    public static void WaitUntilFileIsAvailable(string filePath, int maxAttempts = 5000, int delayMilliseconds = 100)
+    public static void WaitUntilFileIsAvailable(string filePath, int maxAttempts = 10000, int delayMilliseconds = 100)
     {
         int attempts = 0;
 
