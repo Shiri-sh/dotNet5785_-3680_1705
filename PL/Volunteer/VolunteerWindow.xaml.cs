@@ -86,6 +86,15 @@ public partial class VolunteerWindow : Window
 
         if (string.IsNullOrWhiteSpace(CurrentVolunteer.CurrentAddress))
             throw new Exception("Address cannot be empty");
+        if (string.IsNullOrWhiteSpace(CurrentVolunteer.Password) ||
+            CurrentVolunteer.Password.Length < 8 ||
+            !CurrentVolunteer.Password.Any(char.IsUpper) ||
+            !CurrentVolunteer.Password.Any(char.IsLower) ||
+            !CurrentVolunteer.Password.Any(char.IsDigit) ||
+            !CurrentVolunteer.Password.Any(ch => "!@#$%^&*()-_=+[]{}|;:'\",.<>?/\\`~".Contains(ch)))
+        {
+            throw new Exception("Password must be at least 8 characters long, and contain an uppercase letter, a lowercase letter, a digit, and a special character");
+        }
         return true;
     }
     private void btnAddUpdate_Click(object sender, RoutedEventArgs e)

@@ -9,7 +9,8 @@ using BO;
 using System.Net.Http;
 //using Newtonsoft.Json;
 using System.Text.Json;
-
+using System.Text;
+using System.Security.Cryptography;
 namespace Helpers;
 
 internal static class Tools
@@ -102,5 +103,19 @@ internal static class Tools
         double distance = EarthRadius * c;
         return distance;
     }
-
+    /// <summary>
+    /// hash password
+    /// </summary>
+    public static class PasswordHasher
+    {
+        public static string HashPassword(string password)
+        {
+            using var sha256 = SHA256.Create();
+            byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            StringBuilder sb = new();
+            foreach (var b in bytes)
+                sb.Append(b.ToString("x2"));
+            return sb.ToString();
+        }
+    }
 }

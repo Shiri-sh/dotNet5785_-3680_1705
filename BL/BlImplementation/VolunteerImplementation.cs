@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using static Helpers.Tools;
 
 namespace BlImplementation;
 
@@ -23,10 +24,10 @@ internal class VolunteerImplementation: IVolunteer
             throw new BO.BLTemporaryNotAvailableException(ex.Message);
         }
 
-        //  double[]? latLon = boVolunteer.CurrentAddress == null ? null : Tools.GetCoordinates(boVolunteer.CurrentAddress);
         try
         {
             VolunteerManager.ValidateVolunteer(boVolunteer);
+            boVolunteer.Password = PasswordHasher.HashPassword(boVolunteer.Password!);
             DO.Volunteer doVolunteer =
             new(
                     boVolunteer.Id,
@@ -34,12 +35,9 @@ internal class VolunteerImplementation: IVolunteer
                     boVolunteer.PhoneNumber,
                     boVolunteer.Email,
                     (DO.Position)boVolunteer.Position,
-                    boVolunteer.Password,
+                    boVolunteer.Password!,
                     boVolunteer.Active,
                     boVolunteer.CurrentAddress,
-                    //latLon==null?null: boVolunteer.CurrentAddress,
-                    //latLon?[0],
-                    //latLon?[1],
                     null,null,
                     boVolunteer.MaximumDistanceForReading,
                     (DO.TypeOfDistance)boVolunteer.TypeOfDistance
@@ -90,9 +88,10 @@ internal class VolunteerImplementation: IVolunteer
     }
     public BO.Position Login(int id, string password)
     {
+        string hashedPassword = PasswordHasher.HashPassword(password);
         DO.Volunteer doVolunteer;
         lock (AdminManager.BlMutex)
-             doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id && vol.Password == password) ?? 
+             doVolunteer = _dal.Volunteer.Read(vol => vol.Id == id && vol.Password == hashedPassword) ?? 
                 throw new BO.BlDoesNotExistException($"Volunteer with Id ={id} and Password={password} does Not exist");//need tocreate it later
         return (BO.Position)doVolunteer.Position;
         
@@ -158,7 +157,7 @@ internal class VolunteerImplementation: IVolunteer
             DO.Assignment assign;
                 var closeCalls = call.GetCloseCallByVolunteer(v.Id);
             lock (AdminManager.BlMutex)
-                assign = _dal.Assignment.Read(a => a.VolunteerId == v.Id && a.TreatmentEndTime == null);
+                assign = _dal.Assignment.Read(a => a.VolunteerId == v.Id && a.TreatmentEndTime == null)!;
                BO.KindOfCall? kindOfCall = assign != null ?  (BO.KindOfCall)_dal.Call.Read(a => a.Id == assign.CalledId)!.KindOfCall :null;
                 listOfVol.Add(
                     new BO.VolunteerInList
@@ -226,9 +225,8 @@ internal class VolunteerImplementation: IVolunteer
             {
                 throw new BO.BlNotAloudToDoException("Only a managar can update the volunteer's Position");
             }
-            // עדכון הנתונים במערכת
-            // double[]? latLon = volunteer.CurrentAddress == null ? null : Tools.GetCoordinates(volunteer.CurrentAddress);
-         DO.Volunteer vol=new (
+            volunteer.Password = PasswordHasher.HashPassword(volunteer.Password!);
+            DO.Volunteer vol=new (
             
                  volunteer.Id,
                  volunteer.Name,
