@@ -92,7 +92,7 @@ public partial class ChooseCallInListWindow : Window
         if (CurrentVolunteer!.Id != 0)
             s_bl.Volunteer.AddObserver(CurrentVolunteer!.Id, ObservedVolunteer);
         s_bl.Call.AddObserver(callListObserver);
-        LoadVolunteerMap();
+        //LoadVolunteerMap();
     }
 
     private void Window_Closed(object sender, EventArgs e)
